@@ -1,4 +1,4 @@
 <?php
-echo "hello, ist 1st soft on web";
-// raunda amas ra
+
+header('location: http://127.0.0.1/lima/login.php');
 ?>
