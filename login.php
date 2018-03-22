@@ -1,132 +1,68 @@
+<?php
+session_start();
+
+if (is_null($logged)) {
+    $logged = "no";
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-      <link rel="stylesheet" href="style/bootstrap.min.css" >
-    <!-- Optional theme -->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+      <link rel="stylesheet" href="style/bootstrap.min.css" >    
       <link rel="stylesheet" href="style/bootstrap-theme.min.css" >
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="style/main.css" rel="stylesheet">
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
+    <title>login</title>
+</head>
+<body>
       
-      <header class= "navbar-inverse">
-        <div class="container " >
-            <nav class="navbar navbar-inverse ">
-                <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="#">Brand</a>
-                </div>
-                
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                  <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                  <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                  </form>
-                  <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-            </nav>
-        </div>
-      </header>
       
-    
-    <h4>დაიწყო, world!</h4>
+<div style="width: 560px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto;">
+  <h3>login</h3>
+  <p>
+    <?php 
+      if ($logged == 'invalid') { echo "araswori paroli!";}
+      
+      if ($_GET["action"] == 'login') {echo "gaiaret avtorizacia!";} else {
+        if ($logged == 'empty') { echo "sheavseT velebi!";} 
+      }
+    ?>
+  </p>
 
+    <form action="" method="post">
+      
+      <div class="input-group">
+        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+        <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2" name="username">
+      </div>
 
-	<ul>
-		<li class="mmenu">erti</li>
-		<li class="mmenu">ori</li>
-		<li class="mmenu">sami</li>
-		<li class="mmenu">otxi</li>
-	</ul>
+      <div class="input-group">
+        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
+        <input type="password" class="form-control" placeholder="Password" aria-describedby="sizing-addon2" name="password">
+      </div>
+  
+      <input type="hidden" name="regdate" value="54545454">
+  
+      <div>
+        <input type="submit" class="btn btn-default centered" value="login"/>
+      </div>
 
-	<ul class="mn2">
-	  <li class="dropdown-header">Dropdown header</li>
-	  <li>men1</li>
-	  <li>men2</li>
-	</ul>
+    </form>
 
-<p>sdsodsodi osidosodi</p>
-
-
-<div class="container">
-	<div class="row">
-		<div class="dark1 col-xs-12 col-md-6">tesdt</div>
-		<div class="dark2 col-xs-8 col-md-3">
-		    <a href="http://apeni.ge" class="btn btn-default"> btn</a>
-		    </div>
-		<div class="dark3 col-xs-4 col-md-3">test3</div>
-		
-		<div class="dark1 col-6">test-4</div>
-		<div class="dark2 col-3">test-5</div>
-	</div>
-</div>
-
-<!-- Single button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Action <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li role="separator" class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
 </div>
       
 <button type="button" class="btn btn-success " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 login 
 </button>    
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -137,5 +73,5 @@ login
       <script src="js/jquery-3.2.1.slim.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       
-  </body>
+</body>
 </html>

@@ -1,7 +1,15 @@
-ul {
-	margin: 0;
-	padding: 10px;
+body {
+    background: #bba;
 }
+
+div {
+    margin : 16px;
+}
+
+.centered {
+    text-align: center;
+}
+
 
 ul li.mmenu {
 	color: #a0a;
@@ -42,3 +50,14 @@ p {
 .dark3 {
 	background: #a70;
 }
+
+.btn {
+/*    padding: 14px 24px;*/
+    border: 0 none;
+/*    margin: 10px;*/
+/*    font-weight: 700;*/
+    letter-spacing: 1px;
+/*    text-transform: uppercase;*/
+}
+
+    
