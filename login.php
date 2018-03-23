@@ -1,10 +1,76 @@
 <?php
 session_start();
 
-if (is_null($logged)) {
-    $logged = "no";
+if($_GET['action'] == 'logout'){
+  session_destroy();
 }
 
+$storpass = "ss";
+
+if(isset($_SESSION['username'])){
+  header('location: http://127.0.0.1/lima/login.php');
+
+  $url = "http". ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+          
+  $url = str_replace('login.php', 'page1.php', $url);
+
+  header("Location: $url");
+}
+
+if(isset($_POST['username'])){
+  check_to_login('page1.php');
+}
+
+function check_to_login($redirect){
+  $subname = $_POST['username'];
+  $subpass = $_POST['password'];
+
+
+  $link = mysqli_connect('localhost', 'root', '12312', 'lima');
+  $table = 'users';
+
+  $sql = "
+  SELECT p.LastName, p.FirstName, p.LegalAdress, pmap.UserName, pmap.UserPass, di.ValueText as UserType FROM `personmapping` pmap
+LEFT JOIN persons p ON pmap.PersonID = p.ID
+LEFT JOIN dictionariyitems di ON pmap.UserTypeID = di.ID
+ WHERE UserName = '".$subname."'";
+
+  $results = $link->query($sql);
+  if(!$results){
+    die('aseti momxmarebeli ar arsebobs!');
+  }
+
+  $results = mysqli_fetch_assoc($results);
+
+  $lastName = $results['lastName'];
+  $storpass = $results['UserPass'];
+
+  //$subpass = $db_f->hash_password($subpass);
+
+  if($subpass == $storpass){
+
+    // $authnonce = md5('cookie-'.$subname);
+    // $authID = hash_hmac('sha512', $subpass, $authnonce);
+
+    $_SESSION['username'] = $subname;
+    $_SESSION['usertype'] = $results['UserType'];
+    $_SESSION['subpass'] = $subpass;
+    $_SESSION['storpass'] = $storpass;
+
+    print_r($_SESSION);
+
+    $url = "http". ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+    
+    $url = str_replace('login.php', $redirect, $url);
+
+    //header("Location: $url");
+  } else {
+    return 'invalid';
+  }
+}
+
+
+echo $storpass;
 ?>
 
 <!doctype html>
@@ -15,8 +81,13 @@ if (is_null($logged)) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="style/bootstrap.min.css" >    
-      <link rel="stylesheet" href="style/bootstrap-theme.min.css" >
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!--      <link rel="stylesheet" href="style/bootstrap.min.css" >    -->
+<!--      <link rel="stylesheet" href="style/bootstrap-theme.min.css" >-->
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="style/main.css" rel="stylesheet">
@@ -66,12 +137,13 @@ login
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+<!--
       <script src="js/jquery-3.2.1.slim.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
-      
+-->      
 </body>
 </html>
