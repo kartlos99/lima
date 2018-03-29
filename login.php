@@ -38,14 +38,8 @@ if (isset($_SESSION['username'])) {
 <body>
 
 
-<div style="width: 560px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto;">
+<div style="width: 560px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto; border-radius: 5px;">
     <h3>login</h3>
-
-    <p>
-        <?php
-        echo $error;
-        ?>
-    </p>
 
     <form action="" method="post">
 
@@ -71,11 +65,11 @@ if (isset($_SESSION['username'])) {
 
     </form>
 
+    <p class="error-msg"><?php        echo $error;        ?></p>
+
 </div>
 
-<button type="button" class="btn btn-success " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    login
-</button>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

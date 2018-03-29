@@ -8,6 +8,7 @@
 
 session_start();
 $error = ''; // Variable To Store Error Message
+require_once 'config.php';
 
 if (isset($_POST['submit'])) {
 
@@ -19,7 +20,7 @@ if (isset($_POST['submit'])) {
         $subPass = $_POST['password'];
 
         // print_r($_POST);
-        $conn = mysqli_connect('localhost', 'root', '12312', 'lima');
+        $conn = mysqli_connect(HOST, DB_user, DB_pass, DB_name);
 
         $subName = mysqli_real_escape_string($conn, $subName);
         $subPass = mysqli_real_escape_string($conn, $subPass);
@@ -51,9 +52,9 @@ if (isset($_POST['submit'])) {
 
                 // print_r($_SESSION);
 
-                $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-                $url = str_replace('login.php', 'administrator/page1.php', $url);
-                $error = $url;
+               // $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+               // $url = str_replace('login.php', 'administrator/page1.php', $url);
+               // $error = $url;
 //                header("Location: $url");
             } else {
                 $error = "incorect password!";

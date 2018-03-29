@@ -1,9 +1,10 @@
 body {
-    background: #bba;
+    background: #d9d9c8;
 }
 
 div {
     margin : 16px;
+
 }
 
 .centered {
@@ -29,15 +30,6 @@ ul li.mmenu:hover {
 	border: 0px;
 }
 
-p {
-	color: #a0a;
-	background: #fa6;
-	display: inline-block;
-	margin: 0;
-	padding: 6px;
-	border: 5px;
-	border-color: #a0a;
-}
 
 .dark1 {
 	background: #c90;
@@ -60,4 +52,14 @@ p {
 /*    text-transform: uppercase;*/
 }
 
+.error-msg {
+    color: #fff;
+    background: #ff4e1b;
+    border-radius: 5px;
+    margin: 0;
+    padding: 0px;
+    border: 0px;
+    border-color: #a0a;
+    text-align: center;
+}
     
