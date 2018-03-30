@@ -38,6 +38,7 @@ if (isset($_POST['submit'])) {
             display: inline;
             width: 80%;
         }
+
         #table_block3 {
             background-color: #f5f5f5;
             width: 100%;
@@ -48,6 +49,7 @@ if (isset($_POST['submit'])) {
             border-collapse: collapse;
             padding: 3px;
         }
+
         th {
             background-color: #ccccbb;
         }
@@ -125,254 +127,258 @@ if (isset($_POST['submit'])) {
 <!--<div class="line"></div>-->
 
 <div class="panel panel-primary">
-    <div class="panel-heading">ახალი Apple ID<span style="">Date</span></div>
-    <div class="panel-body">
+<div class="panel-heading">ახალი Apple ID<span style="">Date</span></div>
+<div class="panel-body">
 
-        <form action="../php_code/ins_appleid.php" method="post">
-            <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
+<form action="../php_code/ins_appleid.php" method="post" id="form1">
+    <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
 
-            <div class="row">
-                <div class="col-md-2 mb-3">
-                    <label for="country">ორგანიზაცია</label>
-                    <select class="custom-select form-control" id="sel_organization" name="organization" required>
-                        <option value="">აირჩიეთ...</option>
-                    </select>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label for="sel_branch">ფილიალი</label>
-                    <select class="custom-select form-control" id="sel_branch" name="branch" disabled>
-                        <option value="">Choose...</option>
-                    </select>
+    <div class="row">
+        <div class="col-md-2 mb-3">
+            <label for="country">ორგანიზაცია</label>
+            <select class="custom-select form-control" id="sel_organization" name="organization" required>
+                <option value="">აირჩიეთ...</option>
+            </select>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="sel_branch">ფილიალი</label>
+            <select class="custom-select form-control" id="sel_branch" name="branch" disabled>
+                <option value="">Choose...</option>
+            </select>
 
-                </div>
-                <div class="col-md-2 mb-3">
-                    <div>
-                        <label for="email">ელ.ფოსტა</label>
+        </div>
+        <div class="col-md-2 mb-3">
+            <div>
+                <label for="email">ელ.ფოსტა</label>
 
-                        <p><input type="text" class="form-control" id="email" placeholder=""
-                                  name="email" required> @</p>
-                    </div>
-                </div>
+                <p><input type="text" class="form-control" id="email" placeholder="" name="email" required> @</p>
+            </div>
+        </div>
 
-                <div class="col-md-2 mb-3">
-                    <label for="sel_domain">დომეინი</label>
-                    <select class="custom-select form-control" id="sel_domain" name="domain" required>
+        <div class="col-md-2 mb-3">
+            <label for="sel_domain">დომეინი</label>
+            <select class="custom-select form-control" id="sel_domain" name="domain" required>
 
-                    </select>
+            </select>
 
-                </div>
+        </div>
 
-                <div class="col-md-2 mb-3">
-                    <div>
-                        <label for="password">პაროლი</label>
+        <div class="col-md-2 mb-3">
+            <div>
+                <label for="password">პაროლი</label>
 
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="password" placeholder="პაროლი"
-                                   name="password" required>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" placeholder="პაროლი"
+                           name="password" required>
 
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-eye-open"
-                                        aria-hidden="true"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-1 mb-3">
-                    <div>
-                        <label for="btn_addid"></label>
-                        <button id="btn_addid" class="btn btn-primary">New Apple ID</button>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-eye-open"
+                                aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <br>
-
-            <!--                -------------------- ----------------------------------------------    -->
-            <div id="block2">
-                <p id="p2">Appl ID</p>
-
-                <div class="row">
-                    <div class="col-lg-2">
-                        <label for="firstname">სახელი</label>
-                        <input type="text" class="form-control" id="firstname" placeholder="სახელი" name="saxeli">
-                    </div>
-
-                    <div class="col-lg-2">
-                        <label for="lastname">გვარი</label>
-                        <input type="text" class="form-control" id="lastname" placeholder="გვარი" name="gvari">
-                    </div>
-
-                    <div class="col-lg-1"></div>
-
-                    <div class="col-lg-3">
-                        <label for="appl_id">Appl ID</label>
-                        <input type="text" class="form-control" id="appl_id" placeholder="appl mail" name="applid">
-                    </div>
-
-                    <div class="col-lg-3">
-                        <label for="appl_id_pass">appl id pass</label>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="appl_id_pass" placeholder="appl id pass" name="applidpass">
-
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-refresh"
-                                        aria-hidden="true"></span></button>
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-eye-close"
-                                        aria-hidden="true"></span></button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!--                    blok2 line2 -->
-                <div class="row">
-                    <div class="col-lg-2">
-
-                        <label for="bday">დაბ.თარიღი</label>
-                        <input type="date" id="bday" class="form-control" name="bday">
-
-                    </div>
-
-                    <div class="col-lg-2">
-                        <label for="country">ქვეყანა</label>
-                        <input type="text" id="country" class="form-control" placeholder="ქვეყანა" name="country" value="საქართველო">
-                    </div>
-
-                    <div class="col-lg-1"></div>
-
-                    <div class="col-lg-3">
-                        <label for="sel_rmail">Appl ID Rescue Email</label>
-                        <select class="custom-select form-control" id="sel_rmail" name="rmail" required>
-                            <option value="">აირჩიეთ...</option>
-                            <option value="1">ტექნო1</option>
-                            <option value="2">ტექნო2</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <!--                    blok2 line3 -->
-                <div class="row">
-
-                    <div class="col-lg-5">
-                        <label for="sel_q1">SequrityQuestion 1</label>
-                        <select class="custom-select form-control" id="sel_q1" name="q1">
-                            <option value="">აირჩიეთ...</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <label for="ans1">Answer 1</label>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="ans1" placeholder="" name="ans1" >
-
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-refresh"
-                                        aria-hidden="true"></span></button>
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-eye-close"
-                                        aria-hidden="true"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--                    blok2 line4 -->
-                <div class="row">
-
-                    <div class="col-lg-5">
-                        <label for="sel_q2">SequrityQuestion 2</label>
-                        <select class="custom-select form-control" id="sel_q2" name="q2">
-                            <option value="">აირჩიეთ...</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <label for="ans2">Answer 2</label>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="ans2" placeholder="" name="ans2">
-
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-refresh"
-                                        aria-hidden="true"></span></button>
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-eye-close"
-                                        aria-hidden="true"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--                    blok2 line5 -->
-                <div class="row">
-
-                    <div class="col-lg-5">
-                        <label for="sel_q3">SequrityQuestion 3</label>
-                        <select class="custom-select form-control" id="sel_q3" name="q3">
-                            <option value="">აირჩიეთ...</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <label for="ans3">Answer 3</label>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="ans3" placeholder="" name="ans3">
-
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-refresh"
-                                        aria-hidden="true"></span></button>
-                                <button class="btn btn-default" type="button"><span
-                                        class="glyphicon glyphicon-eye-close"
-                                        aria-hidden="true"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <p>სტატუსი და დამატებითი ინფორმაცია</p>
-                <!--                    blok2 line6 -->
-                <div class="row">
-
-                    <div class="col-lg-2">
-                        <label for="sel_status">სტატუსი</label>
-                        <select class="custom-select form-control" id="sel_status" name="status">
-                            <option value="">აირჩიეთ...</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <label for="comment">შენიშვნა</label>
-                        <input type="text" class="form-control" id="comment" placeholder="" name="comment">
-                    </div>
-                </div>
-
-                <br>
-
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <span><input type="submit" class="btn btn-primary" value="შენახვა"></span>
-                        <input type="reset" class="btn btn-primary" value="გაუქმება">
-                    </div>
-
-                </div>
-
+        <div class="col-md-1 mb-3">
+            <div>
+                <label for="btn_addid"></label>
+                <button type="submit" id="btn_addid" class="btn btn-primary">New Apple ID</button>
             </div>
-        </form>
+        </div>
     </div>
-    <!--პანელის ტანი-->
+
+
+</form>
+
+<br>
+
+<!--    -------------   2 bloki ------- ----------------------------------------------    -->
+<form method="post">
+    <div id="block2">
+        <p id="p2">Appl ID</p>
+
+        <div class="row">
+            <div class="col-lg-2">
+                <label for="firstname">სახელი</label>
+                <input type="text" class="form-control" id="firstname" placeholder="სახელი" name="saxeli">
+            </div>
+
+            <div class="col-lg-2">
+                <label for="lastname">გვარი</label>
+                <input type="text" class="form-control" id="lastname" placeholder="გვარი" name="gvari">
+            </div>
+
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-3">
+                <label for="appl_id">Appl ID</label>
+                <input type="text" class="form-control" id="appl_id" placeholder="appl mail" name="applid">
+            </div>
+
+            <div class="col-lg-3">
+                <label for="appl_id_pass">appl id pass</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="appl_id_pass" placeholder="appl id pass"
+                           name="applidpass">
+
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-refresh"
+                                aria-hidden="true"></span></button>
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-eye-close"
+                                aria-hidden="true"></span></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--                    blok2 line2 -->
+        <div class="row">
+            <div class="col-lg-2">
+
+                <label for="bday">დაბ.თარიღი</label>
+                <input type="date" id="bday" class="form-control" name="bday">
+
+            </div>
+
+            <div class="col-lg-2">
+                <label for="country">ქვეყანა</label>
+                <input type="text" id="country" class="form-control" placeholder="ქვეყანა" name="country"
+                       value="საქართველო">
+            </div>
+
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-3">
+                <label for="sel_rmail">Appl ID Rescue Email</label>
+                <select class="custom-select form-control" id="sel_rmail" name="rmail" required>
+                    <option value="">აირჩიეთ...</option>
+                    <option value="1">ტექნო1</option>
+                    <option value="2">ტექნო2</option>
+                </select>
+            </div>
+
+        </div>
+
+        <!--                    blok2 line3 -->
+        <div class="row">
+
+            <div class="col-lg-5">
+                <label for="sel_q1">SequrityQuestion 1</label>
+                <select class="custom-select form-control" id="sel_q1" name="q1">
+                    <option value="">აირჩიეთ...</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <label for="ans1">Answer 1</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="ans1" placeholder="" name="ans1">
+
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-refresh"
+                                aria-hidden="true"></span></button>
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-eye-close"
+                                aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--                    blok2 line4 -->
+        <div class="row">
+
+            <div class="col-lg-5">
+                <label for="sel_q2">SequrityQuestion 2</label>
+                <select class="custom-select form-control" id="sel_q2" name="q2">
+                    <option value="">აირჩიეთ...</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <label for="ans2">Answer 2</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="ans2" placeholder="" name="ans2">
+
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-refresh"
+                                aria-hidden="true"></span></button>
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-eye-close"
+                                aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--                    blok2 line5 -->
+        <div class="row">
+
+            <div class="col-lg-5">
+                <label for="sel_q3">SequrityQuestion 3</label>
+                <select class="custom-select form-control" id="sel_q3" name="q3">
+                    <option value="">აირჩიეთ...</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <label for="ans3">Answer 3</label>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="ans3" placeholder="" name="ans3">
+
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-refresh"
+                                aria-hidden="true"></span></button>
+                        <button class="btn btn-default" type="button"><span
+                                class="glyphicon glyphicon-eye-close"
+                                aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p>სტატუსი და დამატებითი ინფორმაცია</p>
+        <!--                    blok2 line6 -->
+        <div class="row">
+
+            <div class="col-lg-2">
+                <label for="sel_status">სტატუსი</label>
+                <select class="custom-select form-control" id="sel_status" name="status">
+                    <option value="">აირჩიეთ...</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3">
+                <label for="comment">შენიშვნა</label>
+                <input type="text" class="form-control" id="comment" placeholder="" name="comment">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <span><input type="submit" class="btn btn-primary" value="შენახვა"></span>
+                <input type="reset" class="btn btn-primary" value="გაუქმება">
+            </div>
+
+        </div>
+
+    </div>
+</form>
+</div><!--პანელის ტანი-->
 </div>
 
 <div class="panel panel-primary">
@@ -435,7 +441,7 @@ if (isset($_POST['submit'])) {
 
     $('#block2').hide();
 
-<!--    organizaciebis chamonatvali -->
+    <!--    organizaciebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_organizations.php',
         method: 'get',
@@ -453,7 +459,7 @@ if (isset($_POST['submit'])) {
         $('#sel_domain').empty();
         var sel_org_id = $('#sel_organization').val();
 
-<!--        filialebis chamonatvali -->
+        <!--        filialebis chamonatvali -->
         $.ajax({
             url: '../php_code/get_branches.php?id=' + sel_org_id,
             method: 'get',
@@ -461,7 +467,6 @@ if (isset($_POST['submit'])) {
             success: function (response) {
                 response.forEach(function (item) {
                     $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
-                    console.log(item);
                 })
             }
         });
@@ -474,7 +479,6 @@ if (isset($_POST['submit'])) {
             success: function (response) {
                 response.forEach(function (item) {
                     $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
-                    console.log(item);
                 })
             }
         });
@@ -482,14 +486,30 @@ if (isset($_POST['submit'])) {
     });
 
 
+    $('#btn_addid').click(function () {
+//        if ($('#block2').css('display') == 'none') {
+//            $('#block2').show();
+//        }
+    });
 
-    $('#btn_addid').click(function(){
-        if ($('#block2').css('display') == 'none' ){
-            $('#block2').show();
-        }
 
+    $('#form1').on('submit', function(event){
+        event.preventDefault();
 
-    })
+        $.ajax({
+            url: '../php_code/ins_email.php',
+            method: 'post',
+            data: $(this).serialize(),
+            success: function(response){
+                if (response == 'ok'){
+                    $('#block2').show();
+                } else {
+                    alert(response);
+                }
+                console.log(response);
+            }
+        });
+    });
 
     setTimeout(function () {
         // $('#p2').text($('#p1').text());
