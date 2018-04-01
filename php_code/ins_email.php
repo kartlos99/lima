@@ -41,7 +41,7 @@ INTO
     `ModifyUserID`
   )
 VALUES(
-  15,
+  0,
   $orgID,
   $branchID,
   $domainID,
@@ -62,9 +62,9 @@ VALUES(
 
 $result = mysqli_query($conn,$sql);
 if ($result){
-    echo 'ok';
+    echo mysqli_insert_id($conn);//'ok';
 }else{
-    echo $sql;
+    echo 'error';
 }
 
 $conn ->close();

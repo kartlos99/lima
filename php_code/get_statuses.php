@@ -8,9 +8,9 @@
 include_once '../config.php';
 
 // id = im obieqts romls statusebic gvainteresebs
-$id = $_GET['id'];
+$objname = $_GET['objname'];
 
-    $sql = "SELECT id, code, value FROM `states` WHERE IsActive = 1 AND ObjectID = $id";
+    $sql = "SELECT id, `code`, `value` as va FROM `states` WHERE ObjectID = getobjid('$objname')";
 
 $result = mysqli_query($conn,$sql);
 
