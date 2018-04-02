@@ -22,7 +22,7 @@ $currUserID = $_SESSION['userID'];
 $sql = "
 INSERT
 INTO
-  `emails`(
+  `Emails`(
     `EntityObjectID`,
     `OrganizationID`,
     `OrganizationBranchID`,

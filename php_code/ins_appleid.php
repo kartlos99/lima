@@ -11,7 +11,7 @@ print_r($_POST);
 
 $sql = "INSERT
 INTO
-  `persons`(
+  `Persons`(
     `ID`,
     `EntityObjectID`,
     `PrivateNumber`,

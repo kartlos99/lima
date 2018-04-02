@@ -33,33 +33,7 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
-    <style>
-        #email {
-            display: inline;
-            width: 80%;
-        }
-
-        #table_block3 {
-            background-color: #f5f5f5;
-            width: 100%;
-        }
-
-        table, th, td {
-            border: 1px solid #29a1ed;
-            border-collapse: collapse;
-            padding: 3px;
-        }
-
-        th {
-            background-color: #ccccbb;
-        }
-
-        tr:hover {
-            background-color: #bbccdd;
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="../style/form2.css">
 
 </head>
 <body>
@@ -122,7 +96,14 @@ if (isset($_POST['submit'])) {
         <!--<div class="line"></div>-->
 
         <div class="panel panel-primary">
-            <div class="panel-heading">ახალი Apple ID<span style="">Date</span></div>
+            <div class="panel-heading">
+                <table class="pan-header">
+                    <tr>
+                        <td class="pan-header-left"">ახალი Apple ID</td>
+                        <td class="pan-header-right"><span >Date</span></td>
+                    </tr>
+                </table>
+            </div>
             <div class="panel-body">
 
                 <form action="../php_code/ins_appleid.php" method="post" id="form1">
@@ -169,7 +150,7 @@ if (isset($_POST['submit'])) {
                                            name="password" required>
 
                                     <div class="input-group-btn">
-                                        <button id="btneye1" class="btn btn-default" type="button"><span
+                                        <button id="btneye1" class="btn btn-default eye" type="button"><span
                                                     class="glyphicon glyphicon-eye-open"
                                                     aria-hidden="true"></span></button>
                                     </div>
@@ -223,10 +204,10 @@ if (isset($_POST['submit'])) {
                                            name="applidpass">
 
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default passgen" type="button"><span
                                                     class="glyphicon glyphicon-refresh"
                                                     aria-hidden="true"></span></button>
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default eye" type="button"><span
                                                     class="glyphicon glyphicon-eye-close"
                                                     aria-hidden="true"></span></button>
                                     </div>
@@ -280,10 +261,10 @@ if (isset($_POST['submit'])) {
                                     <input type="text" class="form-control" id="ans1" placeholder="" name="ans1">
 
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default passgen" type="button"><span
                                                     class="glyphicon glyphicon-refresh"
                                                     aria-hidden="true"></span></button>
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default eye" type="button"><span
                                                     class="glyphicon glyphicon-eye-close"
                                                     aria-hidden="true"></span></button>
                                     </div>
@@ -308,10 +289,10 @@ if (isset($_POST['submit'])) {
                                     <input type="text" class="form-control" id="ans2" placeholder="" name="ans2">
 
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default passgen" type="button"><span
                                                     class="glyphicon glyphicon-refresh"
                                                     aria-hidden="true"></span></button>
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default eye" type="button"><span
                                                     class="glyphicon glyphicon-eye-close"
                                                     aria-hidden="true"></span></button>
                                     </div>
@@ -336,10 +317,10 @@ if (isset($_POST['submit'])) {
                                     <input type="text" class="form-control" id="ans3" placeholder="" name="ans3">
 
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default passgen" type="button"><span
                                                     class="glyphicon glyphicon-refresh"
                                                     aria-hidden="true"></span></button>
-                                        <button class="btn btn-default" type="button"><span
+                                        <button class="btn btn-default eye" type="button"><span
                                                     class="glyphicon glyphicon-eye-close"
                                                     aria-hidden="true"></span></button>
                                     </div>
@@ -425,249 +406,10 @@ if (isset($_POST['submit'])) {
             $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
     });
-</script>
-
-<script>
-
-    $('#block2').hide();
-    var ri = 0;
-
-    <!--    organizaciebis chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_organizations.php',
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            response.forEach(function (item) {
-                $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization');
-            })
-        }
-    });
-
-    $('#sel_organization').on('change', function () {
-        getsublists();
-    });
-
-    function getsublists(reason, rid) {
-        // organizaciis archevs mere shesabamisad vanaxlebt masze mibmul siebs
-        $('#sel_branch').empty();
-        $('#sel_domain').empty();
-        $('#sel_rmail').empty();
-        var sel_org_id = $('#sel_organization').val();
-
-        <!--        filialebis chamonatvali -->
-        $.ajax({
-            url: '../php_code/get_branches.php?id=' + sel_org_id,
-            method: 'get',
-            dataType: 'json',
-            success: function (response) {
-                response.forEach(function (item) {
-                    $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
-                })
-            }
-        });
-
-        <!--        domainebis  chamonatvali -->
-        $.ajax({
-            url: '../php_code/get_domains.php?id=' + sel_org_id,
-            method: 'get',
-            dataType: 'json',
-            success: function (response) {
-                response.forEach(function (item) {
-                    $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
-                })
-            }
-        });
-
-        <!--    usafrtxoebis damatebiti maili -->
-        $.ajax({
-            url: '../php_code/get_rmail.php?id=' + sel_org_id,
-            method: 'get',
-            dataType: 'json',
-            success: function (response) {
-                ri++;
-                console.log('ri = ' + ri);
-                response.forEach(function (item) {
-                    console.log(item);
-                    $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
-
-                });
-                if (reason == 'fill') {
-                    $("#sel_rmail option[value=" + rid + "]").attr('selected', 'selected');
-                }
-
-            }
-        });
-
-
-    }
-
-    <!--    statusebi am ApplID cxrilistvis -->
-    $('#sel_status').empty();
-    $.ajax({
-        url: '../php_code/get_statuses.php?objname=ApplID',
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            response.forEach(function (item) {
-                $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status');
-            });
-            $('#sel_status option:first-child').attr('selected', 'selected');
-        }
-    });
-
-    var currmailid = '0';
-
-    $('#form1').on('submit', function (event) {
-        event.preventDefault();
-
-        //console.log($(this).serialize());
-
-        $.ajax({
-            url: '../php_code/ins_email.php',
-            method: 'post',
-            data: $(this).serialize(),
-            success: function (response) {
-                if (response != 'error') {
-                    $('#block2').show();
-
-                    $('#appl_id').val($('#email').val() + '@' + $('#sel_domain option:selected').text());
-                    currmailid = response;
-
-                } else {
-                    alert(response);
-                }
-                console.log(response);
-            }
-        });
-    });
-
-    $('#form2').on('submit', function (event) {
-        event.preventDefault();
-
-        console.log($(this).serialize());
-
-        $.ajax({
-            url: '../php_code/upd_applid.php?id=' + currmailid,
-            method: 'post',
-            data: $(this).serialize(),
-            success: function (response) {
-
-                loadProjects();
-                if ($('#sel_status').text() == 'აქტიური') {
-                    $('#block2').hide();
-                }
-                console.log(response);
-                //location.reload();
-            }
-        });
-    });
-
-    setTimeout(function () {
-        // $('#p2').text($('#p1').text());
-    }, 3000);
-
-
-    loadProjects();
-
-    function loadProjects() {
-        // me3 blokis shevseba
-
-        var rr = "<tr>\n" +
-            "        <th>ID</th>\n" +
-            "        <th>ორგანიზაცია</th>\n" +
-            "        <th>ფილიალი</th>\n" +
-            "        <th>ელ ფოსტა</th>\n" +
-            "        <th>შექმნის თარიღი</th>\n" +
-            "        <th>მომხმარებელი</th>\n" +
-            "        <th>სტატუსი</th>\n" +
-            "        </tr>";
-
-        $('#table_block3').empty().html(rr);
-        //$('#table_block3').html(rr);
-
-        $.ajax({
-            url: '../php_code/get_apple_projects.php',
-            method: 'get',
-            dataType: 'json',
-            success: function (response) {
-                response.forEach(function (item) {
-
-                    var td_id = $('<td />').text(item.id);
-                    var td_org = $('<td />').text(item.OrganizationName);
-                    var td_fil = $('<td />').text(item.BranchName);
-                    var td_email = $('<td />').text(item.EmEmail);
-                    var td_date = $('<td />').text(item.CreateDate);
-                    var td_user = $('<td />').text(item.CreateUser);
-                    var td_st = $('<td />').text(item.va);
-
-                    var trow = $('<tr></tr>').append(td_id, td_org, td_fil, td_email, td_date, td_user, td_st);
-                    trow.attr('onclick', "onRowClick(" + item.id + ")");
-                    $('#table_block3').append(trow);
-                });
-            }
-        });
-    }
-
-    function onRowClick(num) {
-
-        var thetr = "tr[onclick=\"onRowClick("+num+")\"]";
-        $('#table_block3 tr').css({
-            'background-color': 'white'
-        });
-        $('#table_block3').find(thetr).css({
-            'background-color': '#b5dcff'
-        });
-
-        $.ajax({
-            url: '../php_code/get_apple_id_data.php?id=' + num,
-            method: 'get',
-            dataType: 'json',
-            success: function (response) {
-                $('#block2').slideDown();
-                var row = response[0];
-                currmailid = row.AplAccountEmailID;
-
-                $('#sel_organization option').removeAttr('selected');
-                $("#sel_organization option[value=" + row.OrganizationID + "]").attr('selected', 'selected');
-
-                getsublists('fill', row.AplRescueEmailID);
-
-                $('#firstname').val(row.AplFirstName);
-                $('#lastname').val(row.AplLastName);
-                $("#appl_id").val(row.AplApplID);
-                $("#appl_id_pass").val(row.AplPassword);
-                $("#bday").val(row.AplBirthDay);
-                $("#country").val(row.AplCountry);
-
-                $("#ans1").val(row.AplSequrityQuestion1Answer);
-                $("#ans2").val(row.AplSequrityQuestion2Answer);
-                $("#ans3").val(row.AplSequrityQuestion3Answer);
-                $('#sel_q1 option').removeAttr('selected');
-                $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
-                $('#sel_q2 option').removeAttr('selected');
-                $("#sel_q2 option[value=" + row.AplSequrityQuestion2ID + "]").attr('selected', 'selected');
-                $('#sel_q3 option').removeAttr('selected');
-                $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');
-
-                $('#sel_status option').removeAttr('selected');
-                $("#sel_status option[value=" + row.StateID + "]").attr('selected', 'selected');
-                $("#comment").val(row.Comment);
-
-            }
-        });
-    }
-
-    $('#btneye1').on('click', function () {
-        if ($('#password').attr('type') == "text"){
-            $('#password').attr('type','password');
-        } else {
-            $('#password').attr('type','text');
-        }
-    });
-
 
 </script>
+
+<script type="text/javascript" src="../js/form2.js"></script>
 
 </body>
 </html>

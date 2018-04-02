@@ -1,5 +1,7 @@
 <?php
 /**
+ *  usafrtxoebis kitxvebi mogvaqvs bazidan
+ *
  * Created by PhpStorm.
  * User: k.diakonidze
  * Date: 3/28/18
@@ -7,7 +9,11 @@
  */
 include_once '../config.php';
 
-    $sql = "SELECT id, OrganizationName, OrganizationNameEng FROM `Organizations` WHERE StateID = 1";
+    $sql = "
+    SELECT id, DictionaryID, Code, ValueText FROM `DictionariyItems`
+      WHERE
+      DictionaryID in (SELECT ID FROM `Dictionaries` WHERE CODE LIKE 'AppleIDSequrityQuestion_')
+    ";
 
 $result = mysqli_query($conn,$sql);
 

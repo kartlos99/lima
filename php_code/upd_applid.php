@@ -15,7 +15,7 @@ $currUserID = $_SESSION['userID'];
 
 $saxeli = $_POST['saxeli'];
 $gvari = $_POST['gvari'];
-$applid = $_POST['applid'];
+//$applid = $_POST['applid'];
 $applidpass = $_POST['applidpass'];
 $bday = $_POST['bday'];
 $country = $_POST['country'];
@@ -41,7 +41,6 @@ SET
     `AplLastName` = '$gvari',
     `AplCountry` = '$country',
     `AplBirthDay` = '$bday',
-    `AplApplID` = '$applid',
     `AplPassword` = '$applidpass',
     `AplSequrityQuestion1ID` = '$q1',
     `AplSequrityQuestion1Answer` = '$ans1',

@@ -10,7 +10,7 @@ include_once '../config.php';
 // id = im obieqts romls statusebic gvainteresebs
 $objname = $_GET['objname'];
 
-    $sql = "SELECT id, `code`, `value` as va FROM `states` WHERE ObjectID = getobjid('$objname')";
+    $sql = "SELECT id, `code`, `value` as va FROM `States` WHERE ObjectID = getobjid('$objname')";
 
 $result = mysqli_query($conn,$sql);
 

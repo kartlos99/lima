@@ -11,11 +11,29 @@ echo hash_hmac('sha512', 'textsdgfgfdhfhthbgfhgbfghgfhgi2sd', "kssfghfghfhgfhgfh
 <!DOCTYPE html>
 <html>
 <head>
-	<title>page1</title>
+    <meta charset="utf-8">
+    <title>Random Generator</title>
+
 </head>
 <body>
+<h1>Hello World</h1>
+<p><button>Click here to randomly generate a string</button></p>
 
-	<div><a href="logout.php">logout</a></div>
+<script src="jquery-1.11.2.js"></script>
+<script>
 
+$('p').click (function makeid(){
+var text = "";
+var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+for( var i=0; i < 5; i++ )
+text += possible.charAt(Math.floor(Math.random() * possible.length));
+return document.write(text);
+
+});
+
+</script>
 </body>
 </html>
+
+

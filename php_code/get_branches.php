@@ -9,8 +9,7 @@ include_once '../config.php';
 
 $id = $_GET['id'];
 
-    $sql = "SELECT id, BranchName FROM organizationbranches\n"
-        . "WHERE OrganizationID = $id";
+    $sql = "SELECT id, BranchName FROM OrganizationBranches WHERE OrganizationID = $id";
 
 $result = mysqli_query($conn,$sql);
 

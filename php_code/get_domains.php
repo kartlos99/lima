@@ -9,7 +9,7 @@ include_once '../config.php';
 
 $id = $_GET['id'];
 
-    $sql = "SELECT id, DomainName FROM `domains` WHERE OrganizationID = $id";
+    $sql = "SELECT id, DomainName FROM `Domains` WHERE OrganizationID = $id";
 
 $result = mysqli_query($conn,$sql);
 
