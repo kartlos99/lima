@@ -7,10 +7,15 @@
  */
 include_once '../config.php';
 
-// id = im obieqts romls statusebic gvainteresebs
-$objname = $_GET['objname'];
+// am dictionary Code-ze ra itemebi gvaqvs
+$code = $_GET['code'];
 
-    $sql = "SELECT id, `code`, `value` as va FROM `States` WHERE ObjectID = getobjid('$objname') order by SortID";
+    $sql = "
+SELECT di.ID, di.Code, di.`ValueText` FROM `DictionariyItems` di
+LEFT JOIN Dictionaries d
+ON di.`DictionaryID` = d.ID
+WHERE d.Code = '$code'
+";
 
 $result = mysqli_query($conn,$sql);
 

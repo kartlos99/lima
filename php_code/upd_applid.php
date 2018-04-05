@@ -73,7 +73,7 @@ if ($result){
 // mailis ganaxleba
 $sql = "
 UPDATE
-  `emails`
+  `Emails`
 SET
     `DomainID` = $emDom,
     `EmEmail` = '$emName',

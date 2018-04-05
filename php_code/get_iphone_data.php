@@ -7,10 +7,11 @@
  */
 include_once '../config.php';
 
-// id = im obieqts romls statusebic gvainteresebs
-$objname = $_GET['objname'];
+$imei = $_GET['imei'];
 
-    $sql = "SELECT id, `code`, `value` as va FROM `States` WHERE ObjectID = getobjid('$objname') order by SortID";
+    $sql = "
+SELECT * FROM `Iphone` WHERE `PhIMEINumber` = '$imei'
+    ";
 
 $result = mysqli_query($conn,$sql);
 
@@ -22,3 +23,4 @@ foreach($result as $row){
 echo(json_encode($arr));
 
 $conn -> close();
+?>

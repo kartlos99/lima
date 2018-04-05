@@ -25,9 +25,9 @@ if (isset($_POST['submit'])) {
         $subName = mysqli_real_escape_string($conn, $subName);
         $subPass = mysqli_real_escape_string($conn, $subPass);
 
-        $sql = "SELECT p.LastName, p.FirstName, p.LegalAdress, pmap.UserName, pmap.UserPass, di.ValueText as UserType, pmap.ID FROM `personmapping` pmap
-              LEFT JOIN persons p ON pmap.PersonID = p.ID
-              LEFT JOIN dictionariyitems di ON pmap.UserTypeID = di.ID
+        $sql = "SELECT p.LastName, p.FirstName, p.LegalAdress, pmap.UserName, pmap.UserPass, di.ValueText as UserType, pmap.ID FROM `PersonMapping` pmap
+              LEFT JOIN Persons p ON pmap.PersonID = p.ID
+              LEFT JOIN DictionariyItems di ON pmap.UserTypeID = di.ID
                WHERE pmap.UserName = '$subName'";
 
         $results = $conn->query($sql);

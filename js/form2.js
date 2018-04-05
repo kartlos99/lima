@@ -177,7 +177,7 @@ function localRefresh(){
     $('#sel_organization').removeAttr('disabled');
     $('#block2').slideUp(600);
     $('#appl_id_info').text('');
-    //location.reload();
+    location.reload();
 }
 
 setTimeout(function () {

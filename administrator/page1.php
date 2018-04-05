@@ -150,9 +150,7 @@ include_once 'header.php';
                 </div>
                 <div class="col-lg-2">
                     <label for="country">ქვეყანა</label>
-                    <input type="text" id="country" class="form-control" placeholder="ქვეყანა"
-                           name="country"
-                           value="საქართველო">
+                    <input type="text" id="country" class="form-control" placeholder="ქვეყანა" name="country" value="საქართველო">
                 </div>
                 <div class="col-lg-1"></div>
                 <div class="col-lg-3">

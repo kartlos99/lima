@@ -17,6 +17,8 @@ include_once 'header.php';
 
             <p>ხელშეკრულების მონაცემები</p>
 
+            <form id="form_31" method="post">
+
             <table class="inputs">
                 <tr>
                     <td>
@@ -36,7 +38,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="agrFinish_f31">დახურვის თარიღი</label>
-                        <input type="date" id="agrFinish_f31" class="form-control" name="agrFinish">
+                        <input type="date" id="agrFinish_f31" class="form-control" name="agrFinish" disabled>
                     </td>
                     <td>
                         <label for="sel_status_f31">სტატუსი</label>
@@ -60,12 +62,13 @@ include_once 'header.php';
                         <input type="text" class="form-control" id="comment_f31" placeholder="" name="comment">
                     </td>
                     <td class="albuttom">
-                        <button id="btn_edit_f31" class="btn btn-primary">რედაქტირება</button>
-                        <button id="btn_save_f31" class="btn btn-primary">შენახვა</button>
-                        <button id="btn_addiphone_f31" class="btn btn-primary">Add iPhone</button>
+                        <button id="btn_edit_f31" type="button" class="btn btn-primary">რედაქტირება</button>
+                        <button id="btn_save_f31" type="submit" class="btn btn-primary">შენახვა</button>
+                        <button id="btn_addiphone_f31" type="button" class="btn btn-primary">Add iPhone</button>
                     </td>
                 </tr>
             </table>
+            </form>
 
         </div>
     </div>
@@ -77,7 +80,7 @@ include_once 'header.php';
             <table id="table_p1_header" class="pan-header">
                 <tr>
                     <td class="pan-header-left">iPhone</td>
-                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -97,7 +100,7 @@ include_once 'header.php';
                         </div>
                     </td>
 
-                    <td>
+                    <td style="width: 50%">
                         <label for="result_f32">შედეგი</label>
                         <input type="text" class="form-control" id="result_f32" placeholder="" name="result">
                     </td>
@@ -110,6 +113,10 @@ include_once 'header.php';
             </table>
 
             <p>მობილური ტელეფონის მონაცემები</p>
+            <form id="form_32">
+                <input id="agrID_f32" type="hidden" name="agrID" value="">
+                <input id="iphoneID_f32" type="hidden" name="iphoneID" value="">
+            <div id="d_f322">
             <table class="inputs">
                 <tr>
                     <td>
@@ -133,12 +140,15 @@ include_once 'header.php';
                         </select>
                     </td>
                     <td>
-                        <input type="checkbox" name="simfree" value="1">SIM Free
+                        <input id="simfree_f322" type="checkbox" name="simfree" value="1">SIM Free
                     </td>
                 </tr>
             </table>
+            </div>
 
-            <p>მობილურტელეფონზე დადებული პაროლები</p>
+            <p>მობილურ ტელეფონზე დადებული პაროლები</p>
+
+            <div id="d_f323">
             <table class="inputs">
                 <tr>
                     <td>
@@ -200,7 +210,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="sel_status_f32">Screen Lock Status</label>
-                        <select class="form-control" id="sel_status_f32" name="status">
+                        <select class="form-control" id="sel_status_f32" name="SLstatus">
                         </select>
                     </td>
                     <td>
@@ -209,9 +219,11 @@ include_once 'header.php';
                     </td>
                 </tr>
             </table>
+            </div>
 
 
             <p>სტატუსი და დამატებითი ინფორმაცია</p>
+            <div id="d_f324">
             <table class="inputs">
                 <tr>
                     <td>
@@ -229,12 +241,15 @@ include_once 'header.php';
                 <tr>
                     <td></td>
                     <td style="text-align: right; width: 100%">
-                        <button id="btn_search_f32" class="btn btn-primary">რედაქტირება</button>
-                        <button id="btn_search_f32" class="btn btn-primary">შენახვა</button>
-                        <button id="btn_search_f32" class="btn btn-primary">Add Appl ID</button>
+                        <button type="button" id="btn_edit_f32" class="btn btn-primary">რედაქტირება</button>
+                        <button type="submit" id="btn_save_f32" class="btn btn-primary">შენახვა</button>
+                        <button type="button" id="btn_addapplid_f32" class="btn btn-primary">Add Appl ID</button>
                     </td>
                 </tr>
             </table>
+            </form>
+
+            </div>
         </div>
     </div>
 
@@ -245,7 +260,7 @@ include_once 'header.php';
             <table id="table_p1_header" class="pan-header">
                 <tr>
                     <td class="pan-header-left">Apple ID</td>
-                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -265,13 +280,13 @@ include_once 'header.php';
                         </div>
                     </td>
 
-                    <td>
+                    <td style="width: 50%">
                         <label for="result_f33">შედეგი</label>
                         <input type="text" class="form-control" id="result_f33" placeholder="" name="result">
                     </td>
                     <td class="albuttom">
-                        <button id="btn_search_f33" class="btn btn-primary">GET</button>
-                        <button id="btn_search_f33" class="btn btn-primary">Free Appl ID</button>
+                        <button type="button" id="btn_get_f33" class="btn btn-primary">GET</button>
+                        <button type="button" id="btn_addApplid_f33" class="btn btn-primary">Free Appl ID</button>
                     </td>
                 </tr>
             </table>
@@ -332,12 +347,14 @@ include_once 'header.php';
 
             <!--    -------------   2 bloki ------- -----------------------------------    -->
             <div id="block2">
-                <form action="" method="post" id="form2">
+                <form action="" method="post" id="form_33">
+                    <input id="agrID_f33" type="hidden" name="agrID" value="">
+                    <input id="applid_ID_f33" type="hidden" name="applid_ID" value="">
 
                     <p>Appl ID</p>
 
                     <div class="row">
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <label for="firstname">სახელი</label>
                             <input type="text" class="form-control" id="firstname" placeholder="სახელი"
                                    name="saxeli" required>
@@ -371,7 +388,7 @@ include_once 'header.php';
                     </div>
                     <!--                    blok2 line2 -->
                     <div class="row">
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <label for="bday">დაბ.თარიღი</label>
                             <input type="date" id="bday" class="form-control" name="bday">
                         </div>
@@ -472,11 +489,11 @@ include_once 'header.php';
                             <select class="form-control" id="sel_status_f33" name="status">
                             </select>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <label for="date_f33">შექმნის თარიღი</label>
                             <input type="date" class="form-control" id="date_f33" name="createDate">
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-7">
                             <label for="comment_f33">შენიშვნა</label>
                             <input type="text" class="form-control" id="comment_f33" placeholder="" name="comment">
                         </div>
@@ -488,7 +505,7 @@ include_once 'header.php';
 
                 <div class="row">
                     <div class="col-md-12 mb-4">
-                        <button id="btn_f3reset" class="btn btn-primary">რედაქტირება</button>
+                        <button id="btn_f3edit" class="btn btn-primary">რედაქტირება</button>
                         <button id="btn_f3submit" class="btn btn-primary">შენახვა</button>
                     </div>
                 </div>
