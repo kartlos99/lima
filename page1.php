@@ -1,7 +1,9 @@
 <?php
 session_start();
-
+include_once 'config.php';
 print_r($_SESSION);
+
+echo "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder ."/login.php"."\nnnn **";
 
 echo hash_hmac('sha512', 'textsdgfgfdhfhthbgfhgbfghgfhgi2sd', "kssfghfghfhgfhgfhrtyret5y654y7645day");
 

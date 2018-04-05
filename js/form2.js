@@ -1,6 +1,5 @@
 
 $('#block2').hide();
-var ri = 0;
 
 <!--    organizaciebis chamonatvali -->
 $.ajax({
@@ -55,8 +54,7 @@ function getsublists(reason, rid) {
         method: 'get',
         dataType: 'json',
         success: function (response) {
-            ri++;
-            console.log('ri = ' + ri);
+
             response.forEach(function (item) {
                 console.log(item);
                 $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
@@ -91,19 +89,25 @@ var currmailid = '0';
 $('#form1').on('submit', function (event) {
     event.preventDefault();
 
-    //console.log($(this).serialize());
+    console.log($(this).serialize());
 
     $.ajax({
         url: '../php_code/ins_email.php',
         method: 'post',
         data: $(this).serialize(),
         success: function (response) {
-            if (response != 'error') {
-                $('#block2').show();
+            if (response != 'myerror') {
+                if (response == 'mail alredy exists!'){
+                    alert(response);
+                }else{
 
-                $('#appl_id').val($('#email').val() + '@' + $('#sel_domain option:selected').text());
-                currmailid = response;
+                    $('#block2').show();
 
+                    $('#appl_id').val($('#email').val() + '@' + $('#sel_domain option:selected').text());
+                    currmailid = response;
+                    $('#btn_addid').addClass('disabled');
+
+                }
             } else {
                 alert(response);
             }
@@ -117,6 +121,8 @@ $('#form2').on('submit', function (event) {
 
     console.log($(this).serialize());
 
+    console.log('form2_submit');
+
     $.ajax({
         url: '../php_code/upd_applid.php?id=' + currmailid,
         method: 'post',
@@ -129,10 +135,21 @@ $('#form2').on('submit', function (event) {
 //                }
             console.log(response);
 
-            $('#block2').slideUp();
+            $('#block2').slideUp(600);
+
             //location.reload();
         }
     });
+});
+
+$('#btn_f2submit').on('click', function(){
+    $('#btn_addid').removeClass('disabled');
+    $('#form2').trigger('submit');
+});
+
+$('#btn_f2reset').on('click', function(){
+    $('#btn_addid').removeClass('disabled');
+    $('#form2').trigger('reset');
 });
 
 setTimeout(function () {
