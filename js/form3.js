@@ -105,9 +105,24 @@ $.ajax({
     }
 });
 
+$('#pan_f31').on('click', function(){
+
+    console.log("ccc21");
+    console.log(getCookie("agreementID"));
+    document.cookie = "agreementID=0";
+
+});
 
 
 $(function() {
+    //var pg = "agrim.php";
+
+    $('ul.components').find('li').removeClass('active');
+    $('ul.components').find("li.midle").addClass('active');
+
+
+    //alert(document.cookie);
+    console.log(document.cookie);
 
     $("#pan_f32").find('.panel-body').hide();
     $("#pan_f33").find('.panel-body').hide();
@@ -860,4 +875,20 @@ function dateformat(d){
         dd = d.getDate();
     }
     return d.getFullYear()  + "-" + mm + "-" + dd;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }

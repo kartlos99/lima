@@ -43,10 +43,10 @@ if (!isset($_SESSION['username'])) {
 
         <ul class="list-unstyled components">
 
-            <li class="active">
+            <li>
                 <a href="main.php">მთავარი</a>
             </li>
-            <li>
+            <li class="midle">
                 <a href="agrim.php">ახალი სესხი</a>
             </li>
             <li>

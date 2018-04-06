@@ -317,6 +317,9 @@ $('.passgen').on('click', function () {
 
 $(function() {
 
+    $('ul.components').find('li').removeClass('active');
+    $('ul.components').find('li:last').addClass('active');
+
 //    $("#form1").find("input").val('');
 
     <!--    sequrity question chamonatvali -->

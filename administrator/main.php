@@ -14,6 +14,7 @@ include_once 'header.php';
         </div>
 
         <div class="panel-body">
+            <form id="form_11" method="post">
             <table class="inputs">
                 <tr>
                     <td>
@@ -84,11 +85,12 @@ include_once 'header.php';
                         <label for="applID_f11">Appl ID</label>
                         <input type="text" class="form-control" id="applID_f11" placeholder="" name="applid">
                     </td>
-                    <td>
-                        <button id="btn_search_f11" class="btn btn-primary">ძებნა</button>
+                    <td class="albuttom">
+                        <button id="btn_search_f11" type="submit" class="btn btn-primary">ძებნა</button>
                     </td>
                 </tr>
             </table>
+            </form>
 
             <p>ძიების შედეგი</p>
             <table id="table_f11" class="datatable"></table>
@@ -158,7 +160,7 @@ include_once 'header.php';
                             <option value="">Choose...</option>
                         </select>
                     </td>
-                    <td>
+                    <td class="albuttom">
                         <button id="btn_search_f12" class="btn btn-primary">ძებნა</button>
                     </td>
                 </tr>
@@ -204,6 +206,7 @@ include_once 'header.php';
 
         <div class="panel-body">
 
+            <form id="form_13" method="post">
             <table class="inputs">
                 <tr>
                     <td>
@@ -229,11 +232,12 @@ include_once 'header.php';
                             <option value="">Choose...</option>
                         </select>
                     </td>
-                    <td>
-                        <button id="btn_search_f13" class="btn btn-primary">ძებნა</button>
+                    <td class="albuttom">
+                        <button id="btn_search_f13" type="submit" class="btn btn-primary">ძებნა</button>
                     </td>
                 </tr>
             </table>
+            </form>
 
             <p>ძიების შედეგი</p>
             <table id="table_f13" class="datatable"></table>
