@@ -44,21 +44,21 @@ if (!isset($_SESSION['username'])) {
         <ul class="list-unstyled components">
 
             <li class="active">
-                <a href="#homeSubmenu">Home</a>
+                <a href="#homeSubmenu">მთავარი</a>
             </li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">ახალი სესხი</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li><a href="#">Page 1</a></li>
                     <li><a href="#">Page 2</a></li>
                 </ul>
-                <a href="#">About</a>
+                <a href="#">ახალი iCloud</a>
             </li>
         </ul>
 
         <ul class="list-unstyled CTAs">
             <!-- <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li> -->
-            <li><a href="../logout.php" class="article">logout</a></li>
+            <li><a href="../logout.php" class="article">გასვლა</a></li>
 
         </ul>
     </nav>

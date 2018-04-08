@@ -15,7 +15,7 @@ $currUserID = $_SESSION['userID'];
 
 $saxeli = $_POST['saxeli'];
 $gvari = $_POST['gvari'];
-//$applid = $_POST['applid'];
+$applid = $_POST['applid'];
 $applidpass = $_POST['applidpass'];
 $bday = $_POST['bday'];
 $country = $_POST['country'];
@@ -31,6 +31,10 @@ $ans3 = $_POST['ans3'];
 $statusid = $_POST['status'];
 $comment = $_POST['comment'];
 
+$emName = $_POST['emName'];
+$emDom = $_POST['emDom'];
+$emPass = $_POST['emPass'];
+
 $mailid = $_GET['id'];
 
 $sql = "
@@ -41,6 +45,7 @@ SET
     `AplLastName` = '$gvari',
     `AplCountry` = '$country',
     `AplBirthDay` = '$bday',
+    `AplApplID` = '$applid',
     `AplPassword` = '$applidpass',
     `AplSequrityQuestion1ID` = '$q1',
     `AplSequrityQuestion1Answer` = '$ans1',
@@ -64,6 +69,30 @@ if ($result){
 }else{
     echo mysqli_error($conn);
 }
+
+// mailis ganaxleba
+$sql = "
+UPDATE
+  `emails`
+SET
+    `DomainID` = $emDom,
+    `EmEmail` = '$emName',
+    `EmEmailPass` = '$emPass',
+    `EmEmailDate` = $currDate,
+    `ModifyDate` = $currDate,
+    `ModifyUser` = '$currUser',
+    `ModifyUserID` = $currUserID
+WHERE
+    ID = $mailid
+";
+
+$result = mysqli_query($conn,$sql);
+if ($result){
+    echo 'ok';
+}else{
+    echo mysqli_error($conn);
+}
+
 
 $conn ->close();
 ?>

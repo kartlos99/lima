@@ -18,8 +18,11 @@ include_once 'header.php';
     </div>
     <div class="panel-body">
 
-    <form action="../php_code/ins_appleid.php" method="post" id="form1">
-        <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
+    <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
+
+    <form action="../php_code/ins_appleid.php" method="post" id="form1" autocomplete="off">
+
+
 
         <div class="row">
             <div class="col-md-3 mb-3">
@@ -40,8 +43,8 @@ include_once 'header.php';
                 <div>
                     <label for="email">ელ.ფოსტა</label>
 
-                    <p><input type="text" class="form-control" id="email" placeholder="" name="email"
-                              required> @</p>
+                    <p><input type="text" class="form-control" id="email" placeholder="mail" name="email" autocomplete="off" value="" readonly onfocus="if (this.hasAttribute('readonly')) {
+    this.removeAttribute('readonly');}"  required> @</p>
                 </div>
             </div>
 
@@ -59,7 +62,7 @@ include_once 'header.php';
 
                     <div class="input-group">
                         <input type="password" class="form-control" id="password" placeholder="პაროლი"
-                               name="password" required>
+                               name="password" autocomplete="off" required>
 
                         <div class="input-group-btn">
                             <button id="btneye1" class="btn btn-default eye" type="button"><span
@@ -70,14 +73,17 @@ include_once 'header.php';
                 </div>
             </div>
 
-            <div class="col-md-1 mb-3">
+            <div class="col-md-1 mb-1">
                 <div>
                     <label for="btn_addid"></label>
                     <button id="btn_addid" class="btn btn-primary btn-block">New Apple ID</button>
                 </div>
             </div>
+
         </div>
     </form>
+
+
 
 
     <br>
@@ -87,12 +93,15 @@ include_once 'header.php';
         <form action="" method="post" id="form2">
 
             <p id="p2">Appl ID</p>
+            <input id="emName" name="emName" type="hidden" value="">
+            <input id="emDom" name="emDom" type="hidden" value="">
+            <input id="emPass" name="emPass" type="hidden" value="">
 
             <div class="row">
                 <div class="col-lg-2">
                     <label for="firstname">სახელი</label>
                     <input type="text" class="form-control" id="firstname" placeholder="სახელი"
-                           name="saxeli">
+                           name="saxeli" required>
                 </div>
                 <div class="col-lg-2">
                     <label for="lastname">გვარი</label>
@@ -102,7 +111,7 @@ include_once 'header.php';
                 <div class="col-lg-3">
                     <label for="appl_id">Appl ID</label>
                     <input type="text" class="form-control" id="appl_id" placeholder="appl mail"
-                           name="applid" disabled>
+                           name="applid" readonly>
                 </div>
                 <div class="col-lg-3">
                     <label for="appl_id_pass">appl id pass</label>
@@ -146,7 +155,7 @@ include_once 'header.php';
             <div class="row">
                 <div class="col-lg-5">
                     <label for="sel_q1">SequrityQuestion 1</label>
-                    <select class="custom-select form-control" id="sel_q1" name="q1">
+                    <select class="form-control" id="sel_q1" name="q1">
                         <option value="">აირჩიეთ...</option>
                     </select>
                 </div>
@@ -171,7 +180,7 @@ include_once 'header.php';
             <div class="row">
                 <div class="col-lg-5">
                     <label for="sel_q2">SequrityQuestion 2</label>
-                    <select class="custom-select form-control" id="sel_q2" name="q2">
+                    <select class="form-control" id="sel_q2" name="q2">
                         <option value="">აირჩიეთ...</option>
                     </select>
                 </div>
@@ -196,7 +205,7 @@ include_once 'header.php';
             <div class="row">
                 <div class="col-lg-5">
                     <label for="sel_q3">SequrityQuestion 3</label>
-                    <select class="custom-select form-control" id="sel_q3" name="q3">
+                    <select class="form-control" id="sel_q3" name="q3">
                         <option value="">აირჩიეთ...</option>
                     </select>
                 </div>

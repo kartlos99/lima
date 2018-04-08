@@ -10,7 +10,9 @@ include_once '../config.php';
 $id = $_GET['id'];
 
     $sql = "
-SELECT * FROM `ApplID` WHERE ID = $id
+SELECT a.*, e.EmEmailPass FROM `ApplID` a JOIN Emails e
+ON a.`AplAccountEmailID` = e.ID
+WHERE a.ID = $id
     ";
 
 $result = mysqli_query($conn,$sql);

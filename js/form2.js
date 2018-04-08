@@ -14,6 +14,7 @@ $.ajax({
 });
 
 $('#sel_organization').on('change', function () {
+    document.getElementById("email").removeAttribute('readonly');
     getsublists();
 });
 
@@ -105,7 +106,8 @@ $('#form1').on('submit', function (event) {
 
                     $('#appl_id').val($('#email').val() + '@' + $('#sel_domain option:selected').text());
                     currmailid = response;
-                    $('#btn_addid').addClass('disabled');
+                    $('#btn_addid').hide();
+                    $('#sel_organization').attr('disabled',true);
 
                 }
             } else {
@@ -117,11 +119,18 @@ $('#form1').on('submit', function (event) {
 });
 
 $('#form2').on('submit', function (event) {
+
+    $('#emName').val($('#email').val());
+    $('#emDom').val($('#sel_domain').val());
+    $('#emPass').val($('#password').val());
+
     event.preventDefault();
 
     console.log($(this).serialize());
 
     console.log('form2_submit');
+    var v = $(event.target).validationMessage;
+    console.log(v);
 
     $.ajax({
         url: '../php_code/upd_applid.php?id=' + currmailid,
@@ -135,26 +144,41 @@ $('#form2').on('submit', function (event) {
 //                }
             console.log(response);
 
-            $('#block2').slideUp(600);
-
+            localRefresh();
             //location.reload();
         }
     });
 });
 
+$('#btn_addid').on('click', function(){
+
+    $('#btn_addid').text('mdaa');
+  //  $('#form1').trigger('submit');
+});
+
 $('#btn_f2submit').on('click', function(){
-    $('#btn_addid').removeClass('disabled');
     $('#form2').trigger('submit');
 });
 
 $('#btn_f2reset').on('click', function(){
-    $('#btn_addid').removeClass('disabled');
+    localRefresh();
     $('#form2').trigger('reset');
+
 });
+
+function localRefresh(){
+    // on form2 submit or reset/gauqmeba
+
+    $('#btn_addid').show();
+    $('#sel_organization').removeAttr('disabled');
+    $('#block2').slideUp(600);
+    //location.reload();
+}
 
 setTimeout(function () {
     // $('#p2').text($('#p1').text());
-}, 3000);
+
+}, 500);
 
 
 loadProjects();
@@ -200,51 +224,63 @@ function loadProjects() {
 
 function onRowClick(num) {
 
-    var thetr = "tr[onclick=\"onRowClick("+num+")\"]";
-    $('#table_block3 tr').css({
-        'background-color': 'white'
-    });
-    $('#table_block3').find(thetr).css({
-        'background-color': '#b5dcff'
-    });
+    if ($('#block2').css('display') != 'none' ){
+        alert("შეინახეთ ან გააუქმეთ მიმდინარე მონაცემები!");
+    }else{
+        var thetr = "tr[onclick=\"onRowClick("+num+")\"]";
+        $('#table_block3 tr').css({
+            'background-color': 'white'
+        });
+        $('#table_block3').find(thetr).css({
+            'background-color': '#b5dcff'
+        });
+        $('#sel_organization').attr('disabled',true);
+        $('#btn_addid').hide();
 
-    $.ajax({
-        url: '../php_code/get_apple_id_data.php?id=' + num,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            $('#block2').slideDown();
-            var row = response[0];
-            currmailid = row.AplAccountEmailID;
+        $.ajax({
+            url: '../php_code/get_apple_id_data.php?id=' + num,
+            method: 'get',
+            dataType: 'json',
+            success: function (response) {
+                $('#block2').slideDown();
+                var row = response[0];
+                currmailid = row.AplAccountEmailID;
 
-            $('#sel_organization option').removeAttr('selected');
-            $("#sel_organization option[value=" + row.OrganizationID + "]").attr('selected', 'selected');
+                $('#sel_organization option').removeAttr('selected');
+                $("#sel_organization option[value=" + row.OrganizationID + "]").attr('selected', 'selected');
 
-            getsublists('fill', row.AplRescueEmailID);
+                getsublists('fill', row.AplRescueEmailID);
 
-            $('#firstname').val(row.AplFirstName);
-            $('#lastname').val(row.AplLastName);
-            $("#appl_id").val(row.AplApplID);
-            $("#appl_id_pass").val(row.AplPassword);
-            $("#bday").val(row.AplBirthDay);
-            $("#country").val(row.AplCountry);
+                $('#firstname').val(row.AplFirstName);
+                $('#lastname').val(row.AplLastName);
+                $("#appl_id").val(row.AplApplID);
+                $("#appl_id_pass").val(row.AplPassword);
+                $("#bday").val(row.AplBirthDay);
+                $("#country").val(row.AplCountry);
 
-            $("#ans1").val(row.AplSequrityQuestion1Answer);
-            $("#ans2").val(row.AplSequrityQuestion2Answer);
-            $("#ans3").val(row.AplSequrityQuestion3Answer);
-            $('#sel_q1 option').removeAttr('selected');
-            $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
-            $('#sel_q2 option').removeAttr('selected');
-            $("#sel_q2 option[value=" + row.AplSequrityQuestion2ID + "]").attr('selected', 'selected');
-            $('#sel_q3 option').removeAttr('selected');
-            $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');
+                $("#ans1").val(row.AplSequrityQuestion1Answer);
+                $("#ans2").val(row.AplSequrityQuestion2Answer);
+                $("#ans3").val(row.AplSequrityQuestion3Answer);
+                $('#sel_q1 option').removeAttr('selected');
+                $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
+                $('#sel_q2 option').removeAttr('selected');
+                $("#sel_q2 option[value=" + row.AplSequrityQuestion2ID + "]").attr('selected', 'selected');
+                $('#sel_q3 option').removeAttr('selected');
+                $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');
 
-            $('#sel_status option').removeAttr('selected');
-            $("#sel_status option[value=" + row.StateID + "]").attr('selected', 'selected');
-            $("#comment").val(row.Comment);
+                $('#sel_status option').removeAttr('selected');
+                $("#sel_status option[value=" + row.StateID + "]").attr('selected', 'selected');
+                $("#comment").val(row.Comment);
 
-        }
-    });
+                var em = row.AplApplID.split("@");
+                $('#email').val(em[0]);
+                $('#password').val(row.EmEmailPass);
+
+            }
+        });
+    }
+
+
 }
 
 $('.eye').on('click', function () {
@@ -273,6 +309,9 @@ $('.passgen').on('click', function () {
 });
 
 $(function() {
+
+//    $("#form1").find("input").val('');
+
     <!--    sequrity question chamonatvali -->
     $.ajax({
         url: '../php_code/get_sq.php',
@@ -293,4 +332,13 @@ $(function() {
             })
         }
     });
+
+});
+
+$('#email').on('keyup', function() {
+    $('#appl_id').val($(this).val()+"@"+$('#sel_domain').text());
+});
+
+$('#sel_domain').on('change',function(){
+    $('#appl_id').val($('#email').val()+"@"+$('#sel_domain').text());
 });
