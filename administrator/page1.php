@@ -8,11 +8,10 @@ include_once 'header.php';
 
     <div class="panel panel-primary">
     <div class="panel-heading">
-        <table class="pan-header">
+        <table id="table_p1_header" class="pan-header">
             <tr>
-                <td class="pan-header-left"
-                ">ახალი Apple ID</td>
-                <td class="pan-header-right"><span>Date</span></td>
+                <td class="pan-header-left">ახალი Apple ID</td>
+                <td id="appl_id_info" class="pan-header-right">Date</td>
             </tr>
         </table>
     </div>
@@ -20,13 +19,13 @@ include_once 'header.php';
 
     <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
 
-    <form action="../php_code/ins_appleid.php" method="post" id="form1" autocomplete="off">
+    <form action="" method="post" id="form1" autocomplete="off">
 
 
 
         <div class="row">
             <div class="col-md-3 mb-3">
-                <label for="country">ორგანიზაცია</label>
+                <label for="sel_organization">ორგანიზაცია</label>
                 <select class="custom-select form-control" id="sel_organization" name="organization"
                         required>
                     <option value="">აირჩიეთ...</option>
@@ -39,46 +38,58 @@ include_once 'header.php';
                 </select>
 
             </div>
-            <div class="col-md-2 mb-3">
+            <div class="col-md-3 mb-3">
                 <div>
-                    <label for="email">ელ.ფოსტა</label>
+                    <table>
+                        <tr>
+                            <td><label for="email">ელ.ფოსტა</label></td>
+                            <td></td>
+                            <td><label for="sel_domain">დომეინი</label></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 47%"><input style="width: 100%" type="text" class="form-control" id="email" placeholder="mail" name="email" autocomplete="off" value="" readonly onfocus="if (this.hasAttribute('readonly')) {
+    this.removeAttribute('readonly');}"  required></td>
+                            <td>@</td>
+                            <td style="width: 47%"><select class="custom-select form-control" id="sel_domain" name="domain" required>  </select></td>
+                        </tr>
+                    </table>
 
-                    <p><input type="text" class="form-control" id="email" placeholder="mail" name="email" autocomplete="off" value="" readonly onfocus="if (this.hasAttribute('readonly')) {
-    this.removeAttribute('readonly');}"  required> @</p>
+
+
                 </div>
             </div>
 
-            <div class="col-md-2 mb-3">
-                <label for="sel_domain">დომეინი</label>
-                <select class="custom-select form-control" id="sel_domain" name="domain" required>
 
-                </select>
-
-            </div>
-
-            <div class="col-md-2 mb-3">
+            <div class="col-md-3 mb-3">
                 <div>
-                    <label for="password">პაროლი</label>
 
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="password" placeholder="პაროლი"
-                               name="password" autocomplete="off" required>
+                    <table>
+                        <tr>
+                            <td><label for="password">პაროლი</label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" placeholder="პაროლი"
+                                           name="password" autocomplete="off" required>
 
-                        <div class="input-group-btn">
-                            <button id="btneye1" class="btn btn-default eye" type="button"><span
-                                    class="glyphicon glyphicon-eye-open"
-                                    aria-hidden="true"></span></button>
-                        </div>
-                    </div>
+                                    <div class="input-group-btn">
+                                        <button id="btneye1" class="btn btn-default eye" type="button"><span
+                                                class="glyphicon glyphicon-eye-open"
+                                                aria-hidden="true"></span></button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 10px"></td>
+                            <td><button id="btn_addid" class="btn btn-primary btn-block">New Apple ID</button></td>
+                        </tr>
+                    </table>
+
                 </div>
             </div>
 
-            <div class="col-md-1 mb-1">
-                <div>
-                    <label for="btn_addid"></label>
-                    <button id="btn_addid" class="btn btn-primary btn-block">New Apple ID</button>
-                </div>
-            </div>
+
 
         </div>
     </form>
@@ -260,7 +271,7 @@ include_once 'header.php';
     <div class="panel panel-primary">
         <div class="panel-heading">Apple ID-ს პროექტები</div>
         <div class="panel-body">
-            <table id="table_block3"></table>
+            <table id="table_block3" class="datatable"></table>
         </div>
     </div>
 

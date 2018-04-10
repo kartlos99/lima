@@ -37,7 +37,23 @@
 
 </script>
 
-<script type="text/javascript" src="../js/form2.js"></script>
+
+<script type="text/javascript"  <?php
+    $pos = strpos($_SERVER['PHP_SELF'], "agrim.php");
+if ($pos !== false ){
+    echo "src=\"../js/form3.js\"";
+}
+    $pos = strpos($_SERVER['PHP_SELF'], "page1.php");
+    if ($pos !== false ){
+    echo "src=\"../js/form2.js\"";
+}
+    $pos = strpos($_SERVER['PHP_SELF'], "main.php");
+    if ($pos !== false ){
+    echo "src=\"../js/form1.js\"";
+}
+?> ></script>
+
+
 
 </body>
 </html>

@@ -9,7 +9,10 @@ include_once '../config.php';
 
 $id = $_GET['id'];
 
-    $sql = "SELECT id, EmEmail FROM `Emails` WHERE OrganizationID = $id";
+    $sql = "
+    SELECT e.id, e.EmEmail FROM `Emails` e JOIN Types t
+    ON e.TypeID = t.ID
+    WHERE OrganizationID = $id AND t.code = 'Rescue Email'";
 
 $result = mysqli_query($conn,$sql);
 

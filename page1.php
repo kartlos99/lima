@@ -6,7 +6,14 @@ print_r($_SESSION);
 echo "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder ."/login.php"."\nnnn **";
 
 echo hash_hmac('sha512', 'textsdgfgfdhfhthbgfhgbfghgfhgi2sd', "kssfghfghfhgfhgfhrtyret5y654y7645day");
-
+echo "\n";
+$n = strpos("wwoHecccllo wdorld!", "wo");
+if ($n >= 0){
+    echo $n;
+}
+$ss = "script type=\"text/javascript\" src=\"../js/form2.js\"";
+echo $ss;
+//echo $_SERVER['PHP_SELF'];
 //d2d7c343df1f9304f968e14f6fa6d82f1f9760681751a865677a9b3e30735c56a2b3128cd19ab48dd6b5704a0dc94d25795420cc3a40995d866791058c1b3b2f
 
 ?>

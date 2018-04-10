@@ -1,5 +1,4 @@
 
-$('#block2').hide();
 
 <!--    organizaciebis chamonatvali -->
 $.ajax({
@@ -157,7 +156,7 @@ $('#form2').on('submit', function (event) {
 $('#btn_addid').on('click', function(){
 
     //$('#btn_addid').text('mdaa');
-  //  $('#form1').trigger('submit');
+    //  $('#form1').trigger('submit');
 });
 
 $('#btn_f2submit').on('click', function(){

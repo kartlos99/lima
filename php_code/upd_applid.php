@@ -79,6 +79,7 @@ SET
     `EmEmail` = '$emName',
     `EmEmailPass` = '$emPass',
     `EmEmailDate` = $currDate,
+    `StateID` = status_apltomail($statusid),
     `ModifyDate` = $currDate,
     `ModifyUser` = '$currUser',
     `ModifyUserID` = $currUserID
