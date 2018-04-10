@@ -3,7 +3,7 @@ include_once 'header.php';
 ?>
 
 
-    <div id="pan_f11" class="panel panel-primary">
+    <div id="pan_f31" class="panel panel-primary">
         <div class="panel-heading">
             <table id="table_p1_header" class="pan-header">
                 <tr>
@@ -20,27 +20,27 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="sel_organization">ორგანიზაცია</label>
-                        <select class="form-control" id="sel_organization" name="organization"
+                        <label for="sel_organization_f31">ორგანიზაცია</label>
+                        <select class="form-control" id="sel_organization_f31" name="organization"
                                 required>
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </td>
                     <td>
-                        <label for="agrN_f11">ხელშეკრულების N</label>
-                        <input type="text" class="form-control" id="agrN_f11" placeholder="" name="agrN">
+                        <label for="agrN_f31">ხელშეკრულების N</label>
+                        <input type="text" class="form-control" id="agrN_f31" placeholder="" name="agrN">
                     </td>
                     <td>
-                        <label for="agrStart1_f11">გაფორმების თარიღი</label>
-                        <input type="date" id="agrStart1_f11" class="form-control" name="agrStart1">
+                        <label for="agrStart_f31">გაფორმების თარიღი</label>
+                        <input type="date" id="agrStart_f31" class="form-control" name="agrStart">
                     </td>
                     <td>
-                        <label for="agrStart1_f11">დახურვის თარიღი</label>
-                        <input type="date" id="agrStart1_f11" class="form-control" name="agrStart1">
+                        <label for="agrFinish_f31">დახურვის თარიღი</label>
+                        <input type="date" id="agrFinish_f31" class="form-control" name="agrFinish">
                     </td>
                     <td>
-                        <label for="sel_status_f12">სტატუსი</label>
-                        <select class="form-control" id="sel_status_f12" name="status">
+                        <label for="sel_status_f31">სტატუსი</label>
+                        <select class="form-control" id="sel_status_f31" name="status">
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -49,20 +49,20 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="sel_branch_f13">ფილიალი</label>
-                        <select class="form-control" id="sel_branch_f13" name="branch" disabled>
+                        <label for="sel_branch_f31">ფილიალი</label>
+                        <select class="form-control" id="sel_branch_f31" name="branch" disabled>
                             <option value="">Choose...</option>
                         </select>
                     </td>
 
                     <td>
-                        <label for="agrN_f11">შენიშვნა</label>
-                        <input type="text" class="form-control" id="agrN_f11" placeholder="" name="agrN">
+                        <label for="comment_f31">შენიშვნა</label>
+                        <input type="text" class="form-control" id="comment_f31" placeholder="" name="comment">
                     </td>
                     <td class="albuttom">
-                        <button id="btn_search_f11" class="btn btn-primary">რედაქტირება</button>
-                        <button id="btn_search_f11" class="btn btn-primary">შენახვა</button>
-                        <button id="btn_search_f11" class="btn btn-primary">Add iPhone</button>
+                        <button id="btn_edit_f31" class="btn btn-primary">რედაქტირება</button>
+                        <button id="btn_save_f31" class="btn btn-primary">შენახვა</button>
+                        <button id="btn_addiphone_f31" class="btn btn-primary">Add iPhone</button>
                     </td>
                 </tr>
             </table>
@@ -72,7 +72,7 @@ include_once 'header.php';
 
     <!-- iPhones panel - f32    ****************   -->
 
-    <div id="pan_f12" class="panel panel-primary">
+    <div id="pan_f32" class="panel panel-primary">
         <div class="panel-heading">
             <table id="table_p1_header" class="pan-header">
                 <tr>
@@ -90,22 +90,21 @@ include_once 'header.php';
                     <td>
                         <label for="imei_f32">IMEI</label>
                         <div class="input-group">
-                            <input class="form-control" id="imei_f32" placeholder=""
-                                   name="imei">
+                            <input class="form-control" id="imei_f32" placeholder=""  name="imei">
                             <div class="input-group-btn">
-                                <button id="btneye1" class="btn btn-default eye" type="button">Go!</button>
+                                <button id="btn_go_f32" class="btn btn-default" type="button">Go!</button>
                             </div>
                         </div>
                     </td>
 
                     <td>
-                        <label for="agrN_f11">შედეგი</label>
-                        <input type="text" class="form-control" id="agrN_f11" placeholder="" name="agrN">
+                        <label for="result_f32">შედეგი</label>
+                        <input type="text" class="form-control" id="result_f32" placeholder="" name="result">
                     </td>
                     <td class="albuttom">
-                        <button id="btn_search_f11" class="btn btn-primary">View</button>
-                        <button id="btn_search_f11" class="btn btn-primary">GET</button>
-                        <button id="btn_search_f11" class="btn btn-primary">Add</button>
+                        <button id="btn_view_f32" class="btn btn-primary">View</button>
+                        <button id="btn_get_f32" class="btn btn-primary">GET</button>
+                        <button id="btn_add_f32" class="btn btn-primary">Add</button>
                     </td>
                 </tr>
             </table>
@@ -114,22 +113,22 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="imei_f12">IMEI</label>
-                        <input type="text" class="form-control" id="imei_f12" placeholder="" name="imei">
+                        <label for="imei_f322">IMEI</label>
+                        <input type="text" class="form-control" id="imei_f322" placeholder="" name="imei">
                     </td>
                     <td>
-                        <label for="sel_modeli_f12">მოდელი</label>
-                        <select class="form-control" id="sel_modeli_f12" name="modeli">
+                        <label for="sel_modeli_f322">მოდელი</label>
+                        <select class="form-control" id="sel_modeli_f322" name="modeli">
                             <option value="">Choose...</option>
                         </select>
                     </td>
                     <td>
-                        <label for="serialN_f12">სერიული N</label>
-                        <input type="text" class="form-control" id="serialN_f12" placeholder="გვარი" name="serialN">
+                        <label for="serialN_f322">სერიული N</label>
+                        <input type="text" class="form-control" id="serialN_f322" placeholder="" name="serialN">
                     </td>
                     <td>
-                        <label for="ios_f12">iOS</label>
-                        <select class="form-control" id="ios_f12" name="ios">
+                        <label for="ios_f322">iOS</label>
+                        <select class="form-control" id="ios_f322" name="ios">
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -143,10 +142,10 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="ans1">Restriction Password</label>
+                        <label for="pass_res_f32">Restriction Password</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="ans1" placeholder="" name="ans1">
+                            <input type="text" class="form-control" id="pass_res_f32" placeholder="" name="passRes">
 
                             <div class="input-group-btn">
                                 <button class="btn btn-default passgen" type="button"><span
@@ -160,10 +159,10 @@ include_once 'header.php';
                     </td>
 
                     <td>
-                        <label for="ans1">Encryption Password</label>
+                        <label for="pass_enc_f32">Encryption Password</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="ans1" placeholder="" name="ans1">
+                            <input type="text" class="form-control" id="pass_enc_f32" placeholder="" name="passEnc">
 
                             <div class="input-group-btn">
                                 <button class="btn btn-default passgen" type="button"><span
@@ -180,10 +179,10 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="ans1">Screen Lock Password</label>
+                        <label for="pass_lock_f32">Screen Lock Password</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="ans1" placeholder="" name="ans1">
+                            <input type="text" class="form-control" id="pass_lock_f32" placeholder="" name="passLock">
 
                             <div class="input-group-btn">
                                 <button class="btn btn-default passgen" type="button"><span
@@ -196,17 +195,17 @@ include_once 'header.php';
                         </div>
                     </td>
                     <td>
-                        <label for="agrStart1_f11">Screen Lock Date</label>
-                        <input type="date" id="agrStart1_f11" class="form-control" name="agrStart1">
+                        <label for="lock_date_f32">Screen Lock Date</label>
+                        <input type="date" id="lock_date_f32" class="form-control" name="lockDate">
                     </td>
                     <td>
-                        <label for="sel_status">Screen Lock Status</label>
-                        <select class="custom-select form-control" id="sel_status" name="status">
+                        <label for="sel_status_f32">Screen Lock Status</label>
+                        <select class="form-control" id="sel_status_f32" name="status">
                         </select>
                     </td>
                     <td>
-                        <label for="agrStart1_f11">Screen Lock Send Date</label>
-                        <input type="date" id="agrStart1_f11" class="form-control" name="agrStart1">
+                        <label for="lock_send_date_f32">Screen Lock Send Date</label>
+                        <input type="date" id="lock_send_date_f32" class="form-control" name="lockSendDate">
                     </td>
                 </tr>
             </table>
@@ -216,13 +215,13 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="sel_status">სტატუსი</label>
-                        <select class="custom-select form-control" id="sel_status" name="status">
+                        <label for="sel_status_f324">სტატუსი</label>
+                        <select class="form-control" id="sel_status_f324" name="status">
                         </select>
                     </td>
                     <td>
-                        <label for="comment">შენიშვნა</label>
-                        <input type="text" class="form-control" id="comment" placeholder="" name="comment">
+                        <label for="comment_f324">შენიშვნა</label>
+                        <input type="text" class="form-control" id="comment_f324" placeholder="" name="comment">
                     </td>
                 </tr>
             </table>
@@ -230,16 +229,16 @@ include_once 'header.php';
                 <tr>
                     <td></td>
                     <td style="text-align: right; width: 100%">
-                        <button id="btn_search_f11" class="btn btn-primary">რედაქტირება</button>
-                        <button id="btn_search_f11" class="btn btn-primary">შენახვა</button>
-                        <button id="btn_search_f11" class="btn btn-primary">Add Appl ID</button>
+                        <button id="btn_search_f32" class="btn btn-primary">რედაქტირება</button>
+                        <button id="btn_search_f32" class="btn btn-primary">შენახვა</button>
+                        <button id="btn_search_f32" class="btn btn-primary">Add Appl ID</button>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 
-    <!-- Appl ID panel - f33       ******************     -->
+    <!-- Appl ID panel - f33       ******************88******************************************************     -->
 
     <div id="pan_f33" class="panel panel-primary">
         <div class="panel-heading">
@@ -257,43 +256,38 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
-                        <label for="imei_f32">ApplID</label>
+                        <label for="applid_f33">ApplID</label>
                         <div class="input-group">
-                            <input class="form-control" id="imei_f32" placeholder=""
-                                   name="imei">
+                            <input class="form-control" id="applid_f33" placeholder="" name="applID">
                             <div class="input-group-btn">
-                                <button id="btneye1" class="btn btn-default eye" type="button">Go!</button>
+                                <button id="btn_go_f33" class="btn btn-default" type="button">Go!</button>
                             </div>
                         </div>
                     </td>
 
                     <td>
-                        <label for="agrN_f11">შედეგი</label>
-                        <input type="text" class="form-control" id="agrN_f11" placeholder="" name="agrN">
+                        <label for="result_f33">შედეგი</label>
+                        <input type="text" class="form-control" id="result_f33" placeholder="" name="result">
                     </td>
                     <td class="albuttom">
-                        <button id="btn_search_f11" class="btn btn-primary">GET</button>
-                        <button id="btn_search_f11" class="btn btn-primary">Free Appl ID</button>
+                        <button id="btn_search_f33" class="btn btn-primary">GET</button>
+                        <button id="btn_search_f33" class="btn btn-primary">Free Appl ID</button>
                     </td>
                 </tr>
             </table>
 
             <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
 
-            <form action="" method="post" id="form1" autocomplete="off">
-
-
+            <form action="" method="post" id="form33">
 
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <label for="sel_organization">ორგანიზაცია</label>
-                        <select class="custom-select form-control" id="sel_organization" name="organization"
+                        <label for="sel_organization_f33">ორგანიზაცია</label>
+                        <select class="custom-select form-control" id="sel_organization_f33" name="organization"
                                 required>
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </div>
-
-
 
                     <div class="col-lg-3 mb-3">
                         <div>
@@ -340,10 +334,7 @@ include_once 'header.php';
             <div id="block2">
                 <form action="" method="post" id="form2">
 
-                    <p id="p2">Appl ID</p>
-                    <input id="emName" name="emName" type="hidden" value="">
-                    <input id="emDom" name="emDom" type="hidden" value="">
-                    <input id="emPass" name="emPass" type="hidden" value="">
+                    <p>Appl ID</p>
 
                     <div class="row">
                         <div class="col-lg-2">
@@ -357,15 +348,14 @@ include_once 'header.php';
                         </div>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-3">
-                            <label for="appl_id">Appl ID</label>
-                            <input type="text" class="form-control" id="appl_id" placeholder="appl mail"
-                                   name="applid" readonly>
+                            <label for="appl_id_f33">Appl ID</label>
+                            <input type="text" class="form-control" id="appl_id_f33" placeholder="appl mail" name="applid" readonly>
                         </div>
                         <div class="col-lg-3">
-                            <label for="appl_id_pass">appl id pass</label>
+                            <label for="appl_id_pass_f33">appl id pass</label>
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="appl_id_pass" placeholder="appl id pass"
+                                <input type="text" class="form-control" id="appl_id_pass_f33" placeholder="appl id pass"
                                        name="applidpass">
 
                                 <div class="input-group-btn">
@@ -478,8 +468,8 @@ include_once 'header.php';
                     <!--                    blok2 line6 -->
                     <div class="row">
                         <div class="col-lg-2">
-                            <label for="sel_status">სტატუსი</label>
-                            <select class="custom-select form-control" id="sel_status" name="status">
+                            <label for="sel_status_f33">სტატუსი</label>
+                            <select class="form-control" id="sel_status_f33" name="status">
                             </select>
                         </div>
                         <div class="col-lg-2">
@@ -487,8 +477,8 @@ include_once 'header.php';
                             <input type="date" class="form-control" id="date_f33" name="createDate">
                         </div>
                         <div class="col-lg-8">
-                            <label for="comment">შენიშვნა</label>
-                            <input type="text" class="form-control" id="comment" placeholder="" name="comment">
+                            <label for="comment_f33">შენიშვნა</label>
+                            <input type="text" class="form-control" id="comment_f33" placeholder="" name="comment">
                         </div>
                     </div>
                     <br>
@@ -497,9 +487,9 @@ include_once 'header.php';
                 </form>
 
                 <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <button id="btn_f2reset" class="btn btn-primary">რედაქტირება</button>
-                        <button id="btn_f2submit" class="btn btn-primary">შენახვა</button>
+                    <div class="col-md-12 mb-4">
+                        <button id="btn_f3reset" class="btn btn-primary">რედაქტირება</button>
+                        <button id="btn_f3submit" class="btn btn-primary">შენახვა</button>
                     </div>
                 </div>
             </div>

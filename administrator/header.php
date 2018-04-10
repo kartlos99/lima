@@ -44,15 +44,13 @@ if (!isset($_SESSION['username'])) {
         <ul class="list-unstyled components">
 
             <li class="active">
-                <a href="#homeSubmenu">მთავარი</a>
+                <a href="main.php">მთავარი</a>
             </li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">ახალი სესხი</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li><a href="#">Page 1</a></li>
-                    <li><a href="#">Page 2</a></li>
-                </ul>
-                <a href="#">ახალი iCloud</a>
+                <a href="agrim.php">ახალი სესხი</a>
+            </li>
+            <li>
+                <a href="page1.php">ახალი iCloud</a>
             </li>
         </ul>
 
