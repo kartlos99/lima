@@ -7,11 +7,26 @@
  */
 include_once '../config.php';
 
-$imei = $_GET['imei'];
+if (isset($_GET['imei'])){
+    $imei = $_GET['imei'];
 
     $sql = "
 SELECT * FROM `Iphone` WHERE `PhIMEINumber` = '$imei'
     ";
+} else {
+    if (isset($_GET['id'])){
+        $id = $_GET['id'];
+
+        $sql = "
+        SELECT * FROM `Iphone` WHERE `ID` = $id
+        ";
+    } else {
+        $sql = "
+        SELECT 0
+        ";
+    }
+}
+
 
 $result = mysqli_query($conn,$sql);
 

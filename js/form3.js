@@ -1,8 +1,8 @@
 // form3 - xelshekruleba
 // mxolod am gverdis scripti
 
-var pan2Active = false;
-var pan3Active = false;
+var pan2Active = true;
+var pan3Active = true;
 var currAgreementID = 0;
 var currIphoneID = 0;
 var tempIphoneID = 0;
@@ -31,7 +31,7 @@ $.ajax({
     dataType: 'json',
     success: function (response) {
         response.forEach(function (item) {
-            $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status_f31');
+            $('<option />').text(item.va).attr('value', item.id).attr('code', item.code).appendTo('#sel_status_f31');
         });
         $('#sel_status_f31 option:first-child').attr('selected', 'selected');
     }
@@ -107,7 +107,7 @@ $.ajax({
     }
 });
 
-$('#pan_f31').on('click', function(){
+$('#pan_f31').on('click', function () {
 
     console.log("ccc21");
     console.log(getCookie("agreementID"));
@@ -116,11 +116,83 @@ $('#pan_f31').on('click', function(){
 });
 
 
-$(function() {
+function getAgreement() {
+    $.ajax({
+        url: '../php_code/get_agreement.php?id=' + currAgreementID,
+        method: 'get',
+        dataType: 'json',
+        success: function (response) {
+            if (response.length > 0) {
+                item = response[0];
+                console.log(item);
+
+                if (response.length > 1) {
+                    alert('იძებნება რამდენიმე ხელშეკრულება')
+                } else {
+                    var d1 = item.Date.split(" ");
+                    var d2 = item.EndDate.split(" ");
+
+                    $('#sel_organization_f31').val(item.OrganizationID);
+                    currOrg = item.OrganizationID;
+                    //$('#sel_branch_f31').attr("disabled", true);
+
+                    getsublists(item.OrganizationBranchID);
+
+                    $('#agrN_f31').val(item.Number);
+                    $('#agrFinish_f31').val(d2[0]);
+                    $('#sel_status_f31').val(item.StateID);
+                    $('#agrStart_f31').val(d1[0]);
+                    $('#comment_f31').val(item.Comment);
+
+                    currApplID = item.ApplIDFixID;
+                    tempApplID = item.ApplIDFixID;
+                    currIphoneID = item.IphoneFixID;
+                    tempIphoneID = item.IphoneFixID;
+
+                    if (currIphoneID != 0) {
+                        var url_id = '../php_code/get_iphone_data.php?id=' + currIphoneID;
+                        getIphoneData(url_id);
+                        pan2Active = true;
+                    } else {
+                        $('#btn_addiphone_f31').attr("disabled", false);
+                    }
+
+                    if (currApplID != 0) {
+                        $('#btn_get_f33').trigger('click');
+                        pan3Active = true;
+                    } else {
+                        $('#btn_addapplid_f32').attr("disabled", false);
+                    }
+
+                    $("#btn_edit_f31").attr('disabled', false);
+                    $("#pan_f31 .panel-body input").attr('readonly', true);
+                    $("#pan_f31 .panel-body select").attr('disabled', true);
+                    //console.log(response.IphoneModelID);
+                }
+            } else {
+                alert('ხელშეკრულება არ იძებნება')
+            }
+        }
+    });
+}
+
+$(function () {
     //var pg = "agrim.php";
 
     $('ul.components').find('li').removeClass('active');
     $('ul.components').find("li.midle").addClass('active');
+
+    if (getCookie("agreementID") != "" && getCookie("agreementID") != 0) {
+        // e.i. ganaxlebis rejimshi vart
+        currAgreementID = getCookie("agreementID");
+        document.cookie = "agreementID=0";
+
+        $("#sel_organization_f13").attr('disabled', true);
+        $("#sel_branch_f13").attr('disabled', true);
+
+        getAgreement();
+
+    }
 
 
     //alert(document.cookie);
@@ -132,16 +204,15 @@ $(function() {
 //    $("#pan_f31 .panel-body input").css("background-color", "yellow");
 //    $("#pan_f31 .panel-body input").attr('readonly',true);
 //    $("#pan_f31 .panel-body select").attr('readonly',true);
-    $('#btn_edit_f31').attr('disabled',true);
-    $('#btn_addiphone_f31').attr('disabled',true);
+    $('#btn_edit_f31').attr('disabled', true);
+    $('#btn_addiphone_f31').attr('disabled', true);
 
     var currDate = new Date();
 
     var strDate = dateformat(currDate);
-    $('#agrStart_f31').val(strDate);
+    $('#agrStart_f31').val(strDate).attr('max', strDate);
 
-   //$(".panel-heading span.glyphicon").trigger('click');
-
+    //$(".panel-heading span.glyphicon").trigger('click');
 
 
     <!--    sequrity question chamonatvali -->
@@ -153,12 +224,12 @@ $(function() {
             var sq_num = 0;
             var i = 0;
             response.forEach(function (item) {
-                if (sq_num == item.DictionaryID){
-                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
+                if (sq_num == item.DictionaryID) {
+                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q' + i);
                 } else {
                     sq_num = item.DictionaryID;
                     i++;
-                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
+                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q' + i);
                 }
 
             })
@@ -168,71 +239,74 @@ $(function() {
 }); // ready funqciis dasasruli
 
 
-
 $('#sel_organization_f31').on('change', function () {
     currOrg = $('#sel_organization_f31').val();
-    getsublists();
+    getsublists(0);
 });
 
 
-$('#btn_addiphone_f31').on('click', function(){
+$('#btn_addiphone_f31').on('click', function () {
     pan2Active = true;
     $("#pan_f32 span.glyphicon").trigger('click');
-    $('#d_f322').find('input').attr('readonly',true);
-    $("#d_f322 select").attr('disabled',true);
-    $('#d_f323').find('input').attr('readonly',true);
-    $("#d_f323 select").attr('disabled',true);
-    $('#d_f324').find('input').attr('readonly',true);
-    $("#d_f324 select").attr('disabled',true);
-    $("#d_f324 button").attr('disabled',true);
-    $("#btn_view_f32").attr('disabled',true);
-    $("#btn_get_f32").attr('disabled',true);
-    $("#btn_add_f32").attr('disabled',true);
+    $('#d_f322').find('input').attr('readonly', true);
+    $("#d_f322 select").attr('disabled', true);
+    $('#d_f323').find('input').attr('readonly', true);
+    $("#d_f323 select").attr('disabled', true);
+    $('#d_f324').find('input').attr('readonly', true);
+    $("#d_f324 select").attr('disabled', true);
+    $("#d_f324 button").attr('disabled', true);
+    $("#btn_view_f32").attr('disabled', true);
+    $("#btn_get_f32").attr('disabled', true);
+    $("#btn_add_f32").attr('disabled', true);
+    $("#sel_status_f324").attr('disabled', true);
+});
+
+$('#btn_edit_f31').on('click', function () {
+
+    $('#form_31').find('input').attr('readonly', false);
+    $('#sel_status_f31').attr('disabled', false);
+    $('#sel_branch_f31').attr('disabled', false);
+    $('#btn_save_f31').attr('disabled', false);
 
 });
 
-$('#btn_edit_f31').on('click',function (){
-
-    $('#form_31').find('input').attr('readonly',false);
-    $('#sel_status_f31').attr('disabled',false);
-    $('#btn_save_f31').attr('disabled',false);
-
-});
-
-$('#btn_go_f32').on('click',function (){
+$('#btn_go_f32').on('click', function () {
 
     var imei = $('#imei_f32').val();
-    $(this).closest('tr').find('button').attr('disabled',true);
+    $(this).closest('tr').find('button').attr('disabled', true);
     $(this).removeAttr('disabled');
 
-    $.ajax({
-        url: '../php_code/get_imei_info.php?imei=' + imei,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
+    if (imei != "") {
+
+        $.ajax({
+            url: '../php_code/get_imei_info.php?imei=' + imei,
+            method: 'get',
+            dataType: 'json',
+            success: function (response) {
 
 
-            if (response.view == 1){
-                $('#btn_view_f32').attr('disabled',false);
-            }
-            if (response.get == 1){
-                $('#btn_get_f32').attr('disabled',false);
-            }
-            if (response.add == 1){
-                $('#btn_add_f32').attr('disabled',false);
-            }
+                if (response.view == 1) {
+                    $('#btn_view_f32').attr('disabled', false);
+                }
+                if (response.get == 1) {
+                    $('#btn_get_f32').attr('disabled', false);
+                }
+                if (response.add == 1) {
+                    $('#btn_add_f32').attr('disabled', false);
+                }
 
-            $('#result_f32').val(response.PhoneRv + response.AgreementRv + response.BlackListRv);
-        }
-    });
+                $('#result_f32').val(response.PhoneRv + response.AgreementRv + response.BlackListRv);
+            }
+        });
+    } else {
+        $('#imei_f32').attr('placeholder', 'შეიყვანეთ IMEI');
+    }
 
 });
 
-$('#btn_view_f32').on('click',function (){
-    // mogvaqvs da vachvenebt telefonis monacemebs
-    var imei = $('#imei_f32').val();
+function getIphoneData(url) {
     $.ajax({
-        url: '../php_code/get_iphone_data.php?imei=' + imei,
+        url: url,
         method: 'get',
         dataType: 'json',
         success: function (response) {
@@ -240,9 +314,9 @@ $('#btn_view_f32').on('click',function (){
             console.log(response[0]);
             item = response[0];
 
-            if(response.length > 1){
+            if (response.length > 1) {
                 alert('იძებნება რამდენიმე ტელეფონი')
-            }else{
+            } else {
                 var d1 = item.ScreenLockDate.split(" ");
                 var d2 = item.ScreenLockSendDate.split(" ");
 
@@ -251,12 +325,11 @@ $('#btn_view_f32').on('click',function (){
                 $('#serialN_f322').val(item.PhSerialNumber);
                 $('#ios_f322').val(item.IphoneiOSID);
 
-                if (item.PhSIMFREE == 0){
-                    $('#simfree_f322').prop("checked",false);
-                }else{
-                    $('#simfree_f322').prop("checked",true);
+                if (item.PhSIMFREE == 0) {
+                    $('#simfree_f322').prop("checked", false);
+                } else {
+                    $('#simfree_f322').prop("checked", true);
                 }
-
 
                 $('#pass_res_f32').val(item.RestrictionPass);
                 $('#pass_enc_f32').val(item.EncryptionPass);
@@ -273,9 +346,17 @@ $('#btn_view_f32').on('click',function (){
 
         }
     });
+}
+
+$('#btn_view_f32').on('click', function () {
+    // mogvaqvs da vachvenebt telefonis monacemebs
+    var imei = $('#imei_f32').val();
+    var url_im = '../php_code/get_iphone_data.php?imei=' + imei;
+
+    getIphoneData(url_im);
 });
 
-$('#btn_get_f32').on('click',function (){
+$('#btn_get_f32').on('click', function () {
 
     var imei = $('#imei_f32').val();
     $.ajax({
@@ -287,9 +368,9 @@ $('#btn_get_f32').on('click',function (){
             console.log(response[0]);
             item = response[0];
 
-            if(response.length > 1){
+            if (response.length > 1) {
                 alert('იძებნება რამდენიმე ტელეფონი')
-            }else{
+            } else {
                 var d1 = item.ScreenLockDate.split(" ");
                 var d2 = item.ScreenLockSendDate.split(" ");
 
@@ -297,10 +378,10 @@ $('#btn_get_f32').on('click',function (){
                 $('#sel_modeli_f322').val(item.IphoneModelID);
                 $('#serialN_f322').val(item.PhSerialNumber);
                 $('#ios_f322').val(item.IphoneiOSID);
-                if (item.PhSIMFREE == 0){
-                    $('#simfree_f322').prop("checked",false);
-                }else{
-                    $('#simfree_f322').prop("checked",true);
+                if (item.PhSIMFREE == 0) {
+                    $('#simfree_f322').prop("checked", false);
+                } else {
+                    $('#simfree_f322').prop("checked", true);
                 }
 
                 $('#sel_status_f324').val(item.StateID);
@@ -315,36 +396,38 @@ $('#btn_get_f32').on('click',function (){
     });
 
     $('#btn_save_f32').removeAttr('disabled');
-    $('#d_f322').find('input').attr('readonly',false);
-    $("#d_f322 select").attr('disabled',false);
-    $('#d_f323').find('input').attr('readonly',false);
-    $("#d_f323 select").attr('disabled',false);
-    $('#d_f324').find('input').attr('readonly',false);
-    $("#d_f324 select").attr('disabled',false);
+    $('#d_f322').find('input').attr('readonly', false);
+    $("#d_f322 select").attr('disabled', false);
+    $('#d_f323').find('input').attr('readonly', false);
+    $("#d_f323 select").attr('disabled', false);
+    $('#d_f324').find('input').attr('readonly', false);
+    $("#d_f324 select").attr('disabled', false);
 
 });
 
-$('#btn_add_f32').on('click',function (){
+$('#btn_add_f32').on('click', function () {
 
     $('#btn_save_f32').removeAttr('disabled');
-    $('#d_f322').find('input').attr('readonly',false).val("");
-    $("#d_f322 select").attr('disabled',false).val("");
-    $('#d_f323').find('input').attr('readonly',false).val("");
-    $("#d_f323 select").attr('disabled',false).val("");
-    $('#d_f324').find('input').attr('readonly',false).val("");
-    $("#d_f324 select").attr('disabled',false).val("");
+    $('#d_f322').find('input').attr('readonly', false).val("");
+    $("#d_f322 select").attr('disabled', false).val("");
+    $('#d_f323').find('input').attr('readonly', false).val("");
+    $("#d_f323 select").attr('disabled', false).val("");
+    $('#d_f324').find('input').attr('readonly', false).val("");
+    $("#d_f324 select").attr('disabled', false).val("");
 
     $('#imei_f322').val($('#imei_f32').val());
     $('#sel_status_f324 option').removeAttr('selected');
     var sel = "new";
     $("#sel_status_f324 option[datacode=" + sel + "]").attr('selected', 'select');
     //$('#d_f324').find('button').attr('disabled',false);
+    $("#sel_status_f324").attr('disabled', 'true');
+
 
     tempIphoneID = 0;
 });
 
 
-$('#form_32').on('submit', function(event){
+$('#form_32').on('submit', function (event) {
     event.preventDefault();
     $('#agrID_f32').val(currAgreementID);
     $('#iphoneID_f32').val(tempIphoneID);
@@ -357,7 +440,7 @@ $('#form_32').on('submit', function(event){
         data: $(this).serialize(),
         success: function (response) {
             if (response != 'myerror') {
-                $('#d_f324').find('button').attr('disabled',false);
+                $('#d_f324').find('button').attr('disabled', false);
                 currIphoneID = response;
             } else {
                 alert(response);
@@ -367,32 +450,32 @@ $('#form_32').on('submit', function(event){
     });
 });
 
-$('#btn_addapplid_f32').on('click',function (){
+$('#btn_addapplid_f32').on('click', function () {
     pan3Active = true;
     $("#pan_f33 span.glyphicon").trigger('click');
 
-    $('#form33').find('*').attr('disabled',true);
+    $('#form33').find('*').attr('disabled', true);
 
-    $('#form33').find('button').attr('disabled',true);
-    $('#form33').find('input').attr('readonly',true);
-    $("#form33 select").attr('disabled',true);
+    $('#form33').find('button').attr('disabled', true);
+    $('#form33').find('input').attr('readonly', true);
+    $("#form33 select").attr('disabled', true);
 
-    $("#btn_f3edit").attr('disabled',true);
-    $("#btn_f3submit").attr('disabled',true);
+    $("#btn_f3edit").attr('disabled', true);
+    $("#btn_f3submit").attr('disabled', true);
 
 });
 
 
-$(".panel-heading span.glyphicon").on('click', function(el){
+$(".panel-heading span.glyphicon").on('click', function (el) {
     var showPermission = true;
-    if ($(this).closest('.panel').attr('id') == 'pan_f32'){
+    if ($(this).closest('.panel').attr('id') == 'pan_f32') {
         showPermission = pan2Active;
     }
-    if ($(this).closest('.panel').attr('id') == 'pan_f33'){
+    if ($(this).closest('.panel').attr('id') == 'pan_f33') {
         showPermission = pan3Active;
     }
-    if (showPermission){
-        if ($(this).hasClass('glyphicon-chevron-up')){
+    if (showPermission) {
+        if ($(this).hasClass('glyphicon-chevron-up')) {
             $(this).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             $(this).closest('.panel').find(".panel-body").slideUp();
         } else {
@@ -402,29 +485,34 @@ $(".panel-heading span.glyphicon").on('click', function(el){
     }
 });
 
-$('#btn_go_f33').on('click',function (){
+$('#btn_go_f33').on('click', function () {
 
     var applid = $('#applid_f33').val();
-    $('#btn_get_f33').attr('disabled',true);
+    $('#btn_get_f33').attr('disabled', true);
 
-    $.ajax({
-        url: '../php_code/get_applid_info.php?applid=' + applid,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
+    if (applid != "") {
 
-            console.log(response);
-            if (response.get == 1){
-                $('#btn_get_f33').attr('disabled',false);
+        $.ajax({
+            url: '../php_code/get_applid_info.php?applid=' + applid,
+            method: 'get',
+            dataType: 'json',
+            success: function (response) {
+
+                console.log(response);
+                if (response.get == 1) {
+                    $('#btn_get_f33').attr('disabled', false);
+                }
+
+                tempApplID = response.id;
+                $('#result_f33').val(response.AppleIDRv + response.AgreementRv + response.ProblemRv);
             }
-
-            tempApplID= response.id;
-            $('#result_f33').val(response.AppleIDRv + response.AgreementRv + response.ProblemRv);
-        }
-    });
+        });
+    } else {
+        $('#applid_f33').attr('placeholder', 'შეიყვანეთ ApplID');
+    }
 });
 
-$('#btn_get_f33').on('click',function (){
+$('#btn_get_f33').on('click', function () {
     var applid = $('#applid_f33').val();
 
     console.log(tempApplID)
@@ -437,9 +525,9 @@ $('#btn_get_f33').on('click',function (){
             item = response[0];
             console.log(item);
 
-            if(response.length > 1){
+            if (response.length > 1) {
                 alert('იძებნება რამდენიმე ApplID')
-            }else{
+            } else {
                 var d1 = item.CreateDate.split(" ");
                 var d2 = item.AplBirthDay.split(" ");
 
@@ -463,7 +551,7 @@ $('#btn_get_f33').on('click',function (){
                 $('#date_f33').val(d1[0]);
                 $('#comment_f33').val(item.Comment);
 
-                $("#btn_f3submit").attr('disabled',false);
+                $("#btn_f3submit").attr('disabled', false);
 
                 //console.log(response.IphoneModelID);
             }
@@ -472,7 +560,7 @@ $('#btn_get_f33').on('click',function (){
     });
 });
 
-$('#btn_addApplid_f33').on('click',function (){
+$('#btn_addApplid_f33').on('click', function () {
 
     console.log(currOrg);
     $.ajax({
@@ -485,9 +573,9 @@ $('#btn_addApplid_f33').on('click',function (){
             console.log(item);
             console.log(response.length);
 
-            if(response.length != 1 ){
-                alert('მოიძებნა '+ response.length+' ApplID')
-            }else{
+            if (response.length != 1) {
+                alert('მოიძებნა ' + response.length + ' ApplID')
+            } else {
                 var d1 = item.CreateDate.split(" ");
                 var d2 = item.AplBirthDay.split(" ");
 
@@ -512,7 +600,7 @@ $('#btn_addApplid_f33').on('click',function (){
                 $('#comment_f33').val(item.Comment);
 
                 tempApplID = item.ID;
-                $("#btn_f3submit").attr('disabled',false);
+                $("#btn_f3submit").attr('disabled', false);
                 //console.log(response.IphoneModelID);
             }
 
@@ -522,12 +610,12 @@ $('#btn_addApplid_f33').on('click',function (){
 });
 
 
-$('#btn_f3submit').on('click',function (){
+$('#btn_f3submit').on('click', function () {
 
     $('#form_33').trigger('submit');
 });
 
-$('#form_33').on('submit', function(event){
+$('#form_33').on('submit', function (event) {
     event.preventDefault();
     $('#agrID_f33').val(currAgreementID);
     $('#applid_ID_f33').val(tempApplID);
@@ -540,7 +628,7 @@ $('#form_33').on('submit', function(event){
         data: $(this).serialize(),
         success: function (response) {
             if (response != 'myerror') {
-                $("#btn_f3edit").attr('disabled',false);
+                $("#btn_f3edit").attr('disabled', false);
                 currApplID = tempApplID;
             } else {
                 alert(response);
@@ -551,12 +639,9 @@ $('#form_33').on('submit', function(event){
 });
 
 
-
-
-
-function getsublists(reason, rid) {
+function getsublists(br_id) {
     // organizaciis archevs mere shesabamisad vanaxlebt masze mibmul siebs
-    $('#sel_branch_f31').empty().removeAttr('disabled');
+    $('#sel_branch_f31').empty();
 
     var sel_org_id = $('#sel_organization_f31').val();
 
@@ -566,56 +651,50 @@ function getsublists(reason, rid) {
         method: 'get',
         dataType: 'json',
         success: function (response) {
-            if (response.length != 1){
+            if (response.length != 1) {
                 $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch_f31');
             }
             response.forEach(function (item) {
                 $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch_f31');
             });
+            if (br_id != 0) {
+                $('#sel_branch_f31').val(br_id);
+            }
         }
     });
 
     <!--        domainebis  chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_domains.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            response.forEach(function (item) {
-                $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
-            })
-        }
-    });
+    // $.ajax({
+    //     url: '../php_code/get_domains.php?id=' + sel_org_id,
+    //     method: 'get',
+    //     dataType: 'json',
+    //     success: function (response) {
+    //         response.forEach(function (item) {
+    //             $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
+    //         })
+    //     }
+    // });
 
     <!--    usafrtxoebis damatebiti maili -->
-    $.ajax({
-        url: '../php_code/get_rmail.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-
-            response.forEach(function (item) {
-                console.log(item);
-                $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
-
-            });
-            if (reason == 'fill') {
-                $("#sel_rmail option[value=" + rid + "]").attr('selected', 'select');
-            }
-
-        }
-    });
+    // $.ajax({
+    //     url: '../php_code/get_rmail.php?id=' + sel_org_id,
+    //     method: 'get',
+    //     dataType: 'json',
+    //     success: function (response) {
+    //
+    //         response.forEach(function (item) {
+    //             console.log(item);
+    //             $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
+    //
+    //         });
+    //         if (reason == 'fill') {
+    //             $("#sel_rmail option[value=" + rid + "]").attr('selected', 'select');
+    //         }
+    //
+    //     }
+    // });
 
 } // end get sublists
-
-
-
-
-
-
-
-
-
 
 
 var currmailid = '0';
@@ -633,18 +712,14 @@ $('#form_31').on('submit', function (event) {
         method: 'post',
         data: $(this).serialize(),
         success: function (response) {
-            if (response != 'myerror') {
-                if (response == 'aseti nomrit ukve registrirebulia xelshekruleba!'){
-                    alert(response);
-                }else{
+            if (response.length <= 5) {
 
                     currAgreementID = response;
-                    $('#btn_edit_f31').attr('disabled',false);
-                    $('#btn_addiphone_f31').attr('disabled',false);
-                    $('#btn_save_f31').attr('disabled',true).text("განახლება");
-                    $("#pan_f31 .panel-body input").attr('readonly',true);
-                    $("#pan_f31 .panel-body select").attr('disabled',true);
-
+                    $('#btn_edit_f31').attr('disabled', false);
+                    $('#btn_addiphone_f31').attr('disabled', false);
+                    $('#btn_save_f31').attr('disabled', true).text("განახლება");
+                    $("#pan_f31 .panel-body input").attr('readonly', true);
+                    $("#pan_f31 .panel-body select").attr('disabled', true);
 
 
 //                    $('#block2').show();
@@ -656,7 +731,7 @@ $('#form_31').on('submit', function (event) {
 //                    var d = new Date();
 //                    $('#appl_id_info').text('ID: '+ response + ' CreateDate: '  + d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate() + " " +
 //                        d.getHours() + ":" + d.getMinutes());
-                }
+
             } else {
                 alert(response);
             }
@@ -666,55 +741,23 @@ $('#form_31').on('submit', function (event) {
 });
 
 
-$('#form2').on('submit', function (event) {
-
-//    $('#emName').val($('#email').val());
-//    $('#emDom').val($('#sel_domain').val());
-//    $('#emPass').val($('#password').val());
-//
-//    event.preventDefault();
-//
-//    console.log($(this).serialize());
-//
-//    console.log('form2_submit');
-//    var v = $(event.target).validationMessage;
-//    console.log(v);
-//
-//    $.ajax({
-//        url: '../php_code/upd_applid.php?id=' + currmailid,
-//        method: 'post',
-//        data: $(this).serialize(),
-//        success: function (response) {
-//
-//            loadProjects();
-////                if ($('#sel_status').text() == 'აქტიური') {
-////                    $('#block2').hide();
-////                }
-//            console.log(response);
-//
-//            localRefresh();
-//            //location.reload();
-//        }
-//    });
-});
-
-$('#btn_addid').on('click', function(){
+$('#btn_addid').on('click', function () {
 
     //$('#btn_addid').text('mdaa');
     //  $('#form1').trigger('submit');
 });
 
-$('#btn_f2submit').on('click', function(){
+$('#btn_f2submit').on('click', function () {
     $('#form2').trigger('submit');
 });
 
-$('#btn_f2reset').on('click', function(){
+$('#btn_f2reset').on('click', function () {
     localRefresh();
     $('#form2').trigger('reset');
 
 });
 
-function localRefresh(){
+function localRefresh() {
     // on form2 submit or reset/gauqmeba
 
     $('#btn_addid').show();
@@ -771,79 +814,17 @@ function loadProjects() {
     });
 }
 
-function onRowClick(num) {
-
-    if ($('#block2').css('display') != 'none' ){
-        alert("შეინახეთ ან გააუქმეთ მიმდინარე მონაცემები!");
-    }else{
-        var thetr = "tr[onclick=\"onRowClick("+num+")\"]";
-        $('#table_block3 tr').css({
-            'background-color': 'white'
-        });
-        $('#table_block3').find(thetr).css({
-            'background-color': '#b5dcff'
-        });
-        $('#sel_organization').attr('disabled',true);
-        $('#btn_addid').hide();
-
-        $.ajax({
-            url: '../php_code/get_apple_id_data.php?id=' + num,
-            method: 'get',
-            dataType: 'json',
-            success: function (response) {
-                $('#block2').slideDown();
-                var row = response[0];
-                currmailid = row.AplAccountEmailID;
-
-                $('#sel_organization option').removeAttr('selected');
-                $("#sel_organization option[value=" + row.OrganizationID + "]").attr('selected', 'selected');
-
-                getsublists('fill', row.AplRescueEmailID);
-
-                $('#firstname').val(row.AplFirstName);
-                $('#lastname').val(row.AplLastName);
-                $("#appl_id").val(row.AplApplID);
-                $("#appl_id_pass").val(row.AplPassword);
-                $("#bday").val(row.AplBirthDay);
-                $("#country").val(row.AplCountry);
-
-                $("#ans1").val(row.AplSequrityQuestion1Answer);
-                $("#ans2").val(row.AplSequrityQuestion2Answer);
-                $("#ans3").val(row.AplSequrityQuestion3Answer);
-                $('#sel_q1 option').removeAttr('selected');
-                $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
-                $('#sel_q2 option').removeAttr('selected');
-                $("#sel_q2 option[value=" + row.AplSequrityQuestion2ID + "]").attr('selected', 'selected');
-                $('#sel_q3 option').removeAttr('selected');
-                $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');
-
-                $('#sel_status option').removeAttr('selected');
-                $("#sel_status option[value=" + row.StateID + "]").attr('selected', 'select');
-                $("#comment").val(row.Comment);
-
-                var em = row.AplApplID.split("@");
-                $('#email').val(em[0]);
-                $('#password').val(row.EmEmailPass);
-
-                $('#appl_id_info').text('ID: '+ row.ID + ' CreateDate: ' + row.CreateDate);
-
-            }
-        });
-    }
-
-
-}
 
 $('.eye').on('click', function () {
 
     var atag = $(this).closest('.input-group').find('input');
     var aicon = $(this).find('span');
 
-    if (atag.attr('type') == "text"){
-        atag.attr('type','password');
+    if (atag.attr('type') == "text") {
+        atag.attr('type', 'password');
         aicon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
     } else {
-        atag.attr('type','text');
+        atag.attr('type', 'text');
         aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
     }
 });
@@ -853,7 +834,7 @@ $('.passgen').on('click', function () {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for( var i=0; i < 12; i++ )
+    for (var i = 0; i < 12; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     $(this).closest('.input-group').find('input').val(text);
@@ -870,28 +851,38 @@ $('.passgen').on('click', function () {
 //});
 
 $('#appl_id_info').text('');
+$('#sel_status_f31').on('focus',function () {
+    if (currApplID == 0 || currIphoneID == 0){
+        $(this).find('option[code=Active]').attr('disabled', true);
+    }else {
+        $(this).find('option[code=Active]').attr('disabled', false);
+    }
+});
 
+$('#form_31').on('blur',function () {
+    alert("sad midixar");
+});
 
-function dateformat(d){
+function dateformat(d) {
     var mm, dd;
     if (d.getMonth() < 9) {
-        mm = "0"+ (d.getMonth()+1);
-    }else{
-        mm = d.getMonth()+1;
+        mm = "0" + (d.getMonth() + 1);
+    } else {
+        mm = d.getMonth() + 1;
     }
     if (d.getDate() < 10) {
         dd = "0" + d.getDate();
-    }else{
+    } else {
         dd = d.getDate();
     }
-    return d.getFullYear()  + "-" + mm + "-" + dd;
+    return d.getFullYear() + "-" + mm + "-" + dd;
 }
 
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);

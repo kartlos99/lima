@@ -20,13 +20,10 @@ FROM
   `ApplID`
 WHERE
   `OrganizationID` = $orgID AND ID NOT IN(
-SELECT
-  `ApplIDID`
-FROM
-  ApplIDFix af
-      LEFT JOIN States s
-      ON af.stateID = s.id
-WHERE s.code = 'active'
+SELECT i.ID FROM `Agreements` a 
+LEFT JOIN Iphone i ON a.IphoneFixID = i.ID
+LEFT JOIN States s ON a.StateID = s.ID
+WHERE s.Code = 'Active'
 )
 ";
 

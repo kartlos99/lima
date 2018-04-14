@@ -7,16 +7,11 @@
  */
 include_once '../config.php';
 
-// am dictionary Code-ze ra itemebi gvaqvs
-$code = $_GET['code'];
+$id = $_GET['id'];
 
     $sql = "
-SELECT di.ID, di.Code, di.`ValueText` FROM `DictionariyItems` di
-LEFT JOIN Dictionaries d
-ON di.`DictionaryID` = d.ID
-WHERE d.Code = '$code' 
-order by SortID
-";
+    SELECT * FROM `Agreements` WHERE id = $id
+    ";
 
 $result = mysqli_query($conn,$sql);
 

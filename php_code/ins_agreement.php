@@ -22,9 +22,15 @@ $currUserID = $_SESSION['userID'];
 $count = 0;
 
 if (strlen($agrN) > 0 && $agrN != "-") {
-    $sql_chek = "SELECT * FROM `Agreements` WHERE Number = '$agrN'";
+    $sql_chek = "SELECT id FROM `Agreements` WHERE Number = '$agrN'";
     $result1 = mysqli_query($conn, $sql_chek);
     $count = mysqli_num_rows($result1);
+    if ($count > 0){
+        $getid = mysqli_fetch_assoc($result1);
+        if ($agrID == $getid['id']){
+            $count = 0;
+        }
+    }
 }
 
 if ($count > 0) {
@@ -78,7 +84,7 @@ if ($count > 0) {
         if ($result) {
             echo mysqli_insert_id($conn); //'ok';
         } else {
-            echo 'myerror';
+            echo $sql;//'myerror';
         }
 
     } else {
@@ -109,7 +115,7 @@ if ($count > 0) {
         if ($result) {
             echo $agrID;
         } else {
-            echo 'myerror';
+            echo $sql;//'myerror';
         }
     }
 }

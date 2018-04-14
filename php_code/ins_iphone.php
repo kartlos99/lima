@@ -92,6 +92,7 @@ VALUES(
   `Iphone`
 SET
   `IphoneModelID` = '$modeli',
+  `PhIMEINumber` = '$imei',
   `PhSerialNumber` = '$serial',
   `IphoneiOSID` = $ios,
   `PhSIMFREE` = '$simfree',
@@ -107,7 +108,7 @@ SET
   `ModifyUser` = '$currUser',
   `ModifyUserID` = $currUserID
 WHERE
-  PhIMEINumber = '$imei'
+  ID = $iphoneID
     ";
 }
 
@@ -120,7 +121,7 @@ WHERE
     } else {
         echo 'myerror';
     }
-
+//echo $sql;
 
 // add in iphone FIX
 

@@ -58,7 +58,7 @@ include_once 'header.php';
                         </select>
                     </td>
 
-                    <td>
+                    <td style="width: 50%">
                         <label for="comment_f31">შენიშვნა</label>
                         <input type="text" class="form-control" id="comment_f31" placeholder="" name="comment">
                     </td>
@@ -89,9 +89,9 @@ include_once 'header.php';
         <div class="panel-body">
 
             <p>მობილური ტელეფონის ძებნა/გადმოტანა</p>
-            <table class="inputs">
-                <tr>
-                    <td>
+            <table class="inputs" style="width: 100%">
+                <tr style="width: 100%">
+                    <td style="width: 25%">
                         <label for="imei_f32">IMEI</label>
                         <div class="input-group">
                             <input class="form-control" id="imei_f32" placeholder=""  name="imei">
@@ -102,10 +102,10 @@ include_once 'header.php';
                     </td>
 
                     <td style="width: 50%">
-                        <label for="result_f32">შედეგი</label>
+                        <label for="result_f32">ძებნის შედეგი</label>
                         <input type="text" class="form-control" id="result_f32" placeholder="" name="result">
                     </td>
-                    <td class="albuttom">
+                    <td class="albuttom" style="width: 25%">
                         <button id="btn_view_f32" class="btn btn-primary">View</button>
                         <button id="btn_get_f32" class="btn btn-primary">GET</button>
                         <button id="btn_add_f32" class="btn btn-primary">Add</button>
@@ -270,8 +270,8 @@ include_once 'header.php';
 
             <p>Appl ID -ის ძებნა/გადმოტანა/დამატება</p>
             <table class="inputs">
-                <tr>
-                    <td>
+                <tr style="width: 100%">
+                    <td style="width: 30%">
                         <label for="applid_f33">ApplID</label>
                         <div class="input-group">
                             <input class="form-control" id="applid_f33" placeholder="" name="applID">
@@ -282,10 +282,10 @@ include_once 'header.php';
                     </td>
 
                     <td style="width: 50%">
-                        <label for="result_f33">შედეგი</label>
+                        <label for="result_f33">ძებნის შედეგი</label>
                         <input type="text" class="form-control" id="result_f33" placeholder="" name="result">
                     </td>
-                    <td class="albuttom">
+                    <td class="albuttom" style="width: 20%">
                         <button type="button" id="btn_get_f33" class="btn btn-primary">GET</button>
                         <button type="button" id="btn_addApplid_f33" class="btn btn-primary">Free Appl ID</button>
                     </td>
