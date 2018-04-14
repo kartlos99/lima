@@ -18,13 +18,14 @@ include_once 'header.php';
             <p>ხელშეკრულების მონაცემები</p>
 
             <form id="form_31" method="post">
-
+                <input id="agrID_f31" type="hidden" name="agrID" value="">
+                <input id="iphoneID_f31" type="hidden" name="iphoneID" value="">
+                <input id="applid_ID_f31" type="hidden" name="applid_ID" value="">
             <table class="inputs">
                 <tr>
                     <td>
                         <label for="sel_organization_f31">ორგანიზაცია</label>
-                        <select class="form-control" id="sel_organization_f31" name="organization"
-                                required>
+                        <select class="form-control" id="sel_organization_f31" name="organization" required>
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </td>
@@ -52,7 +53,7 @@ include_once 'header.php';
                 <tr>
                     <td>
                         <label for="sel_branch_f31">ფილიალი</label>
-                        <select class="form-control" id="sel_branch_f31" name="branch" disabled>
+                        <select class="form-control" id="sel_branch_f31" name="branch" required>
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -125,7 +126,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="sel_modeli_f322">მოდელი</label>
-                        <select class="form-control" id="sel_modeli_f322" name="modeli">
+                        <select class="form-control" id="sel_modeli_f322" name="modeli" required="true">
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -135,7 +136,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="ios_f322">iOS</label>
-                        <select class="form-control" id="ios_f322" name="ios">
+                        <select class="form-control" id="ios_f322" name="ios" required="true">
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -210,7 +211,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="sel_status_f32">Screen Lock Status</label>
-                        <select class="form-control" id="sel_status_f32" name="SLstatus">
+                        <select class="form-control" id="sel_status_f32" name="SLstatus" required="true">
                         </select>
                     </td>
                     <td>
@@ -307,22 +308,11 @@ include_once 'header.php';
                     <div class="col-lg-3 mb-3">
                         <div>
                             <label for="email_f33">ელ. ფოსტა</label>
-                            <div class="input-group">
-
-                                <input type="text" class="form-control" id="email_f33" placeholder=""
-                                       name="e_mail">
-
-                                <div class="input-group-btn">
-                                    <button id="btn_mail_f33" class="btn btn-default" type="button"><span
-                                            class="glyphicon glyphicon-refresh"
-                                            aria-hidden="true"></span></button>
-                                </div>
-                            </div>
-
+                            <input type="text" class="form-control" id="email_f33" placeholder="" name="e_mail">
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <label for="emailpass_f33">პაროლი</label>
 
                         <div class="input-group">
@@ -401,8 +391,8 @@ include_once 'header.php';
                         <div class="col-lg-1"></div>
                         <div class="col-lg-3">
                             <label for="sel_rmail">Appl ID Rescue Email</label>
-                            <select class="custom-select form-control" id="sel_rmail" name="rmail">
-                                <option value="">აირჩიეთ...</option>
+                            <select class="form-control" id="sel_rmail" name="rmail">
+                                <option value="x">აირჩიეთ...</option>
                             </select>
                         </div>
                     </div>

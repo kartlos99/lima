@@ -63,6 +63,7 @@ WHERE p.PhIMEINumber = '$imei'
         }
         if ($data['Code'] == 'Project'){
             $res2 = ", ფიქსირდება აქტიური ხელშეკრულების პროექტი";
+            $sesxi = true;
         }
     }else{
         $res2 = ", არ ფიქსირდება აქტიური სესხი";

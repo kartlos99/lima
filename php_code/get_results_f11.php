@@ -58,13 +58,13 @@ if ($applid != ""){
     $query = $query." and apl.AplApplID like ('$applid%')";
 }
 
-
+// Fix -ebi amoviget xmarebidan, droebit. da igive velshi vwert dziritadi cxrilis ID-s
     $sql = "
 SELECT a.ID, a.Number, Date(a.Date) AS Date, s.Value AS status, IFNULL(i.PhIMEINumber, '-') AS IMEI, IFNULL(d.ValueText, '-') AS Model, IFNULL(apl.AplApplID, '-') AS ApplID, o.OrganizationName, b.BranchName FROM `Agreements` a
 LEFT JOIN States s ON a.`StateID` = s.ID
-LEFT JOIN IphoneFix i ON a.`IphoneFixID` = i.ID
+LEFT JOIN Iphone i ON a.`IphoneFixID` = i.ID
 LEFT JOIN DictionariyItems d ON i.IphoneModelID = d.ID
-LEFT JOIN ApplIDFix apl ON a.`ApplIDFixID` = apl.ID
+LEFT JOIN ApplID apl ON a.`ApplIDFixID` = apl.ID
 LEFT JOIN Organizations o ON a.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
 

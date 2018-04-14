@@ -6,8 +6,8 @@ session_start();
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
 
-$orgID = $_POST['organization'];
-$branchID = 1; //$_POST['branch'];
+$agrID = $_POST['agrID'];
+
 $agrN = $_POST['agrN'];
 $startdate = $_POST['agrStart'];
 //$finishdate = $_POST['agrFinish'];
@@ -19,19 +19,29 @@ $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 //print_r($_POST);
 //print_r($_SESSION);
+$count = 0;
 
-if (strlen($agrN) > 0){
+if (strlen($agrN) > 0 && $agrN != "-") {
     $sql_chek = "SELECT * FROM `Agreements` WHERE Number = '$agrN'";
     $result1 = mysqli_query($conn, $sql_chek);
     $count = mysqli_num_rows($result1);
 }
 
-
 if ($count > 0) {
     echo('aseti nomrit ukve registrirebulia xelshekruleba!');
 } else {
 
-    $sql = "
+    if ($agrN == "") {
+        $agrN = "-";
+    }
+
+    if ($agrID == 0) {
+        // axali xelshekruleba
+        $orgID = $_POST['organization'];
+        $branchID = $_POST['branch'];
+
+
+        $sql = "
     INSERT
     INTO
       `Agreements`(
@@ -64,11 +74,43 @@ if ($count > 0) {
     )
     ";
 
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        echo mysqli_insert_id($conn); //'ok';
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            echo mysqli_insert_id($conn); //'ok';
+        } else {
+            echo 'myerror';
+        }
+
     } else {
-        echo $sql;//'myerror';
+        // ganaxleba
+
+        $iphoneID = $_POST['iphoneID'];
+        $applIDID = $_POST['applid_ID'];
+
+        $sql = "
+        UPDATE
+          `Agreements`
+        SET
+          `Number` = '$agrN',
+          `Date` = '$startdate',
+          `Startdate` = '$startdate',
+          `IphoneFixID` = '$iphoneID',
+          `ApplIDFixID` = '$applIDID',
+          `StateID` = $status,
+          `Comment` = '$comment',
+          `ModifyDate` = $currDate,
+          `ModifyUser` = '$currUser',
+          `ModifyUserID` = $currUserID
+        WHERE
+          ID = $agrID
+        ";
+
+        $result = mysqli_query($conn, $sql);
+        if ($result) {
+            echo $agrID;
+        } else {
+            echo 'myerror';
+        }
     }
 }
 

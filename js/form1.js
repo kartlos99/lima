@@ -1,7 +1,7 @@
 /**
  * Created by k.diakonidze on 4/9/18.
  */
-
+var projectFolder = "/lima"; // serverze carielia ""
 var currAgreementID = 0;
 var currIphoneID = 0;
 var currApplID = 0;
@@ -160,10 +160,10 @@ function ont11Click(agr_id){
 
     document.cookie = "agreementID=" + agr_id;
 
-    var url = "/lima/administrator/agrim.php";
+    var url = "/administrator/agrim.php";
     console.log(url);
     //alert(url);
-    window.location.href = url;
+    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + projectFolder + url;
     console.log(document.cookie);
 }
 
@@ -200,10 +200,10 @@ function ont13Click(agr_id){
 
     document.cookie = "agreementID=" + agr_id;
 
-    var url = "/lima/administrator/page1.php";
+    var url = "/administrator/page1.php";
     console.log(url);
     //alert(url);
-    window.location.href = url;
+    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + projectFolder + url;
     console.log(document.cookie);
 }
 

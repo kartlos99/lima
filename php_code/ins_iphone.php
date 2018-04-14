@@ -118,80 +118,80 @@ WHERE
         }
         //echo mysqli_insert_id($conn); //'ok';
     } else {
-        echo $sql;//'myerror';
+        echo 'myerror';
     }
 
 
 // add in iphone FIX
 
-$sql = "
-INSERT
-INTO
-  `IphoneFix`(
-    `IphoneID`,
-    `IphoneModelID`,
-    `PhIMEINumber`,
-    `PhSerialNumber`,
-    `IphoneiOSID`,
-    `PhSIMFREE`,
-    `RestrictionPass`,
-    `EncryptionPass`,
-    `ScreenLockPass`,
-    `ScreenLockDate`,
-    `ScreenLockSendDate`,
-    `TypeID`,
-    `StateID`,
-    `SLstateID`,
-    `Comment`,
-    `CreateDate`,
-    `CreateUser`,
-    `CreateUserID`
-  )
-VALUES(
-  $iphoneID,
-  '$modeli',
-  '$imei',
-  '$serial',
-  $ios,
-  '$simfree',
-  '$passRes',
-  '$passEnc',
-  '$passLock',
-  '$lockDate',
-  '$lockSendDate',
-  gettypeid('iphone_tarebit',getobjid('Iphone')),
-  $status,
-  $SLstatus,
-  '$comment',
-  $currDate,
-  '$currUser',
-  $currUserID
-)
-    ";
-
-$fixID = 0;
-
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $fixID = mysqli_insert_id($conn); //'ok';
-} else {
-    echo 'myerror: '. $sql;
-}
+//$sql = "
+//INSERT
+//INTO
+//  `IphoneFix`(
+//    `IphoneID`,
+//    `IphoneModelID`,
+//    `PhIMEINumber`,
+//    `PhSerialNumber`,
+//    `IphoneiOSID`,
+//    `PhSIMFREE`,
+//    `RestrictionPass`,
+//    `EncryptionPass`,
+//    `ScreenLockPass`,
+//    `ScreenLockDate`,
+//    `ScreenLockSendDate`,
+//    `TypeID`,
+//    `StateID`,
+//    `SLstateID`,
+//    `Comment`,
+//    `CreateDate`,
+//    `CreateUser`,
+//    `CreateUserID`
+//  )
+//VALUES(
+//  $iphoneID,
+//  '$modeli',
+//  '$imei',
+//  '$serial',
+//  $ios,
+//  '$simfree',
+//  '$passRes',
+//  '$passEnc',
+//  '$passLock',
+//  '$lockDate',
+//  '$lockSendDate',
+//  gettypeid('iphone_tarebit',getobjid('Iphone')),
+//  $status,
+//  $SLstatus,
+//  '$comment',
+//  $currDate,
+//  '$currUser',
+//  $currUserID
+//)
+//    ";
+//
+//$fixID = 0;
+//
+//$result = mysqli_query($conn, $sql);
+//if ($result) {
+//    $fixID = mysqli_insert_id($conn); //'ok';
+//} else {
+//    echo 'myerror: '. $sql;
+//}
 
 $sql = "
 UPDATE
   `Agreements`
 SET
-  `IphoneFixID` = $fixID
+  `IphoneFixID` = $iphoneID
 WHERE
   id = $agrID
   ";
 
 if (!mysqli_query($conn, $sql)){
-    echo "update error!";
+    echo "myerror!";
 }
 
-echo $fixID;
+echo $iphoneID;
 $conn->close();
 
 ?>

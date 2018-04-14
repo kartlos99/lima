@@ -5,7 +5,9 @@ var pan2Active = false;
 var pan3Active = false;
 var currAgreementID = 0;
 var currIphoneID = 0;
+var tempIphoneID = 0;
 var currApplID = 0;
+var tempApplID = 0;
 var currOrg = 0;
 
 <!--    organizaciebis chamonatvali -->
@@ -191,7 +193,9 @@ $('#btn_addiphone_f31').on('click', function(){
 
 $('#btn_edit_f31').on('click',function (){
 
-
+    $('#form_31').find('input').attr('readonly',false);
+    $('#sel_status_f31').attr('disabled',false);
+    $('#btn_save_f31').attr('disabled',false);
 
 });
 
@@ -302,7 +306,7 @@ $('#btn_get_f32').on('click',function (){
                 $('#sel_status_f324').val(item.StateID);
                 $('#comment_f324').val(item.Comment);
 
-                currIphoneID = item.ID;
+                tempIphoneID = item.ID;
 
                 //console.log(response.IphoneModelID);
             }
@@ -336,24 +340,25 @@ $('#btn_add_f32').on('click',function (){
     $("#sel_status_f324 option[datacode=" + sel + "]").attr('selected', 'select');
     //$('#d_f324').find('button').attr('disabled',false);
 
-    currIphoneID = 0;
+    tempIphoneID = 0;
 });
 
 
 $('#form_32').on('submit', function(event){
     event.preventDefault();
     $('#agrID_f32').val(currAgreementID);
-    $('#iphoneID_f32').val(currIphoneID);
+    $('#iphoneID_f32').val(tempIphoneID);
 
     console.log($(this).serialize());
 
     $.ajax({
-        url: '../php_code/ins_iphone.php?op='+"new",
+        url: '../php_code/ins_iphone.php',
         method: 'post',
         data: $(this).serialize(),
         success: function (response) {
             if (response != 'myerror') {
                 $('#d_f324').find('button').attr('disabled',false);
+                currIphoneID = response;
             } else {
                 alert(response);
             }
@@ -413,7 +418,7 @@ $('#btn_go_f33').on('click',function (){
                 $('#btn_get_f33').attr('disabled',false);
             }
 
-            currApplID = response.id;
+            tempApplID= response.id;
             $('#result_f33').val(response.AppleIDRv + response.AgreementRv + response.ProblemRv);
         }
     });
@@ -422,9 +427,9 @@ $('#btn_go_f33').on('click',function (){
 $('#btn_get_f33').on('click',function (){
     var applid = $('#applid_f33').val();
 
-    console.log(currApplID)
+    console.log(tempApplID)
     $.ajax({
-        url: '../php_code/get_apple_id_data.php?id=' + currApplID,
+        url: '../php_code/get_apple_id_data.php?id=' + tempApplID,
         method: 'get',
         dataType: 'json',
         success: function (response) {
@@ -506,7 +511,7 @@ $('#btn_addApplid_f33').on('click',function (){
                 $('#date_f33').val(d1[0]);
                 $('#comment_f33').val(item.Comment);
 
-                currApplID = item.ID;
+                tempApplID = item.ID;
                 $("#btn_f3submit").attr('disabled',false);
                 //console.log(response.IphoneModelID);
             }
@@ -525,7 +530,7 @@ $('#btn_f3submit').on('click',function (){
 $('#form_33').on('submit', function(event){
     event.preventDefault();
     $('#agrID_f33').val(currAgreementID);
-    $('#applid_ID_f33').val(currApplID);
+    $('#applid_ID_f33').val(tempApplID);
 
     console.log($(this).serialize());
 
@@ -536,6 +541,7 @@ $('#form_33').on('submit', function(event){
         success: function (response) {
             if (response != 'myerror') {
                 $("#btn_f3edit").attr('disabled',false);
+                currApplID = tempApplID;
             } else {
                 alert(response);
             }
@@ -617,6 +623,9 @@ var currmailid = '0';
 $('#form_31').on('submit', function (event) {
     event.preventDefault();
 
+    $('#agrID_f31').val(currAgreementID);
+    $('#iphoneID_f31').val(currIphoneID);
+    $('#applid_ID_f31').val(currApplID);
     console.log($(this).serialize());
 
     $.ajax({
@@ -632,9 +641,10 @@ $('#form_31').on('submit', function (event) {
                     currAgreementID = response;
                     $('#btn_edit_f31').attr('disabled',false);
                     $('#btn_addiphone_f31').attr('disabled',false);
-                    $('#btn_save_f31').attr('disabled',true);
+                    $('#btn_save_f31').attr('disabled',true).text("განახლება");
                     $("#pan_f31 .panel-body input").attr('readonly',true);
                     $("#pan_f31 .panel-body select").attr('disabled',true);
+
 
 
 //                    $('#block2').show();

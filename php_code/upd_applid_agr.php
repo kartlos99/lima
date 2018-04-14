@@ -63,7 +63,6 @@ WHERE
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
-
         echo 'ok';
     } else {
         echo $sql;//'myerror';
@@ -72,78 +71,78 @@ WHERE
 
 // add in iphone FIX
 
-$sql = "
-INSERT  INTO ApplidFix (
-    `ApplIDID`,
-    `OrganizationID`,
-    `OrganizationBranchID`,
-    `AplAccountEmailID`,
-    `AplFirstName`,
-    `AplLastName`,
-    `AplCountry`,
-    `AplBirthDay`,
-    `AplApplID`,
-    `AplPassword`,
-    `AplSequrityQuestion1ID`,
-    `AplSequrityQuestion1Answer`,
-    `AplSequrityQuestion2ID`,
-    `AplSequrityQuestion2Answer`,
-    `AplSequrityQuestion3ID`,
-    `AplSequrityQuestion3Answer`,
-    `AplRescueEmailID`,
-    `TypeID`,
-    `StateID`,
-    `Comment`,
-    `CreateDate`,
-    `CreateUser`,
-    `CreateUserID`,
-    `ModifyDate`,
-    `ModifyUser`,
-    `ModifyUserID`)
-SELECT
-    $applid_ID,
-    `OrganizationID`,
-    `OrganizationBranchID`,
-    `AplAccountEmailID`,
-    `AplFirstName`,
-    `AplLastName`,
-    `AplCountry`,
-    `AplBirthDay`,
-    `AplApplID`,
-    `AplPassword`,
-    `AplSequrityQuestion1ID`,
-    `AplSequrityQuestion1Answer`,
-    `AplSequrityQuestion2ID`,
-    `AplSequrityQuestion2Answer`,
-    `AplSequrityQuestion3ID`,
-    `AplSequrityQuestion3Answer`,
-    `AplRescueEmailID`,
-    `TypeID`,
-    `StateID`,
-    `Comment`,
-    `CreateDate`,
-    `CreateUser`,
-    `CreateUserID`,
-    `ModifyDate`,
-    `ModifyUser`,
-    `ModifyUserID`
-FROM `ApplID` WHERE ID = $applid_ID
-    ";
-
-$fixID = 0;
-
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $fixID = mysqli_insert_id($conn); //'ok';
-} else {
-    echo 'myerror: '. $sql;
-}
+//$sql = "
+//INSERT  INTO ApplidFix (
+//    `ApplIDID`,
+//    `OrganizationID`,
+//    `OrganizationBranchID`,
+//    `AplAccountEmailID`,
+//    `AplFirstName`,
+//    `AplLastName`,
+//    `AplCountry`,
+//    `AplBirthDay`,
+//    `AplApplID`,
+//    `AplPassword`,
+//    `AplSequrityQuestion1ID`,
+//    `AplSequrityQuestion1Answer`,
+//    `AplSequrityQuestion2ID`,
+//    `AplSequrityQuestion2Answer`,
+//    `AplSequrityQuestion3ID`,
+//    `AplSequrityQuestion3Answer`,
+//    `AplRescueEmailID`,
+//    `TypeID`,
+//    `StateID`,
+//    `Comment`,
+//    `CreateDate`,
+//    `CreateUser`,
+//    `CreateUserID`,
+//    `ModifyDate`,
+//    `ModifyUser`,
+//    `ModifyUserID`)
+//SELECT
+//    $applid_ID,
+//    `OrganizationID`,
+//    `OrganizationBranchID`,
+//    `AplAccountEmailID`,
+//    `AplFirstName`,
+//    `AplLastName`,
+//    `AplCountry`,
+//    `AplBirthDay`,
+//    `AplApplID`,
+//    `AplPassword`,
+//    `AplSequrityQuestion1ID`,
+//    `AplSequrityQuestion1Answer`,
+//    `AplSequrityQuestion2ID`,
+//    `AplSequrityQuestion2Answer`,
+//    `AplSequrityQuestion3ID`,
+//    `AplSequrityQuestion3Answer`,
+//    `AplRescueEmailID`,
+//    `TypeID`,
+//    `StateID`,
+//    `Comment`,
+//    `CreateDate`,
+//    `CreateUser`,
+//    `CreateUserID`,
+//    `ModifyDate`,
+//    `ModifyUser`,
+//    `ModifyUserID`
+//FROM `ApplID` WHERE ID = $applid_ID
+//    ";
+//
+//$fixID = 0;
+//
+//$result = mysqli_query($conn, $sql);
+//if ($result) {
+//    $fixID = mysqli_insert_id($conn); //'ok';
+//} else {
+//    echo 'myerror: '. $sql;
+//}
 
 $sql = "
 UPDATE
   `Agreements`
 SET
-  `ApplIDFixID` = $fixID
+  `ApplIDFixID` = $applid_ID
 WHERE
   id = $agrID
   ";
@@ -152,7 +151,7 @@ if (!mysqli_query($conn, $sql)){
     echo "update error!";
 }
 
-echo $fixID;
+//echo $fixID;
 $conn->close();
 
 ?>
