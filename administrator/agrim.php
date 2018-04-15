@@ -190,6 +190,11 @@ include_once 'header.php';
             <table class="inputs">
                 <tr>
                     <td>
+                        <label for="sel_status_f32">Screen Lock Status</label>
+                        <select class="form-control" id="sel_status_f32" name="SLstatus" required="true">
+                        </select>
+                    </td>
+                    <td>
                         <label for="pass_lock_f32">Screen Lock Password</label>
 
                         <div class="input-group">
@@ -208,11 +213,6 @@ include_once 'header.php';
                     <td>
                         <label for="lock_date_f32">Screen Lock Date</label>
                         <input type="date" id="lock_date_f32" class="form-control" name="lockDate">
-                    </td>
-                    <td>
-                        <label for="sel_status_f32">Screen Lock Status</label>
-                        <select class="form-control" id="sel_status_f32" name="SLstatus" required="true">
-                        </select>
                     </td>
                     <td>
                         <label for="lock_send_date_f32">Screen Lock Send Date</label>
@@ -294,7 +294,10 @@ include_once 'header.php';
 
             <p>ფილიალის და ელ.ფოსტის მონაცემები</p>
 
-            <form action="" method="post" id="form33">
+            <form action="" method="post" id="form_33">
+                <input id="agrID_f33" type="hidden" name="agrID" value="">
+                <input id="applid_ID_f33" type="hidden" name="applid_ID" value="">
+                <input id="email_ID_f33" type="hidden" name="email_ID" value="0">
 
                 <div class="row">
                     <div class="col-md-3 mb-3">
@@ -328,26 +331,16 @@ include_once 'header.php';
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-            </form>
 
 
-
-            <!--    -------------   2 bloki ------- -----------------------------------    -->
-            <div id="block2">
-                <form action="" method="post" id="form_33">
-                    <input id="agrID_f33" type="hidden" name="agrID" value="">
-                    <input id="applid_ID_f33" type="hidden" name="applid_ID" value="">
 
                     <p>Appl ID</p>
 
                     <div class="row">
                         <div class="col-lg-3">
                             <label for="firstname">სახელი</label>
-                            <input type="text" class="form-control" id="firstname" placeholder="სახელი"
-                                   name="saxeli" required>
+                            <input type="text" class="form-control" id="firstname" placeholder="სახელი" name="saxeli" required>
                         </div>
                         <div class="col-lg-2">
                             <label for="lastname">გვარი</label>
@@ -362,8 +355,7 @@ include_once 'header.php';
                             <label for="appl_id_pass_f33">appl id pass</label>
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="appl_id_pass_f33" placeholder="appl id pass"
-                                       name="applidpass">
+                                <input type="text" class="form-control" id="appl_id_pass_f33" placeholder="appl id pass" name="applidpass">
 
                                 <div class="input-group-btn">
                                     <button class="btn btn-default passgen" type="button"><span
@@ -499,7 +491,7 @@ include_once 'header.php';
                         <button id="btn_f3submit" class="btn btn-primary">შენახვა</button>
                     </div>
                 </div>
-            </div>
+
 
 
         </div>

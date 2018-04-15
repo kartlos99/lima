@@ -19,8 +19,7 @@ include_once 'header.php';
                 <tr>
                     <td>
                         <label for="sel_organization">ორგანიზაცია</label>
-                        <select class="form-control" id="sel_organization" name="organization"
-                                required>
+                        <select class="form-control" id="sel_organization" name="organization">
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </td>

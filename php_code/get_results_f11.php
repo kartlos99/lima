@@ -11,7 +11,10 @@ $maxDate = "2100-01-01";
 $query = "";
 
 $organization =  $_POST['organization'];
-$branch =  $_POST['branch'];
+if (isset($_POST['branch'])){
+    $branch =  $_POST['branch'];
+}
+
 $agrN =  $_POST['agrN'];
 $status =  $_POST['status'];
 

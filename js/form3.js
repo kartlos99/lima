@@ -1,8 +1,8 @@
 // form3 - xelshekruleba
 // mxolod am gverdis scripti
 
-var pan2Active = true;
-var pan3Active = true;
+var pan2Active = false;
+var pan3Active = false;
 var currAgreementID = 0;
 var currIphoneID = 0;
 var tempIphoneID = 0;
@@ -72,10 +72,11 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
+        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_modeli_f322');
         response.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_modeli_f322');
         });
-        //$('#sel_modeli_f322 option:first-child').attr('selected', 'selected');
+        $('#sel_modeli_f322 option:first-child').attr('selected', 'select');
     }
 });
 
@@ -86,24 +87,28 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
+        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#ios_f322');
         response.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#ios_f322');
         });
-        //$('#ios_f322 option:first-child').attr('selected', 'selected');
+        $('#ios_f322 option:first-child').attr('selected', 'select');
     }
 });
 
 <!--    ScreenLockState form_32 -->
-$('#sel_status_f32').empty();
+
 $.ajax({
     url: '../php_code/get_dictionaryitems.php?code=ScreenLockState',
     method: 'get',
     dataType: 'json',
     success: function (response) {
+        $('#sel_status_f32').empty();
+        $('<option />').text('აირჩიეთ...').attr('value', '').attr('datacode', '').appendTo('#sel_status_f32');
+        console.log(response);
         response.forEach(function (item) {
-            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_status_f32');
+            $('<option />').text(item.ValueText).attr('value', item.ID).attr('datacode', item.Code).appendTo('#sel_status_f32');
         });
-        //$('#sel_status_f32 option:first-child').attr('selected', 'selected');
+        $('#sel_status_f32 option:first-child').attr('selected', 'select');
     }
 });
 
@@ -187,8 +192,8 @@ $(function () {
         currAgreementID = getCookie("agreementID");
         document.cookie = "agreementID=0";
 
-        $("#sel_organization_f13").attr('disabled', true);
-        $("#sel_branch_f13").attr('disabled', true);
+        $("#sel_organization_f31").attr('disabled', true);
+        $("#sel_branch_f31").attr('disabled', true);
 
         getAgreement();
 
@@ -239,6 +244,32 @@ $(function () {
 }); // ready funqciis dasasruli
 
 
+$('#sel_status_f32').on('change', function () {
+    var v = $('#sel_status_f32').val();
+    var c = "";
+    if (v != "") {
+        c = $('#sel_status_f32').find('option[value=' + v + ']').attr('datacode');
+    }
+    if (c == 'opened'){
+
+        $(this).closest('tr').find('button').attr('disabled', true);
+        $(this).closest('tr').find('input').attr('readonly',true).val("");
+
+    }
+    if (c == 'locked'){
+        $(this).closest('tr').find('button').attr('disabled', false);
+        $(this).closest('tr').find('input').attr('readonly',false);
+        $('#lock_send_date_f32').attr('readonly',true).val("");
+    }
+    if (c == 'out'){
+        $('#lock_send_date_f32').attr('readonly',false);
+        $(this).closest('tr').find('button').attr('disabled', false);
+        $(this).closest('tr').find('input').attr('readonly',false);
+    }
+
+    //getsublists(0);
+});
+
 $('#sel_organization_f31').on('change', function () {
     currOrg = $('#sel_organization_f31').val();
     getsublists(0);
@@ -250,15 +281,19 @@ $('#btn_addiphone_f31').on('click', function () {
     $("#pan_f32 span.glyphicon").trigger('click');
     $('#d_f322').find('input').attr('readonly', true);
     $("#d_f322 select").attr('disabled', true);
-    $('#d_f323').find('input').attr('readonly', true);
+
+    $('#d_f323').find('input').attr('readonly', true).val("");
     $("#d_f323 select").attr('disabled', true);
-    $('#d_f324').find('input').attr('readonly', true);
+
+    $('#d_f324').find('input').attr('readonly', true).val("");
     $("#d_f324 select").attr('disabled', true);
     $("#d_f324 button").attr('disabled', true);
+
     $("#btn_view_f32").attr('disabled', true);
     $("#btn_get_f32").attr('disabled', true);
     $("#btn_add_f32").attr('disabled', true);
     $("#sel_status_f324").attr('disabled', true);
+
 });
 
 $('#btn_edit_f31').on('click', function () {
@@ -420,8 +455,11 @@ $('#btn_add_f32').on('click', function () {
     var sel = "new";
     $("#sel_status_f324 option[datacode=" + sel + "]").attr('selected', 'select');
     //$('#d_f324').find('button').attr('disabled',false);
-    $("#sel_status_f324").attr('disabled', 'true');
+    //$("#sel_status_f324").attr('disabled', 'true');
 
+    sel = "opened";
+    $("#sel_status_f32 option[datacode=" + sel + "]").attr('selected', 'select');
+    $("#sel_status_f32").trigger('change');
 
     tempIphoneID = 0;
 });
@@ -442,6 +480,7 @@ $('#form_32').on('submit', function (event) {
             if (response != 'myerror') {
                 $('#d_f324').find('button').attr('disabled', false);
                 currIphoneID = response;
+                tempIphoneID = response;
             } else {
                 alert(response);
             }
@@ -454,11 +493,10 @@ $('#btn_addapplid_f32').on('click', function () {
     pan3Active = true;
     $("#pan_f33 span.glyphicon").trigger('click');
 
-    $('#form33').find('*').attr('disabled', true);
+    $('#email_f33').attr('readonly', true).val("");
+    $('#emailpass_f33').attr('readonly', true).val("");
+    $("#sel_organization_f33").attr('disabled', true);
 
-    $('#form33').find('button').attr('disabled', true);
-    $('#form33').find('input').attr('readonly', true);
-    $("#form33 select").attr('disabled', true);
 
     $("#btn_f3edit").attr('disabled', true);
     $("#btn_f3submit").attr('disabled', true);
@@ -485,6 +523,7 @@ $(".panel-heading span.glyphicon").on('click', function (el) {
     }
 });
 
+//     ***********************************************  Appl ID dzebna  *************
 $('#btn_go_f33').on('click', function () {
 
     var applid = $('#applid_f33').val();
@@ -499,8 +538,14 @@ $('#btn_go_f33').on('click', function () {
             success: function (response) {
 
                 console.log(response);
+
                 if (response.get == 1) {
                     $('#btn_get_f33').attr('disabled', false);
+                }
+
+                if (response.orgID != currOrg){
+                    alert("Appl ID სხვა ორგანიზაციაზეა რეგისტრირებული!");
+                    $('#btn_get_f33').attr('disabled', true);
                 }
 
                 tempApplID = response.id;
@@ -515,7 +560,7 @@ $('#btn_go_f33').on('click', function () {
 $('#btn_get_f33').on('click', function () {
     var applid = $('#applid_f33').val();
 
-    console.log(tempApplID)
+    console.log(tempApplID);
     $.ajax({
         url: '../php_code/get_apple_id_data.php?id=' + tempApplID,
         method: 'get',
@@ -550,6 +595,8 @@ $('#btn_get_f33').on('click', function () {
                 $('#sel_status_f33').val(item.StateID);
                 $('#date_f33').val(d1[0]);
                 $('#comment_f33').val(item.Comment);
+
+                $('#email_ID_f33').val(item.AplAccountEmailID);
 
                 $("#btn_f3submit").attr('disabled', false);
 
@@ -598,6 +645,8 @@ $('#btn_addApplid_f33').on('click', function () {
                 $('#sel_status_f33').val(item.StateID);
                 $('#date_f33').val(d1[0]);
                 $('#comment_f33').val(item.Comment);
+
+                $('#email_ID_f33').val(item.AplAccountEmailID);
 
                 tempApplID = item.ID;
                 $("#btn_f3submit").attr('disabled', false);
@@ -676,23 +725,21 @@ function getsublists(br_id) {
     // });
 
     <!--    usafrtxoebis damatebiti maili -->
-    // $.ajax({
-    //     url: '../php_code/get_rmail.php?id=' + sel_org_id,
-    //     method: 'get',
-    //     dataType: 'json',
-    //     success: function (response) {
-    //
-    //         response.forEach(function (item) {
-    //             console.log(item);
-    //             $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
-    //
-    //         });
-    //         if (reason == 'fill') {
-    //             $("#sel_rmail option[value=" + rid + "]").attr('selected', 'select');
-    //         }
-    //
-    //     }
-    // });
+    $.ajax({
+        url: '../php_code/get_rmail.php?id=' + sel_org_id,
+        method: 'get',
+        dataType: 'json',
+        success: function (response) {
+
+            $('#sel_rmail').empty();
+            response.forEach(function (item) {
+                console.log(item);
+                $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
+
+            });
+
+        }
+    });
 
 } // end get sublists
 
@@ -773,48 +820,6 @@ setTimeout(function () {
 }, 500);
 
 
-//loadProjects();
-
-function loadProjects() {
-    // me3 blokis shevseba
-
-    var rr = "<tr>\n" +
-        "        <th>ID</th>\n" +
-        "        <th>ორგანიზაცია</th>\n" +
-        "        <th>ფილიალი</th>\n" +
-        "        <th>ელ ფოსტა</th>\n" +
-        "        <th>შექმნის თარიღი</th>\n" +
-        "        <th>მომხმარებელი</th>\n" +
-        "        <th>სტატუსი</th>\n" +
-        "        </tr>";
-
-    $('#table_block3').empty().html(rr);
-    //$('#table_block3').html(rr);
-
-    $.ajax({
-        url: '../php_code/get_apple_projects.php',
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            response.forEach(function (item) {
-
-                var td_id = $('<td />').text(item.id);
-                var td_org = $('<td />').text(item.OrganizationName);
-                var td_fil = $('<td />').text(item.BranchName);
-                var td_email = $('<td />').text(item.EmEmail);
-                var td_date = $('<td />').text(item.CreateDate);
-                var td_user = $('<td />').text(item.CreateUser);
-                var td_st = $('<td />').text(item.va);
-
-                var trow = $('<tr></tr>').append(td_id, td_org, td_fil, td_email, td_date, td_user, td_st);
-                trow.attr('onclick', "onRowClick(" + item.id + ")");
-                $('#table_block3').append(trow);
-            });
-        }
-    });
-}
-
-
 $('.eye').on('click', function () {
 
     var atag = $(this).closest('.input-group').find('input');
@@ -829,15 +834,26 @@ $('.eye').on('click', function () {
     }
 });
 
-$('.passgen').on('click', function () {
+$('.passgen').on('click', function (event) {
 
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    console.log("es");
+    console.log(event.currentTarget.nodeName);
+    console.log(event);
+    console.log(this);
+    // if (confirm("გსურთ პაროლის შეცვლა?")) {
+    //
+    //     var text = "";
+    //     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //
+    //     for (var i = 0; i < 12; i++)
+    //         text += possible.charAt(Math.floor(Math.random() * possible.length));
+    //
+    //     $(this).closest('.input-group').find('input').val(text);
+    // } else {
+    //     //txt = "You pressed Cancel!";
+    // }
 
-    for (var i = 0; i < 12; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-    $(this).closest('.input-group').find('input').val(text);
 });
 
 

@@ -43,7 +43,7 @@ if ($count > 0){
 $sql = "
 SELECT s.Code FROM `Agreements` a
 LEFT JOIN
-IphoneFix p
+Iphone p
 ON a.`IphoneFixID` = p.ID
 LEFT JOIN
 States s

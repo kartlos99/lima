@@ -18,11 +18,13 @@ $resData['AgreementRv'] = ", არ ფიქსირდება აქტი�
 $resData['AgreementR'] = 0;   //-------------
 $resData['ProblemRv'] = "";  //-----
 $resData['ProblemR'] = 0;  //-----
+$resData['orgID'] = 0;  //-----
+$resData['AgrNumber'] = "";   //-------------
 $sesxi = false;
 $problem = false;
 
     $sql = "
-SELECT a.id, a.`AplApplID`, s.code AS st FROM `ApplID` a
+SELECT a.id, a.`AplApplID`, a.OrganizationID, s.code AS st FROM `ApplID` a
 LEFT JOIN States s
 ON a.StateID = s.ID
 WHERE `AplApplID` = '$applid'
@@ -37,12 +39,13 @@ if ($count > 0){
     $resData['AppleIDR'] = $count;
     $resData['id'] = $arr['id'];
     //$resData['view'] = 1;
+    $resData['orgID'] = $arr['OrganizationID'];
 
 
     $sql = "
-    SELECT s.Code FROM `Agreements` agr
+    SELECT s.Code, agr.Number FROM `Agreements` agr
     LEFT JOIN
-    ApplIDFix ap
+    ApplID ap
     ON agr.`ApplIDFixID` = ap.ID
     LEFT JOIN
     States s
@@ -61,10 +64,12 @@ if ($count > 0){
         if ($data['Code'] == 'Active'){
             $res2 = ", ფიქსირდება აქტიური სესხი";
             $sesxi = true;
+            $resData['AgrNumber'] = $data['Number'];   //-------------
         }
         if ($data['Code'] == 'Project'){
             $res2 = ", ფიქსირდება აქტიური ხელშეკრულების პროექტი";
             $sesxi = true;
+            $resData['AgrNumber'] = $data['Number'];   //-------------
         }
     }else{
         $res2 = ", არ ფიქსირდება აქტიური სესხი";
@@ -76,6 +81,10 @@ if ($count > 0){
         $resData['ProblemRv'] = ", პრობლემური";
         $resData['ProblemR'] = 1;  //-----------
         $problem = true;
+    }
+    if ($arr['st'] != 'Active'){
+        $problem = true;
+        $resData['ProblemRv'] = ", არა აქტიური ApplID";
     }
 
 }else {

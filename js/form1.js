@@ -72,7 +72,7 @@ $('#sel_organization').on('change', function () {
     org_p1 = $('#sel_organization').val();
 
     $('#sel_branch').empty().removeAttr('disabled');
-
+    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
     <!--        filialebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_branches.php?id=' + org_p1,
@@ -127,31 +127,36 @@ $('#form_11').on('submit', function(event){
     console.log($(this).serialize());
     console.log($('#sel_branch').val());
 
-    $.ajax({
-        url: '../php_code/get_results_f11.php',
-        method: 'post',
-        data: $(this).serialize(),
-        dataType: 'json',
-        success: function (response) {
-            $('#table_f11').empty().html(table11_hr);
-            console.log(response);
+    if ($('#agrN_f11').val() == "" && $('#imei_f11').val() == "" && $('#serialN_f11').val() == "" && $('#applID_f11').val() == "" ){
+        alert("შეავსეთ ძიების პარამეტრები");
+    }else {
 
-            response.forEach(function (item) {
+        $.ajax({
+            url: '../php_code/get_results_f11.php',
+            method: 'post',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                $('#table_f11').empty().html(table11_hr);
+                console.log(response);
 
-                var td_number = $('<td />').text(item.Number);
-                var td_date = $('<td />').text(item.Date);
-                var td_status = $('<td />').text(item.status);
-                var td_imei = $('<td />').text(item.IMEI);
-                var td_tel = $('<td />').text(item.Model);
-                var td_applid = $('<td />').text(item.ApplID);
-                var td_org = $('<td />').text(item.OrganizationName + "/" + item.BranchName);
+                response.forEach(function (item) {
 
-                var trow = $('<tr></tr>').append(td_number, td_date, td_status, td_imei, td_tel, td_applid, td_org);
-                trow.attr('onclick', "ont11Click(" + item.ID + ")");
-                $('#table_f11').append(trow);
-            });
-        }
-    });
+                    var td_number = $('<td />').text(item.Number);
+                    var td_date = $('<td />').text(item.Date);
+                    var td_status = $('<td />').text(item.status);
+                    var td_imei = $('<td />').text(item.IMEI);
+                    var td_tel = $('<td />').text(item.Model);
+                    var td_applid = $('<td />').text(item.ApplID);
+                    var td_org = $('<td />').text(item.OrganizationName + "/" + item.BranchName);
+
+                    var trow = $('<tr></tr>').append(td_number, td_date, td_status, td_imei, td_tel, td_applid, td_org);
+                    trow.attr('onclick', "ont11Click(" + item.ID + ")");
+                    $('#table_f11').append(trow);
+                });
+            }
+        });
+    }
 
 });
 
@@ -196,9 +201,9 @@ $('#form_13').on('submit', function(event){
 
 });
 
-function ont13Click(agr_id){
+function ont13Click(apl_id){
 
-    document.cookie = "agreementID=" + agr_id;
+    document.cookie = "ApplIDID=" + apl_id;
 
     var url = "/administrator/page1.php";
     console.log(url);

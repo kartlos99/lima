@@ -24,6 +24,9 @@ $ans3 = $_POST['ans3'];
 $statusid = $_POST['status'];
 $comment = $_POST['comment'];
 
+$emailPass = $_POST['emailpass'];
+$emailID = $_POST['email_ID'];
+
 $currDate = 'CURRENT_TIMESTAMP';
 $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
@@ -33,6 +36,24 @@ $applid_ID = $_POST['applid_ID'];
 //print_r($_POST);
 //print_r($_SESSION);
 
+if ($emailID != "" || $emailID != "0"){
+
+    $sql = "
+    UPDATE
+      `Emails`
+    SET
+      `EmEmailPass` = '$emailPass',
+      `ModifyDate` = $currDate,
+      `ModifyUser` = '$currUser',
+      `ModifyUserID` = $currUserID
+    WHERE
+      id = $emailID
+    ";
+    if (!mysqli_query($conn, $sql)){
+        echo "mail update error!";
+    }
+
+}
 
 
 $sql = "

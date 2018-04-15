@@ -1,3 +1,4 @@
+var currApplID = 0;
 
 $('#block2').hide();
 
@@ -283,6 +284,21 @@ function onRowClick(num) {
 
                 $('#appl_id_info').text('ID: '+ row.ID + ' CreateDate: ' + row.CreateDate);
 
+                $.ajax({
+                    url: '../php_code/get_applid_info.php?applid=' + row.AplApplID,
+                    method: 'get',
+                    dataType: 'json',
+                    success: function (r) {
+
+                        console.log(r);
+
+                        if (r.AgreementR > 0) {
+                            alert("Appl ID დაკავებულია, რედაქტირებისთვის იხილეთ ხელშეკრულება N: " + r.AgrNumber);
+                            $('#block2 *').attr('disabled',true);
+                        }
+                    }
+                });
+
             }
         });
     }
@@ -320,6 +336,19 @@ $(function() {
     $('ul.components').find('li').removeClass('active');
     $('ul.components').find('li:last').addClass('active');
 
+    if (getCookie("ApplIDID") != "" && getCookie("ApplIDID") != 0) {
+        // e.i. ganaxlebis rejimshi vart
+        currApplID = getCookie("ApplIDID");
+        document.cookie = "ApplIDID=0";
+        console.log(currApplID);
+
+        $("#sel_organization").attr('disabled', true);
+        $("#sel_branch").attr('disabled', true);
+
+        onRowClick(currApplID);
+
+    }
+
 //    $("#form1").find("input").val('');
 
     <!--    sequrity question chamonatvali -->
@@ -354,3 +383,19 @@ $('#sel_domain').on('change',function(){
 });
 
 $('#appl_id_info').text('');
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
