@@ -35,12 +35,26 @@
     text-align: right;
 }
 
+table.inputs{
+    /*width: 100%;*/
+    max-width: 100%;
+    /*background-color: #b5d6d5;*/
+}
+
 table.inputs td{
     padding: 8px !important;
-
-    /*background-color: #85a6a5;*/
+    /*width: fit-content;*/
 }
 
 .albuttom {
     vertical-align: bottom;
+}
+
+input[type=date] {
+    min-width: 140px;
+}
+
+.doubleinput input {
+    display: inline;
+    width: 48%;
 }

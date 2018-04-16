@@ -504,8 +504,9 @@ $('#btn_addapplid_f32').on('click', function () {
 });
 
 
-$(".panel-heading span.glyphicon").on('click', function (el) {
+$(".panel-heading").on('click', function (el) {
     var showPermission = true;
+    var gilaki = $(this).find("span.glyphicon");
     if ($(this).closest('.panel').attr('id') == 'pan_f32') {
         showPermission = pan2Active;
     }
@@ -513,11 +514,11 @@ $(".panel-heading span.glyphicon").on('click', function (el) {
         showPermission = pan3Active;
     }
     if (showPermission) {
-        if ($(this).hasClass('glyphicon-chevron-up')) {
-            $(this).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        if (gilaki.hasClass('glyphicon-chevron-up')) {
+            gilaki.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             $(this).closest('.panel').find(".panel-body").slideUp();
         } else {
-            $(this).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            gilaki.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
             $(this).closest('.panel').find(".panel-body").slideDown();
         }
     }
@@ -617,8 +618,8 @@ $('#btn_addApplid_f33').on('click', function () {
         success: function (response) {
 
             item = response[0];
-            console.log(item);
-            console.log(response.length);
+            //console.log(item);
+            //console.log(response.length);
 
             if (response.length != 1) {
                 alert('მოიძებნა ' + response.length + ' ApplID')
@@ -650,7 +651,7 @@ $('#btn_addApplid_f33').on('click', function () {
 
                 tempApplID = item.ID;
                 $("#btn_f3submit").attr('disabled', false);
-                //console.log(response.IphoneModelID);
+                console.log(tempApplID);
             }
 
         }
@@ -836,19 +837,19 @@ $('.eye').on('click', function () {
 
 $('.passgen').on('click', function (event) {
 
-    console.log("es");
-    console.log(event.currentTarget.nodeName);
-    console.log(event);
-    console.log(this);
+    // console.log("es");
+    // console.log(event.currentTarget.nodeName);
+    // console.log(event);
+    // console.log(this);
     // if (confirm("გსურთ პაროლის შეცვლა?")) {
     //
-    //     var text = "";
-    //     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    //
-    //     for (var i = 0; i < 12; i++)
-    //         text += possible.charAt(Math.floor(Math.random() * possible.length));
-    //
-    //     $(this).closest('.input-group').find('input').val(text);
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    
+        for (var i = 0; i < 12; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+    
+        $(this).closest('.input-group').find('input').val(text);
     // } else {
     //     //txt = "You pressed Cancel!";
     // }

@@ -39,7 +39,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="agrFinish_f31">დახურვის თარიღი</label>
-                        <input type="date" id="agrFinish_f31" class="form-control" name="agrFinish" disabled>
+                        <input type="date" id="agrFinish_f31" class="form-control" name="agrFinish">
                     </td>
                     <td>
                         <label for="sel_status_f31">სტატუსი</label>
@@ -126,7 +126,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="sel_modeli_f322">მოდელი</label>
-                        <select class="form-control" id="sel_modeli_f322" name="modeli" required="true">
+                        <select class="form-control" id="sel_modeli_f322" name="modeli">
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -136,7 +136,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="ios_f322">iOS</label>
-                        <select class="form-control" id="ios_f322" name="ios" required="true">
+                        <select class="form-control" id="ios_f322" name="ios">
                             <option value="">Choose...</option>
                         </select>
                     </td>

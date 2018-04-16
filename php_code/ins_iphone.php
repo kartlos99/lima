@@ -7,9 +7,18 @@ $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
 
 $imei =  $_POST['imei'];
-$modeli = $_POST['modeli'];
+if ($_POST['modeli'] == ""){
+    $modeli = 0;
+}else {
+    $modeli = $_POST['modeli'];
+}
+
 $serial = $_POST['serialN'];
-$ios = $_POST['ios'];
+if ($_POST['ios'] == ""){
+    $ios = 0;
+}else {
+    $ios = $_POST['ios'];
+}
 $passRes = $_POST['passRes'];
 $passEnc = $_POST['passEnc'];
 $passLock = $_POST['passLock'];

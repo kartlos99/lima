@@ -14,20 +14,18 @@ if ($id == 0){
     $orgID = $_GET['orgid'];
 
     $sql = "
-SELECT
-  ap.ID
-FROM
-  `ApplID` ap
-  LEFT JOIN States st
-  ON ap.StateID = st.ID
-WHERE
-  st.Code = 'Active' AND ap.`OrganizationID` = $orgID AND ap.ID NOT IN(
-SELECT ip.ID FROM `Agreements` a 
-LEFT JOIN Iphone ip ON a.IphoneFixID = ip.ID
-LEFT JOIN States s ON a.StateID = s.ID
-WHERE s.Code = 'Active'
-)
-";
+    SELECT
+      ap.ID
+    FROM
+      `ApplID` ap
+      INNER JOIN States st ON ap.StateID = st.ID
+    WHERE
+      st.Code = 'Active' AND ap.`OrganizationID` = $orgID 
+      and not EXISTS (SELECT ag.ID from Agreements ag INNER JOIN States s on s.ID=ag.ID WHERE s.Code = 'Active' and ap.id=ag.ApplIDFixID)
+      
+    ORDER by rand ()
+    LIMIT 1
+    ";
 
     $result = mysqli_query($conn,$sql);
     $count = mysqli_num_rows($result);
@@ -36,8 +34,8 @@ WHERE s.Code = 'Active'
         foreach($result as $row){
             $arr[] = $row;
         }
-        $num = rand(1,$count);
-        $id = $arr[$num-1]['ID'];
+        //$num = rand(1,$count);
+        $id = $arr[0]['ID'];
     }else{
        // echo "ar moidzebna tavisufali applID!";
     }

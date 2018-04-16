@@ -25,7 +25,7 @@ include_once 'header.php';
                     </td>
                     <td>
                         <label for="sel_branch">ფილიალი</label>
-                        <select class="form-control" id="sel_branch" name="branch" disabled>
+                        <select class="form-control" id="sel_branch" name="branch">
                             <option value="">Choose...</option>
                         </select>
                     </td>
@@ -43,24 +43,15 @@ include_once 'header.php';
                             <option value="">Choose...</option>
                         </select>
                     </td>
-                    <td>
-                        <label for="agrStart1_f11">გაფორმების თარიღი (დან - მდე)</label>
-                        <table>
-                            <tr>
-                                <td><input type="date" id="agrStart1_f11" class="form-control" name="agrStart1"></td>
-                                <td><input type="date" id="agrStart2_f11" class="form-control" name="agrStart2"></td>
-                            </tr>
-                        </table>
+                    <td class="doubleinput">
+                        <label for="agrStart1_f11">გაფორმების თარიღი (დან - მდე)</label><br>
+                        <input type="date" id="agrStart1_f11" class="form-control" name="agrStart1">
+                        <input type="date" id="agrStart2_f11" class="form-control" name="agrStart2">
                     </td>
-
-                    <td>
-                        <label for="agrFinish1_f11">დახურვის თარიღი (დან - მდე)</label>
-                        <table>
-                            <tr>
-                                <td><input type="date" id="agrFinish1_f11" class="form-control" name="agrFinish1"></td>
-                                <td><input type="date" id="agrFinish2_f11" class="form-control" name="agrFinish2"></td>
-                            </tr>
-                        </table>
+                    <td class="doubleinput">
+                        <label for="agrFinish1_f11">დახურვის თარიღი (დან - მდე)</label><br>
+                        <input type="date" id="agrFinish1_f11" class="form-control" name="agrFinish1">
+                        <input type="date" id="agrFinish2_f11" class="form-control" name="agrFinish2">
                     </td>
                 </tr>
             </table>
@@ -91,7 +82,7 @@ include_once 'header.php';
             </table>
             </form>
 
-            <p>ძიების შედეგი</p>
+            <p>ძიების შედეგი (იძებნება MAX 20 ჩანაწერი)</p>
             <table id="table_f11" class="datatable"></table>
 
             <nav aria-label="Page navigation">
@@ -210,8 +201,7 @@ include_once 'header.php';
                 <tr>
                     <td>
                         <label for="sel_organization_f13">ორგანიზაცია</label>
-                        <select class="form-control" id="sel_organization_f13" name="organization"
-                                required>
+                        <select class="form-control" id="sel_organization_f13" name="organization">
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </td>

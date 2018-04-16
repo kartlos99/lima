@@ -6,13 +6,18 @@
  * Time: 1:36 PM
  */
 include_once '../config.php';
-$minDate = "2000-01-01";
+$minDate = "0000-00-00";
 $maxDate = "2100-01-01";
 $query = "";
+$Limit=" 
+Limit 20
+";
 
 $organization =  $_POST['organization'];
 if (isset($_POST['branch'])){
     $branch =  $_POST['branch'];
+} else {
+    $branch = "";
 }
 
 $agrN =  $_POST['agrN'];
@@ -72,11 +77,16 @@ LEFT JOIN Organizations o ON a.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
 
 WHERE a.Number like ('$agrN%')
+
  AND DATE(a.date) BETWEEN '$agrStart1' AND '$agrStart2'
+
  AND DATE(a.EndDate) BETWEEN '$agrFinish1' AND '$agrFinish2'
 ";
 
 $sql = $sql.$query;
+
+$sql=$sql.$Limit;
+//echo $sql;
 
 $result = mysqli_query($conn,$sql);
 

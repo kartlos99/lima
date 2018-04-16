@@ -8,7 +8,7 @@ var currApplID = 0;
 var org_p1 = 0;
 var org_p3 = 0;
 
-<!--    organizaciebis chamonatvali -->
+//<!--    organizaciebis chamonatvali -->
 $.ajax({
     url: '../php_code/get_organizations.php',
     method: 'get',
@@ -21,10 +21,10 @@ $.ajax({
     }
 });
 
-<!--    statusebi agreement -->
+//<!--    statusebi agreement -->
 $('#sel_status_f11').empty();
 $.ajax({
-    url: '../php_code/get_statuses.php?objname=ApplID',
+    url: '../php_code/get_statuses.php?objname=Agreements',
     method: 'get',
     dataType: 'json',
     success: function (response) {
@@ -36,10 +36,10 @@ $.ajax({
     }
 });
 
-<!--    statusebi ApplID -->
+//<!--    statusebi ApplID -->
 $('#sel_status_f13').empty();
 $.ajax({
-    url: '../php_code/get_statuses.php?objname=Agreements',
+    url: '../php_code/get_statuses.php?objname=ApplID',
     method: 'get',
     dataType: 'json',
     success: function (response) {
@@ -51,7 +51,7 @@ $.ajax({
     }
 });
 
-<!--    modelebi form11 -->
+//<!--    modelebi form11 -->
 $('#sel_modeli_f11').empty();
 $.ajax({
     url: '../php_code/get_dictionaryitems.php?code=iPhoneModels',

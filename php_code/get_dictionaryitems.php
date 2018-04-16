@@ -14,8 +14,7 @@ $code = $_GET['code'];
 SELECT di.ID, di.Code, di.`ValueText` FROM `DictionariyItems` di
 LEFT JOIN Dictionaries d
 ON di.`DictionaryID` = d.ID
-WHERE d.Code = '$code' 
-order by SortID
+WHERE d.Code = '$code'
 ";
 
 $result = mysqli_query($conn,$sql);
