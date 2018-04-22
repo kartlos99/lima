@@ -9,6 +9,7 @@ var tempIphoneID = 0;
 var currApplID = 0;
 var tempApplID = 0;
 var currOrg = 0;
+var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
 
 <!--    organizaciebis chamonatvali -->
 $.ajax({
@@ -173,6 +174,9 @@ function getAgreement() {
                     $("#pan_f31 .panel-body input").attr('readonly', true);
                     $("#pan_f31 .panel-body select").attr('disabled', true);
                     //console.log(response.IphoneModelID);
+                    $('#pan_f31 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
+                    causer = item.CreateUser;
+                    cadate = item.CreateDate ;
                 }
             } else {
                 alert('ხელშეკრულება არ იძებნება')
@@ -278,7 +282,9 @@ $('#sel_organization_f31').on('change', function () {
 
 $('#btn_addiphone_f31').on('click', function () {
     pan2Active = true;
-    $("#pan_f32 span.glyphicon").trigger('click');
+    $('#pan_f32').find(".panel-body").slideDown();
+    $("#pan_f32 span.glyphicon-chevron-down").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+    //$("#pan_f32 span.glyphicon").trigger('click');
     $('#d_f322').find('input').attr('readonly', true);
     $("#d_f322 select").attr('disabled', true);
 
@@ -377,6 +383,9 @@ function getIphoneData(url) {
                 $('#comment_f324').val(item.Comment);
 
                 //console.log(response.IphoneModelID);
+                $('#pan_f32 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
+                ciuser = item.CreateUser;
+                cidate = item.CreateDate ;
             }
 
         }
@@ -469,29 +478,55 @@ $('#form_32').on('submit', function (event) {
     event.preventDefault();
     $('#agrID_f32').val(currAgreementID);
     $('#iphoneID_f32').val(tempIphoneID);
+    var im = $('#imei_f322').val();
+    var ep = $('#pass_enc_f32').val();
+    var chek = true;
 
     console.log($(this).serialize());
-
-    $.ajax({
-        url: '../php_code/ins_iphone.php',
-        method: 'post',
-        data: $(this).serialize(),
-        success: function (response) {
-            if (response != 'myerror') {
-                $('#d_f324').find('button').attr('disabled', false);
-                currIphoneID = response;
-                tempIphoneID = response;
-            } else {
-                alert(response);
-            }
-            console.log(response);
+    if (im.length != 15){
+        alert("შეავსეთ IMEI გრაფა!");
+        chek = false;
+    }else {
+        if (!(ep.length == 6 || ep.length == 4 || ep.length == 0)) {
+            alert("Encryption Password უნდა იყოს 4 ან 6 ციფრი!");
+            chek = false;
         }
-    });
+    }
+
+    if (chek) {
+        $.ajax({
+            url: '../php_code/ins_iphone.php',
+            method: 'post',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                if (response.error == '') {
+
+                    $('#d_f324').find('button').attr('disabled', false);
+                    currIphoneID = response.id;
+                    tempIphoneID = response.id;
+
+                    if (ciuser == ''){
+                        ciuser = response.info_cuser;
+                        cidate = response.info_cdate;
+                    }
+                    $('#pan_f32 span.panel-info').text("შექმნა: "+ ciuser + " "+ cidate +" / რედაქტირება: " + response.info_muser + " " + response.info_mdate + " ");
+                    alert("წარმატებით განხორციელდა ტელეფონის მონაცემების შენახვა");
+
+                } else {
+
+                    alert(response.error);
+                }
+                console.log(response);
+            }
+        });
+    }
 });
 
 $('#btn_addapplid_f32').on('click', function () {
     pan3Active = true;
-    $("#pan_f33 span.glyphicon").trigger('click');
+    $('#pan_f33').find(".panel-body").slideDown();
+    $("#pan_f33 span.glyphicon-chevron-down").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 
     $('#email_f33').attr('readonly', true).val("");
     $('#emailpass_f33').attr('readonly', true).val("");
@@ -602,6 +637,9 @@ $('#btn_get_f33').on('click', function () {
                 $("#btn_f3submit").attr('disabled', false);
 
                 //console.log(response.IphoneModelID);
+                $('#pan_f33 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
+                capuser = item.CreateUser;
+                capdate = item.CreateDate ;
             }
 
         }
@@ -651,6 +689,10 @@ $('#btn_addApplid_f33').on('click', function () {
 
                 tempApplID = item.ID;
                 $("#btn_f3submit").attr('disabled', false);
+
+                $('#pan_f33 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
+                capuser = item.CreateUser;
+                capdate = item.CreateDate ;
                 console.log(tempApplID);
             }
 
@@ -676,12 +718,15 @@ $('#form_33').on('submit', function (event) {
         url: '../php_code/upd_applid_agr.php',
         method: 'post',
         data: $(this).serialize(),
+        dataType: 'json',
         success: function (response) {
-            if (response != 'myerror') {
+            if (response.error == '') {
                 $("#btn_f3edit").attr('disabled', false);
                 currApplID = tempApplID;
+                $('#pan_f33 span.panel-info').text("შექმნა: "+ capuser + " "+ capdate +" / რედაქტირება: " + response.info_muser + " " + response.info_mdate);
+                alert("წარმატებით განხორციელდა AppleID-ის მონაცემების შენახვა");
             } else {
-                alert(response);
+                alert(response.error);
             }
             console.log(response);
         }
@@ -749,7 +794,7 @@ var currmailid = '0';
 
 $('#form_31').on('submit', function (event) {
     event.preventDefault();
-
+    $('#sel_organization_f31').attr('disabled', false);
     $('#agrID_f31').val(currAgreementID);
     $('#iphoneID_f31').val(currIphoneID);
     $('#applid_ID_f31').val(currApplID);
@@ -759,17 +804,25 @@ $('#form_31').on('submit', function (event) {
         url: '../php_code/ins_agreement.php',
         method: 'post',
         data: $(this).serialize(),
+        dataType: 'json',
         success: function (response) {
-            if (response.length <= 5) {
+            $('#sel_organization_f31').attr('disabled', true);
+            if (response.error == "") {
 
-                    currAgreementID = response;
+                    currAgreementID = response.id;
                     $('#btn_edit_f31').attr('disabled', false);
                     $('#btn_addiphone_f31').attr('disabled', false);
                     $('#btn_save_f31').attr('disabled', true).text("განახლება");
                     $("#pan_f31 .panel-body input").attr('readonly', true);
                     $("#pan_f31 .panel-body select").attr('disabled', true);
 
+                    if (causer == ''){
+                        causer = response.info_cuser;
+                        cadate = response.info_cdate;
+                    }
+                    $('#pan_f31 span.panel-info').text("შექმნა: "+ causer + " "+ cadate +" / რედაქტირება: " + response.info_muser + " " + response.info_mdate + " ");
 
+                    alert("წარმატებით განხორციელდა ხელშკრულების შენახვა");
 //                    $('#block2').show();
 //
 //                    $('#appl_id').val($('#email').val() + '@' + $('#sel_domain option:selected').text());
@@ -781,7 +834,7 @@ $('#form_31').on('submit', function (event) {
 //                        d.getHours() + ":" + d.getMinutes());
 
             } else {
-                alert(response);
+                alert(response.error);
             }
             console.log(response);
         }
@@ -837,12 +890,8 @@ $('.eye').on('click', function () {
 
 $('.passgen').on('click', function (event) {
 
-    // console.log("es");
-    // console.log(event.currentTarget.nodeName);
-    // console.log(event);
-    // console.log(this);
-    // if (confirm("გსურთ პაროლის შეცვლა?")) {
-    //
+    if (confirm("გსურთ პაროლის შეცვლა?")) {
+
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     
@@ -850,13 +899,32 @@ $('.passgen').on('click', function (event) {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
     
         $(this).closest('.input-group').find('input').val(text);
-    // } else {
-    //     //txt = "You pressed Cancel!";
-    // }
 
-
+        if ($(this).attr('id') == "btn_f33ApplPassGen"){
+            $(this).attr('disabled',true);
+            $(this).closest('.input-group').find('input').attr('readonly',true);
+        }
+    }
 });
 
+$('.passgen4').on('click', function (event) {
+    if (confirm("გსურთ პაროლის შეცვლა?")) {
+
+        var text = "";
+        var possible = "0123456789";
+
+        for (var i = 0; i < 4; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        $(this).closest('.input-group').find('input').val(text);
+    }
+});
+
+
+// $('#btn_f33ApplPassGen').on('click', function (event) {
+//     $(this).attr('disabled',true);
+//     $(this).closest('.input-group').find('input').attr('readonly',true);
+// });
 
 //
 //$('#email').on('keyup', function() {

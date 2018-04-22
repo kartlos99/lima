@@ -27,11 +27,11 @@
     width: 100%;
 }
 .pan-header-left {
-    width: 50%;
+    width: 33%;
     text-align: left;
 }
 .pan-header-right {
-    width: 50%;
+    width: 67%;
     text-align: right;
 }
 

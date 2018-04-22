@@ -140,6 +140,10 @@ $('#form_11').on('submit', function(event){
                 $('#table_f11').empty().html(table11_hr);
                 console.log(response);
 
+                if (response.length == 0){
+                    alert("არ მოიძებნა ჩანაწერი");
+                }
+
                 response.forEach(function (item) {
 
                     var td_number = $('<td />').text(item.Number);
@@ -185,6 +189,10 @@ $('#form_13').on('submit', function(event){
             $('#table_f13').empty().html(table13_hr);
             console.log(response);
 
+            if (response.length == 0){
+                alert("არ მოიძებნა ჩანაწერი");
+            }
+
             response.forEach(function (item) {
 
                 var td_number = $('<td />').text(item.ID);
@@ -222,6 +230,17 @@ $(function(){
     $('#table_f13').empty().html(table13_hr);
 });
 
+
+$(".panel-heading").on('click', function (el) {
+    var gilaki = $(this).find("span.glyphicon");
+        if (gilaki.hasClass('glyphicon-chevron-up')) {
+            gilaki.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            $(this).closest('.panel').find(".panel-body").slideUp();
+        } else {
+            gilaki.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            $(this).closest('.panel').find(".panel-body").slideDown();
+        }
+});
 
 
 var table11_hr = "<tr>\n" +

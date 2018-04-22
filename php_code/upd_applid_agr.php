@@ -35,8 +35,9 @@ $agrID = $_POST['agrID'];
 $applid_ID = $_POST['applid_ID'];
 //print_r($_POST);
 //print_r($_SESSION);
+$backinfo = ['id' => 0, 'error' => "", 'info_cuser' => "", 'info_cdate' => "", 'info_muser' => "", 'info_mdate' => ""];
 
-if ($emailID != "" || $emailID != "0"){
+if ($emailID != "" && $emailID != "0"){
 
     $sql = "
     UPDATE
@@ -50,7 +51,7 @@ if ($emailID != "" || $emailID != "0"){
       id = $emailID
     ";
     if (!mysqli_query($conn, $sql)){
-        echo "mail update error!";
+        $backinfo['error'] = "mail update error!";
     }
 
 }
@@ -84,9 +85,11 @@ WHERE
 
     $result = mysqli_query($conn, $sql);
     if ($result) {
-        echo 'ok';
+        //echo 'ok';
+        $backinfo['info_muser'] = $currUser;
+        $backinfo['info_mdate'] = date("Y-m-d H:i", time());
     } else {
-        echo $sql;//'myerror';
+        $backinfo['error'] = $sql;//'myerror';
     }
 
 
@@ -168,11 +171,13 @@ WHERE
   id = $agrID
   ";
 
+$backinfo['id'] = $applid_ID;
+
 if (!mysqli_query($conn, $sql)){
-    echo "update error!";
+    $backinfo['error'] = "update error!";
 }
 
-//echo $fixID;
+echo json_encode($backinfo);
 $conn->close();
 
 ?>

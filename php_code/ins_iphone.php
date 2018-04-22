@@ -43,6 +43,7 @@ $agrID = $_POST['agrID'];
 $iphoneID = $_POST['iphoneID'];
 //print_r($_POST);
 //print_r($_SESSION);
+$backinfo = ['id' => 0, 'error' => "", 'info_cuser' => "", 'info_cdate' => "", 'info_muser' => "", 'info_mdate' => ""];
 
 
     $sql_chek = "SELECT code FROM `States` WHERE id = '$status'";
@@ -125,10 +126,15 @@ WHERE
     if ($result) {
         if ($iphoneID == 0){
             $iphoneID = mysqli_insert_id($conn); //'ok';
+            $backinfo['info_cuser'] = $currUser;
+            $backinfo['info_cdate'] = date("Y-m-d H:i", time());
+        } else{
+            $backinfo['info_muser'] = $currUser;
+            $backinfo['info_mdate'] = date("Y-m-d H:i", time());
         }
-        //echo mysqli_insert_id($conn); //'ok';
+        $backinfo['id'] = $iphoneID;
     } else {
-        echo 'myerror';
+        $backinfo['error'] = 'myerror';
     }
 //echo $sql;
 
@@ -198,10 +204,10 @@ WHERE
   ";
 
 if (!mysqli_query($conn, $sql)){
-    echo "myerror!";
+    $backinfo['error'] = "myerror!";
 }
 
-echo $iphoneID;
+echo json_encode($backinfo);
 $conn->close();
 
 ?>

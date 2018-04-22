@@ -8,7 +8,7 @@ include_once 'header.php';
             <table id="table_p1_header" class="pan-header">
                 <tr>
                     <td class="pan-header-left">ხელშეკრულება</td>
-                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td class="pan-header-right"><span class="panel-info"></span><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -81,7 +81,7 @@ include_once 'header.php';
             <table id="table_p1_header" class="pan-header">
                 <tr>
                     <td class="pan-header-left">iPhone</td>
-                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
+                    <td class="pan-header-right"><span class="panel-info"></span><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -122,7 +122,7 @@ include_once 'header.php';
                 <tr>
                     <td>
                         <label for="imei_f322">IMEI</label>
-                        <input type="text" class="form-control" id="imei_f322" placeholder="" name="imei">
+                        <input type="text" class="form-control" id="imei_f322" maxlength="15" minlength="15" name="imei" required>
                     </td>
                     <td>
                         <label for="sel_modeli_f322">მოდელი</label>
@@ -156,10 +156,10 @@ include_once 'header.php';
                         <label for="pass_res_f32">Restriction Password</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="pass_res_f32" placeholder="" name="passRes">
+                            <input type="text" class="form-control" id="pass_res_f32" name="passRes" maxlength="4" minlength="4">
 
                             <div class="input-group-btn">
-                                <button class="btn btn-default passgen" type="button"><span
+                                <button id="RP_gen" class="btn btn-default passgen4" type="button"><span
                                         class="glyphicon glyphicon-refresh"
                                         aria-hidden="true"></span></button>
                                 <button class="btn btn-default eye" type="button"><span
@@ -173,10 +173,10 @@ include_once 'header.php';
                         <label for="pass_enc_f32">Encryption Password</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="pass_enc_f32" placeholder="" name="passEnc">
+                            <input type="text" class="form-control" id="pass_enc_f32" name="passEnc" maxlength="6" minlength="4">
 
                             <div class="input-group-btn">
-                                <button class="btn btn-default passgen" type="button"><span
+                                <button class="btn btn-default passgen4" type="button"><span
                                         class="glyphicon glyphicon-refresh"
                                         aria-hidden="true"></span></button>
                                 <button class="btn btn-default eye" type="button"><span
@@ -261,7 +261,7 @@ include_once 'header.php';
             <table id="table_p1_header" class="pan-header">
                 <tr>
                     <td class="pan-header-left">Apple ID</td>
-                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
+                    <td class="pan-header-right"><span class="panel-info"></span><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -358,7 +358,7 @@ include_once 'header.php';
                                 <input type="text" class="form-control" id="appl_id_pass_f33" placeholder="appl id pass" name="applidpass">
 
                                 <div class="input-group-btn">
-                                    <button class="btn btn-default passgen" type="button"><span
+                                    <button id="btn_f33ApplPassGen" class="btn btn-default passgen" type="button"><span
                                             class="glyphicon glyphicon-refresh"
                                             aria-hidden="true"></span></button>
                                     <button class="btn btn-default eye" type="button"><span
