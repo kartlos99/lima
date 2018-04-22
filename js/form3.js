@@ -10,6 +10,7 @@ var currApplID = 0;
 var tempApplID = 0;
 var currOrg = 0;
 var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
+var reasonEdit = false;
 
 <!--    organizaciebis chamonatvali -->
 $.ajax({
@@ -123,6 +124,7 @@ $('#pan_f31').on('click', function () {
 
 
 function getAgreement() {
+    reasonEdit = true;
     $.ajax({
         url: '../php_code/get_agreement.php?id=' + currAgreementID,
         method: 'get',
@@ -173,6 +175,8 @@ function getAgreement() {
                     $("#btn_edit_f31").attr('disabled', false);
                     $("#pan_f31 .panel-body input").attr('readonly', true);
                     $("#pan_f31 .panel-body select").attr('disabled', true);
+                    $("#btn_save_f31").attr('disabled', true);
+
                     //console.log(response.IphoneModelID);
                     $('#pan_f31 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
                     causer = item.CreateUser;
@@ -388,6 +392,15 @@ function getIphoneData(url) {
                 cidate = item.CreateDate ;
             }
 
+            $('#form_32 input').attr('readonly', true);
+            $('#form_32 select').attr('disabled', true);
+            $('#simfree_f322').attr('disabled', true);
+
+            if (reasonEdit){
+                $('#btn_edit_f32').attr('disabled', false);
+                $('#btn_save_f32').attr('disabled', true);
+            }
+
         }
     });
 }
@@ -502,7 +515,6 @@ $('#form_32').on('submit', function (event) {
             success: function (response) {
                 if (response.error == '') {
 
-                    $('#d_f324').find('button').attr('disabled', false);
                     currIphoneID = response.id;
                     tempIphoneID = response.id;
 
@@ -513,6 +525,12 @@ $('#form_32').on('submit', function (event) {
                     $('#pan_f32 span.panel-info').text("შექმნა: "+ ciuser + " "+ cidate +" / რედაქტირება: " + response.info_muser + " " + response.info_mdate + " ");
                     alert("წარმატებით განხორციელდა ტელეფონის მონაცემების შენახვა");
 
+                    $('#form_32 input').attr('readonly', true);
+                    $('#form_32 select').attr('disabled', true);
+                    $('#simfree_f322').attr('disabled', true);
+
+                    $('#d_f324').find('button').attr('disabled', false);
+                    $('#btn_save_f32').attr('disabled', true);
                 } else {
 
                     alert(response.error);
@@ -523,15 +541,23 @@ $('#form_32').on('submit', function (event) {
     }
 });
 
+$('#btn_edit_f32').on('click', function () {
+    $('#form_32 input').attr('readonly', false);
+    $('#form_32 select').attr('disabled', false);
+    $('#simfree_f322').attr('disabled', false);
+
+    $('#d_f324').find('button').attr('disabled', false);
+    $('#btn_edit_f32').attr('disabled', true);
+});
+
 $('#btn_addapplid_f32').on('click', function () {
     pan3Active = true;
     $('#pan_f33').find(".panel-body").slideDown();
     $("#pan_f33 span.glyphicon-chevron-down").removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
 
-    $('#email_f33').attr('readonly', true).val("");
-    $('#emailpass_f33').attr('readonly', true).val("");
-    $("#sel_organization_f33").attr('disabled', true);
-
+    $('#form_33 input').attr('readonly', true);
+    $('#form_33 select').attr('disabled', true);
+    $('#form_33 button.passgen').attr('disabled', true);
 
     $("#btn_f3edit").attr('disabled', true);
     $("#btn_f3submit").attr('disabled', true);
@@ -635,6 +661,7 @@ $('#btn_get_f33').on('click', function () {
                 $('#email_ID_f33').val(item.AplAccountEmailID);
 
                 $("#btn_f3submit").attr('disabled', false);
+                $("#btn_f3edit").attr('disabled', false);
 
                 //console.log(response.IphoneModelID);
                 $('#pan_f33 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
@@ -689,6 +716,7 @@ $('#btn_addApplid_f33').on('click', function () {
 
                 tempApplID = item.ID;
                 $("#btn_f3submit").attr('disabled', false);
+                $("#btn_f3edit").attr('disabled', false);
 
                 $('#pan_f33 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
                 capuser = item.CreateUser;
@@ -701,6 +729,20 @@ $('#btn_addApplid_f33').on('click', function () {
 
 });
 
+$('#btn_f3edit').on('click', function () {
+    $('#form_33 input').attr('readonly', false);
+    $('#form_33 select').attr('disabled', false);
+    $('#form_33 button.passgen').attr('disabled', false);
+
+    $('#email_f33').attr('readonly', true);
+    $('#emailpass_f33').attr('readonly', true);
+    $("#sel_organization_f33").attr('disabled', true);
+    $("#btn_f3edit").attr('disabled', true);
+    $("#btn_f3submit").attr('disabled', false);
+
+    $('#appl_id_pass_f33').attr('readonly', true);
+    $('#appl_id_f33').attr('readonly', true);
+});
 
 $('#btn_f3submit').on('click', function () {
 
@@ -711,6 +753,7 @@ $('#form_33').on('submit', function (event) {
     event.preventDefault();
     $('#agrID_f33').val(currAgreementID);
     $('#applid_ID_f33').val(tempApplID);
+    $('#form_33 select').attr('disabled', false);
 
     console.log($(this).serialize());
 
@@ -722,6 +765,10 @@ $('#form_33').on('submit', function (event) {
         success: function (response) {
             if (response.error == '') {
                 $("#btn_f3edit").attr('disabled', false);
+                $("#btn_f3submit").attr('disabled', true);
+                $('#form_33 input').attr('readonly', true);
+                $('#form_33 select').attr('disabled', true);
+                $('#form_33 button.passgen').attr('disabled', true);
                 currApplID = tempApplID;
                 $('#pan_f33 span.panel-info').text("შექმნა: "+ capuser + " "+ capdate +" / რედაქტირება: " + response.info_muser + " " + response.info_mdate);
                 alert("წარმატებით განხორციელდა AppleID-ის მონაცემების შენახვა");

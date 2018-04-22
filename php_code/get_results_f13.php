@@ -11,6 +11,8 @@ $maxDate = "2100-01-01";
 $query = "";
 $applid = 0;
 $status = 0;
+$allFields = "SELECT a.ID, a.AplApplID, o.OrganizationName, b.BranchName, s.Value AS st ";
+$s_count = "SELECT count(a.ID) AS n ";
 
 $organization =  $_POST['organization'];
 //$branch =  $_POST['branch'];
@@ -49,24 +51,28 @@ if ($applid != ""){
 
 if ($query != ""){
     
-        $sql = "
-    SELECT a.ID, a.AplApplID, o.OrganizationName, b.BranchName, s.Value AS st FROM `ApplID` a
+        $sql = " FROM `ApplID` a
     LEFT JOIN Organizations o ON a.OrganizationID = o.ID
     LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
     LEFT JOIN States s ON a.StateID = s.ID
     
     WHERE 
     ";
-    
-    $sql = $sql.$query." limit 0, 50";
-    
-    
+
+    $sql_count = $s_count.$sql.$query;
+    $sql = $allFields.$sql.$query." limit 0, 20";
+
     $result = mysqli_query($conn,$sql);
-    
+    $result1 = mysqli_query($conn,$sql_count);
+
     $arr = array();
+    foreach($result1 as $row){
+        $arr[] = $row;
+    }
     foreach($result as $row){
         $arr[] = $row;
     }
+
     //echo $sql;
     echo(json_encode($arr));
 }

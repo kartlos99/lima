@@ -29,6 +29,9 @@ include_once 'header.php';
                             <option value="">Choose...</option>
                         </select>
                     </td>
+                    <td>
+                        <input id="onlyme_f11" type="checkbox" name="onlyme" value="1">მხოლოდ ჩემები
+                    </td>
                 </tr>
             </table>
             <table class="inputs">
@@ -82,7 +85,7 @@ include_once 'header.php';
             </table>
             </form>
 
-            <p>ძიების შედეგი (იძებნება MAX 20 ჩანაწერი)</p>
+            <p class="info">ძიების შედეგი (იძებნება MAX 20 ჩანაწერი)</p>
             <table id="table_f11" class="datatable"></table>
 
             <nav aria-label="Page navigation">
@@ -228,7 +231,7 @@ include_once 'header.php';
             </table>
             </form>
 
-            <p>ძიების შედეგი</p>
+            <p class="info">ძიების შედეგი</p>
             <table id="table_f13" class="datatable"></table>
 
             <nav aria-label="Page navigation">

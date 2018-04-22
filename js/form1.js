@@ -127,9 +127,9 @@ $('#form_11').on('submit', function(event){
     console.log($(this).serialize());
     console.log($('#sel_branch').val());
 
-    if ($('#agrN_f11').val() == "" && $('#imei_f11').val() == "" && $('#serialN_f11').val() == "" && $('#applID_f11').val() == "" ){
-        alert("შეავსეთ ძიების პარამეტრები");
-    }else {
+    // if ($('#agrN_f11').val() == "" && $('#imei_f11').val() == "" && $('#serialN_f11').val() == "" && $('#applID_f11').val() == "" ){
+    //     alert("შეავსეთ ძიების პარამეტრები");
+    // }else {
 
         $.ajax({
             url: '../php_code/get_results_f11.php',
@@ -140,9 +140,12 @@ $('#form_11').on('submit', function(event){
                 $('#table_f11').empty().html(table11_hr);
                 console.log(response);
 
-                if (response.length == 0){
+                if (response[0].n == 0){
                     alert("არ მოიძებნა ჩანაწერი");
                 }
+                $('#pan_f11 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
+                response.splice(0,1);
+                console.log(response);
 
                 response.forEach(function (item) {
 
@@ -160,7 +163,7 @@ $('#form_11').on('submit', function(event){
                 });
             }
         });
-    }
+    //}
 
 });
 
@@ -189,9 +192,11 @@ $('#form_13').on('submit', function(event){
             $('#table_f13').empty().html(table13_hr);
             console.log(response);
 
-            if (response.length == 0){
+            if (response[0].n == 0){
                 alert("არ მოიძებნა ჩანაწერი");
             }
+            $('#pan_f13 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
+            response.splice(0,1);
 
             response.forEach(function (item) {
 

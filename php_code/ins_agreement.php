@@ -43,7 +43,7 @@ if (strlen($agrN) > 0 && $agrN != "-") {
 }
 
 $rs1 = [];
-$sql = "SELECT Code FROM `states` WHERE id = $status";
+$sql = "SELECT Code FROM `States` WHERE id = $status";
 $rs = mysqli_query($conn, $sql);
 $rs1 = mysqli_fetch_assoc($rs);
 //print_r($rs1);
@@ -54,6 +54,11 @@ $ars1 = [];
 if ($rs1['Code'] == 'Active'){
     if ($agrN == "" || $agrN == "-"){
         $backinfo['error'] = "შეცვალეთ ხელშეკრულების ნომერი!";
+        echo json_encode($backinfo);
+        die();
+    }
+    if ($startdate == ""){
+        $backinfo['error'] = "შეავსეთ გაფორმების თარიღი!";
         echo json_encode($backinfo);
         die();
     }

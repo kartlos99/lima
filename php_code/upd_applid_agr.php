@@ -12,13 +12,29 @@ $applid = $_POST['applid'];
 $applidpass = $_POST['applidpass'];
 $bday = $_POST['bday'];
 $country = $_POST['country'];
-$rmail = $_POST['rmail'];
+if (isset($_POST['rmail'])) {
+    $rmail = $_POST['rmail'];
+}else {
+    $rmail = 0;
+}
 
-$q1 = $_POST['q1'];
+if (isset($_POST['q1'])) {
+    $q1 = $_POST['q1'];
+}else {
+    $q1 = 0;
+}
 $ans1 = $_POST['ans1'];
-$q2 = $_POST['q2'];
+if (isset($_POST['q2'])) {
+    $q2 = $_POST['q2'];
+}else {
+    $q2 = 0;
+}
 $ans2 = $_POST['ans2'];
-$q3 = $_POST['q3'];
+if (isset($_POST['q3'])) {
+    $q3 = $_POST['q3'];
+}else {
+    $q3 = 0;
+}
 $ans3 = $_POST['ans3'];
 
 $statusid = $_POST['status'];

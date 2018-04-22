@@ -355,7 +355,7 @@ include_once 'header.php';
                             <label for="appl_id_pass_f33">appl id pass</label>
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="appl_id_pass_f33" placeholder="appl id pass" name="applidpass">
+                                <input type="text" class="form-control" id="appl_id_pass_f33" name="applidpass" readonly>
 
                                 <div class="input-group-btn">
                                     <button id="btn_f33ApplPassGen" class="btn btn-default passgen" type="button"><span

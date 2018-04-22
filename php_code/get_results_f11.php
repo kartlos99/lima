@@ -6,12 +6,17 @@
  * Time: 1:36 PM
  */
 include_once '../config.php';
+session_start();
+$currUserID = $_SESSION['userID'];
 $minDate = "0000-00-00";
 $maxDate = "2100-01-01";
 $query = "";
 $Limit=" 
 Limit 20
 ";
+$allFields = "SELECT a.ID, a.Number, Date(a.Date) AS Date, s.Value AS status, IFNULL(i.PhIMEINumber, '-') AS IMEI, IFNULL(d.ValueText, '-') AS Model, IFNULL(apl.AplApplID, '-') AS ApplID, o.OrganizationName, b.BranchName ";
+$s_count = "SELECT count(a.ID) AS n ";
+$onlyme = "";
 
 $organization =  $_POST['organization'];
 if (isset($_POST['branch'])){
@@ -65,10 +70,12 @@ if ($serialN != ""){
 if ($applid != ""){
     $query = $query." and apl.AplApplID like ('$applid%')";
 }
+if (isset($_POST['onlyme'])){
+    $query = $query." and (a.CreateUserID = $currUserID or a.ModifyUserID = $currUserID)";
+}
 
 // Fix -ebi amoviget xmarebidan, droebit. da igive velshi vwert dziritadi cxrilis ID-s
-    $sql = "
-SELECT a.ID, a.Number, Date(a.Date) AS Date, s.Value AS status, IFNULL(i.PhIMEINumber, '-') AS IMEI, IFNULL(d.ValueText, '-') AS Model, IFNULL(apl.AplApplID, '-') AS ApplID, o.OrganizationName, b.BranchName FROM `Agreements` a
+    $sql = "FROM `Agreements` a
 LEFT JOIN States s ON a.`StateID` = s.ID
 LEFT JOIN Iphone i ON a.`IphoneFixID` = i.ID
 LEFT JOIN DictionariyItems d ON i.IphoneModelID = d.ID
@@ -83,17 +90,24 @@ WHERE a.Number like ('$agrN%')
  AND DATE(a.EndDate) BETWEEN '$agrFinish1' AND '$agrFinish2'
 ";
 
-$sql = $sql.$query;
+$sql_count = $s_count.$sql.$query;
 
-$sql=$sql.$Limit;
+$sql = $allFields.$sql.$query;
+
+$sql = $sql.$Limit;
 //echo $sql;
 
 $result = mysqli_query($conn,$sql);
+$result1 = mysqli_query($conn,$sql_count);
 
 $arr = array();
+foreach($result1 as $row){
+    $arr[] = $row;
+}
 foreach($result as $row){
     $arr[] = $row;
 }
+
 //echo $sql;
 echo(json_encode($arr));
 
