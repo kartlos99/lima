@@ -6,6 +6,10 @@
  * Time: 1:36 PM
  */
 include_once '../config.php';
+session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 $applid = $_GET['applid'];
 $res2 = "";
@@ -14,7 +18,7 @@ $resData = array();
 //$resData['view'] = 0;
 $resData['get'] = 0;
 //$resData['add'] = 0;
-$resData['AgreementRv'] = ", არ ფიქსირდება აქტიური სესხი";
+$resData['AgreementRv'] = ", არ ფიქსირდება სესხი";
 $resData['AgreementR'] = 0;   //-------------
 $resData['ProblemRv'] = "";  //-----
 $resData['ProblemR'] = 0;  //-----
@@ -23,11 +27,12 @@ $resData['AgrNumber'] = "";   //-------------
 $sesxi = false;
 $problem = false;
 
-    $sql = "
+$sql = "
 SELECT a.id, a.`AplApplID`, a.OrganizationID, s.code AS st FROM `ApplID` a
 LEFT JOIN States s
 ON a.StateID = s.ID
 WHERE `AplApplID` = '$applid'
+limit 1
     ";
 
 $result = mysqli_query($conn,$sql);
@@ -59,20 +64,27 @@ if ($count > 0){
     if ($count2 > 0){
         $resData['AgreementR'] = $count2;   //-------------
 
-        $data = mysqli_fetch_assoc($result2);
+        //$arr = array();
+        foreach($result2 as $data){
+            //  $arr[] = $data;
 
-        if ($data['Code'] == 'Active'){
-            $res2 = ", ფიქსირდება აქტიური სესხი";
-            $sesxi = true;
-            $resData['AgrNumber'] = $data['Number'];   //-------------
-        }
-        if ($data['Code'] == 'Project'){
-            $res2 = ", ფიქსირდება აქტიური ხელშეკრულების პროექტი";
-            $sesxi = true;
-            $resData['AgrNumber'] = $data['Number'];   //-------------
+            if ($data['Code'] == 'Active'){
+                $res2 .= ", ფიქსირდება აქტიური სესხი";
+                $sesxi = true;
+                $resData['AgrNumber'] = $data['Number'];   //-------------
+            }
+            if ($data['Code'] == 'Project'){
+                $res2 .= ", ფიქსირდება აქტიური ხელშეკრულების პროექტი";
+                $sesxi = true;
+                $resData['AgrNumber'] = $data['Number'];   //-------------
+            }
+            if ($data['Code'] == 'Closed'){
+                $res2 .= ", ფიქსირდება დასრულებული ხელშეკრულება";
+
+            }
         }
     }else{
-        $res2 = ", არ ფიქსირდება აქტიური სესხი";
+        $res2 = ", არ ფიქსირდება სესხი";
         $resData['AgreementR'] = 0;   //-------------
     }
     $resData['AgreementRv'] = $res2;    //-------------
@@ -81,8 +93,7 @@ if ($count > 0){
         $resData['ProblemRv'] = ", პრობლემური";
         $resData['ProblemR'] = 1;  //-----------
         $problem = true;
-    }
-    if ($arr['st'] != 'Active'){
+    } elseif ($arr['st'] != 'Active'){
         $problem = true;
         $resData['ProblemRv'] = ", არა აქტიური ApplID";
     }
@@ -93,9 +104,7 @@ if ($count > 0){
     //$resData['add'] = 1;
 }
 
-if ($sesxi || $problem){
-    $resData['get'] = 0;
-}else{
+if (!($sesxi || $problem) && $count > 0){
     $resData['get'] = 1;
 }
 

@@ -1,6 +1,7 @@
 var currApplID = 0;
 
 $('#block2').hide();
+$('button').addClass('btn-sm');
 
 <!--    organizaciebis chamonatvali -->
 $.ajax({

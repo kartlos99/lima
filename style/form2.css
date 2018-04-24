@@ -1,3 +1,6 @@
+body {
+    font-size: 12px;
+}
 #email {
     display: inline;
     width: 80%;
@@ -42,7 +45,7 @@ table.inputs{
 }
 
 table.inputs td{
-    padding: 8px !important;
+    padding: 2px 8px !important;
     /*width: fit-content;*/
 }
 
@@ -57,4 +60,31 @@ input[type=date] {
 .doubleinput input {
     display: inline;
     width: 48%;
+}
+
+.form-control {
+    height: 30px;
+    padding: 2px 12px;
+}
+
+.btn {
+    /*height: 30px;*/
+}
+
+p {
+    color: #20436b;
+    border: 2px solid transparent;
+    border-bottom-width: 2px;
+    border-bottom-color: #3073ab;
+    margin: 5px 1px;
+    font-weight: bold;
+}
+
+label {
+    color: #676767;
+}
+
+.iconsweet {
+    font-family: iconSweets;
+    font-weight: normal;
 }

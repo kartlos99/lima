@@ -8,6 +8,8 @@ var currApplID = 0;
 var org_p1 = 0;
 var org_p3 = 0;
 
+$('button').addClass('btn-sm');
+
 //<!--    organizaciebis chamonatvali -->
 $.ajax({
     url: '../php_code/get_organizations.php',
@@ -235,6 +237,19 @@ $(function(){
     $('#table_f13').empty().html(table13_hr);
 });
 
+function f_show(){
+    console.log(getCookie('f11_pos'));
+    if (getCookie('f11_pos') != "0" && getCookie('f11_pos') != "organization=&branch=&agrN=&status=0&agrStart1=&agrStart2=&agrFinish1=&agrFinish2=&imei=&modeli=0&serialN=&applid="){
+        $('#form_11').trigger('submit');
+        document.cookie = "f11_pos=0";
+    }
+    console.log(getCookie('f11_pos'));
+}
+
+function f_hide(){
+    console.log("hide");
+    document.cookie = "f11_pos=" + $('#form_11').serialize();
+}
 
 $(".panel-heading").on('click', function (el) {
     var gilaki = $(this).find("span.glyphicon");
@@ -266,3 +281,19 @@ var table13_hr = "<tr>\n" +
     "        <th>ორგანიზაცია/ფილიალი</th>\n" +
     "        <th>სტატუსი</th>\n" +
     "        </tr>";
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}

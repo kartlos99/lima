@@ -31,7 +31,7 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="../style/form2.css">
 
 </head>
-<body>
+<body onpageshow="f_show()" onpagehide="f_hide()">
 
 <div class="wrapper">
     <!-- Sidebar Holder -->

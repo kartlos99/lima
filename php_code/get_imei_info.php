@@ -6,6 +6,10 @@
  * Time: 1:36 PM
  */
 include_once '../config.php';
+session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 $imei = $_GET['imei'];
 $res2 = "";
@@ -14,7 +18,7 @@ $resData = array();
 $resData['view'] = 0;
 $resData['get'] = 0;
 $resData['add'] = 0;
-$resData['AgreementRv'] = ", არ ფიქსირდება აქტიური სესხი";
+$resData['AgreementRv'] = ", არ ფიქსირდება სესხი";
 $resData['AgreementR'] = 0;   //-------------
 $resData['BlackListRv'] = ", არ ფიქსირდება პრობლემა";  //-----
 $resData['BlackListR'] = 0;  //-----
@@ -40,34 +44,38 @@ if ($count > 0){
     $resData['view'] = 1;
 
 
-$sql = "
-SELECT s.Code FROM `Agreements` a
-LEFT JOIN
-Iphone p
-ON a.`IphoneFixID` = p.ID
-LEFT JOIN
-States s
-ON a.`StateID` = s.ID
-WHERE p.PhIMEINumber = '$imei'
-        ";
+    $sql = "SELECT s.Code FROM `Agreements` a
+            LEFT JOIN
+            Iphone p
+            ON a.`IphoneFixID` = p.ID
+            LEFT JOIN
+            States s
+            ON a.`StateID` = s.ID
+            WHERE p.PhIMEINumber = '$imei' ";
 
     $result2 = mysqli_query($conn,$sql);
     $count2 = mysqli_num_rows($result2);
 
-    $resData['AgreementR'] = $count2;   //-------------
     if ($count2 > 0){
-        $data = mysqli_fetch_assoc($result2);
-        if ($data['Code'] == 'Active'){
-            $res2 = ", ფიქსირდება აქტიური სესხი";
-            $sesxi = true;
-        }
-        if ($data['Code'] == 'Project'){
-            $res2 = ", ფიქსირდება აქტიური ხელშეკრულების პროექტი";
-            $sesxi = true;
+
+        $res2 = ", არ ფიქსირდება აქტიური სესხი";
+
+        foreach ($result2 as $data) {
+
+            if ($data['Code'] == 'Active') {
+                $res2 = ", ფიქსირდება აქტიური სესხი";
+                $sesxi = true;
+            }
+            if ($data['Code'] == 'Project') {
+                $res2 = ", ფიქსირდება აქტიური ხელშეკრულების პროექტი";
+                $sesxi = true;
+            }
         }
     }else{
-        $res2 = ", არ ფიქსირდება აქტიური სესხი";
+        $res2 = ", არ ფიქსირდება სესხი";
     }
+
+    $resData['AgreementR'] = $count2;   //-------------
     $resData['AgreementRv'] = $res2;    //-------------
 
     if ($arr['st'] == 'problem'){

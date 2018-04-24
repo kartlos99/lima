@@ -12,6 +12,8 @@ var currOrg = 0;
 var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
 var reasonEdit = false;
 
+$('button').addClass('btn-sm');
+
 <!--    organizaciebis chamonatvali -->
 $.ajax({
     url: '../php_code/get_organizations.php',
@@ -329,6 +331,9 @@ $('#btn_go_f32').on('click', function () {
             dataType: 'json',
             success: function (response) {
 
+                if (response.PhoneR > 1) {
+                    alert("იძებნება რამდენიმე ტელეფონი მითითებულ IMEI-ზე!");
+                }
 
                 if (response.view == 1) {
                     $('#btn_view_f32').attr('disabled', false);
@@ -605,8 +610,13 @@ $('#btn_go_f33').on('click', function () {
                     $('#btn_get_f33').attr('disabled', false);
                 }
 
-                if (response.orgID != currOrg){
+                if (response.orgID != currOrg && response.orgID != 0){
                     alert("Appl ID სხვა ორგანიზაციაზეა რეგისტრირებული!");
+                    $('#btn_get_f33').attr('disabled', true);
+                }
+
+                if (response.AppleIDR > 1) {
+                    alert("იძებნება რამდენიმე Appl ID !!!");
                     $('#btn_get_f33').attr('disabled', true);
                 }
 
