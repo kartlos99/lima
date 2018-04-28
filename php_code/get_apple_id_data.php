@@ -15,16 +15,25 @@ if ($id == 0){
 
     $sql = "
     SELECT
-      ap.ID
-    FROM
-      `ApplID` ap
-      INNER JOIN States st ON ap.StateID = st.ID
-    WHERE
-      st.Code = 'Active' AND ap.`OrganizationID` = $orgID 
-      and not EXISTS (SELECT ag.ID from Agreements ag INNER JOIN States s on s.ID=ag.ID WHERE s.Code = 'Active' and ap.id=ag.ApplIDFixID)
-      
-    ORDER by rand ()
-    LIMIT 1
+            ap.ID
+        FROM
+            `ApplID` ap
+        LEFT JOIN States st ON
+            ap.StateID = st.ID
+        
+        WHERE
+            st.Code = 'Active' AND ap.`OrganizationID` = 1 AND 'Active' <> ALL(
+            SELECT
+                agst.Code
+            FROM
+                Agreements ag    
+            LEFT JOIN States agst ON
+                ag.StateID = agst.ID
+            WHERE ag.ApplIDFixID = ap.ID
+        	)
+        ORDER BY
+            RAND()
+        LIMIT 1
     ";
 
     $result = mysqli_query($conn,$sql);

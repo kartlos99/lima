@@ -7,6 +7,7 @@ var currIphoneID = 0;
 var currApplID = 0;
 var org_p1 = 0;
 var org_p3 = 0;
+var lastQuery = "";
 
 $('button').addClass('btn-sm');
 
@@ -73,11 +74,17 @@ $('#sel_organization').on('change', function () {
 
     org_p1 = $('#sel_organization').val();
 
+    loadBranches11(org_p1, 0)
+});
+
+function loadBranches11(orgID, brID){
     $('#sel_branch').empty().removeAttr('disabled');
-    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
+    if (orgID == "") {
+        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
+    }
     <!--        filialebis chamonatvali -->
     $.ajax({
-        url: '../php_code/get_branches.php?id=' + org_p1,
+        url: '../php_code/get_branches.php?id=' + orgID,
         method: 'get',
         dataType: 'json',
         success: function (response) {
@@ -87,9 +94,12 @@ $('#sel_organization').on('change', function () {
             response.forEach(function (item) {
                 $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
             });
+            if (brID > 0){
+                $('#sel_branch').val(brID);
+            }
         }
     });
-});
+}
 
 $('#sel_organization_f13').on('change', function () {
 
@@ -132,43 +142,46 @@ $('#form_11').on('submit', function(event){
     // if ($('#agrN_f11').val() == "" && $('#imei_f11').val() == "" && $('#serialN_f11').val() == "" && $('#applID_f11').val() == "" ){
     //     alert("შეავსეთ ძიების პარამეტრები");
     // }else {
-
-        $.ajax({
-            url: '../php_code/get_results_f11.php',
-            method: 'post',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function (response) {
-                $('#table_f11').empty().html(table11_hr);
-                console.log(response);
-
-                if (response[0].n == 0){
-                    alert("არ მოიძებნა ჩანაწერი");
-                }
-                $('#pan_f11 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
-                response.splice(0,1);
-                console.log(response);
-
-                response.forEach(function (item) {
-
-                    var td_number = $('<td />').text(item.Number);
-                    var td_date = $('<td />').text(item.Date);
-                    var td_status = $('<td />').text(item.status);
-                    var td_imei = $('<td />').text(item.IMEI);
-                    var td_tel = $('<td />').text(item.Model);
-                    var td_applid = $('<td />').text(item.ApplID);
-                    var td_org = $('<td />').text(item.OrganizationName + "/" + item.BranchName);
-
-                    var trow = $('<tr></tr>').append(td_number, td_date, td_status, td_imei, td_tel, td_applid, td_org);
-                    trow.attr('onclick', "ont11Click(" + item.ID + ")");
-                    $('#table_f11').append(trow);
-                });
-            }
-        });
+        lastQuery = $(this).serialize();
+        requestAgreementList(lastQuery);
     //}
 
 });
 
+function requestAgreementList(querys) {
+
+    $.ajax({
+        url: '../php_code/get_results_f11.php',
+        method: 'post',
+        data: querys,
+        dataType: 'json',
+        success: function (response) {
+            $('#table_f11').empty().html(table11_hr);
+            console.log(response);
+
+            if (response[0].n == 0){
+                alert("არ მოიძებნა ჩანაწერი");
+            }
+            $('#pan_f11 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
+            response.splice(0,1);
+
+            response.forEach(function (item) {
+
+                var td_number = $('<td />').text(item.Number).addClass('equalsimbols');
+                var td_date = $('<td />').text(item.Date).addClass('equalsimbols');
+                var td_status = $('<td />').text(item.status);
+                var td_imei = $('<td />').text(item.IMEI).addClass('equalsimbols');
+                var td_tel = $('<td />').text(item.Model);
+                var td_applid = $('<td />').text(item.ApplID);
+                var td_org = $('<td />').text(item.OrganizationName + "/" + item.BranchName);
+
+                var trow = $('<tr></tr>').append(td_number, td_date, td_status, td_imei, td_tel, td_applid, td_org);
+                trow.attr('onclick', "ont11Click(" + item.ID + ")");
+                $('#table_f11').append(trow);
+            });
+        }
+    });
+}
 
 function ont11Click(agr_id){
 
@@ -230,6 +243,7 @@ function ont13Click(apl_id){
 
 $(function(){
 
+    console.log('func0');
     $('ul.components').find('li').removeClass('active');
     $('ul.components').find('li:first').addClass('active');
 
@@ -238,20 +252,68 @@ $(function(){
 });
 
 function f_show(){
+    lastQuery = getCookie('f11_pos');
     console.log(getCookie('f11_pos'));
-    if (getCookie('f11_pos') != "0" && getCookie('f11_pos') != "organization=&branch=&agrN=&status=0&agrStart1=&agrStart2=&agrFinish1=&agrFinish2=&imei=&modeli=0&serialN=&applid="){
-        $('#form_11').trigger('submit');
-        document.cookie = "f11_pos=0";
+    var savedCoocieData = getCookie('f11_pos');
+    if (savedCoocieData != "0" && savedCoocieData != ""){
+        var queryData = serialDataToObj(savedCoocieData);
+
+        $('#sel_organization').val(queryData.organization);
+            loadBranches11(queryData.organization, queryData.branch);
+        $('#agrN_f11').val(queryData.agrN);
+        $('#sel_status_f11').val(queryData.status);
+        $('#agrStart1_f11').val(queryData.agrStart1);
+        $('#agrStart2_f11').val(queryData.agrStart2);
+        $('#agrFinish1_f11').val(queryData.agrFinish1);
+        $('#agrFinish2_f11').val(queryData.agrFinish2);
+        $('#imei_f11').val(queryData.imei);
+        $('#sel_modeli_f11').val(queryData.modeli);
+        $('#serialN_f11').val(queryData.serialN);
+        $('#applID_f11').val(queryData.applid);
+        if (queryData.onlyme == 1) {
+            $('#onlyme_f11').prop("checked", true);
+        } else {
+            $('#onlyme_f11').prop("checked", false);
+        }
+
+        //$('#form_11').trigger('submit');
+        requestAgreementList(savedCoocieData);
+        //document.cookie = "f11_pos=0";
     }
-    console.log(getCookie('f11_pos'));
+    console.log('show');
+
 }
 
 function f_hide(){
-    console.log("hide");
-    document.cookie = "f11_pos=" + $('#form_11').serialize();
+
+    if (lastQuery != "organization=&branch=&agrN=&status=0&agrStart1=&agrStart2=&agrFinish1=&agrFinish2=&imei=&modeli=0&serialN=&applid=") {
+        document.cookie = "f11_pos=" + lastQuery;
+    }else {
+        document.cookie = "f11_pos=0";
+    }
 }
 
+function serialDataToObj(data){
+    var obj={};
+    var spData = data.split("&");
+    for(var key in spData)
+    {
+        //console.log(spData[key]);
+        obj[spData[key].split("=")[0]] = spData[key].split("=")[1];
+    }
+    return obj;
+}
+
+$("#f11_reset").on('click', function () {
+    $('#form_11').trigger('reset');
+});
+
 $(".panel-heading").on('click', function (el) {
+    var criterias = $('#form_11').serialize();
+
+    console.log(serialDataToObj(criterias));
+
+
     var gilaki = $(this).find("span.glyphicon");
         if (gilaki.hasClass('glyphicon-chevron-up')) {
             gilaki.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
@@ -262,6 +324,16 @@ $(".panel-heading").on('click', function (el) {
         }
 });
 
+var storedSHA;
+
+$("#agrN_f11").keyup(function () {
+
+
+    var value = $(this).val();
+    $("#imei_f11").text("SHA512: " + sha256_digest(value));
+    storedSHA = value;
+    console.log(sha256_digest(value));
+}).keyup();
 
 var table11_hr = "<tr>\n" +
     "        <th>ხელშეკრ.N</th>\n" +
@@ -297,3 +369,4 @@ function getCookie(cname) {
     }
     return "";
 }
+

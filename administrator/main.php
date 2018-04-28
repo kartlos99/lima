@@ -80,7 +80,8 @@ include_once 'header.php';
                     </td>
                     <td class="albuttom">
                         <button id="btn_search_f11" type="submit" class="btn btn-primary">ძებნა</button>
-                        <a href="excel.php?query=1" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-download"></a>
+                        <a id="f11_reset" class="btn btn-primary btn-sm">გასუფთავება</a>
+<!--                        <a href="excel.php?query=1" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-download"></a>-->
                     </td>
                 </tr>
             </table>

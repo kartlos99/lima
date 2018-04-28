@@ -76,7 +76,7 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
-        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_modeli_f322');
+        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#sel_modeli_f322');
         response.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_modeli_f322');
         });
@@ -91,7 +91,7 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
-        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#ios_f322');
+        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#ios_f322');
         response.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#ios_f322');
         });
@@ -127,6 +127,7 @@ $('#pan_f31').on('click', function () {
 
 function getAgreement() {
     reasonEdit = true;
+    $('#agr_history').attr('href','../php_code/get_agr_history.php?agrID=' + currAgreementID);
     $.ajax({
         url: '../php_code/get_agreement.php?id=' + currAgreementID,
         method: 'get',
@@ -867,6 +868,8 @@ $('#form_31').on('submit', function (event) {
             if (response.error == "") {
 
                     currAgreementID = response.id;
+                    $('#agr_history').attr('href','../php_code/get_agr_history.php?agrID=' + currAgreementID);
+
                     $('#btn_edit_f31').attr('disabled', false);
                     $('#btn_addiphone_f31').attr('disabled', false);
                     $('#btn_save_f31').attr('disabled', true).text("განახლება");

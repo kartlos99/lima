@@ -7,7 +7,7 @@ include_once 'header.php';
         <div class="panel-heading">
             <table id="table_p1_header" class="pan-header">
                 <tr>
-                    <td class="pan-header-left">ხელშეკრულება</td>
+                    <td class="pan-header-left">ხელშეკრულება <a id="agr_history" href="../php_code/get_agr_history.php" target="_blank">ისტორიის ნახვა</a> </td>
                     <td class="pan-header-right"><span class="panel-info"></span><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
                 </tr>
             </table>
