@@ -36,7 +36,7 @@
     });
 
 </script>
-<script type="text/javascript" src="../js/sha256.js"></script>
+<!--<script type="text/javascript" src="../js/sha256.js"></script>-->
 
 <script type="text/javascript"  <?php
     $pos = strpos($_SERVER['PHP_SELF'], "agrim.php");

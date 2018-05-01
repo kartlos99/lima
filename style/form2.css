@@ -74,7 +74,6 @@ input[type=date] {
 p {
     color: #20436b;
     border: 2px solid transparent;
-    border-bottom-width: 2px;
     border-bottom-color: #3073ab;
     margin: 5px 1px;
     font-weight: bold;
@@ -91,4 +90,23 @@ label {
 
 .equalsimbols {
     font-family: Verdana;
+}
+
+.changed {
+    background-color: #f4ef4f;
+}
+
+.mimdinare {
+    background-color: #7ff49f;
+    font-weight: bold;
+}
+
+.blokinfo {
+    color: #20436b;
+    border: 2px solid transparent;
+    border-bottom-color: #3073ab;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 13px;
+    width: 100%;
 }

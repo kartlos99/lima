@@ -28,8 +28,17 @@ LEFT JOIN ApplID apl ON a.`ApplIDFixID` = apl.ID
 LEFT JOIN Organizations o ON a.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
 LEFT JOIN PersonMapping p ON a.`AgreementPersonMappingID` = p.ID
-
 WHERE `AgreementID` = $agrID
+UNION
+SELECT a.ID, o.OrganizationName, b.`BranchName`, a.Number, a.`Date`, a.`Startdate`, a.EndDate, RevokeDate, p.username, IFNULL(i.PhIMEINumber, '-') AS imei, IFNULL(apl.AplApplID, '-') AS applid, s.value AS va, a.Comment, a.CreateDate, a.CreateUser, a.ModifyDate, a.ModifyUser FROM `Agreements` a
+LEFT JOIN States s ON a.`StateID` = s.ID
+LEFT JOIN Iphone i ON a.`IphoneFixID` = i.ID
+LEFT JOIN DictionariyItems d ON i.IphoneModelID = d.ID
+LEFT JOIN ApplID apl ON a.`ApplIDFixID` = apl.ID
+LEFT JOIN Organizations o ON a.OrganizationID = o.ID
+LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
+LEFT JOIN PersonMapping p ON a.`AgreementPersonMappingID` = p.ID
+WHERE a.ID = $agrID
 ";
 
 //echo $sql;
@@ -42,19 +51,14 @@ $tableHead = '<tr>
                 <th>ორგანიზაცია</th>
                 <th>ფილიალი</th>
                 <th>ხელშეკრ.N</th>
-                <th>ხელშეკრ. თარიღი</th>
-                <th>დაწყების თარიღი</th>
+                <th>გაფორმების თარიღი</th>
                 <th>დასრულების თარიღი</th>
-                <th>შეწყვეტის თარიღი</th>
-                <th>მომხმარებელი</th>
                 <th>IMEI</th>
                 <th>ApplID</th>
                 <th>სტატუსი</th>
                 <th>კომენტარი</th>
-                <th>შექმნის თარიღი</th>
-                <th>ვინ შემქმნა</th>
-                <th>რედაქტირების თარიღი</th>
-                <th>ვინ დაარედაქტირა</th>
+                <th>ოპ.თარიღი</th>
+                <th>ოპერატორი</th>
             </tr>';
 
 $output = '<table id="tb_agr_hist" class="datatable">'.$tableHead;
@@ -65,79 +69,88 @@ while($row = mysqli_fetch_array($result)) {
     $arr[] = $row;
 }
 
+for ($i = count($arr)-2; $i > 0; $i--){
+    $arr[$i]['ModifyDate'] = $arr[$i-1]['ModifyDate'];
+    $arr[$i]['ModifyUser'] = $arr[$i-1]['ModifyUser'];
+}
+
 for ($i = 0; $i< count($arr); $i++){
     $lastRow = $arr[$i];
+
+    if ($i == 0 && $i < count($arr)-1){
+        $arr[$i]['ModifyDate'] = $arr[$i]['CreateDate'];
+        $arr[$i]['ModifyUser'] = $arr[$i]['CreateUser'];
+    }
     $row = $arr[$i];
-    if ($i>0 && $i < count($arr)-1){
-        if (!($arr[$i-1]['OrganizationName'] != $arr[$i]['OrganizationName'] || $arr[$i+1]['OrganizationName'] != $arr[$i]['OrganizationName'])){
-            $row['OrganizationName'] = "";
+
+    if ($i != count($arr)-1){
+        $tdID = '<td>';
+    }else{
+        $tdID = '<td class="mimdinare">';
+    }
+
+    $tdOrg = '<td>';
+    $tdBr = '<td>';
+    $tdnumb = '<td align="right" class="equalsimbols">';
+    $tddate = '<td align="right" class="equalsimbols">';
+    $tdenddate = '<td align="right" class="equalsimbols">';
+    $tdimei = '<td align="right" class="equalsimbols">';
+    $tdapplid = '<td align="right" class="equalsimbols">';
+    $tdval = '<td>';
+    $tdcomm = '<td>';
+    $tdmoddate = '<td align="right" class="equalsimbols">';
+    $tdmoduser = '<td>';
+
+    if ($i>0){
+        if ($arr[$i-1]['OrganizationName'] != $arr[$i]['OrganizationName'] ){
+            $tdOrg = '<td class="changed">';
         }
-        if (!($arr[$i-1]['BranchName'] != $arr[$i]['BranchName'] || $arr[$i+1]['BranchName'] != $arr[$i]['BranchName'])){
-            $row['BranchName'] = "";
+        if ($arr[$i-1]['BranchName'] != $arr[$i]['BranchName'] ){
+            $tdBr = '<td class="changed">';
         }
-        if (!($arr[$i-1]['Number'] != $arr[$i]['Number'] || $arr[$i+1]['Number'] != $arr[$i]['Number'])){
-            $row['Number'] = "";
+        if ($arr[$i-1]['Number'] != $arr[$i]['Number']){
+            $tdnumb = '<td align="right" class="equalsimbols changed">';
         }
-        if (!($arr[$i-1]['Date'] != $arr[$i]['Date'] || $arr[$i+1]['Date'] != $arr[$i]['Date'])){
-            $row['Date'] = "";
+        if ($arr[$i-1]['Date'] != $arr[$i]['Date'] ){
+            $tddate = '<td align="right" class="equalsimbols changed">';
         }
-        if (!($arr[$i-1]['Startdate'] != $arr[$i]['Startdate'] || $arr[$i+1]['Startdate'] != $arr[$i]['Startdate'])){
-            $row['Startdate'] = "";
+        if ($arr[$i-1]['EndDate'] != $arr[$i]['EndDate'] ){
+            $tdenddate = '<td align="right" class="equalsimbols changed">';
         }
-        if (!($arr[$i-1]['EndDate'] != $arr[$i]['EndDate'] || $arr[$i+1]['EndDate'] != $arr[$i]['EndDate'])){
-            $row['EndDate'] = "";
+        if ($arr[$i-1]['imei'] != $arr[$i]['imei'] ){
+            $tdimei = '<td align="right" class="equalsimbols changed">';
         }
-        if (!($arr[$i-1]['RevokeDate'] != $arr[$i]['RevokeDate'] || $arr[$i+1]['RevokeDate'] != $arr[$i]['RevokeDate'])){
-            $row['RevokeDate'] = "";
+        if ($arr[$i-1]['applid'] != $arr[$i]['applid'] ){
+            $tdapplid = '<td align="right" class="equalsimbols changed">';
         }
-        if (!($arr[$i-1]['username'] != $arr[$i]['username'] || $arr[$i+1]['username'] != $arr[$i]['username'])){
-            $row['username'] = "";
+        if ($arr[$i-1]['va'] != $arr[$i]['va']){
+            $tdval = '<td class="changed">';
         }
-        if (!($arr[$i-1]['imei'] != $arr[$i]['imei'] || $arr[$i+1]['imei'] != $arr[$i]['imei'])){
-            $row['imei'] = "";
+        if ($arr[$i-1]['Comment'] != $arr[$i]['Comment'] ){
+            $tdcomm = '<td class="changed">';
         }
-        if (!($arr[$i-1]['applid'] != $arr[$i]['applid'] || $arr[$i+1]['applid'] != $arr[$i]['applid'])){
-            $row['applid'] = "";
+        if ($arr[$i-1]['ModifyDate'] != $arr[$i]['ModifyDate'] ){
+            $tdmoddate = '<td align="right" class="equalsimbols changed">';
         }
-        if (!($arr[$i-1]['va'] != $arr[$i]['va'] || $arr[$i+1]['va'] != $arr[$i]['va'])){
-            $row['va'] = "";
-        }
-        if (!($arr[$i-1]['Comment'] != $arr[$i]['Comment'] || $arr[$i+1]['Comment'] != $arr[$i]['Comment'])){
-            $row['Comment'] = "";
-        }
-        if (!($arr[$i-1]['CreateDate'] != $arr[$i]['CreateDate'] || $arr[$i+1]['CreateDate'] != $arr[$i]['CreateDate'])){
-            $row['CreateDate'] = "";
-        }
-        if (!($arr[$i-1]['CreateUser'] != $arr[$i]['CreateUser'] || $arr[$i+1]['CreateUser'] != $arr[$i]['CreateUser'])){
-            $row['CreateUser'] = "";
-        }
-        if (!($arr[$i-1]['ModifyDate'] != $arr[$i]['ModifyDate'] || $arr[$i+1]['ModifyDate'] != $arr[$i]['ModifyDate'])){
-            $row['ModifyDate'] = "";
-        }
-        if (!($arr[$i-1]['ModifyUser'] != $arr[$i]['ModifyUser'] || $arr[$i+1]['ModifyUser'] != $arr[$i]['ModifyUser'])){
-            $row['ModifyUser'] = "";
+        if ($arr[$i-1]['ModifyUser'] != $arr[$i]['ModifyUser'] ){
+            $tdmoduser = '<td class="changed">';
         }
 
     }
     $output .= '
                 <tr>
-                    <td>'.$row["ID"].'</td>
-                    <td>'.$row["OrganizationName"].'</td>
-                    <td>'.$row["BranchName"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["Number"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["Date"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["Startdate"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["EndDate"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["RevokeDate"].'</td>
-                    <td>'.$row["username"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["imei"].'</td>
-                    <td align="right" class="ricxvi">'.$row["applid"].'</td>
-                    <td>'.$row["va"].'</td>
-                    <td>'.$row["Comment"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["CreateDate"].'</td>
-                    <td>'.$row["CreateUser"].'</td>
-                    <td align="right" class="equalsimbols">'.$row["ModifyDate"].'</td>
-                    <td>'.$row["ModifyUser"].'</td>                    
+                    '.$tdID.$row["ID"].'</td>
+                    '.$tdOrg.$row["OrganizationName"].'</td>
+                    '.$tdBr.$row["BranchName"].'</td>
+                    '.$tdnumb.$row["Number"].'</td>
+                    '.$tddate.$row["Date"].'</td>
+                    '.$tdenddate.$row["EndDate"].'</td>
+                    '.$tdimei.$row["imei"].'</td>
+                    '.$tdapplid.$row["applid"].'</td>
+                    '.$tdval.$row["va"].'</td>
+                    '.$tdcomm.$row["Comment"].'</td>
+                    '.$tdmoddate.$row["ModifyDate"].'</td>
+                    '.$tdmoduser.$row["ModifyUser"].'</td>                    
                 </tr>
                 ';
 }

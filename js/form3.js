@@ -164,6 +164,7 @@ function getAgreement() {
                         var url_id = '../php_code/get_iphone_data.php?id=' + currIphoneID;
                         getIphoneData(url_id);
                         pan2Active = true;
+                        $('#iphone_history').attr('href','../php_code/get_iphone_history.php?phoneID=' + currIphoneID);
                     } else {
                         $('#btn_addiphone_f31').attr("disabled", false);
                     }
@@ -451,7 +452,7 @@ $('#btn_get_f32').on('click', function () {
                 $('#comment_f324').val(item.Comment);
 
                 tempIphoneID = item.ID;
-
+                $('#iphone_history').attr('href','../php_code/get_iphone_history.php?phoneID=' + tempIphoneID);
                 //console.log(response.IphoneModelID);
             }
 
@@ -472,7 +473,7 @@ $('#btn_add_f32').on('click', function () {
 
     $('#btn_save_f32').removeAttr('disabled');
     $('#d_f322').find('input').attr('readonly', false).val("");
-    $("#d_f322 select").attr('disabled', false).val("");
+    $("#d_f322 select").attr('disabled', false).val("0");
     $('#d_f323').find('input').attr('readonly', false).val("");
     $("#d_f323 select").attr('disabled', false).val("");
     $('#d_f324').find('input').attr('readonly', false).val("");
@@ -481,15 +482,19 @@ $('#btn_add_f32').on('click', function () {
     $('#imei_f322').val($('#imei_f32').val());
     $('#sel_status_f324 option').removeAttr('selected');
     var sel = "new";
-    $("#sel_status_f324 option[datacode=" + sel + "]").attr('selected', 'select');
+    var st_val = $("#sel_status_f324 option[datacode=" + sel + "]").val();
+    $("#sel_status_f324").val(st_val);
+    // $("#sel_status_f324 option[datacode=" + sel + "]").attr('selected', 'select');
     //$('#d_f324').find('button').attr('disabled',false);
     //$("#sel_status_f324").attr('disabled', 'true');
 
     sel = "opened";
+
     $("#sel_status_f32 option[datacode=" + sel + "]").attr('selected', 'select');
     $("#sel_status_f32").trigger('change');
 
     tempIphoneID = 0;
+    $('#iphone_history').attr('href','../php_code/get_iphone_history.php');
 });
 
 
@@ -523,6 +528,7 @@ $('#form_32').on('submit', function (event) {
 
                     currIphoneID = response.id;
                     tempIphoneID = response.id;
+                    $('#iphone_history').attr('href','../php_code/get_iphone_history.php?phoneID=' + currIphoneID);
 
                     if (ciuser == ''){
                         ciuser = response.info_cuser;
@@ -632,7 +638,7 @@ $('#btn_go_f33').on('click', function () {
 
 $('#btn_get_f33').on('click', function () {
     var applid = $('#applid_f33').val();
-
+    $('#apl_history').attr('href','../php_code/get_applid_history.php?aplID=' + tempApplID);
     console.log(tempApplID);
     $.ajax({
         url: '../php_code/get_apple_id_data.php?id=' + tempApplID,
@@ -733,6 +739,7 @@ $('#btn_addApplid_f33').on('click', function () {
                 capuser = item.CreateUser;
                 capdate = item.CreateDate ;
                 console.log(tempApplID);
+                $('#apl_history').attr('href','../php_code/get_applid_history.php?aplID=' + tempApplID);
             }
 
         }
@@ -959,11 +966,6 @@ $('.passgen').on('click', function (event) {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
     
         $(this).closest('.input-group').find('input').val(text);
-
-        if ($(this).attr('id') == "btn_f33ApplPassGen"){
-            $(this).attr('disabled',true);
-            $(this).closest('.input-group').find('input').attr('readonly',true);
-        }
     }
 });
 
@@ -980,6 +982,42 @@ $('.passgen4').on('click', function (event) {
     }
 });
 
+$('.passgen6').on('click', function (event) {
+    if (confirm("გსურთ პაროლის შეცვლა?")) {
+
+        var text = "";
+        var possible = "0123456789";
+
+        for (var i = 0; i < 6; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        $(this).closest('.input-group').find('input').val(text);
+    }
+});
+
+$('.passgen_apl').on('click', function (event) {
+    if (confirm("გსურთ პაროლის შეცვლა?")) {
+
+        var text = "";
+        var possible = "0123456789";
+        var symbolBIG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var symbolSmail = "abcdefghijklmnopqrstuvwxyz";
+        var symbolSpec = "!@#$%";
+
+        text += symbolBIG.charAt(Math.floor(Math.random() * symbolBIG.length));
+        text += ".";
+        text += symbolSmail.charAt(Math.floor(Math.random() * symbolSmail.length));
+        text += "-";
+
+        for (var i = 0; i < 4; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        text += symbolSpec.charAt(Math.floor(Math.random() * symbolSpec.length));
+
+        $(this).closest('.input-group').find('input').val(text).attr('readonly',true);
+        $(this).attr('disabled',true);
+    }
+});
 
 // $('#btn_f33ApplPassGen').on('click', function (event) {
 //     $(this).attr('disabled',true);
@@ -1038,3 +1076,6 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function f_show(){}
+function f_hide(){}

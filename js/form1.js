@@ -324,17 +324,6 @@ $(".panel-heading").on('click', function (el) {
         }
 });
 
-var storedSHA;
-
-$("#agrN_f11").keyup(function () {
-
-
-    var value = $(this).val();
-    $("#imei_f11").text("SHA512: " + sha256_digest(value));
-    storedSHA = value;
-    console.log(sha256_digest(value));
-}).keyup();
-
 var table11_hr = "<tr>\n" +
     "        <th>ხელშეკრ.N</th>\n" +
     "        <th>ხელშეკრ. თარიღი</th>\n" +

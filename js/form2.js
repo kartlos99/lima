@@ -1,4 +1,11 @@
 var currApplID = 0;
+var orgDane = false;
+var filDane = false;
+var domDane = false;
+var rmailDane = false;
+var stDane = false;
+var questionDane = false;
+///var orgDane = false;
 
 $('#block2').hide();
 $('button').addClass('btn-sm');
@@ -11,7 +18,30 @@ $.ajax({
     success: function (response) {
         response.forEach(function (item) {
             $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization');
-        })
+        });
+        orgDane = true;
+    }
+});
+
+<!--    sequrity question chamonatvali -->
+$.ajax({
+    url: '../php_code/get_sq.php',
+    method: 'get',
+    dataType: 'json',
+    success: function (response) {
+        var sq_num = 0;
+        var i = 0;
+        response.forEach(function (item) {
+            if (sq_num == item.DictionaryID){
+                $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
+            } else {
+                sq_num = item.DictionaryID;
+                i++;
+                $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
+            }
+
+        });
+        questionDane = true;
     }
 });
 
@@ -36,7 +66,8 @@ function getsublists(reason, rid) {
         success: function (response) {
             response.forEach(function (item) {
                 $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
-            })
+            });
+            filDane = true;
         }
     });
 
@@ -48,7 +79,8 @@ function getsublists(reason, rid) {
         success: function (response) {
             response.forEach(function (item) {
                 $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
-            })
+            });
+            domDane = true;
         }
     });
 
@@ -66,8 +98,9 @@ function getsublists(reason, rid) {
             });
             if (reason == 'fill') {
                 $("#sel_rmail option[value=" + rid + "]").attr('selected', 'select');
-            }
+            };
 
+            rmailDane = true;
         }
     });
 
@@ -85,6 +118,7 @@ $.ajax({
             $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status');
         });
         $('#sel_status option:first-child').attr('selected', 'selected');
+        stDane =true;
     }
 });
 
@@ -123,7 +157,6 @@ $('#form1').on('submit', function (event) {
     });
 });
 
-
 $('#form2').on('submit', function (event) {
 
     $('#emName').val($('#email').val());
@@ -135,8 +168,6 @@ $('#form2').on('submit', function (event) {
     console.log($(this).serialize());
 
     console.log('form2_submit');
-    var v = $(event.target).validationMessage;
-    console.log(v);
 
     $.ajax({
         url: '../php_code/upd_applid.php?id=' + currmailid,
@@ -169,7 +200,6 @@ $('#btn_f2submit').on('click', function(){
 $('#btn_f2reset').on('click', function(){
     localRefresh();
     $('#form2').trigger('reset');
-
 });
 
 function localRefresh(){
@@ -179,7 +209,7 @@ function localRefresh(){
     $('#sel_organization').removeAttr('disabled');
     $('#block2').slideUp(600);
     $('#appl_id_info').text('');
-    location.reload();
+    //location.reload();
 }
 
 setTimeout(function () {
@@ -264,10 +294,16 @@ function onRowClick(num) {
                 $("#appl_id_pass").val(row.AplPassword);
                 $("#bday").val(row.AplBirthDay);
                 $("#country").val(row.AplCountry);
+                console.log(questionDane);
+                console.log('**********');
 
                 $("#ans1").val(row.AplSequrityQuestion1Answer);
                 $("#ans2").val(row.AplSequrityQuestion2Answer);
                 $("#ans3").val(row.AplSequrityQuestion3Answer);
+                // $('#sel_q1').val(row.AplSequrityQuestion1ID);
+                // $('#sel_q2').val(row.AplSequrityQuestion2ID);
+                // $('#sel_q3').val(row.AplSequrityQuestion3ID);
+
                 $('#sel_q1 option').removeAttr('selected');
                 $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
                 $('#sel_q2 option').removeAttr('selected');
@@ -275,8 +311,9 @@ function onRowClick(num) {
                 $('#sel_q3 option').removeAttr('selected');
                 $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');
 
-                $('#sel_status option').removeAttr('selected');
-                $("#sel_status option[value=" + row.StateID + "]").attr('selected', 'selected');
+                $('#sel_status').val(row.StateID);
+                // $('#sel_status option').removeAttr('selected');
+                // $("#sel_status option[value=" + row.StateID + "]").attr('selected', 'selected');
                 $("#comment").val(row.Comment);
 
                 var em = row.AplApplID.split("@");
@@ -293,7 +330,7 @@ function onRowClick(num) {
 
                         console.log(r);
 
-                        if (r.AgreementR > 0) {
+                        if (r.get == 0 && r.AgrNumber != "") {
                             alert("Appl ID დაკავებულია, რედაქტირებისთვის იხილეთ ხელშეკრულება N: " + r.AgrNumber);
                             $('#block2 *').attr('disabled',true);
                         }
@@ -352,27 +389,6 @@ $(function() {
 
 //    $("#form1").find("input").val('');
 
-    <!--    sequrity question chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_sq.php',
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            var sq_num = 0;
-            var i = 0;
-            response.forEach(function (item) {
-                if (sq_num == item.DictionaryID){
-                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
-                } else {
-                    sq_num = item.DictionaryID;
-                    i++;
-                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
-                }
-
-            })
-        }
-    });
-
 });
 
 $('#email').on('keyup', function() {
@@ -400,3 +416,6 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function f_show(){}
+function f_hide(){}

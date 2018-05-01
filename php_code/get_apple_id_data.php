@@ -22,7 +22,7 @@ if ($id == 0){
             ap.StateID = st.ID
         
         WHERE
-            st.Code = 'Active' AND ap.`OrganizationID` = 1 AND 'Active' <> ALL(
+            st.Code = 'Active' AND ap.`OrganizationID` = $orgID AND 'Active' <> ALL(
             SELECT
                 agst.Code
             FROM

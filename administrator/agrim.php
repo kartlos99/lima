@@ -7,7 +7,7 @@ include_once 'header.php';
         <div class="panel-heading">
             <table id="table_p1_header" class="pan-header">
                 <tr>
-                    <td class="pan-header-left">ხელშეკრულება <a id="agr_history" href="../php_code/get_agr_history.php" target="_blank">ისტორიის ნახვა</a> </td>
+                    <td class="pan-header-left">ხელშეკრულება  </td>
                     <td class="pan-header-right"><span class="panel-info"></span><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
                 </tr>
             </table>
@@ -15,7 +15,10 @@ include_once 'header.php';
 
         <div class="panel-body">
 
-            <p>ხელშეკრულების მონაცემები</p>
+            <table class="blokinfo"> <tr >
+                <td>ხელშეკრულების მონაცემები </td>
+                <td class="pan-header-right"><a id="agr_history" href="../php_code/get_agr_history.php" target="_blank" class="btn btn-default btn-sm">H</a></td>
+            </tr></table>
 
             <form id="form_31" method="post">
                 <input id="agrID_f31" type="hidden" name="agrID" value="">
@@ -88,7 +91,11 @@ include_once 'header.php';
 
         <div class="panel-body">
 
-            <p>მობილური ტელეფონის ძებნა/გადმოტანა</p>
+            <table class="blokinfo"> <tr >
+                    <td>მობილური ტელეფონის ძებნა/გადმოტანა</td>
+                    <td class="pan-header-right"><a id="iphone_history" href="../php_code/get_iphone_history.php" target="_blank" class="btn btn-default btn-sm">H</a></td>
+                </tr></table>
+
             <table class="inputs" style="width: 100%">
                 <tr style="width: 100%">
                     <td style="width: 25%">
@@ -198,10 +205,10 @@ include_once 'header.php';
                         <label for="pass_lock_f32">Screen Lock Password</label>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" id="pass_lock_f32" placeholder="" name="passLock">
+                            <input type="text" class="form-control" id="pass_lock_f32" placeholder="" name="passLock" maxlength="6" minlength="4">
 
                             <div class="input-group-btn">
-                                <button class="btn btn-default passgen" type="button"><span
+                                <button class="btn btn-default passgen6" type="button"><span
                                         class="glyphicon glyphicon-refresh"
                                         aria-hidden="true"></span></button>
                                 <button class="btn btn-default eye" type="button"><span
@@ -268,7 +275,12 @@ include_once 'header.php';
 
         <div class="panel-body">
 
-            <p>Appl ID -ის ძებნა/გადმოტანა/დამატება</p>
+            <table class="blokinfo"> <tr >
+                    <td>Appl ID -ის ძებნა/გადმოტანა/დამატება</td>
+                    <td class="pan-header-right"><a id="apl_history" href="../php_code/get_applid_history.php" target="_blank" class="btn btn-default btn-sm">H</a></td>
+                </tr>
+            </table>
+
             <table class="inputs">
                 <tr style="width: 100%">
                     <td style="width: 30%">
@@ -355,10 +367,10 @@ include_once 'header.php';
                             <label for="appl_id_pass_f33">appl id pass</label>
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="appl_id_pass_f33" name="applidpass" readonly>
+                                <input type="text" class="form-control equalsimbols" id="appl_id_pass_f33" name="applidpass" readonly>
 
                                 <div class="input-group-btn">
-                                    <button id="btn_f33ApplPassGen" class="btn btn-default passgen" type="button"><span
+                                    <button id="btn_f33ApplPassGen" class="btn btn-default passgen_apl" type="button"><span
                                             class="glyphicon glyphicon-refresh"
                                             aria-hidden="true"></span></button>
                                     <button class="btn btn-default eye" type="button"><span
