@@ -6,8 +6,13 @@ include('login_script.php'); // Includes Login Script
 
 if (isset($_SESSION['username'])) {
 
+    $page = 'main';
+    if ($_SESSION['usertype'] == 'AppleIDCreator'){
+        $page = 'page1';
+    }
+
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    $url = str_replace('login.php', 'administrator/main.php', $url);
+    $url = str_replace('login.php', 'administrator/'.$page.'.php', $url);
     header("Location: $url");
 }
 

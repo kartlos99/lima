@@ -11,6 +11,7 @@ var tempApplID = 0;
 var currOrg = 0;
 var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
 var reasonEdit = false;
+var limited = false;
 
 $('button').addClass('btn-sm');
 
@@ -176,7 +177,9 @@ function getAgreement() {
                         $('#btn_addapplid_f32').attr("disabled", false);
                     }
 
-                    $("#btn_edit_f31").attr('disabled', false);
+                    if (!limited) {
+                        $("#btn_edit_f31").attr('disabled', false);
+                    }
                     $("#pan_f31 .panel-body input").attr('readonly', true);
                     $("#pan_f31 .panel-body select").attr('disabled', true);
                     $("#btn_save_f31").attr('disabled', true);
@@ -554,13 +557,18 @@ $('#form_32').on('submit', function (event) {
 });
 
 $('#btn_edit_f32').on('click', function () {
+    f32edit();
+});
+
+function f32edit(){
     $('#form_32 input').attr('readonly', false);
     $('#form_32 select').attr('disabled', false);
     $('#simfree_f322').attr('disabled', false);
 
     $('#d_f324').find('button').attr('disabled', false);
     $('#btn_edit_f32').attr('disabled', true);
-});
+    console.log('f3');
+}
 
 $('#btn_addapplid_f32').on('click', function () {
     pan3Active = true;

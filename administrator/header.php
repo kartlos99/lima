@@ -8,6 +8,14 @@ if (!isset($_SESSION['username'])) {
     header("Location: $url");
 }
 
+$pos = strpos($_SERVER['PHP_SELF'], "page1.php");
+if ($pos !== false ){
+    if ($_SESSION['usertype'] == 'CallCenterOper') {
+        $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/login.php";
+        header("Location: $url");
+    }
+}
+
 ?>
 
 <!DOCTYPE html>

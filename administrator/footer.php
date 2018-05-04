@@ -42,18 +42,34 @@
     $pos = strpos($_SERVER['PHP_SELF'], "agrim.php");
 if ($pos !== false ){
     echo "src=\"../js/form3.js\"";
+    $thisPage = 'agrim';
 }
     $pos = strpos($_SERVER['PHP_SELF'], "page1.php");
     if ($pos !== false ){
     echo "src=\"../js/form2.js\"";
+    $thisPage = 'page1';
 }
     $pos = strpos($_SERVER['PHP_SELF'], "main.php");
     if ($pos !== false ){
     echo "src=\"../js/form1.js\"";
+    $thisPage = 'main';
 }
 ?> ></script>
 
+<?php
 
+if ($_SESSION['usertype'] == 'AppleIDCreator'){
+    echo '<script type="text/javascript" src="../js/form2a.js" ></script>';
+}
+if ($_SESSION['usertype'] == 'CallCenterOper'){
+    echo '<script type="text/javascript" src="../js/form1a.js" ></script>';
+    if ($thisPage == 'agrim') {
+        echo '<script type="text/javascript" src="../js/form3a.js" ></script>';
+    }
+}
+
+        
+?>
 
 </body>
 </html>

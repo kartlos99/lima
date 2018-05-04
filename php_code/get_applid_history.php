@@ -9,6 +9,9 @@
 include_once '../administrator/header_1.php';
 //session_start();
 //$currUserID = $_SESSION['userID'];
+if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH')){
+    die('არაგაქვთ ისტორიის ნახვის უფლება.');
+}
 
 //$agrN =  $_POST['agrN'];
 if (!isset($_GET['aplID'])){
@@ -195,8 +198,7 @@ for ($i = 0; $i< count($arr); $i++){
 
 $output .= '</table>';
 
-//echo $sql;
-//echo(json_encode($arr));
+echo '<h3>ApplID-ის ისტორია</h3><br>';
 echo $output;
 
 include_once '../administrator/footer.php';

@@ -1,0 +1,1 @@
+$('#sidebar ul.components').hide();
