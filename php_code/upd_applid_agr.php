@@ -80,7 +80,7 @@ SET
     `AplFirstName` = '$saxeli',
     `AplLastName` = '$gvari',
     `AplCountry` = '$country',
-    `AplBirthDay` = '$bday',
+    `;AplBirthDay` = '$bday',
     `AplApplID` = '$applid',
     `AplPassword` = '$applidpass',
     `AplSequrityQuestion1ID` = '$q1',
@@ -182,7 +182,10 @@ $sql = "
 UPDATE
   `Agreements`
 SET
-  `ApplIDFixID` = $applid_ID
+    `ApplIDFixID` = $applid_ID,
+    `ModifyDate` = $currDate,
+    `ModifyUser` = '$currUser',
+    `ModifyUserID` = $currUserID
 WHERE
   id = $agrID
   ";
