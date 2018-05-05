@@ -108,7 +108,7 @@ $.ajax({
     dataType: 'json',
     success: function (response) {
         $('#sel_status_f32').empty();
-        $('<option />').text('აირჩიეთ...').attr('value', '').attr('datacode', '').appendTo('#sel_status_f32');
+        $('<option />').text('აირჩიეთ...').attr('value', '0').attr('datacode', '').appendTo('#sel_status_f32');
         console.log(response);
         response.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).attr('datacode', item.Code).appendTo('#sel_status_f32');
@@ -260,30 +260,34 @@ $(function () {
 
 
 $('#sel_status_f32').on('change', function () {
+
+screenLockChange();
+});
+
+function screenLockChange(){
     var v = $('#sel_status_f32').val();
     var c = "";
-    if (v != "") {
+    if (v != "0") {
         c = $('#sel_status_f32').find('option[value=' + v + ']').attr('datacode');
     }
-    if (c == 'opened'){
 
-        $(this).closest('tr').find('button').attr('disabled', true);
-        $(this).closest('tr').find('input').attr('readonly',true).val("");
+    $thisRow = $('#tb_scr_lock')
+    if (c == 'opened'){
+        $thisRow.find('button').attr('disabled', true);
+        $thisRow.find('input').attr('readonly',true).val("");
 
     }
     if (c == 'locked'){
-        $(this).closest('tr').find('button').attr('disabled', false);
-        $(this).closest('tr').find('input').attr('readonly',false);
+        $thisRow.find('button').attr('disabled', false);
+        $thisRow.find('input').attr('readonly',false);
         $('#lock_send_date_f32').attr('readonly',true).val("");
     }
     if (c == 'out'){
         $('#lock_send_date_f32').attr('readonly',false);
-        $(this).closest('tr').find('button').attr('disabled', false);
-        $(this).closest('tr').find('input').attr('readonly',false);
+        $thisRow.find('button').attr('disabled', false);
+        $thisRow.find('input').attr('readonly',false);
     }
-
-    //getsublists(0);
-});
+}
 
 $('#sel_organization_f31').on('change', function () {
     currOrg = $('#sel_organization_f31').val();
@@ -509,7 +513,7 @@ $('#form_32').on('submit', function (event) {
     var ep = $('#pass_enc_f32').val();
     var chek = true;
 
-    console.log($(this).serialize());
+    //console.log($(this).serialize());
     if (im.length != 15){
         alert("შეავსეთ IMEI გრაფა!");
         chek = false;
@@ -521,6 +525,7 @@ $('#form_32').on('submit', function (event) {
     }
 
     if (chek) {
+        $('#form_32 select').attr('disabled', false);
         $.ajax({
             url: '../php_code/ins_iphone.php',
             method: 'post',
@@ -568,6 +573,7 @@ function f32edit(){
     $('#d_f324').find('button').attr('disabled', false);
     $('#btn_edit_f32').attr('disabled', true);
     console.log('f3');
+    screenLockChange();
 }
 
 $('#btn_addapplid_f32').on('click', function () {

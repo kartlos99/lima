@@ -91,12 +91,13 @@ include_once 'header.php';
 
         <div class="panel-body">
 
-            <table class="blokinfo"> <tr >
+            <table id="f32_h1" class="blokinfo"> <tr >
                     <td>მობილური ტელეფონის ძებნა/გადმოტანა</td>
                     <td class="pan-header-right"><a id="iphone_history" href="../php_code/get_iphone_history.php" target="_blank" class="btn btn-default btn-sm">H</a></td>
-                </tr></table>
+                </tr>
+            </table>
 
-            <table class="inputs" style="width: 100%">
+            <table id="f32_h2" class="inputs" style="width: 100%">
                 <tr style="width: 100%">
                     <td style="width: 25%">
                         <label for="imei_f32">IMEI</label>
@@ -194,7 +195,7 @@ include_once 'header.php';
                     </td>
                 </tr>
             </table>
-            <table class="inputs">
+            <table id="tb_scr_lock" class="inputs">
                 <tr>
                     <td>
                         <label for="sel_status_f32">Screen Lock Status</label>

@@ -93,9 +93,9 @@ for ($i = 0; $i< count($arr); $i++){
     $tdsimfree = '<td>';
     $tdrPass = '<td align="right" class="equalsimbols">';
     $tdePass = '<td align="right" class="equalsimbols">';
-    $tdsPass = '<td>';
-    $tdlockdate = '<td>';
-    $tdlockdatesend = '<td>';
+    $tdsPass = '<td align="right" class="equalsimbols">';
+    $tdlockdate = '<td align="right" class="equalsimbols">';
+    $tdlockdatesend = '<td align="right" class="equalsimbols">';
     $tdst = '<td>';
     $tdcomm = '<td>';
     $tdmoddate = '<td align="right" class="equalsimbols">';
@@ -109,13 +109,13 @@ for ($i = 0; $i< count($arr); $i++){
             $tdimei = $numbTag;
         }
         if ($arr[$i-1]['PhSerialNumber'] != $arr[$i]['PhSerialNumber']){
-            $tdserial = $numbTag;
+            $tdserial = $normTag;
         }
         if ($arr[$i-1]['ios'] != $arr[$i]['ios'] ){
-            $tdios = $normTag;
+            $tdios = $numbTag;
         }
         if ($arr[$i-1]['PhSIMFREE'] != $arr[$i]['PhSIMFREE'] ){
-            $tdsimfree = $numbTag;
+            $tdsimfree = $normTag;
         }
         if ($arr[$i-1]['RestrictionPass'] != $arr[$i]['RestrictionPass'] ){
             $tdrPass = $numbTag;
