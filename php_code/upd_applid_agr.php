@@ -80,7 +80,7 @@ SET
     `AplFirstName` = '$saxeli',
     `AplLastName` = '$gvari',
     `AplCountry` = '$country',
-    `;AplBirthDay` = '$bday',
+    `AplBirthDay` = '$bday',
     `AplApplID` = '$applid',
     `AplPassword` = '$applidpass',
     `AplSequrityQuestion1ID` = '$q1',
