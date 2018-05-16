@@ -409,6 +409,8 @@ function getIphoneData(url) {
             $('#form_32 input').attr('readonly', true);
             $('#form_32 select').attr('disabled', true);
             $('#simfree_f322').attr('disabled', true);
+            $('#d_f323 button.passgen4').attr('disabled',true);
+            $('#d_f323 button.passgen6').attr('disabled',true);
 
             if (reasonEdit){
                 $('#btn_edit_f32').attr('disabled', false);
@@ -548,6 +550,8 @@ $('#form_32').on('submit', function (event) {
                     $('#form_32 input').attr('readonly', true);
                     $('#form_32 select').attr('disabled', true);
                     $('#simfree_f322').attr('disabled', true);
+                    $('#d_f323 button.passgen4').attr('disabled',true);
+                    $('#d_f323 button.passgen6').attr('disabled',true);
 
                     $('#d_f324').find('button').attr('disabled', false);
                     $('#btn_save_f32').attr('disabled', true);
@@ -569,6 +573,8 @@ function f32edit(){
     $('#form_32 input').attr('readonly', false);
     $('#form_32 select').attr('disabled', false);
     $('#simfree_f322').attr('disabled', false);
+    $('#d_f323 button.passgen4').attr('disabled',false);
+    $('#d_f323 button.passgen6').attr('disabled',false);
 
     $('#d_f324').find('button').attr('disabled', false);
     $('#btn_edit_f32').attr('disabled', true);
