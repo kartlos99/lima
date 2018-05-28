@@ -39,7 +39,7 @@ if (isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="style/main.css" rel="stylesheet">
 
-    <title>login</title>
+    <title>Lima iCloud - Login</title>
 </head>
 <body>
 

@@ -75,7 +75,7 @@ if ($rs1['Code'] == 'Active'){
 
 if ($count > 0) {
     if ($backinfo['error'] == "") {
-        $backinfo['error'] = 'aseti nomrit ukve registrirebulia xelshekruleba!';
+        $backinfo['error'] = 'მითითებული ნომრით რეგისტრირებულია სხვა ხელშეკრულება!';
     }
 } else {
     
