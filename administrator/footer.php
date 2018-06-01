@@ -45,14 +45,19 @@ if ($pos !== false ){
     $thisPage = 'agrim';
 }
     $pos = strpos($_SERVER['PHP_SELF'], "page1.php");
-    if ($pos !== false ){
+if ($pos !== false ){
     echo "src=\"../js/form2.js\"";
     $thisPage = 'page1';
 }
     $pos = strpos($_SERVER['PHP_SELF'], "main.php");
-    if ($pos !== false ){
+if ($pos !== false ){
     echo "src=\"../js/form1.js\"";
     $thisPage = 'main';
+}
+    $pos = strpos($_SERVER['PHP_SELF'], "userman.php");
+if ($pos !== false ){
+    echo "src=\"../js/userform.js\"";
+    $thisPage = 'userman';
 }
 ?> ></script>
 

@@ -25,10 +25,27 @@ if (isset($_POST['submit'])) {
         $subName = mysqli_real_escape_string($conn, $subName);
         $subPass = mysqli_real_escape_string($conn, $subPass);
 
-        $sql = "SELECT p.LastName, p.FirstName, p.LegalAdress, pmap.UserName, pmap.UserPass, pmap.PassDate, di.Code as UserType, pmap.ID FROM `PersonMapping` pmap
-              LEFT JOIN Persons p ON pmap.PersonID = p.ID
-              LEFT JOIN DictionariyItems di ON pmap.UserTypeID = di.ID
-               WHERE pmap.UserName = '$subName'";
+        $sql = "
+SELECT
+    p.LastName,
+    p.FirstName,
+    p.LegalAdress,
+    pmap.UserName,
+    pmap.UserPass,
+    pmap.PassDate,
+    di.Code AS UserType,
+    pmap.ID
+FROM
+    `PersonMapping` pmap
+LEFT JOIN Persons p ON
+    pmap.PersonID = p.ID
+LEFT JOIN DictionariyItems di ON
+    pmap.UserTypeID = di.ID
+LEFT JOIN States s ON
+	pmap.StateID = s.ID
+WHERE
+    pmap.UserName = '$subName' AND s.Code = 'Active'
+    ";
 
         $results = $conn->query($sql);
         $rowCount = mysqli_num_rows($results);
