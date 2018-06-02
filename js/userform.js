@@ -50,17 +50,17 @@ $.ajax({
 });
 
 //<!--    modelebi form11 -->
-$('#sel_modeli_f11').empty();
+$('#sel_type').empty();
 $.ajax({
-    url: '../php_code/get_dictionaryitems.php?code=iPhoneModels',
+    url: '../php_code/get_dictionaryitems.php?code=iCloud_UserType',
     method: 'get',
     dataType: 'json',
     success: function (response) {
-        $('<option />').text("ყველა").attr('value', 0).appendTo('#sel_modeli_f11');
+        $('<option />').text("აირჩიეთ...").attr('value', 0).appendTo('#sel_type');
         response.forEach(function (item) {
-            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_modeli_f11');
+            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_type');
         });
-        $('#sel_modeli_f11 option:first-child').attr('selected', 'selected');
+        $('#sel_type option:first-child').attr('selected', 'selected');
     }
 });
 
@@ -138,24 +138,33 @@ function getusers(querys) {
         data: querys,
         dataType: 'json',
         success: function (response) {
-            $('#table_f11').empty().html(table11_hr);
-            console.log(response);
 
-            userdata = response;
-            response.forEach(function (item) {
+            if ($('#operacia').val() == '2') {
+                $('#table_f11').empty().html(table11_hr);
+                console.log(response);
 
-                var td_fname = $('<td />').text(item.FirstName);
-                var td_lname = $('<td />').text(item.LastName);
-                var td_username = $('<td />').text(item.UserName);
-                var td_status = $('<td />').text(item.va);
-                var td_tel = $('<td />').text(item.Phone);
+                userdata = response;
+                response.forEach(function (item) {
+
+                    var td_fname = $('<td />').text(item.FirstName);
+                    var td_lname = $('<td />').text(item.LastName);
+                    var td_username = $('<td />').text(item.UserName);
+                    var td_status = $('<td />').text(item.va);
+                    var td_tel = $('<td />').text(item.Phone);
 
 //                var td_org = $('<td />').text(item.OrganizationName + "/" + item.BranchName);
 
-                var trow = $('<tr></tr>').append(td_fname, td_lname, td_username, td_status, td_tel);
-                trow.attr('onclick', "ont11Click(" + item.ID + ")");
-                $('#table_f11').append(trow);
-            });
+                    var trow = $('<tr></tr>').append(td_fname, td_lname, td_username, td_status, td_tel);
+                    trow.attr('onclick', "ont11Click(" + item.ID + ")");
+                    $('#table_f11').append(trow);
+                });
+            }
+
+            if ($('#operacia').val() == '1') {
+                if (response == 'ok'){
+                    alert("ჩაიწერა!");
+                }
+            }
         }
     });
 }
@@ -308,19 +317,30 @@ $("#btn_f1_reset").on('click', function () {
 
 $('#form_1').on('submit', function(event){
     event.preventDefault();
+    var chek = true;
     console.log($(this).serialize());
     console.log($('#sel_branch').val());
 
-    // if ($('#agrN_f11').val() == "" && $('#imei_f11').val() == "" && $('#serialN_f11').val() == "" && $('#applID_f11').val() == "" ){
-    //     alert("შეავსეთ ძიების პარამეტრები");
-    // }else {
-    lastQuery = $(this).serialize();
-    getusers(lastQuery);
-    //}
+
+    if ($('#operacia').val() == '1' && $('#pass1').val() != $('#pass2').val()){
+        alert("შეავსეთ პაროლის გრაფები");
+        chek = false;
+    }
+
+    if (chek) {
+
+        lastQuery = $(this).serialize();
+        getusers(lastQuery);
+    }
 
 });
 
-
+$('#pass1').on('keyup',function (value) {
+    var ps = $(this).val();
+    var pass = sha256_digest(ps);
+    $('#hashpass').val(pass);
+    console.log(pass);
+});
 
 
 //-------------------------------------------------------------------------------------------------------------------

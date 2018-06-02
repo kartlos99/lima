@@ -90,8 +90,9 @@ include_once 'header.php';
                         </td>
                         <td>პაროლი</td>
                         <td>
-                            <input type="text" class="form-control" id="pass1" placeholder="" name="pass1">
-                            <input type="text" class="form-control" id="pass2" placeholder="" name="pass2">
+                            <input type="text" class="form-control" id="pass1" placeholder="პაროლი" name="pass1">
+                            <input type="text" class="form-control" id="pass2" placeholder="გაიმეორეთ პაროლი" name="pass2">
+                            <input type="hidden" id="hashpass" name="pass" value="">
                         </td>
                     </tr>
 

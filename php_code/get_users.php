@@ -9,7 +9,7 @@ include_once '../config.php';
 session_start();
 $currUserID = $_SESSION['userID'];
 $currUser = $_SESSION['username'];
-$currDate = time();
+$currDate = date("Y-m-d H:i", time());
 $query = "";
 $Limit=" 
 Limit 20
@@ -93,8 +93,9 @@ if ($operacia == 1) {
     $organization = $_POST['organization'];
     $branch = $_POST['branch'];
     $type = $_POST['type'];
-    $pass = $_POST['pass1'];
+    $pass = $_POST['pass'];
     $comment = $_POST['comment'];
+    $tel = $_POST['tel'];
 
     $sql = "
     INSERT
@@ -109,7 +110,7 @@ if ($operacia == 1) {
         `Comment`,
         `CreateDate`,
         `CreateUser`,
-        `CreateUserID`,    
+        `CreateUserID`    
       )
     VALUES(
     '$pnumber',
@@ -117,7 +118,7 @@ if ($operacia == 1) {
     '$firstname',
     '$bday',
     '$adress',
-    $state,
+    getstateid('Active',getobjid('Persons')),
     '$comment',
     '$currDate',
     '$currUser',
@@ -125,8 +126,53 @@ if ($operacia == 1) {
     )
     ";
 
-    mysqli_query($conn, $sql);
-    echo 'ok';
+    $digital_time = time();
+
+    if (mysqli_query($conn, $sql)){
+        $newuserid = mysqli_insert_id($conn);
+
+        $sql = "
+        INSERT INTO
+          `personmapping`(
+            `PersonID`,
+            `OrganizationID`,
+            `OrganizationBranchID`,
+            `Phone`,
+            `UserName`,
+            `UserPass`,
+            `UserTypeID`,
+            `StateID`,
+            `Comment`,
+            `PassDate`,
+            `CreateDate`,
+            `CreateUser`,
+            `CreateUserID`
+          )
+        VALUES(
+        $newuserid,
+        $organization,
+        $branch,
+        '$tel',
+        '$username',
+        '$pass',
+        $type,
+        $state,
+        '$comment',
+        '$digital_time',
+        '$currDate',
+        '$currUser',
+        '$currUserID'
+        )
+        ";
+    }
+
+    if (mysqli_query($conn, $sql)){
+        echo 'ok';
+    }else {
+        echo mysqli_error($conn);
+    }
+
+    echo $sql;
 }
 
 $conn -> close();
