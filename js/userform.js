@@ -152,6 +152,7 @@ function ont11Click(userID) {
             $('#sel_organization').val(item.OrganizationID);
             $('#u_tel').val(item.Phone);
             $('#u_username').val(item.UserName);
+            $('#h_username').val(item.UserName);
             $('#sel_type').val(item.UserTypeID);
             $('#comment').val(item.Comment);
             $('#personid').val(item.PersonID);

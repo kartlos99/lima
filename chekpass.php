@@ -21,7 +21,7 @@ if (isset($_POST['ch_password1'])) {
             $newpass = $_POST['ch_password2'];
             $newdate = time();
             $userID = $_SESSION['userID'];
-            $sql = "UPDATE personmapping SET `UserPass` = '$newpass', `PassDate` = $newdate WHERE ID = $userID";
+            $sql = "UPDATE PersonMapping SET `UserPass` = '$newpass', `PassDate` = $newdate WHERE ID = $userID";
 
             if (mysqli_query($conn, $sql)){
                 $_SESSION['username'] = $_SESSION['username_exp'];

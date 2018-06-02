@@ -79,6 +79,7 @@ include_once 'header.php';
                         <td>მომხმ.სახელი</td>
                         <td>
                             <input type="text" class="form-control" id="u_username" placeholder="" name="username">
+                            <input type="hidden" id="h_username" name="h_username" value="0">
                         </td>
                     </tr>
                     <tr>

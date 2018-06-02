@@ -184,11 +184,13 @@ if ($operacia == 1) {
 
 if ($operacia == 3 || $operacia == 4){
 
-    $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
-    $result1 = mysqli_query($conn, $sql_chek);
-    $count = mysqli_num_rows($result1);
-    if ($count > 0){
-        die(json_encode('exist'));
+    if ($username != $_POST['h_username']) {
+        $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
+        $result1 = mysqli_query($conn, $sql_chek);
+        $count = mysqli_num_rows($result1);
+        if ($count > 0) {
+            die(json_encode('exist'));
+        }
     }
 
     $bday = $_POST['bday'];
