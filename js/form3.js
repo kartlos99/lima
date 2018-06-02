@@ -810,6 +810,7 @@ $('#form_33').on('submit', function (event) {
                 currApplID = tempApplID;
                 $('#pan_f33 span.panel-info').text("შექმნა: "+ capuser + " "+ capdate +" / რედაქტირება: " + response.info_muser + " " + response.info_mdate);
                 alert("წარმატებით განხორციელდა AppleID-ის მონაცემების შენახვა");
+                $('#appl_id_pass_f33').css('backgroundColor','#ececec');
             } else {
                 alert(response.error);
             }
@@ -1036,6 +1037,8 @@ $('.passgen_apl').on('click', function (event) {
 
         $(this).closest('.input-group').find('input').val(text).attr('readonly',true);
         $(this).attr('disabled',true);
+        $('#appl_id_pass_f33').attr('readonly',false).css('backgroundColor','#ff9e97');
+        $('#appl_id_pass_f33').attr('readonly',true);
     }
 });
 

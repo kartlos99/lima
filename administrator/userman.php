@@ -101,6 +101,7 @@ include_once 'header.php';
                 <input type="text" class="form-control" id="comment" placeholder="" name="comment">
 
                 <input type="hidden" id="operacia" name="operacia" value="0">
+                <input type="hidden" id="personid" name="personid" value="0">
 
                 <button id="btn_f1_done" type="submit" class="btn btn-primary btn-sm">ძებნა</button>
                 <a id="btn_f1_reset" class="btn btn-primary btn-sm">გასუფთავება</a>

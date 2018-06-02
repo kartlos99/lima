@@ -15,15 +15,16 @@ $Limit="
 Limit 20
 ";
 
+$firstname = $_POST['firstname'];
+$lastname = $_POST['lastname'];
+$pnumber = $_POST['pnumber'];
+$username = $_POST['username'];
+
+$digitalTime = time();
+
 $operacia = $_POST['operacia'];
 
 if ($operacia == 2) {
-
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $pnumber = $_POST['pnumber'];
-    $username = $_POST['username'];
-
 
     if ($firstname != "") {
         $query = $query . " and p.FirstName like ('$firstname%')";
@@ -51,9 +52,11 @@ if ($operacia == 2) {
     pmap.`OrganizationBranchID`,
     pmap.`Phone`,
     di.Code AS UserType,
+    pmap.UserTypeID,
     pmap.ID,
     s.value as va,
-    pmap.StateID
+    pmap.StateID,
+    pmap.PersonID
 FROM
     `PersonMapping` pmap
 LEFT JOIN Persons p ON
@@ -83,10 +86,15 @@ WHERE
 }
 
 if ($operacia == 1) {
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $pnumber = $_POST['pnumber'];
-    $username = $_POST['username'];
+
+    $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
+    $result1 = mysqli_query($conn, $sql_chek);
+    $count = mysqli_num_rows($result1);
+    if ($count > 0){
+        die(json_encode('exist'));
+    }
+
+
     $bday = $_POST['bday'];
     $adress = $_POST['adress'];
     $state = $_POST['state'];
@@ -96,11 +104,12 @@ if ($operacia == 1) {
     $pass = $_POST['pass'];
     $comment = $_POST['comment'];
     $tel = $_POST['tel'];
+    $personID = $_POST['personid'];
 
     $sql = "
     INSERT
     INTO
-      `persons`(
+      `Persons`(
         `PrivateNumber`,
         `LastName`,
         `FirstName`,
@@ -125,15 +134,13 @@ if ($operacia == 1) {
     '$currUserID'
     )
     ";
-
-    $digital_time = time();
-
+    //echo $sql;
     if (mysqli_query($conn, $sql)){
         $newuserid = mysqli_insert_id($conn);
 
         $sql = "
         INSERT INTO
-          `personmapping`(
+          `PersonMapping`(
             `PersonID`,
             `OrganizationID`,
             `OrganizationBranchID`,
@@ -158,7 +165,7 @@ if ($operacia == 1) {
         $type,
         $state,
         '$comment',
-        '$digital_time',
+        $digitalTime,
         '$currDate',
         '$currUser',
         '$currUserID'
@@ -167,12 +174,100 @@ if ($operacia == 1) {
     }
 
     if (mysqli_query($conn, $sql)){
-        echo 'ok';
+        echo json_encode('ok');
     }else {
         echo mysqli_error($conn);
     }
 
-    echo $sql;
+    //echo $sql;
+}
+
+if ($operacia == 3 || $operacia == 4){
+
+    $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
+    $result1 = mysqli_query($conn, $sql_chek);
+    $count = mysqli_num_rows($result1);
+    if ($count > 0){
+        die(json_encode('exist'));
+    }
+
+    $bday = $_POST['bday'];
+    $adress = $_POST['adress'];
+    $state = $_POST['state'];
+    $organization = $_POST['organization'];
+    $branch = $_POST['branch'];
+    $type = $_POST['type'];
+    $pass = $_POST['pass'];
+    $comment = $_POST['comment'];
+    $tel = $_POST['tel'];
+    $personID = $_POST['personid'];
+
+    $sql = "
+    UPDATE
+      `PersonMapping`
+    SET
+      `OrganizationID` = $organization,
+      `OrganizationBranchID` = $branch,
+      `Phone` = '$tel',
+      `UserName` = '$username',
+      `UserTypeID` = $type,
+      `StateID` = $state,
+      `Comment` = '$comment',      
+      `ModifyDate` = '$currDate',
+      `ModifyUser` = '$currUser',
+      `ModifyUserID` = '$currUserID'
+    WHERE
+      `PersonID` = $personID  
+    ";
+
+    if ($operacia == 4){
+        $sql = "
+        UPDATE
+          `PersonMapping`
+        SET
+          `OrganizationID` = $organization,
+          `OrganizationBranchID` = $branch,
+          `Phone` = '$tel',
+          `UserName` = '$username',
+          `UserPass` = '$pass',
+          `UserTypeID` = $type,
+          `StateID` = $state,
+          `Comment` = '$comment',
+          `PassDate` = $digitalTime,  
+          `ModifyDate` = '$currDate',
+          `ModifyUser` = '$currUser',
+          `ModifyUserID` = '$currUserID'
+        WHERE
+          `PersonID` = $personID  
+        ";
+    }
+
+    if (!mysqli_query($conn, $sql)){
+        echo mysqli_error($conn);
+        echo $sql;
+    }
+
+    $sql = "
+    UPDATE
+      `Persons`
+    SET
+      `PrivateNumber` = '$pnumber',
+      `LastName` = '$lastname',
+      `FirstName` = '$firstname',
+      `BirthDate` = '$bday',
+      `LegalAdress` = '$adress',
+      `Comment` = '$comment',
+      `ModifyDate` = '$currDate',
+      `ModifyUser` = '$currUser',
+      `ModifyUserID` = '$currUserID'
+    WHERE
+      ID = $personID  
+    ";
+
+    if (!mysqli_query($conn, $sql)){
+        echo mysqli_error($conn);
+    }
+    echo json_encode('ok');
 }
 
 $conn -> close();

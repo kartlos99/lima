@@ -60,6 +60,10 @@ if ($pos !== false ){
             <li>
                 <a href="page1.php">ახალი iCloud</a>
             </li>
+            <?php
+                if ($_SESSION['usertype'] == 'admin')
+                echo('<li><a href="userman.php">მომხმარებლები</a></li>');
+            ?>
         </ul>
 
         <ul class="list-unstyled CTAs">

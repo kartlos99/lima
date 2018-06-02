@@ -73,8 +73,6 @@ if ($_SESSION['usertype'] == 'CallCenterOper'){
         echo '<script type="text/javascript" src="../js/form3a.js" ></script>';
     }
 }
-
-        
 ?>
 
 </body>
