@@ -21,7 +21,7 @@ if ($pos !== false ){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>admin_page1</title>
+    <title>Lima iCloud</title>
     <!-- Bootstrap CSS -->
     <!-- Latest compiled and minified CSS -->
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
@@ -60,6 +60,10 @@ if ($pos !== false ){
             <li>
                 <a href="page1.php">ახალი iCloud</a>
             </li>
+            <?php
+                if ($_SESSION['usertype'] == 'admin')
+                echo('<li><a href="userman.php">მომხმარებლები</a></li>');
+            ?>
         </ul>
 
         <ul class="list-unstyled CTAs">

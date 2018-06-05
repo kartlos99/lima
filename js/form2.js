@@ -392,11 +392,11 @@ $(function() {
 });
 
 $('#email').on('keyup', function() {
-    $('#appl_id').val($(this).val()+"@"+$('#sel_domain').text());
+    $('#appl_id').val($(this).val()+"@"+$('#sel_domain option:selected').text());
 });
 
 $('#sel_domain').on('change',function(){
-    $('#appl_id').val($('#email').val()+"@"+$('#sel_domain').text());
+    $('#appl_id').val($('#email').val()+"@"+$('#sel_domain option:selected').text());
 });
 
 $('#appl_id_info').text('');

@@ -1,6 +1,5 @@
 <?php
-include('login_script.php'); // Includes Login Script
-
+include('chekpass.php'); // Includes Login Script
 // print_r($_SESSION);
 // print_r($_POST);
 
@@ -12,7 +11,7 @@ if (isset($_SESSION['username'])) {
     }
 
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    $url = str_replace('login.php', 'administrator/'.$page.'.php', $url);
+    $url = str_replace('changepass.php', 'administrator/'.$page.'.php', $url);
     header("Location: $url");
 }
 
@@ -39,34 +38,35 @@ if (isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="style/main.css" rel="stylesheet">
 
-    <title>Lima iCloud - Login</title>
+    <title>Lima iCloud - Change Pass</title>
 </head>
 <body>
 
 
 <div style="width: 560px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto; border-radius: 5px;">
-    <h3>login</h3>
+
+    <h4>პაროლს გაუვიდა ვადა, გთხოვთ შეცვალოთ</h4>
 
     <form id="loginform" action="" method="post">
 
-        <div class="input-group">
-            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user"
-                                                                     aria-hidden="true"></span></span>
-            <input id="username" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2"
-                   name="username">
-        </div>
-
+        <h4></h4>
         <div class="input-group">
             <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk"
                                                                      aria-hidden="true"></span></span>
-            <input id="pass" type="password" class="form-control" placeholder="Password" aria-describedby="sizing-addon2">
-            <input id="passHiden" type="hidden" name="password" value="">
+            <input id="pass1" type="password" class="form-control" placeholder="ახალი პაროლი" aria-describedby="sizing-addon2">
+            <input id="passHiden1" type="hidden" name="ch_password1" value="">
         </div>
 
-        <input type="hidden" name="regdate" value="54545454">
+        <h4></h4>
+        <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk"
+                                                                     aria-hidden="true"></span></span>
+            <input id="pass2" type="password" class="form-control" placeholder="გაიმეორეთ პაროლი" aria-describedby="sizing-addon2">
+            <input id="passHiden2" type="hidden" name="ch_password2" value="">
+        </div>
 
         <div>
-            <input type="submit" name="submit" class="btn btn-default centered" value="login"/>
+            <input type="submit" name="submit" class="btn btn-default centered" value="დადასტურება"/>
         </div>
 
     </form>
@@ -95,10 +95,15 @@ if (isset($_SESSION['username'])) {
 <!--<script type="text/javascript" src="js/form1.js"></script>-->
 
 <script>
-    $('#pass').on('keyup',function (value) {
+    $('#pass1').on('keyup',function (value) {
        var ps = $(this).val();
        var pass = sha256_digest(ps);
-        $('#passHiden').val(pass);
+        $('#passHiden1').val(pass);
+    });
+    $('#pass2').on('keyup',function (value) {
+        var ps = $(this).val();
+        var pass = sha256_digest(ps);
+        $('#passHiden2').val(pass);
     });
 
 </script>

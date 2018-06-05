@@ -21,6 +21,7 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
+<script type="text/javascript" src="../js/sha256.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -45,14 +46,19 @@ if ($pos !== false ){
     $thisPage = 'agrim';
 }
     $pos = strpos($_SERVER['PHP_SELF'], "page1.php");
-    if ($pos !== false ){
+if ($pos !== false ){
     echo "src=\"../js/form2.js\"";
     $thisPage = 'page1';
 }
     $pos = strpos($_SERVER['PHP_SELF'], "main.php");
-    if ($pos !== false ){
+if ($pos !== false ){
     echo "src=\"../js/form1.js\"";
     $thisPage = 'main';
+}
+    $pos = strpos($_SERVER['PHP_SELF'], "userman.php");
+if ($pos !== false ){
+    echo "src=\"../js/userform.js\"";
+    $thisPage = 'userman';
 }
 ?> ></script>
 
@@ -67,8 +73,6 @@ if ($_SESSION['usertype'] == 'CallCenterOper'){
         echo '<script type="text/javascript" src="../js/form3a.js" ></script>';
     }
 }
-
-        
 ?>
 
 </body>

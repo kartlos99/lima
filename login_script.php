@@ -25,10 +25,27 @@ if (isset($_POST['submit'])) {
         $subName = mysqli_real_escape_string($conn, $subName);
         $subPass = mysqli_real_escape_string($conn, $subPass);
 
-        $sql = "SELECT p.LastName, p.FirstName, p.LegalAdress, pmap.UserName, pmap.UserPass, di.Code as UserType, pmap.ID FROM `PersonMapping` pmap
-              LEFT JOIN Persons p ON pmap.PersonID = p.ID
-              LEFT JOIN DictionariyItems di ON pmap.UserTypeID = di.ID
-               WHERE pmap.UserName = '$subName'";
+        $sql = "
+SELECT
+    p.LastName,
+    p.FirstName,
+    p.LegalAdress,
+    pmap.UserName,
+    pmap.UserPass,
+    pmap.PassDate,
+    di.Code AS UserType,
+    pmap.ID
+FROM
+    `PersonMapping` pmap
+LEFT JOIN Persons p ON
+    pmap.PersonID = p.ID
+LEFT JOIN DictionariyItems di ON
+    pmap.UserTypeID = di.ID
+LEFT JOIN States s ON
+	pmap.StateID = s.ID
+WHERE
+    pmap.UserName = '$subName' AND s.Code = 'Active'
+    ";
 
         $results = $conn->query($sql);
         $rowCount = mysqli_num_rows($results);
@@ -45,11 +62,22 @@ if (isset($_POST['submit'])) {
 
             if ($subPass == $storPass) {
 
-                $_SESSION['username'] = $subName;
-                $_SESSION['usertype'] = $results['UserType'];
                 $_SESSION['firstname'] = $results['FirstName'];
                 $_SESSION['lastname'] = $results['LastName'];
-                $_SESSION['userID']  = $results['ID'];
+                $_SESSION['userID'] = $results['ID'];
+                $_SESSION['usertype'] = $results['UserType'];
+                $_SESSION['username_exp'] = $subName;
+
+                $currDate = time();
+                if ((time() - $results['PassDate']) < $pass_diuration) {
+
+                    $_SESSION['username'] = $subName;
+
+                }else{
+                    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                    $url = str_replace('login.php', 'changepass.php', $url);
+                    header("Location: $url");
+                }
 
                 // print_r($_SESSION);
 
