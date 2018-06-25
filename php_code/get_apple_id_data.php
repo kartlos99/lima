@@ -30,6 +30,14 @@ if ($id == 0){
             LEFT JOIN States agst ON
                 ag.StateID = agst.ID
             WHERE ag.ApplIDFixID = ap.ID
+        	) AND 'Project' <> ALL(
+            SELECT
+                agst.Code
+            FROM
+                Agreements ag    
+            LEFT JOIN States agst ON
+                ag.StateID = agst.ID
+            WHERE ag.ApplIDFixID = ap.ID
         	)
         ORDER BY
             RAND()

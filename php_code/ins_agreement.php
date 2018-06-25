@@ -165,6 +165,24 @@ if ($count > 0) {
                 $backinfo['id'] = $agrID;
                 $backinfo['info_muser'] = $currUser;
                 $backinfo['info_mdate'] = date("Y-m-d H:i", time());
+
+                // tu xelshekruleba daixura (Closed) mibmuli applID statusi gadadis aRsadgenshi
+                $sql_chek_Status = "SELECT Code FROM `States` WHERE ID = $status";
+                $result_Status = mysqli_query($conn, $sql_chek_Status);
+
+                if (mysqli_num_rows($result_Status) > 0){
+                        $get_StatusCode = mysqli_fetch_assoc($result_Status);
+                        if ($get_StatusCode['Code'] == 'Closed') {
+
+                            $sql_update = "UPDATE    ApplID SET   `StateID` = getstateid('Restore', getobjid('ApplID')) WHERE    ID = $applIDID";
+                            $result_update = mysqli_query($conn, $sql_update);
+                            if (!$result_update){
+                                $backinfo['error'] = 'xelshekruleba daixura! applID statusi ver sheicvala!!!';
+                            }
+                        }
+                }
+                // ****************************************************************************
+
             } else {
                 $backinfo['error'] = 'myerror';
             }
