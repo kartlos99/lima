@@ -245,7 +245,7 @@ $(function(){
 
     console.log('func0');
     $('ul.components').find('li').removeClass('active');
-    $('ul.components').find('li:first').addClass('active');
+    $('ul.components').find('li.mainLi').addClass('active');
 
     $('#table_f11').empty().html(table11_hr);
     $('#table_f13').empty().html(table13_hr);

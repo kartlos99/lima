@@ -14,6 +14,7 @@ LEFT JOIN OrganizationBranches br ON a.OrganizationBranchID = br.ID
 LEFT JOIN Emails e ON a.AplAccountEmailID = e.ID
 LEFT JOIN States s ON a.StateID = s.ID
 WHERE s.Code = 'Project'
+LIMIT 0, 20
     ";
 
 $result = mysqli_query($conn,$sql);

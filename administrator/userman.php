@@ -1,7 +1,4 @@
-<?php
-include_once 'header.php';
-?>
-
+<?php include_once 'header.php'; ?>
 
     <div id="pan_1" class="panel panel-primary">
         <div class="panel-heading">
@@ -117,8 +114,4 @@ include_once 'header.php';
         </div>
     </div>
 
-
-
-<?php
-include_once 'footer.php';
-?>
+<?php include_once 'footer.php'; ?>

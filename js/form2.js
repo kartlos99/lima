@@ -372,7 +372,7 @@ $('.passgen').on('click', function () {
 $(function() {
 
     $('ul.components').find('li').removeClass('active');
-    $('ul.components').find('li:last').addClass('active');
+    $('ul.components').find('li.newiCloudLi').addClass('active');
 
     if (getCookie("ApplIDID") != "" && getCookie("ApplIDID") != 0) {
         // e.i. ganaxlebis rejimshi vart

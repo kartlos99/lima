@@ -200,7 +200,7 @@ $(function () {
     //var pg = "agrim.php";
 
     $('ul.components').find('li').removeClass('active');
-    $('ul.components').find("li.midle").addClass('active');
+    $('ul.components').find("li.newLoanLi").addClass('active');
 
     if (getCookie("agreementID") != "" && getCookie("agreementID") != 0) {
         // e.i. ganaxlebis rejimshi vart

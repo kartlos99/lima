@@ -174,7 +174,7 @@ $('#btn_passchange').on('click', function () {
 $(function () {
 
     $('ul.components').find('li').removeClass('active');
-    $('ul.components').find('li:first').addClass('active');
+    $('ul.components').find('li.userManLi').addClass('active');
 
 
     $('#form_1 input').attr('readonly', true);

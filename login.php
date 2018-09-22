@@ -50,15 +50,13 @@ if (isset($_SESSION['username'])) {
     <form id="loginform" action="" method="post">
 
         <div class="input-group">
-            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user"
-                                                                     aria-hidden="true"></span></span>
+            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
             <input id="username" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2"
                    name="username">
         </div>
 
         <div class="input-group">
-            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk"
-                                                                     aria-hidden="true"></span></span>
+            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
             <input id="pass" type="password" class="form-control" placeholder="Password" aria-describedby="sizing-addon2">
             <input id="passHiden" type="hidden" name="password" value="">
         </div>

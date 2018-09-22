@@ -15,7 +15,6 @@ if ($pos !== false ){
         header("Location: $url");
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -50,26 +49,23 @@ if ($pos !== false ){
         </div>
 
         <ul class="list-unstyled components">
-
-            <li>
+            <li class="mainLi">
                 <a href="main.php">მთავარი</a>
             </li>
-            <li class="midle">
+            <li class="newLoanLi">
                 <a href="agrim.php">ახალი სესხი</a>
             </li>
-            <li>
+            <li  class="newiCloudLi">
                 <a href="page1.php">ახალი iCloud</a>
             </li>
             <?php
                 if ($_SESSION['usertype'] == 'admin')
-                echo('<li><a href="userman.php">მომხმარებლები</a></li>');
-            ?>
+                echo('<li  class="userManLi"><a href="userman.php">მომხმარებლები</a></li>');?>
         </ul>
 
         <ul class="list-unstyled CTAs">
             <!-- <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li> -->
             <li><a href="../logout.php" class="article">გასვლა</a></li>
-
         </ul>
     </nav>
     <!--sidebar-->
