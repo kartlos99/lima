@@ -60,7 +60,7 @@ SET
     `ModifyUser` = '$currUser',
     `ModifyUserID` = $currUserID
 WHERE
-    AplAccountEmailID = '$mailid' AND StateID = getstateid('Project', getobjid('ApplID'))
+    AplAccountEmailID = '$mailid' AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))
 ";
 
 $result = mysqli_query($conn,$sql);
