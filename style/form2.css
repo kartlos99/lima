@@ -110,3 +110,8 @@ label {
     font-size: 13px;
     width: 100%;
 }
+
+#changePassForm {
+    width: 400px;
+    margin: 10px auto;
+}

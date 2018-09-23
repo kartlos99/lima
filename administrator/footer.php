@@ -60,6 +60,11 @@ if ($pos !== false ){
     echo "src=\"../js/userform.js\"";
     $thisPage = 'userman';
 }
+    $pos = strpos($_SERVER['PHP_SELF'], "parametrebi.php");
+if ($pos !== false ){
+    echo "src=\"../js/paramPage.js\"";
+    $thisPage = 'param';
+}
 ?> ></script>
 
 <?php

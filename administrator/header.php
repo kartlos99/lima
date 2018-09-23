@@ -85,7 +85,7 @@ if ($pos !== false ){
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Page</a></li>
+                        <li id="paramLi" class="alert-light" style="border-radius: 8px"><a href="parametrebi.php">პარამეტრები</a></li>
                     </ul>
                 </div>
             </div>

@@ -50,23 +50,24 @@ if (isset($_SESSION['username'])) {
     <form id="loginform" action="" method="post">
 
         <h4></h4>
-        <div class="input-group">
-            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk"
-                                                                     aria-hidden="true"></span></span>
+        <div class="input-group" title='პაროლი უნდა შედგებოდეს მინ. 8 სიმბოლოსგან, უნდა შეიცავდეს დიდ და პატარა სიმბოლოებს, ციფრებს და სპეცსიმბოლოებს (!@#$%^&*...)'>
+            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
             <input id="pass1" type="password" class="form-control" placeholder="ახალი პაროლი" aria-describedby="sizing-addon2">
-            <input id="passHiden1" type="hidden" name="ch_password1" value="">
         </div>
-
+        <input id="passHiden1" type="hidden" name="ch_password1" value="">
+        
         <h4></h4>
         <div class="input-group">
-            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk"
-                                                                     aria-hidden="true"></span></span>
+            <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
             <input id="pass2" type="password" class="form-control" placeholder="გაიმეორეთ პაროლი" aria-describedby="sizing-addon2">
-            <input id="passHiden2" type="hidden" name="ch_password2" value="">
         </div>
+        <input id="passHiden2" type="hidden" name="ch_password2" value="">
 
+        <div id="msgdiv" class="alert alert-warning" role="alert">
+            არ აკმაყოფილებს პაროლის კრიტერიუმებს!
+        </div>
         <div>
-            <input type="submit" name="submit" class="btn btn-default centered" value="დადასტურება"/>
+            <input id="passsubmit" type="submit" name="submit" class="btn btn-default centered" value="დადასტურება"/>
         </div>
 
     </form>
@@ -95,6 +96,44 @@ if (isset($_SESSION['username'])) {
 <!--<script type="text/javascript" src="js/form1.js"></script>-->
 
 <script>
+
+    $('#msgdiv').hide();
+    $('#passsubmit').attr('disabled', true);
+
+
+    $('#pass1').on('blur', function(){
+        var ps = $(this).val();
+        if (validatepass(ps) != 0){
+            $('#msgdiv').show();
+            $('#passsubmit').attr('disabled',true);
+        }else{
+            $('#msgdiv').hide();
+            $('#passsubmit').attr('disabled',false);
+        }
+
+    })
+
+    function validatepass(pass){    
+        if (!pass)
+            return 1;
+
+        if (pass.length < 8)
+            return 8;
+
+        var variations = {
+            digits: /\d/.test(pass),
+            lower: /[a-z]/.test(pass),
+            upper: /[A-Z]/.test(pass),
+            nonWords: /\W/.test(pass),
+        }
+
+        var cc = 0;
+        for (var check in variations) {
+            cc += (variations[check] == true) ? 0 : 1;
+        }
+        return cc;
+    }
+
     $('#pass1').on('keyup',function (value) {
        var ps = $(this).val();
        var pass = sha256_digest(ps);

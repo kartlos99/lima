@@ -67,6 +67,7 @@ WHERE
                 $_SESSION['userID'] = $results['ID'];
                 $_SESSION['usertype'] = $results['UserType'];
                 $_SESSION['username_exp'] = $subName;
+                $_SESSION['userpass'] = $storPass;
 
                 $currDate = time();
                 if ((time() - $results['PassDate']) < $pass_diuration) {
