@@ -13,9 +13,19 @@
 
         <div class="panel-body">
 
-            <button id="btn_newuser" type="submit" class="btn btn-primary btn-sm">ახალი მომხმარებელი</button>
-            <a id="btn_search" class="btn btn-primary btn-sm">ძებნა</a>
-            <a id="btn_passchange" class="btn btn-primary btn-sm">პაროლის შეცვლა</a>
+            <ul class="nav nav-pills">
+                <li id="btn_newuser" role="presentation"><a href="#">ახალი მომხმარებელი</a></li>
+                <li id="btn_search" role="presentation"><a href="#">ძებნა</a></li>
+                <li id="btn_passchange" role="presentation" disabled='true'><a href="#">პაროლის შეცვლა</a></li>
+            </ul>
+            <div class="switch">
+
+<hr>
+</div>
+
+            <!-- <button id="_btn_newuser" type="submit" class="btn btn-primary btn-sm">ახალი მომხმარებელი</button>
+            <a id="_btn_search" class="btn btn-primary btn-sm">ძებნა</a>
+            <a id="_btn_passchange" class="btn btn-primary btn-sm">პაროლის შეცვლა</a> -->
 
             <form id="form_1" method="post">
                 <table class="inputs">
@@ -27,6 +37,8 @@
                         <td>გვარი</td>
                         <td>
                             <input type="text" class="form-control" id="u_lastname" placeholder="" name="lastname">
+                        </td>
+                        <td>
                         </td>
                     </tr>
                     <tr>
@@ -87,10 +99,11 @@
                             </select>
                         </td>
                         <td>პაროლი</td>
-                        <td>
-                            <input type="text" class="form-control" id="pass1" placeholder="პაროლი" name="pass1">
-                            <input type="text" class="form-control" id="pass2" placeholder="გაიმეორეთ პაროლი" name="pass2">
+                        <td title='პაროლი უნდა შედგებოდეს მინ. 8 სიმბოლოსგან, უნდა შეიცავდეს დიდ და პატარა სიმბოლოებს, ციფრებს და სპეცსიმბოლოებს (!@#$%^&*...)'>
+                            <input type="password" class="form-control" id="pass1" placeholder="პაროლი" name="pass1">
+                            <input type="password" class="form-control" id="pass2" placeholder="გაიმეორეთ პაროლი" name="pass2">
                             <input type="hidden" id="hashpass" name="pass" value="">
+                            <div id="msgdiv" class="alert alert-warning" role="alert" hidden>არ აკმაყოფილებს პაროლის კრიტერიუმებს!</div>
                         </td>
                     </tr>
 

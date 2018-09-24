@@ -164,10 +164,11 @@ function ont11Click(userID) {
     $('#pass1').val('').attr('disabled', true);
     $('#pass2').val('').attr('disabled', true);
     $('#btn_passchange').attr('disabled', false);
+    $('ul.nav li').removeClass('active');
+    $('#msgdiv').hide();
 }
 
 $('#btn_passchange').on('click', function () {
-
     $('#operacia').val('4');
 });
 
@@ -188,7 +189,11 @@ $(function () {
 
 
 $('#btn_newuser').on('click', function () {
+    $('ul.nav li').removeClass('active');
+    $('#btn_newuser').addClass('active');
+    
     $('#form_1 input').attr('readonly', false);
+    $('#form_1 input').attr('disabled', false);
     $('#form_1 select').attr('disabled', false);
     $('#form_1 button').attr('disabled', false);
     $('#btn_f1_reset').attr('disabled', false);
@@ -198,9 +203,13 @@ $('#btn_newuser').on('click', function () {
 
     $('#btn_f1_done').text('ჩაწერა');
     $('#operacia').val('1');
+    $('#pass1').trigger('blur');
 });
 
 $('#btn_search').on('click', function () {
+    $('ul.nav li').removeClass('active');
+    $('#btn_search').addClass('active');
+
     $('#form_1 input').attr('readonly', true);
     $('#form_1 select').attr('disabled', true);
     $('#form_1 button').attr('disabled', true);
@@ -215,12 +224,23 @@ $('#btn_search').on('click', function () {
     $('#btn_f1_reset').attr('disabled', false);
 
     $('#btn_passchange').attr('disabled', true);
+    // $('#btn_passchange').addClass('disabled');
 
     $('#btn_f1_done').text('ძებნა');
     $('#operacia').val('2');
+    $('#msgdiv').hide();
 });
 
 $('#btn_passchange').on('click', function () {
+    if ($('#btn_passchange').attr('disabled') != 'disabled' ){
+        $('ul.nav li').removeClass('active');
+        $('#btn_passchange').addClass('active');
+        
+        $('#pass1').val('').attr('disabled', false);
+        $('#pass2').val('').attr('disabled', false);
+        $('#operacia').val('4');
+    }
+
     // $('#form_1 input').attr('readonly', true);
     // $('#form_1 select').attr('disabled', true);
     // $('#form_1 button').attr('disabled', true);
@@ -234,9 +254,6 @@ $('#btn_passchange').on('click', function () {
     // $('#form_1 button').attr('disabled', false);
     // $('#btn_f1_reset').attr('disabled', false);
 
-    $('#pass1').val('').attr('disabled', false);
-    $('#pass2').val('').attr('disabled', false);
-    $('#operacia').val('4');
 });
 
 
@@ -342,3 +359,36 @@ $(".panel-heading").on('click', function (el) {
         $(this).closest('.panel').find(".panel-body").slideDown();
     }
 });
+
+
+$('#pass1').on('blur', function(){
+    var ps = $(this).val();
+    if (validatepass(ps) != 0){
+        $('#msgdiv').show();
+        $('#btn_f1_done').attr('disabled',true);
+    }else{
+        $('#msgdiv').hide();
+        $('#btn_f1_done').attr('disabled',false);
+    }
+ })
+
+ function validatepass(pass){    
+    if (!pass)
+        return 1;
+
+    if (pass.length < 8)
+        return 8;
+
+    var variations = {
+        digits: /\d/.test(pass),
+        lower: /[a-z]/.test(pass),
+        upper: /[A-Z]/.test(pass),
+        nonWords: /\W/.test(pass),
+    }
+
+    var cc = 0;
+    for (var check in variations) {
+        cc += (variations[check] == true) ? 0 : 1;
+    }
+    return cc;
+ }

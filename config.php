@@ -1,7 +1,7 @@
 <?php
 
 define('HOST', 'Localhost');
-define('DB_name', 'lima');
+define('DB_name', 'lima_db');
 define('DB_user', 'root');
 define('DB_pass', '12312');
 define('NONCE', '384729873492473947293472938573498574395438');

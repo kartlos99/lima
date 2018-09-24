@@ -8,19 +8,18 @@ $('#passsubmit').attr('disabled', true);
 $('#pass').on('keyup',function (value) {
     var ps = $(this).val();
     var pass = sha256_digest(ps);
-    $('#passHiden').val(pass);
-    console.log(pass);
+    $('#passHiden').val(pass);    
 });
 $('#pass1').on('keyup',function (value) {
     var ps = $(this).val();
     var pass = sha256_digest(ps);
      $('#passHiden1').val(pass);
- });
- $('#pass2').on('keyup',function (value) {
+});
+$('#pass2').on('keyup',function (value) {
      var ps = $(this).val();
      var pass = sha256_digest(ps);
      $('#passHiden2').val(pass);
- });
+});
 
 
  $('#pass1').on('blur', function(){
@@ -32,7 +31,6 @@ $('#pass1').on('keyup',function (value) {
         $('#msgdiv').hide();
         $('#passsubmit').attr('disabled',false);
     }
-
  })
 
  function validatepass(pass){    
@@ -55,3 +53,26 @@ $('#pass1').on('keyup',function (value) {
     }
     return cc;
  }
+
+ $('#exampleModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('whatever') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    
+    var modal = $(this)
+    modal.find('.modal-title').text('New message to ' + recipient)
+    modal.find('.modal-body input').val(recipient)
+
+    $('#passsubmit').val(modal.find('.modal-body textarea').val());
+  })
+
+  $('#btndone').on('click', function(){
+    $('#passsubmit').val($('#message-text').val());
+  })
+
+
+  $('#myTab a').on('click', function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  })

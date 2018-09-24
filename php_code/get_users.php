@@ -25,7 +25,7 @@ $digitalTime = time();
 $operacia = $_POST['operacia'];
 
 if ($operacia == 2) {
-
+    // ძებნა
     if ($firstname != "") {
         $query = $query . " and p.FirstName like ('$firstname%')";
     }
@@ -86,7 +86,7 @@ WHERE
 }
 
 if ($operacia == 1) {
-
+    // ახალი მომხმარებელი
     $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
     $result1 = mysqli_query($conn, $sql_chek);
     $count = mysqli_num_rows($result1);
