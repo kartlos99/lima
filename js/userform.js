@@ -61,7 +61,7 @@ function loadBranches11(orgID, brID) {
     if (orgID == "") {
         $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
     }
-    <!--        filialebis chamonatvali -->
+    // <!--        filialebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_branches.php?id=' + orgID,
         method: 'get',

@@ -15,7 +15,7 @@ var limited = false;
 
 $('button').addClass('btn-sm');
 
-<!--    organizaciebis chamonatvali -->
+// <!--    organizaciebis chamonatvali -->
 $.ajax({
     url: '../php_code/get_organizations.php',
     method: 'get',
@@ -28,7 +28,7 @@ $.ajax({
     }
 });
 
-<!--    statusebi am form31 agreement -->
+// <!--    statusebi am form31 agreement -->
 $('#sel_status_f31').empty();
 $.ajax({
     url: '../php_code/get_statuses.php?objname=Agreements',
@@ -42,7 +42,7 @@ $.ajax({
     }
 });
 
-<!--    statusebi am form32 iphones -->
+// <!--    statusebi am form32 iphones -->
 $('#sel_status_f324').empty();
 $.ajax({
     url: '../php_code/get_statuses.php?objname=Iphone',
@@ -56,7 +56,7 @@ $.ajax({
     }
 });
 
-<!--    statusebi am form33 applid -->
+// <!--    statusebi am form33 applid -->
 $('#sel_status_f33').empty();
 $.ajax({
     url: '../php_code/get_statuses.php?objname=ApplID',
@@ -70,7 +70,7 @@ $.ajax({
     }
 });
 
-<!--    modelebi form_32 -->
+// <!--    modelebi form_32 -->
 $('#sel_modeli_f322').empty();
 $.ajax({
     url: '../php_code/get_dictionaryitems.php?code=iPhoneModels',
@@ -85,7 +85,7 @@ $.ajax({
     }
 });
 
-<!--    ios form_32 -->
+// <!--    ios form_32 -->
 $('#ios_f322').empty();
 $.ajax({
     url: '../php_code/get_dictionaryitems.php?code=ios',
@@ -100,8 +100,7 @@ $.ajax({
     }
 });
 
-<!--    ScreenLockState form_32 -->
-
+// <!--    ScreenLockState form_32 -->
 $.ajax({
     url: '../php_code/get_dictionaryitems.php?code=ScreenLockState',
     method: 'get',
@@ -235,7 +234,7 @@ $(function () {
     //$(".panel-heading span.glyphicon").trigger('click');
 
 
-    <!--    sequrity question chamonatvali -->
+    // <!--    sequrity question chamonatvali -->
     $.ajax({
         url: '../php_code/get_sq.php',
         method: 'get',
@@ -826,7 +825,7 @@ function getsublists(br_id) {
 
     var sel_org_id = $('#sel_organization_f31').val();
 
-    <!--        filialebis chamonatvali -->
+    // <!--        filialebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_branches.php?id=' + sel_org_id,
         method: 'get',
@@ -844,7 +843,7 @@ function getsublists(br_id) {
         }
     });
 
-    <!--        domainebis  chamonatvali -->
+    // <!--        domainebis  chamonatvali -->
     // $.ajax({
     //     url: '../php_code/get_domains.php?id=' + sel_org_id,
     //     method: 'get',
@@ -856,7 +855,7 @@ function getsublists(br_id) {
     //     }
     // });
 
-    <!--    usafrtxoebis damatebiti maili -->
+    // <!--    usafrtxoebis damatebiti maili -->
     $.ajax({
         url: '../php_code/get_rmail.php?id=' + sel_org_id,
         method: 'get',
@@ -958,7 +957,6 @@ function localRefresh() {
 
 setTimeout(function () {
     // $('#p2').text($('#p1').text());
-
 }, 500);
 
 
@@ -975,6 +973,72 @@ $('.eye').on('click', function () {
         aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
     }
 });
+
+var clicked_eye;
+var atag;
+var aicon;
+var browseMode = true;
+
+$('.eye0').on('click', function () {
+    atag = $(this).closest('.input-group').find('input');
+    aicon = $(this).find('span');
+    clicked_eye = $(this).data('whatever');
+    
+    if (atag.attr('type') == "text"){
+        atag.attr('type','password');
+        aicon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+    } else {
+        if (browseMode == false){
+            atag.attr('type','text');
+            aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+        } else{
+            $('#dialog1').modal('show');
+        }
+    }
+});
+
+
+$('#btndone').on('click',function(event){
+    // clicked_eye.attr('data-target','');
+    atag.attr('type','text');
+    aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+
+    // aq vagzavnit logebs serverze
+    var dataObj = {
+        'applID': tempApplID,
+        'text': $('#message-text').val(),
+        'whichpass': clicked_eye
+    };
+    // tempApplID -shi aris mimdinare da chawerili ID
+
+    $.ajax({
+        url: '../php_code/ins_applpasslog.php',
+        method: 'post',
+        data: dataObj,
+        success: function (response) {
+            
+            console.log(response);
+        }
+    });    
+
+    $('#dialog1').modal('hide');
+    $('#message-text').val('');
+    $('#btndone').attr('disabled',true);    
+})
+
+$('#message-text').on('keyup',function(){
+    var textdata = $('#message-text').val();
+    
+    if (textdata.length > 10){
+        $('#btndone').attr('disabled',false);
+    }else{
+        $('#btndone').attr('disabled',true);
+    }
+})
+
+$('#dialog1').on('shown.bs.modal', function () {
+    $('#message-text').trigger('focus')
+})
 
 $('.passgen').on('click', function (event) {
 

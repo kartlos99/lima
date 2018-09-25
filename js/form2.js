@@ -5,12 +5,14 @@ var domDane = false;
 var rmailDane = false;
 var stDane = false;
 var questionDane = false;
+var currmailid = '0';
+var browseMode = false;
 ///var orgDane = false;
 
 $('#block2').hide();
 $('button').addClass('btn-sm');
 
-<!--    organizaciebis chamonatvali -->
+// <!--    organizaciebis chamonatvali -->
 $.ajax({
     url: '../php_code/get_organizations.php',
     method: 'get',
@@ -23,7 +25,7 @@ $.ajax({
     }
 });
 
-<!--    sequrity question chamonatvali -->
+// <!--    sequrity question chamonatvali -->
 $.ajax({
     url: '../php_code/get_sq.php',
     method: 'get',
@@ -39,7 +41,6 @@ $.ajax({
                 i++;
                 $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q'+i);
             }
-
         });
         questionDane = true;
     }
@@ -58,7 +59,7 @@ function getsublists(reason, rid) {
 
     var sel_org_id = $('#sel_organization').val();
 
-    <!--        filialebis chamonatvali -->
+    // <!--        filialebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_branches.php?id=' + sel_org_id,
         method: 'get',
@@ -71,7 +72,7 @@ function getsublists(reason, rid) {
         }
     });
 
-    <!--        domainebis  chamonatvali -->
+    // <!--        domainebis  chamonatvali -->
     $.ajax({
         url: '../php_code/get_domains.php?id=' + sel_org_id,
         method: 'get',
@@ -84,7 +85,7 @@ function getsublists(reason, rid) {
         }
     });
 
-    <!--    usafrtxoebis damatebiti maili -->
+    // <!--    usafrtxoebis damatebiti maili -->
     $.ajax({
         url: '../php_code/get_rmail.php?id=' + sel_org_id,
         method: 'get',
@@ -107,7 +108,7 @@ function getsublists(reason, rid) {
 
 }
 
-<!--    statusebi am ApplID cxrilistvis -->
+// <!--    statusebi am ApplID cxrilistvis -->
 $('#sel_status').empty();
 $.ajax({
     url: '../php_code/get_statuses.php?objname=ApplID',
@@ -121,8 +122,6 @@ $.ajax({
         stDane =true;
     }
 });
-
-var currmailid = '0';
 
 $('#form1').on('submit', function (event) {
     event.preventDefault();
@@ -264,6 +263,8 @@ function onRowClick(num) {
     if ($('#block2').css('display') != 'none' ){
         alert("შეინახეთ ან გააუქმეთ მიმდინარე მონაცემები!");
     }else{
+        browseMode = true;
+        currApplID = num;
         var thetr = "tr[onclick=\"onRowClick("+num+")\"]";
         $('#table_block3 tr').css({
             'background-color': 'white'
@@ -294,8 +295,6 @@ function onRowClick(num) {
                 $("#appl_id_pass").val(row.AplPassword);
                 $("#bday").val(row.AplBirthDay);
                 $("#country").val(row.AplCountry);
-                console.log(questionDane);
-                console.log('**********');
 
                 $("#ans1").val(row.AplSequrityQuestion1Answer);
                 $("#ans2").val(row.AplSequrityQuestion2Answer);
@@ -345,10 +344,9 @@ function onRowClick(num) {
 }
 
 $('.eye').on('click', function () {
-
-    var atag = $(this).closest('.input-group').find('input');
-    var aicon = $(this).find('span');
-
+    atag = $(this).closest('.input-group').find('input');
+    aicon = $(this).find('span');
+    
     if (atag.attr('type') == "text"){
         atag.attr('type','password');
         aicon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
@@ -357,6 +355,69 @@ $('.eye').on('click', function () {
         aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
     }
 });
+
+var clicked_eye;
+var atag;
+var aicon;
+
+$('.eye0').on('click', function () {
+    atag = $(this).closest('.input-group').find('input');
+    aicon = $(this).find('span');
+    clicked_eye = $(this).data('whatever');
+    
+    if (atag.attr('type') == "text"){
+        atag.attr('type','password');
+        aicon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+    } else {
+        if (browseMode == false){
+            atag.attr('type','text');
+            aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+        } else{
+            $('#dialog1').modal('show');
+        }
+    }
+});
+
+$('#btndone').on('click',function(event){
+    // clicked_eye.attr('data-target','');
+    atag.attr('type','text');
+    aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+
+    // aq vagzavnit logebs serverze
+    var dataObj = {
+        'applID': currApplID,
+        'text': $('#message-text').val(),
+        'whichpass': clicked_eye
+    };
+
+    $.ajax({
+        url: '../php_code/ins_applpasslog.php',
+        method: 'post',
+        data: dataObj,
+        success: function (response) {
+            
+            console.log(response);
+        }
+    });    
+
+    $('#dialog1').modal('hide');
+    $('#message-text').val('');
+    $('#btndone').attr('disabled',true);    
+})
+
+$('#message-text').on('keyup',function(){
+    var textdata = $('#message-text').val();
+    
+    if (textdata.length > 10){
+        $('#btndone').attr('disabled',false);
+    }else{
+        $('#btndone').attr('disabled',true);
+    }
+})
+
+$('#dialog1').on('shown.bs.modal', function () {
+    $('#message-text').trigger('focus')
+})
 
 $('.passgen').on('click', function () {
 
@@ -369,6 +430,40 @@ $('.passgen').on('click', function () {
     $(this).closest('.input-group').find('input').val(text);
 });
 
+$('.passgen_apl').on('click', function (event) {
+    var doit = false;
+    if ($(this).closest('.input-group').find('input').val() != ""){
+        if (confirm("გსურთ პაროლის შეცვლა?")) {
+            doit = true;
+        }
+    } else{
+        doit = true;
+    }
+    if (doit) {
+
+        var text = "";
+        var possible = "0123456789";
+        var symbolBIG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var symbolSmail = "abcdefghijklmnopqrstuvwxyz";
+        var symbolSpec = "!@#$%";
+
+        text += symbolBIG.charAt(Math.floor(Math.random() * symbolBIG.length));
+        text += ".";
+        text += symbolSmail.charAt(Math.floor(Math.random() * symbolSmail.length));
+        text += "-";
+
+        for (var i = 0; i < 4; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        text += symbolSpec.charAt(Math.floor(Math.random() * symbolSpec.length));
+
+        $(this).closest('.input-group').find('input').val(text).attr('readonly',true);
+        $(this).attr('disabled',true);
+        // $('#appl_id_pass').attr('readonly',false).css('backgroundColor','#ff9e97');
+        // $('#appl_id_pass').attr('readonly',true);
+    }
+});
+
 $(function() {
 
     $('ul.components').find('li').removeClass('active');
@@ -378,7 +473,7 @@ $(function() {
         // e.i. ganaxlebis rejimshi vart
         currApplID = getCookie("ApplIDID");
         document.cookie = "ApplIDID=0";
-        console.log(currApplID);
+        
 
         $("#sel_organization").attr('disabled', true);
         $("#sel_branch").attr('disabled', true);

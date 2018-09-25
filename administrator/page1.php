@@ -128,15 +128,15 @@ include_once 'header.php';
                     <label for="appl_id_pass">appl id pass</label>
 
                     <div class="input-group">
-                        <input type="text" class="form-control" id="appl_id_pass" placeholder="appl id pass"
-                               name="applidpass">
+                        <input type="password" class="form-control" id="appl_id_pass" placeholder="appl id pass"
+                               name="applidpass" readonly=true>
 
                         <div class="input-group-btn">
-                            <button class="btn btn-default passgen" type="button"><span
+                            <button class="btn btn-default passgen_apl" type="button"><span
                                     class="glyphicon glyphicon-refresh"
                                     aria-hidden="true"></span></button>
-                            <button class="btn btn-default eye" type="button"><span
-                                    class="glyphicon glyphicon-eye-close"
+                            <button class="btn btn-default eye0" type="button" data-toggle="modal" data-target="" data-whatever="applidpass"><span
+                                    class="glyphicon glyphicon-eye-open"
                                     aria-hidden="true"></span></button>
                         </div>
                     </div>
@@ -172,14 +172,14 @@ include_once 'header.php';
                     <label for="ans1">Answer 1</label>
 
                     <div class="input-group">
-                        <input type="text" class="form-control" id="ans1" placeholder="" name="ans1">
+                        <input type="password" class="form-control" id="ans1" placeholder="" name="ans1">
 
                         <div class="input-group-btn">
                             <button class="btn btn-default passgen" type="button"><span
                                     class="glyphicon glyphicon-refresh"
                                     aria-hidden="true"></span></button>
-                            <button class="btn btn-default eye" type="button"><span
-                                    class="glyphicon glyphicon-eye-close"
+                            <button class="btn btn-default eye0" type="button" data-toggle="modal" data-target="" data-whatever="sq1"><span
+                                    class="glyphicon glyphicon-eye-open"
                                     aria-hidden="true"></span></button>
                         </div>
                     </div>
@@ -197,14 +197,14 @@ include_once 'header.php';
                     <label for="ans2">Answer 2</label>
 
                     <div class="input-group">
-                        <input type="text" class="form-control" id="ans2" placeholder="" name="ans2">
+                        <input type="password" class="form-control" id="ans2" placeholder="" name="ans2">
 
                         <div class="input-group-btn">
                             <button class="btn btn-default passgen" type="button"><span
                                     class="glyphicon glyphicon-refresh"
                                     aria-hidden="true"></span></button>
-                            <button class="btn btn-default eye" type="button"><span
-                                    class="glyphicon glyphicon-eye-close"
+                            <button class="btn btn-default eye0" type="button" data-toggle="modal" data-target="" data-whatever="sq2"><span
+                                    class="glyphicon glyphicon-eye-open"
                                     aria-hidden="true"></span></button>
                         </div>
                     </div>
@@ -222,14 +222,14 @@ include_once 'header.php';
                     <label for="ans3">Answer 3</label>
 
                     <div class="input-group">
-                        <input type="text" class="form-control" id="ans3" placeholder="" name="ans3">
+                        <input type="password" class="form-control" id="ans3" placeholder="" name="ans3">
 
                         <div class="input-group-btn">
                             <button class="btn btn-default passgen" type="button"><span
                                     class="glyphicon glyphicon-refresh"
                                     aria-hidden="true"></span></button>
-                            <button class="btn btn-default eye" type="button"><span
-                                    class="glyphicon glyphicon-eye-close"
+                            <button class="btn btn-default eye0" type="button" data-toggle="modal" data-target="" data-whatever="sq3"><span
+                                    class="glyphicon glyphicon-eye-open"
                                     aria-hidden="true"></span></button>
                         </div>
                     </div>
@@ -272,6 +272,29 @@ include_once 'header.php';
             <table id="table_block3" class="datatable"></table>
         </div>
     </div>
+
+<div class="modal fade" id="dialog1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">პაროლის ნახვის მიზეზი</h5>
+        
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">დაასაბუთეთ ნახვის საჭიროება:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">დახურვა</button>
+        <button id="btndone" type="button" class="btn btn-primary" data-dismiss="modal" disabled>გაგზავნა</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php
 include_once 'footer.php';
