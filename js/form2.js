@@ -333,6 +333,13 @@ function onRowClick(num) {
                             alert("Appl ID დაკავებულია, რედაქტირებისთვის იხილეთ ხელშეკრულება N: " + r.AgrNumber);
                             $('#block2 *').attr('disabled',true);
                         }
+                        
+                        if ($('#currusertype').data('ut') == "iCloudGrH"){
+                            $("#sel_status").attr('disabled',false);
+                            $("#sel_status *").attr('disabled',false);
+                            $("#comment").attr('disabled',false);
+                            $("#btn_f2submit").attr('disabled',false);
+                        }
                     }
                 });
 
@@ -394,8 +401,7 @@ $('#btndone').on('click',function(event){
         url: '../php_code/ins_applpasslog.php',
         method: 'post',
         data: dataObj,
-        success: function (response) {
-            
+        success: function (response) {            
             console.log(response);
         }
     });    
@@ -468,7 +474,7 @@ $(function() {
 
     $('ul.components').find('li').removeClass('active');
     $('ul.components').find('li.newiCloudLi').addClass('active');
-
+    
     if (getCookie("ApplIDID") != "" && getCookie("ApplIDID") != 0) {
         // e.i. ganaxlebis rejimshi vart
         currApplID = getCookie("ApplIDID");

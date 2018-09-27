@@ -15,6 +15,7 @@ SELECT di.ID, di.Code, di.`ValueText` FROM `DictionariyItems` di
 LEFT JOIN Dictionaries d
 ON di.`DictionaryID` = d.ID
 WHERE d.Code = '$code'
+order by `SortID`
 ";
 
 $result = mysqli_query($conn,$sql);

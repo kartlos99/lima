@@ -12,58 +12,84 @@ $currUserID = $_SESSION['userID'];
 //print_r($_POST);
 //print_r($_SESSION);
 //$VALUE = array();
+$applset = "";
 
-$saxeli = $_POST['saxeli'];
-$gvari = $_POST['gvari'];
-$applid = $_POST['applid'];
-$applidpass = $_POST['applidpass'];
-$bday = $_POST['bday'];
-$country = $_POST['country'];
-$rmail = $_POST['rmail'];
+if (isset($_POST['saxeli'])){
+    $applset .= "`AplFirstName` = '" . $_POST['saxeli'] . "', ";
+}
+if (isset($_POST['gvari'])){
+    $applset .= "`AplLastName` = '" . $_POST['gvari'] . "', ";
+}
+if (isset($_POST['applid'])){
+    $applset .= "`AplApplID` = '" . $_POST['applid'] . "', ";
+}
+if (isset($_POST['applidpass'])){
+    $applset .= "`AplPassword` = '" . $_POST['applidpass'] . "', ";
+}
+if (isset($_POST['bday'])){
+    $applset .= "`AplBirthDay` = '" . $_POST['bday'] . "', ";
+}
+if (isset($_POST['country'])){
+    $applset .= "`AplCountry` = '" . $_POST['country'] . "', ";
+}
+if (isset($_POST['rmail'])){
+    $applset .= "`AplRescueEmailID` = " . $_POST['rmail'] . ", ";
+}
 
-$q1 = $_POST['q1'];
-$ans1 = $_POST['ans1'];
-$q2 = $_POST['q2'];
-$ans2 = $_POST['ans2'];
-$q3 = $_POST['q3'];
-$ans3 = $_POST['ans3'];
 
-$statusid = $_POST['status'];
-$comment = $_POST['comment'];
+if (isset($_POST['q1'])){
+    $applset .= "`AplSequrityQuestion1ID` = " . $_POST['q1'] . ", ";
+}
+if (isset($_POST['ans1'])){
+    $applset .= "`AplSequrityQuestion1Answer` = '" . $_POST['ans1'] . "', ";
+}
+if (isset($_POST['q2'])){
+    $applset .= "`AplSequrityQuestion2ID` = " . $_POST['q2'] . ", ";
+}
+if (isset($_POST['ans2'])){
+    $applset .= "`AplSequrityQuestion2Answer` = '" . $_POST['ans2'] . "', ";
+}
+if (isset($_POST['q3'])){
+    $applset .= "`AplSequrityQuestion3ID` = " . $_POST['q3'] . ", ";
+}
+if (isset($_POST['ans3'])){
+    $applset .= "`AplSequrityQuestion3Answer` = '" . $_POST['ans3'] . "', ";
+}
 
-$emName = $_POST['emName'];
-$emDom = $_POST['emDom'];
-$emPass = $_POST['emPass'];
+
+if (isset($_POST['status'])){
+    $applset .= "`StateID` = " . $_POST['status'] . ", ";
+}
+if (isset($_POST['comment'])){
+    $applset .= "`Comment` = '" . $_POST['comment'] . "', ";
+}
+
+$applset .= "   `ModifyDate` = $currDate,
+                `ModifyUser` = '$currUser',
+                `ModifyUserID` = $currUserID";
+
+
+$emailset = "";
+
+if (isset($_POST['emName'])){
+    $emailset .= "`EmEmail` = '" . $_POST['emName'] . "', ";
+}
+if (isset($_POST['emDom'])){
+    $emailset .= "`DomainID` = " . $_POST['emDom'] . ", ";
+}
+if (isset($_POST['emPass'])){
+    $emailset .= "`EmEmailPass` = '" . $_POST['emPass'] . "', ";
+}
 
 $mailid = $_GET['id'];
 
-$sql = "
-UPDATE
-    `ApplID`
-SET
-    `AplFirstName` = '$saxeli',
-    `AplLastName` = '$gvari',
-    `AplCountry` = '$country',
-    `AplBirthDay` = '$bday',
-    `AplApplID` = '$applid',
-    `AplPassword` = '$applidpass',
-    `AplSequrityQuestion1ID` = '$q1',
-    `AplSequrityQuestion1Answer` = '$ans1',
-    `AplSequrityQuestion2ID` = '$q2',
-    `AplSequrityQuestion2Answer` = '$ans2',
-    `AplSequrityQuestion3ID` = '$q3',
-    `AplSequrityQuestion3Answer` = '$ans3',
-    `AplRescueEmailID` = '$rmail',
-    `StateID` = $statusid,
-    `Comment` = '$comment',
-    `ModifyDate` = $currDate,
-    `ModifyUser` = '$currUser',
-    `ModifyUserID` = $currUserID
-WHERE
-    AplAccountEmailID = '$mailid' AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))
-";
+$sql = "UPDATE `ApplID` SET " . $applset . " WHERE AplAccountEmailID = '$mailid' ";
 
-$result = mysqli_query($conn,$sql);
+if ($_SESSION['usertype'] != "iCloudGrH"){
+    $sql .= " AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))";
+}
+
+$result = mysqli_query($conn, $sql);
 if ($result){
     echo 'ok';
 }else{
@@ -71,29 +97,25 @@ if ($result){
 }
 
 // mailis ganaxleba
+$statusid = $_POST['status'];
 $sql = "
 UPDATE
   `Emails`
-SET
-    `DomainID` = $emDom,
-    `EmEmail` = '$emName',
-    `EmEmailPass` = '$emPass',
+SET " . $emailset . "
     `EmEmailDate` = $currDate,
     `StateID` = status_apltomail($statusid),
     `ModifyDate` = $currDate,
     `ModifyUser` = '$currUser',
     `ModifyUserID` = $currUserID
 WHERE
-    ID = $mailid
-";
+    ID = $mailid ";
 
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($conn, $sql);
 if ($result){
     echo 'ok';
 }else{
     echo mysqli_error($conn);
 }
-
 
 $conn ->close();
 ?>

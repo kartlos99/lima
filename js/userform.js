@@ -185,6 +185,11 @@ $(function () {
     $('#u_state').attr('disabled', true);
 
     $('#btn_passchange').attr('disabled', true);
+    $('ul.nav-pills').css({
+        'background' : '#dddddd',
+        'border-radius' : '6px',
+        'margin' : '6px'
+    })
 });
 
 

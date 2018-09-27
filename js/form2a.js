@@ -1,1 +1,2 @@
-$('#sidebar ul.components').hide();
+$('ul.components li').hide();
+$('li.newiCloudLi').show();

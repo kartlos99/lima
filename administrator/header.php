@@ -39,7 +39,7 @@ if ($pos !== false ){
 
 </head>
 <body onpageshow="f_show()" onpagehide="f_hide()">
-
+<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['usertype'] ?>"/>
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
@@ -79,7 +79,7 @@ if ($pos !== false ){
                 <div class="navbar-header">
                     <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
                         <i class="glyphicon glyphicon-align-left"></i>
-                        <span>Sidebar</span>
+                        <span></span>
                     </button>
                 </div>
 
