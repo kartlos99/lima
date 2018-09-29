@@ -37,19 +37,19 @@ if (isset($_POST['rmail'])){
 }
 
 
-if (isset($_POST['q1'])){
+if (isset($_POST['q1']) && $_POST['q1'] != "" ){
     $applset .= "`AplSequrityQuestion1ID` = " . $_POST['q1'] . ", ";
 }
 if (isset($_POST['ans1'])){
     $applset .= "`AplSequrityQuestion1Answer` = '" . $_POST['ans1'] . "', ";
 }
-if (isset($_POST['q2'])){
+if (isset($_POST['q2']) && $_POST['q3'] != "" ){
     $applset .= "`AplSequrityQuestion2ID` = " . $_POST['q2'] . ", ";
 }
 if (isset($_POST['ans2'])){
     $applset .= "`AplSequrityQuestion2Answer` = '" . $_POST['ans2'] . "', ";
 }
-if (isset($_POST['q3'])){
+if (isset($_POST['q3']) && $_POST['q3'] != "" ){
     $applset .= "`AplSequrityQuestion3ID` = " . $_POST['q3'] . ", ";
 }
 if (isset($_POST['ans3'])){
@@ -88,10 +88,11 @@ $sql = "UPDATE `ApplID` SET " . $applset . " WHERE AplAccountEmailID = '$mailid'
 if ($_SESSION['usertype'] != "iCloudGrH"){
     $sql .= " AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))";
 }
-
+echo $sql;
 $result = mysqli_query($conn, $sql);
 if ($result){
     echo 'ok';
+    echo $sql;
 }else{
     echo mysqli_error($conn);
 }
