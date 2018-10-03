@@ -12,6 +12,7 @@ var currOrg = 0;
 var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
 var reasonEdit = false;
 var limited = false;
+var candidateApplidID = 0;
 
 $('button').addClass('btn-sm');
 
@@ -170,6 +171,7 @@ function getAgreement() {
                     }
 
                     if (currApplID != 0) {
+                        candidateApplidID = currApplID;
                         $('#btn_get_f33').trigger('click');
                         pan3Active = true;
                     } else {
@@ -646,8 +648,9 @@ $('#btn_go_f33').on('click', function () {
                     $('#btn_get_f33').attr('disabled', true);
                 }
 
-                tempApplID = response.id;
+                candidateApplidID = response.id;
                 $('#result_f33').val(response.AppleIDRv + response.AgreementRv + response.ProblemRv);
+                $('#result_f33').attr('title', response.AppleIDRv + response.AgreementRv + response.ProblemRv);
             }
         });
     } else {
@@ -657,8 +660,8 @@ $('#btn_go_f33').on('click', function () {
 
 $('#btn_get_f33').on('click', function () {
     var applid = $('#applid_f33').val();
-    $('#apl_history').attr('href','../php_code/get_applid_history.php?aplID=' + tempApplID);
-    console.log(tempApplID);
+    tempApplID = candidateApplidID;
+    console.log(candidateApplidID);
     $.ajax({
         url: '../php_code/get_apple_id_data.php?id=' + tempApplID,
         method: 'get',
@@ -703,6 +706,9 @@ $('#btn_get_f33').on('click', function () {
                 $('#pan_f33 span.panel-info').text("შექმნა: "+ item.CreateUser + " "+ item.CreateDate +" / რედაქტირება: " + item.ModifyUser + " " + item.ModifyDate + " ");
                 capuser = item.CreateUser;
                 capdate = item.CreateDate ;
+                
+                $('#apl_history').attr('href','../php_code/get_applid_history.php?aplID=' + tempApplID);
+                $('#btn_get_f33').attr('disabled', true);
             }
 
         }
