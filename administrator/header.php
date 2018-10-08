@@ -15,6 +15,11 @@ if ($pos !== false ){
         header("Location: $url");
     }
 }
+
+if (strpos($_SERVER['PHP_SELF'], "reports.php") && $_SESSION['usertype'] != 'iCloudGrH' ){
+    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/login.php";
+    header("Location: $url");
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +65,10 @@ if ($pos !== false ){
             </li>
             <?php
                 if ($_SESSION['usertype'] == 'admin')
-                echo('<li  class="userManLi"><a href="userman.php">მომხმარებლები</a></li>');?>
+                echo('<li  class="userManLi"><a href="userman.php">მომხმარებლები</a></li>');
+                if ($_SESSION['usertype'] == 'iCloudGrH')
+                echo('<li  class="reportsPage"><a href="reports.php">რეპორტები</a></li>');
+            ?>
         </ul>
 
         <ul class="list-unstyled CTAs">

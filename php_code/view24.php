@@ -10,6 +10,29 @@ if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'))
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
 
+$kreteria = "";
+$kreteria1 = "";
+
+if (isset($_POST['datefrom']) && $_POST['datefrom'] != ''){
+    $d1 = $_POST['datefrom'];
+    $kreteria .= " ah.ModifyDate >= '$d1' ";
+    $kreteria1 .= " a.ModifyDate >= '$d1' ";
+}
+if (isset($_POST['dateto']) && $_POST['dateto'] != ''){
+    if (strlen($kreteria) > 0){
+        $kreteria .= " AND ";
+        $kreteria1 .= " AND ";
+    }
+    $d2 = $_POST['dateto'];
+    $kreteria .= " ah.ModifyDate <= '$d2' ";
+    $kreteria1 .= " a.ModifyDate <= '$d2' ";
+}
+
+if (strlen($kreteria) > 0){
+    $kreteria = " WHERE " . $kreteria;
+    $kreteria1 = " WHERE " . $kreteria1;
+}
+
 
 $sql = "
 SELECT
@@ -30,8 +53,7 @@ FROM
     `ApplIDHistory` ah
 LEFT JOIN States s ON
     s.ID = ah.stateID
-WHERE
-    ah.ApplIDID > 3000
+$kreteria
 UNION
 SELECT
     a.`ID` AS aID,
@@ -51,19 +73,24 @@ FROM
     `ApplID` a
 LEFT JOIN States s ON
     s.ID = a.stateID
-WHERE
-    a.ID > 3000
+$kreteria1
 ORDER BY
     aID,
     sort,
     ModifyDate ";
 
-
+// echo $sql;
 $result = mysqli_query($conn, $sql);
 
 $arr = array();
-foreach($result as $row){
-    $arr[] = $row;
+
+$rowCount = mysqli_num_rows($result);
+// echo $rowCount;
+if ( $rowCount > 0 ){
+    foreach($result as $row){
+        $arr[] = $row;
+    }
+    
 }
 
 // 2.4 view-s damushaveba, mzadaa

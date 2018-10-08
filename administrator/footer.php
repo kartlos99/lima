@@ -65,6 +65,11 @@ if ($pos !== false ){
     echo "src=\"../js/paramPage.js\"";
     $thisPage = 'param';
 }
+    $pos = strpos($_SERVER['PHP_SELF'], "reports.php");
+if ($pos !== false ){
+    echo "src=\"../js/reports.js\"";
+    $thisPage = 'reports';
+}
 ?> ></script>
 
 <?php

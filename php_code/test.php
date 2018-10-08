@@ -5,7 +5,7 @@ session_start();
 
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
-$emEmail = 'zuuy';
+$emEmail = 'ttt';
 
 $sql_chek = "SELECT checkmail('".$emEmail."',4) AS num ";
 $result1 = mysqli_query($conn, $sql_chek);
@@ -14,5 +14,7 @@ $count = $arr['num'];
 
 
 echo($count);
+
+print_r ($_SESSION);
 
 ?>

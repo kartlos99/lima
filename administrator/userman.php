@@ -20,8 +20,8 @@
             </ul>
             <div class="switch">
 
-<hr>
-</div>
+                <hr>
+            </div>
 
             <!-- <button id="_btn_newuser" type="submit" class="btn btn-primary btn-sm">ახალი მომხმარებელი</button>
             <a id="_btn_search" class="btn btn-primary btn-sm">ძებნა</a>
