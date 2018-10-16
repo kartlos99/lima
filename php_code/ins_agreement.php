@@ -1,5 +1,5 @@
 <?php
-
+// აქ შემოდის ხელშეკრულების (1 blokis) გახსნაზეც და რედაქტირებაზეც
 include_once '../config.php';
 session_start();
 
@@ -140,7 +140,7 @@ if ($count > 0) {
     
             $iphoneID = $_POST['iphoneID'];
             $applIDID = $_POST['applid_ID'];
-    
+
             $sql = "
             UPDATE
               `Agreements`
@@ -157,8 +157,7 @@ if ($count > 0) {
               `ModifyUser` = '$currUser',
               `ModifyUserID` = $currUserID
             WHERE
-              ID = $agrID
-            ";
+                ID = $agrID ";
     
             $result = mysqli_query($conn, $sql);
             if ($result) {
@@ -167,20 +166,23 @@ if ($count > 0) {
                 $backinfo['info_mdate'] = date("Y-m-d H:i", time());
 
                 // tu xelshekruleba daixura (Closed) mibmuli applID statusi gadadis aRsadgenshi
-                $sql_chek_Status = "SELECT Code FROM `States` WHERE ID = $status";
-                $result_Status = mysqli_query($conn, $sql_chek_Status);
+                // da vafiqsirebt tarigs rom ragac periodi agar iyos xelmisawvdomi
+                if ($rs1['Code'] == 'Closed'){
 
-                if (mysqli_num_rows($result_Status) > 0){
-                        $get_StatusCode = mysqli_fetch_assoc($result_Status);
-                        if ($get_StatusCode['Code'] == 'Closed') {
-
-                            $sql_update = "UPDATE    ApplID SET   `StateID` = getstateid('Restore', getobjid('ApplID')) WHERE    ID = $applIDID";
-                            $result_update = mysqli_query($conn, $sql_update);
-                            if (!$result_update){
-                                $backinfo['error'] = 'xelshekruleba daixura! applID statusi ver sheicvala!!!';
-                            }
-                        }
+                    $sql_update = "
+                    UPDATE
+                        ApplID
+                    SET 
+                        `StateID` = getstateid('Restore', getobjid('ApplID')), 
+                        `reservDate` = UNIX_TIMESTAMP() 
+                    WHERE
+                        ID = $applIDID";
+                    $result_update = mysqli_query($conn, $sql_update);
+                    if (!$result_update){
+                        $backinfo['error'] = 'xelshekruleba daixura! applID statusi ver sheicvala!!!';
+                    }
                 }
+                
                 // ****************************************************************************
 
             } else {

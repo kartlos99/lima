@@ -30,7 +30,9 @@ include_once 'header.php';
                         </select>
                     </td>
                     <td>
-                        <input id="onlyme_f11" type="checkbox" name="onlyme" value="1">მხოლოდ ჩემები
+                        <label>
+                            <input id="onlyme_f11" type="checkbox" name="onlyme" value="1"> მხოლოდ ჩემები
+                        </label>                        
                     </td>
                 </tr>
             </table>
@@ -85,29 +87,14 @@ include_once 'header.php';
                     </td>
                 </tr>
             </table>
+                <input id="f11_pageN" type="hidden" name="pageN" value="0" />
             </form>
 
             <p class="info">ძიების შედეგი (იძებნება MAX 20 ჩანაწერი)</p>
             <table id="table_f11" class="datatable"></table>
 
             <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <ul id="f11_ul" class="pagination"></ul>
             </nav>
 
         </div>
@@ -231,29 +218,14 @@ include_once 'header.php';
                     </td>
                 </tr>
             </table>
+                <input id="f13_pageN" type="hidden" name="pageN" value="0" />
             </form>
 
             <p class="info">ძიების შედეგი</p>
             <table id="table_f13" class="datatable"></table>
 
             <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <ul id="f13_ul" class="pagination"></ul>
             </nav>
 
         </div>

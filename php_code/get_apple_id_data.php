@@ -6,6 +6,10 @@
  * Time: 1:36 PM
  */
 include_once '../config.php';
+session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 $orgID = 0;
 
@@ -22,7 +26,10 @@ if ($id == 0){
             ap.StateID = st.ID
         
         WHERE
-            st.Code = 'Active' AND ap.`OrganizationID` = $orgID AND 'Active' <> ALL(
+            st.Code = 'Active' 
+            AND ap.`OrganizationID` = $orgID 
+            AND UNIX_TIMESTAMP() - ap.reservDate > (select valueint from dictionariyitems where CODE = 'reserv_period')
+            AND 'Active' <> ALL(
             SELECT
                 agst.Code
             FROM

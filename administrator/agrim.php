@@ -149,7 +149,9 @@ include_once 'header.php';
                         </select>
                     </td>
                     <td>
-                        <input id="simfree_f322" type="checkbox" name="simfree" value="1">SIM Free
+                        <label>
+                            <input id="simfree_f322" type="checkbox" name="simfree" value="1"> SIM Free
+                        </label>
                     </td>
                 </tr>
             </table>

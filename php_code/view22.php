@@ -7,6 +7,13 @@ if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'))
     die('rejected');
 }
 
+$cvlebi_HH = [];
+$sql_getCvlevi = "SELECT ValueText FROM `dictionariyitems` WHERE `Code` = 'cvlebi'";
+$result = mysqli_query($conn, $sql_getCvlevi);
+$res = mysqli_fetch_assoc($result);
+$cvlebi_HH = explode('|', $res['ValueText']);
+// print_r($cvlebi_HH);
+
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
 
@@ -33,6 +40,19 @@ if (strlen($kreteria) > 0){
     $kreteria1 = " WHERE " . $kreteria1;
 }
 
+$cvlebis_dayofa = "(CASE  
+WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[0] AND HOUR(ah.`ModifyDate`) < $cvlebi_HH[1] THEN 1
+WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[1] AND HOUR(ah.`ModifyDate`) < $cvlebi_HH[2] THEN 2
+WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[2] AND HOUR(ah.`ModifyDate`) < $cvlebi_HH[3] THEN 3
+WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[3] OR HOUR(ah.`ModifyDate`) < $cvlebi_HH[0] THEN 4
+END) AS cvla";
+$cvlebis_dayofa1 = "(CASE  
+WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[0] AND HOUR(a.`ModifyDate`) < $cvlebi_HH[1] THEN 1
+WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[1] AND HOUR(a.`ModifyDate`) < $cvlebi_HH[2] THEN 2
+WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[2] AND HOUR(a.`ModifyDate`) < $cvlebi_HH[3] THEN 3
+WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[3] OR HOUR(a.`ModifyDate`) < $cvlebi_HH[0] THEN 4
+END) AS cvla";
+
 $sql = "
 SELECT
     `AgreementID` AS aID,
@@ -41,11 +61,7 @@ SELECT
     `Date`,
     ah.`StateID`,
     ah.`ModifyDate`,
-    (CASE  
-     	WHEN HOUR(ah.`ModifyDate`) < 8 THEN 1 
-     	WHEN HOUR(ah.`ModifyDate`) >= 8 AND HOUR(ah.`ModifyDate`) < 16 THEN 2
-     	WHEN HOUR(ah.`ModifyDate`) >= 16 THEN 3
-     END) AS cvla,
+    $cvlebis_dayofa,
     ah.`ModifyUser`,
     s.Code,
     1 AS sort
@@ -66,11 +82,7 @@ SELECT
     `Date`,
     a.`StateID`,
     a.`ModifyDate`,
-    (CASE  
-     	WHEN HOUR(a.`ModifyDate`) < 8 THEN 1 
-     	WHEN HOUR(a.`ModifyDate`) >= 8 AND HOUR(a.`ModifyDate`) < 16 THEN 2
-     	WHEN HOUR(a.`ModifyDate`) >= 16 THEN 3
-     END) AS cvla,
+    $cvlebis_dayofa1,
     a.`ModifyUser`,
     s.Code,
     2 AS sort

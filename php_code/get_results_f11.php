@@ -7,13 +7,22 @@
  */
 include_once '../config.php';
 session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 $currUserID = $_SESSION['userID'];
 $minDate = "0000-00-00";
 $maxDate = "2100-01-01";
 $query = "";
-$Limit=" 
-Limit 20
-";
+if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH')){
+    $Limit_N="20";    
+} else {
+    $Limit_N="50";
+}
+$pageN = $_POST['pageN'];
+$start_row = $pageN * $rowsAtPage;
+$Limit=" Limit $start_row, $rowsAtPage";
+
 $allFields = "SELECT a.ID, a.Number, Date(a.Date) AS Date, s.Value AS status, IFNULL(i.PhIMEINumber, '-') AS IMEI, IFNULL(d.ValueText, '-') AS Model, IFNULL(apl.AplApplID, '-') AS ApplID, o.OrganizationName, b.BranchName ";
 $s_count = "SELECT count(a.ID) AS n ";
 $onlyme = "";
@@ -103,6 +112,7 @@ $result1 = mysqli_query($conn,$sql_count);
 $arr = array();
 foreach($result1 as $row){
     $arr[] = $row;
+    $arr[0] += ["limit_by_user" => $Limit_N];
 }
 foreach($result as $row){
     $arr[] = $row;

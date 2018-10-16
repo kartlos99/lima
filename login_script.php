@@ -32,7 +32,7 @@ SELECT
     p.LegalAdress,
     pmap.UserName,
     pmap.UserPass,
-    pmap.PassDate,
+    UNIX_TIMESTAMP() - pmap.PassDate - (SELECT valueInt from dictionariyitems WHERE `Code` = 'userpassduration') AS passExp,
     di.Code AS UserType,
     pmap.ID
 FROM
@@ -70,7 +70,7 @@ WHERE
                 $_SESSION['userpass'] = $storPass;
 
                 $currDate = time();
-                if ((time() - $results['PassDate']) < $pass_diuration) {
+                if ( $results['passExp'] < 0 ) {
 
                     $_SESSION['username'] = $subName;
 

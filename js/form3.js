@@ -649,8 +649,12 @@ $('#btn_go_f33').on('click', function () {
                 }
 
                 candidateApplidID = response.id;
-                $('#result_f33').val(response.AppleIDRv + response.AgreementRv + response.ProblemRv);
-                $('#result_f33').attr('title', response.AppleIDRv + response.AgreementRv + response.ProblemRv);
+                var showText = response.AppleIDRv + response.AgreementRv + response.ProblemRv;
+                if (response.reservation != ""){
+                    showText += response.reservation;
+                }
+                $('#result_f33').val(showText);
+                $('#result_f33').attr('title', showText);
             }
         });
     } else {

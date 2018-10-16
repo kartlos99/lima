@@ -1,3 +1,5 @@
+var secInDay = 86400;
+
 function f_show(){};
 function f_hide(){};
 
@@ -53,6 +55,84 @@ $('#pass2').on('keyup',function (value) {
     }
     return cc;
  }
+
+ getparamiters();
+
+ function getparamiters(){
+    var data = {'io':'get'};
+    $.ajax({
+        url: '../php_code/ioparameters.php',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            // console.log(response);
+            $('#userpassduration').val(response.userpassduration/secInDay);
+            $('#applReservPeriod').val(response.reserv_period/secInDay);
+            for(var cvla_i in response.cvlebi){
+                $('#inp_cvla'+cvla_i).val(response.cvlebi[cvla_i]);
+            }
+        }
+    });
+ }
+
+ $('#btn_saveuserpass').on('click',function(){
+    var data = {'userpassduration':$('#userpassduration').val()*86400};
+    $.ajax({
+        url: '../php_code/ioparameters.php',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            // console.log(response);
+            if (response == "ok"){
+                alert ("saved");
+            }            
+        }
+    });
+ })
+
+ $('#btn_savereservperion').on('click',function(){
+    var data = {'reserv_period':$('#applReservPeriod').val()*86400};
+    $.ajax({
+        url: '../php_code/ioparameters.php',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            // console.log(response);
+            if (response == "ok"){
+                alert ("saved");
+            }            
+        }
+    });
+ })
+
+ $('#btn_save_cvlebi').on('click',function(){
+    var arraydata = "";
+    for (var i = 0; i < 4; i++){
+        if ($('#inp_cvla'+i).val() == ""){
+            $('#inp_cvla'+i).val(0);
+        }
+        arraydata += $('#inp_cvla'+i).val();
+        if (i<3){
+            arraydata += "|";
+        }
+    }
+    var data = {'cvlebi': arraydata};
+    $.ajax({
+        url: '../php_code/ioparameters.php',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            // console.log(response);
+            if (response == "ok"){
+                alert ("saved");
+            }            
+        }
+    });
+ })
 
  $('#exampleModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal

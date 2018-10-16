@@ -25,11 +25,11 @@
                 <tr>
                     <td>
                         <label for="datefrom_vr2">თარიღი-დან</label>
-                        <input type="date" id="datefrom_vr2" class="form-control" name="datefrom">
+                        <input type="date" id="datefrom_vr2" class="form-control d1" name="datefrom">
                     </td>
                     <td>
                         <label for="dateto_vr2">თარიღი-მდე</label>
-                        <input type="date" id="dateto_vr2" class="form-control" name="dateto">
+                        <input type="date" id="dateto_vr2" class="form-control d2" name="dateto">
                     </td>
                     <td class="albuttom">
                         <button id="btn_vr2_done" type="submit" class="btn btn-primary">Go</button>
@@ -60,11 +60,11 @@
                     </td>
                     <td>
                         <label for="datefrom_vr3">თარიღი-დან</label>
-                        <input type="date" id="datefrom_vr3" class="form-control" name="datefrom">
+                        <input type="date" id="datefrom_vr3" class="form-control d1" name="datefrom">
                     </td>
                     <td>
                         <label for="dateto_vr3">თარიღი-მდე</label>
-                        <input type="date" id="dateto_vr3" class="form-control" name="dateto">
+                        <input type="date" id="dateto_vr3" class="form-control d2" name="dateto">
                     </td>
                     <td class="albuttom">
                         <button id="btn_vr3_done" type="submit" class="btn btn-primary">Go</button>
@@ -83,11 +83,11 @@
                 <tr>
                     <td>
                         <label for="datefrom_vr4">თარიღი-დან</label>
-                        <input type="date" id="datefrom_vr4" class="form-control" name="datefrom">
+                        <input type="date" id="datefrom_vr4" class="form-control d1" name="datefrom">
                     </td>
                     <td>
                         <label for="dateto_vr4">თარიღი-მდე</label>
-                        <input type="date" id="dateto_vr4" class="form-control" name="dateto">
+                        <input type="date" id="dateto_vr4" class="form-control d2" name="dateto">
                     </td>
                     <td class="albuttom">
                         <button id="btn_vr4_done" type="submit" class="btn btn-primary">Go</button>

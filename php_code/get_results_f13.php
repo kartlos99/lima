@@ -59,8 +59,15 @@ if ($query != ""){
     WHERE 
     ";
 
+    $pageN = 0;
+    if (isset($_POST['pageN'])){
+        $pageN = $_POST['pageN'];
+    }
+    $start_row = $pageN * $rowsAtPage;
+    $Limit=" Limit $start_row, $rowsAtPage";
+
     $sql_count = $s_count.$sql.$query;
-    $sql = $allFields.$sql.$query." limit 0, 20";
+    $sql = $allFields.$sql.$query.$Limit;
 
     $result = mysqli_query($conn,$sql);
     $result1 = mysqli_query($conn,$sql_count);

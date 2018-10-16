@@ -24,11 +24,15 @@ $resData['ProblemRv'] = "";  //-----
 $resData['ProblemR'] = 0;  //-----
 $resData['orgID'] = 0;  //-----
 $resData['AgrNumber'] = "";   //-------------
+$resData['reservation'] = "";   // reseravion check
 $sesxi = false;
 $problem = false;
 
 $sql = "
-SELECT a.id, a.`AplApplID`, a.OrganizationID, s.code AS st FROM `ApplID` a
+SELECT 
+    a.id, a.`AplApplID`, a.OrganizationID, s.code AS st, 
+    UNIX_TIMESTAMP() - reservDate - (select valueint from dictionariyitems where CODE = 'reserv_period') AS reservation
+FROM `ApplID` a
 LEFT JOIN States s
 ON a.StateID = s.ID
 WHERE `AplApplID` = '$applid'
@@ -96,6 +100,10 @@ if ($count > 0){
     } elseif ($arr['st'] != 'Active'){
         $problem = true;
         $resData['ProblemRv'] = ", არა აქტიური ApplID";
+    }
+    
+    if ($arr['reservation'] < 0){        
+        $resData['reservation'] = ", რეზერვაციის ვადა არ გასულა";
     }
 
 }else {

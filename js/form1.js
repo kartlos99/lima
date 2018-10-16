@@ -82,7 +82,7 @@ function loadBranches11(orgID, brID){
     if (orgID == "") {
         $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
     }
-    <!--        filialebis chamonatvali -->
+    // <!--    filialebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_branches.php?id=' + orgID,
         method: 'get',
@@ -107,7 +107,7 @@ $('#sel_organization_f13').on('change', function () {
 
     $('#sel_branch_f13').empty().removeAttr('disabled');
 
-    <!--        filialebis chamonatvali -->
+    // <!--        filialebis chamonatvali -->
     $.ajax({
         url: '../php_code/get_branches.php?id=' + org_p3,
         method: 'get',
@@ -136,6 +136,7 @@ $('#btn_search_f12').on('click',function (){
 
 $('#form_11').on('submit', function(event){
     event.preventDefault();
+    $('#f11_pageN').val( 0 );
     console.log($(this).serialize());
     console.log($('#sel_branch').val());
 
@@ -148,6 +149,33 @@ $('#form_11').on('submit', function(event){
 
 });
 
+$('#f11_ul').on("click", "a", function(e){
+    e.preventDefault();
+    var pgN = $(this).text();    
+    $('#f11_pageN').val( pgN - 1 );
+    lastQuery = $('#form_11').serialize();
+    requestAgreementList(lastQuery);
+});
+
+$('#f13_ul').on("click", "a", function(e){
+    e.preventDefault();
+    var pgN = $(this).text();
+    $('#f13_pageN').val( pgN - 1 );
+    getApplidList( $('#form_13').serialize() );    
+});
+
+function makePaginationButtons(holderItem, btnCount){
+    var pages1 = $(holderItem);
+    pages1.empty();
+
+    for (var i = 1 ; i < btnCount + 1 ; i++){
+        var aa = $('<a />').text(i).attr('href',"#");
+        var lii = $('<li />');
+        lii.append(aa);
+        pages1.append(lii);
+    }
+}
+
 function requestAgreementList(querys) {
 
     $.ajax({
@@ -157,12 +185,28 @@ function requestAgreementList(querys) {
         dataType: 'json',
         success: function (response) {
             $('#table_f11').empty().html(table11_hr);
-            console.log(response);
+            // console.log(response);
 
+            var itemCount = response[0].n;
+            var itemShowLimit = response[0].limit_by_user;
             if (response[0].n == 0){
                 alert("არ მოიძებნა ჩანაწერი");
             }
-            $('#pan_f11 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
+            $('#pan_f11 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX " + response[0].limit_by_user + ")");
+            
+            var pageCount = 0;
+            
+            if (parseInt(itemCount) < parseInt(itemShowLimit)) {
+                pageCount = itemCount / 10;
+            } else {
+                pageCount = itemShowLimit / 10;
+            }
+            
+            makePaginationButtons('#f11_ul', pageCount);            
+
+            var pgN = parseInt($('#f11_pageN').val()) + 1;
+            $( "#f11_ul li:nth-child("+pgN+")" ).addClass('active');
+            console.log("pgN = "+pgN);
             response.splice(0,1);
 
             response.forEach(function (item) {
@@ -196,12 +240,15 @@ function ont11Click(agr_id){
 
 $('#form_13').on('submit', function(event){
     event.preventDefault();
-    console.log($(this).serialize());
+    $('#f13_pageN').val( 0 );
+    getApplidList( $(this).serialize() );
+});
 
+function getApplidList(querys){
     $.ajax({
         url: '../php_code/get_results_f13.php',
         method: 'post',
-        data: $(this).serialize(),
+        data: querys,
         dataType: 'json',
         success: function (response) {
             $('#table_f13').empty().html(table13_hr);
@@ -210,7 +257,18 @@ $('#form_13').on('submit', function(event){
             if (response[0].n == 0){
                 alert("არ მოიძებნა ჩანაწერი");
             }
-            $('#pan_f13 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
+            $('#pan_f13 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)");
+            var pageCount = 0;
+            
+            if ( parseInt(response[0].n) <= 10 ) {
+                pageCount = 1;
+            } else {
+                pageCount = 2;
+            }
+            
+            makePaginationButtons('#f13_ul', pageCount);            
+            var pgN = parseInt($('#f13_pageN').val()) + 1;
+            $( "#f13_ul li:nth-child("+pgN+")" ).addClass('active');
             response.splice(0,1);
 
             response.forEach(function (item) {
@@ -226,8 +284,7 @@ $('#form_13').on('submit', function(event){
             });
         }
     });
-
-});
+}
 
 function ont13Click(apl_id){
 
@@ -240,7 +297,6 @@ function ont13Click(apl_id){
     console.log(document.cookie);
 }
 
-
 $(function(){
 
     console.log('func0');
@@ -249,6 +305,8 @@ $(function(){
 
     $('#table_f11').empty().html(table11_hr);
     $('#table_f13').empty().html(table13_hr);
+
+    $('#pan_f12 .panel-heading').trigger('click');
 });
 
 function f_show(){
@@ -275,6 +333,7 @@ function f_show(){
         } else {
             $('#onlyme_f11').prop("checked", false);
         }
+        $('#f11_pageN').val( queryData.pageN );
 
         //$('#form_11').trigger('submit');
         requestAgreementList(savedCoocieData);
@@ -309,11 +368,7 @@ $("#f11_reset").on('click', function () {
 });
 
 $(".panel-heading").on('click', function (el) {
-    var criterias = $('#form_11').serialize();
-
-    console.log(serialDataToObj(criterias));
-
-
+    
     var gilaki = $(this).find("span.glyphicon");
         if (gilaki.hasClass('glyphicon-chevron-up')) {
             gilaki.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');

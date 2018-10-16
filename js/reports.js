@@ -90,7 +90,6 @@ function get_rep4_list(kriteri){
     });    
 }
 
-
 function get_rep3_list(kriteri){
     $.ajax({
         url: '../php_code/view23.php',
@@ -208,6 +207,8 @@ function get_rep2_list(kriteri){
                 }                
             }
 
+            branchs.sort();
+
             var head1 = branchs.slice();
             head1.unshift("", "");
             var rowh1 = array_to_th(head1);
@@ -217,13 +218,18 @@ function get_rep2_list(kriteri){
             var rowh2 = $('<tr />');
             var t1 = $('<td />').text('ოპერაცია');
             var t2 = $('<td />').text('ოპერატორი');
+            t2.css("border-right" , '1px solid #aaaaaa');
             rowh2.append(t1, t2);
             for (var b in branchs){
                 for (var i = 1; i <= 4; i++){
-                    var td = $('<td />').text(i);
+                    var td = $('<td />').text(i).css("text-align" , 'center');
+                    if (i == 4){
+                        td.css("border-right" , '1px solid #aaaaaa');
+                    }
                     rowh2.append(td);
                 }
             }
+            rowh2.css("background-color" , '#ddffff');
             table_view2_body.append(rowh2);
 
             for (var si in states){
@@ -265,6 +271,9 @@ function get_rep2_list(kriteri){
 $(function () {
     $('ul.components').find('li').removeClass('active');
     $('ul.components').find('li.reportsPage').addClass('active');
+    var currdate = new Date();
+    $('input.d1').val(firstday(currdate));
+    $('input.d2').val(dateformat(currdate));
 });
 
 function f_show(){};
@@ -279,8 +288,33 @@ function array_to_th(columns){
     return headrow;
 };
 
-    var capt = $('<caption />').text("დათვალიერებული პაროლები");
-
-    var v3_columns = ["ორგანიზაცია", "ფილიალი", "მომხ.სახელი", "Apple-ის ანგარიში", "რომელი პაროლი", "დათვალიერების დრო", "დათვალიერების მიზეზი" ];
+var capt = $('<caption />').text("დათვალიერებული პაროლები");
+var v3_columns = ["ორგანიზაცია", "ფილიალი", "მომხ.სახელი", "Apple-ის ანგარიში", "რომელი პაროლი", "დათვალიერების დრო", "დათვალიერების მიზეზი" ];
 
 $('#rep3_table').empty().append(capt, array_to_th(v3_columns)); 
+
+function dateformat(d) {
+    var mm, dd;
+    if (d.getMonth() < 9) {
+        mm = "0" + (d.getMonth() + 1);
+    } else {
+        mm = d.getMonth() + 1;
+    }
+    if (d.getDate() < 10) {
+        dd = "0" + d.getDate();
+    } else {
+        dd = d.getDate();
+    }
+    return d.getFullYear() + "-" + mm + "-" + dd;
+}
+
+function firstday(d) {
+    // gvibrunebs "d" tarigidan tvis 1 ricxvs
+    var mm;
+    if (d.getMonth() < 9) {
+        mm = "0" + (d.getMonth() + 1);
+    } else {
+        mm = d.getMonth() + 1;
+    }    
+    return d.getFullYear() + "-" + mm + "-01";
+}

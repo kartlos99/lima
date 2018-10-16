@@ -1,6 +1,6 @@
 <?php include_once 'header.php'; ?>
 
-<?php 
+<!-- <?php 
     $error = "";
     // print_r($_POST);
     // print_r($_SERVER);
@@ -35,11 +35,11 @@
         }
     }
     
-?>
+?> -->
 
 <p>პაროლის შეცვლა</p>
 
-<form id="changePassForm" action="" method="post">
+<form id="changePassForm" action="" method="post" class="paraminput">
 
     <h4></h4>
     <div class="input-group">
@@ -76,67 +76,11 @@
     </div>    
 </form>
 
-<table class="table table-hover">
-    <caption>List of users</caption>
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th >2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">პაროლის ნახვის მიზეზი</h5>
-        
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="btndone" type="button" class="btn btn-primary" data-dismiss="modal">Send message</button>
-      </div>
-    </div>
-  </div>
-</div>
+<?php
+if ($_SESSION['usertype'] == 'iCloudGrH'){
+    include_once 'ghparam.php';
+}
+?>
 
 
 <?php include_once 'footer.php'; ?>

@@ -9,5 +9,6 @@ define('KAY', 'skdlfjli9euteirfusdes9oeupt54t94ruwpwe9w35r90438r0r234905sfuuzHHK
 $conn = mysqli_connect(HOST, DB_user, DB_pass, DB_name) or die('db_connection_error!..');
 mysqli_set_charset($conn, "utf8");
 $folder = "/lima";
-$pass_diuration = 2592000; // 30 dge wamebshi 2592000
+//$pass_diuration = 2592000; // 30 dge wamebshi 2592000
+$rowsAtPage = 10; // ramdeni chanaweri achvenos ert chvenebaze
 ?>

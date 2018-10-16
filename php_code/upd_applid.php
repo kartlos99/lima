@@ -88,11 +88,11 @@ $sql = "UPDATE `ApplID` SET " . $applset . " WHERE AplAccountEmailID = '$mailid'
 if ($_SESSION['usertype'] != "iCloudGrH"){
     $sql .= " AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))";
 }
-echo $sql;
+// echo $sql;
 $result = mysqli_query($conn, $sql);
 if ($result){
     echo 'ok';
-    echo $sql;
+    // echo $sql;
 }else{
     echo mysqli_error($conn);
 }
