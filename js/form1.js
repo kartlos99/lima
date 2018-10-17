@@ -231,11 +231,12 @@ function ont11Click(agr_id){
 
     document.cookie = "agreementID=" + agr_id;
 
-    var url = "/administrator/agrim.php";
-    console.log(url);
+    var url = window.location.pathname;
+    url = url.replace('main.php','agrim.php');
+    // console.log(url);
     //alert(url);
-    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + projectFolder + url;
-    console.log(document.cookie);
+    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
+    // console.log(document.cookie);
 }
 
 $('#form_13').on('submit', function(event){
@@ -290,11 +291,12 @@ function ont13Click(apl_id){
 
     document.cookie = "ApplIDID=" + apl_id;
 
-    var url = "/administrator/page1.php";
+    var url = window.location.pathname;
+    url = url.replace('main.php','new_apl_ac.php');
     console.log(url);
     //alert(url);
-    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + projectFolder + url;
-    console.log(document.cookie);
+    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
+    // console.log(window.location.protocol + "//" + window.location.hostname + projectFolder + url);
 }
 
 $(function(){
@@ -345,7 +347,7 @@ function f_show(){
 
 function f_hide(){
 
-    if (lastQuery != "organization=&branch=&agrN=&status=0&agrStart1=&agrStart2=&agrFinish1=&agrFinish2=&imei=&modeli=0&serialN=&applid=") {
+    if (lastQuery != "organization=&branch=&agrN=&status=0&agrStart1=&agrStart2=&agrFinish1=&agrFinish2=&imei=&modeli=0&serialN=&applid=&pageN=0") {
         document.cookie = "f11_pos=" + lastQuery;
     }else {
         document.cookie = "f11_pos=0";

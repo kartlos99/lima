@@ -272,8 +272,10 @@ $(function () {
     $('ul.components').find('li').removeClass('active');
     $('ul.components').find('li.reportsPage').addClass('active');
     var currdate = new Date();
+    var nextday = new Date();
+    nextday.setDate(nextday.getDate() + 1);
     $('input.d1').val(firstday(currdate));
-    $('input.d2').val(dateformat(currdate));
+    $('input.d2').val(dateformat(nextday));
 });
 
 function f_show(){};

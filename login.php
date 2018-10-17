@@ -8,11 +8,11 @@ if (isset($_SESSION['username'])) {
 
     $page = 'main';
     if ($_SESSION['usertype'] == 'AppleIDCreator'){
-        $page = 'page1';
+        $page = 'new_apl_ac';
     }
 
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    $url = str_replace('login.php', 'administrator/'.$page.'.php', $url);
+    $url = str_replace('login.php', $_SESSION['usertype'] . '/' . $page . '.php', $url);
     header("Location: $url");
 }
 

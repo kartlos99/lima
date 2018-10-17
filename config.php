@@ -11,4 +11,6 @@ mysqli_set_charset($conn, "utf8");
 $folder = "/lima";
 //$pass_diuration = 2592000; // 30 dge wamebshi 2592000
 $rowsAtPage = 10; // ramdeni chanaweri achvenos ert chvenebaze
+$pass_make_info = "პაროლი უნდა შედგებოდეს მინ. 8 სიმბოლოსგან, უნდა შეიცავდეს დიდ და პატარა სიმბოლოებს, ციფრებს და სპეცსიმბოლოებს (!@#$%^&*...)";
+$pass_not_valid_text = "არ აკმაყოფილებს პაროლის კრიტერიუმებს!";
 ?>

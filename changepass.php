@@ -50,7 +50,7 @@ if (isset($_SESSION['username'])) {
     <form id="loginform" action="" method="post">
 
         <h4></h4>
-        <div class="input-group" title='პაროლი უნდა შედგებოდეს მინ. 8 სიმბოლოსგან, უნდა შეიცავდეს დიდ და პატარა სიმბოლოებს, ციფრებს და სპეცსიმბოლოებს (!@#$%^&*...)'>
+        <div class="input-group" title='<?= $pass_make_info ?>'>
             <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></span>
             <input id="pass1" type="password" class="form-control" placeholder="ახალი პაროლი" aria-describedby="sizing-addon2">
         </div>
@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
 
     </form>
 
-    <p class="error-msg"><?php        echo $error;        ?></p>
+    <p class="error-msg"><?= $error ?></p>
 
 </div>
 
