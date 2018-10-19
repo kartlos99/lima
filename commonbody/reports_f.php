@@ -35,8 +35,8 @@
                 </tr>
             </table>
         </form>
-        <div>
-            <table id="rep2_table" class="table table-hover"></table>
+        <div class="table-responsive">
+            <table id="rep2_table" class="table table-hover table-striped"></table>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep3">

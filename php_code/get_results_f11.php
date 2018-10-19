@@ -14,10 +14,10 @@ $currUserID = $_SESSION['userID'];
 $minDate = "0000-00-00";
 $maxDate = "2100-01-01";
 $query = "";
-if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH')){
-    $Limit_N="20";    
+if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'){
+    $Limit_N="50";    
 } else {
-    $Limit_N="50";
+    $Limit_N="20";
 }
 $pageN = $_POST['pageN'];
 $start_row = $pageN * $rowsAtPage;
@@ -27,77 +27,94 @@ $allFields = "SELECT a.ID, a.Number, Date(a.Date) AS Date, s.Value AS status, IF
 $s_count = "SELECT count(a.ID) AS n ";
 $onlyme = "";
 
-$organization =  $_POST['organization'];
-if (isset($_POST['branch'])){
-    $branch =  $_POST['branch'];
-} else {
-    $branch = "";
-}
-
 $agrN =  $_POST['agrN'];
-$status =  $_POST['status'];
 
-$agrStart1 =  $_POST['agrStart1'];
-$agrStart2 =  $_POST['agrStart2'];
-$agrFinish1 =  $_POST['agrFinish1'];
-$agrFinish2 =  $_POST['agrFinish2'];
-if ($agrStart1  == ""){
-    $agrStart1 = $minDate;
-}
-if ($agrFinish1  == ""){
-    $agrFinish1 = $minDate;
-}
-if ($agrStart2  == ""){
-    $agrStart2 = $maxDate;
-}
-if ($agrFinish2  == ""){
-    $agrFinish2 = $maxDate;
-}
-$imei =  $_POST['imei'];
-$modeli =  $_POST['modeli'];
-$serialN =  $_POST['serialN'];
-$applid =  $_POST['applid'];
+if ($_SESSION['usertype'] != 'limitedUser'){
 
-if ($modeli != 0){
-    $query = $query." and i.IphoneModelID = $modeli";
-}
-if ($status != 0){
-    $query = $query." and a.StateID = $status";
-}
-if ($organization != ""){
-    $query = $query." and a.OrganizationID = $organization";
-}
-if ($branch != ""){
-    $query = $query." and a.OrganizationBranchID = $branch";
-}
-if ($imei != ""){
-    $query = $query." and i.PhIMEINumber like ('$imei%')";
-}
-if ($serialN != ""){
-    $query = $query." and i.PhSerialNumber like ('$serialN%')";
-}
-if ($applid != ""){
-    $query = $query." and apl.AplApplID like ('$applid%')";
-}
-if (isset($_POST['onlyme'])){
-    $query = $query." and (a.CreateUserID = $currUserID or a.ModifyUserID = $currUserID)";
-}
+    $organization =  $_POST['organization'];
+    if (isset($_POST['branch'])){
+        $branch =  $_POST['branch'];
+    } else {
+        $branch = "";
+    }
 
-// Fix -ebi amoviget xmarebidan, droebit. da igive velshi vwert dziritadi cxrilis ID-s
+    
+    $status =  $_POST['status'];
+
+    $agrStart1 =  $_POST['agrStart1'];
+    $agrStart2 =  $_POST['agrStart2'];
+    $agrFinish1 =  $_POST['agrFinish1'];
+    $agrFinish2 =  $_POST['agrFinish2'];
+    if ($agrStart1  == ""){
+        $agrStart1 = $minDate;
+    }
+    if ($agrFinish1  == ""){
+        $agrFinish1 = $minDate;
+    }
+    if ($agrStart2  == ""){
+        $agrStart2 = $maxDate;
+    }
+    if ($agrFinish2  == ""){
+        $agrFinish2 = $maxDate;
+    }
+    $imei =  $_POST['imei'];
+    $modeli =  $_POST['modeli'];
+    $serialN =  $_POST['serialN'];
+    $applid =  $_POST['applid'];
+
+    if ($modeli != 0){
+        $query = $query." and i.IphoneModelID = $modeli";
+    }
+    if ($status != 0){
+        $query = $query." and a.StateID = $status";
+    }
+    if ($organization != ""){
+        $query = $query." and a.OrganizationID = $organization";
+    }
+    if ($branch != ""){
+        $query = $query." and a.OrganizationBranchID = $branch";
+    }
+    if ($imei != ""){
+        $query = $query." and i.PhIMEINumber like ('$imei%')";
+    }
+    if ($serialN != ""){
+        $query = $query." and i.PhSerialNumber like ('$serialN%')";
+    }
+    if ($applid != ""){
+        $query = $query." and apl.AplApplID like ('$applid%')";
+    }
+    if (isset($_POST['onlyme'])){
+        $query = $query." and (a.CreateUserID = $currUserID or a.ModifyUserID = $currUserID)";
+    }
+
+    // Fix -ebi amoviget xmarebidan, droebit. da igive velshi vwert dziritadi cxrilis ID-s
+        $sql = "FROM `Agreements` a
+    LEFT JOIN States s ON a.`StateID` = s.ID
+    LEFT JOIN Iphone i ON a.`IphoneFixID` = i.ID
+    LEFT JOIN DictionariyItems d ON i.IphoneModelID = d.ID
+    LEFT JOIN ApplID apl ON a.`ApplIDFixID` = apl.ID
+    LEFT JOIN Organizations o ON a.OrganizationID = o.ID
+    LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
+
+    WHERE a.Number like ('$agrN%')
+
+    AND DATE(a.date) BETWEEN '$agrStart1' AND '$agrStart2'
+
+    AND DATE(a.EndDate) BETWEEN '$agrFinish1' AND '$agrFinish2'
+    ";
+} else {
+
     $sql = "FROM `Agreements` a
-LEFT JOIN States s ON a.`StateID` = s.ID
-LEFT JOIN Iphone i ON a.`IphoneFixID` = i.ID
-LEFT JOIN DictionariyItems d ON i.IphoneModelID = d.ID
-LEFT JOIN ApplID apl ON a.`ApplIDFixID` = apl.ID
-LEFT JOIN Organizations o ON a.OrganizationID = o.ID
-LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
+    LEFT JOIN States s ON a.`StateID` = s.ID
+    LEFT JOIN Iphone i ON a.`IphoneFixID` = i.ID
+    LEFT JOIN DictionariyItems d ON i.IphoneModelID = d.ID
+    LEFT JOIN ApplID apl ON a.`ApplIDFixID` = apl.ID
+    LEFT JOIN Organizations o ON a.OrganizationID = o.ID
+    LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
 
-WHERE a.Number like ('$agrN%')
+    WHERE a.Number like ('$agrN%') and s.code = 'Project'";
 
- AND DATE(a.date) BETWEEN '$agrStart1' AND '$agrStart2'
-
- AND DATE(a.EndDate) BETWEEN '$agrFinish1' AND '$agrFinish2'
-";
+}    
 
 $sql_count = $s_count.$sql.$query;
 

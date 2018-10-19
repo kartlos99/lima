@@ -1,7 +1,10 @@
 <?php
-
-include_once '../config.php';
 session_start();
+include_once '../config.php';
+
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
@@ -45,81 +48,89 @@ $iphoneID = $_POST['iphoneID'];
 //print_r($_SESSION);
 $backinfo = ['id' => 0, 'error' => "", 'info_cuser' => "", 'info_cdate' => "", 'info_muser' => "", 'info_mdate' => ""];
 
+if ( ($iphoneID == 0 && $_SESSION['usertype'] == 'CallCenterOper') || $_SESSION['usertype'] == 'CallCenterOper'){
+    $backinfo['error'] = 'No Access!';
+    echo (json_encode($backinfo));
+    die();
+}
 
     $sql_chek = "SELECT code FROM `States` WHERE id = '$status'";
     $result1 = mysqli_query($conn, $sql_chek);
     $code = mysqli_fetch_assoc($result1);
 
 
-
 if ($iphoneID == 0) {
 
     $sql = "
-INSERT
-INTO
-  `Iphone`(
-    `IphoneModelID`,
-    `PhIMEINumber`,
-    `PhSerialNumber`,
-    `IphoneiOSID`,
-    `PhSIMFREE`,
-    `RestrictionPass`,
-    `EncryptionPass`,
-    `ScreenLockPass`,
-    `ScreenLockDate`,
-    `ScreenLockSendDate`,
-    `TypeID`,
-    `StateID`,
-    `SLstateID`,
-    `Comment`,
-    `CreateDate`,
-    `CreateUser`,
-    `CreateUserID`
-  )
-VALUES(
-  '$modeli',
-  '$imei',
-  '$serial',
-  $ios,
-  '$simfree',
-  '$passRes',
-  '$passEnc',
-  '$passLock',
-  '$lockDate',
-  '$lockSendDate',
-  gettypeid('iphone_tarebit',getobjid('Iphone')),
-  $status,
-  $SLstatus,
-  '$comment',
-  $currDate,
-  '$currUser',
-  $currUserID
-)
-    ";
+        INSERT
+        INTO
+        `Iphone`(
+            `IphoneModelID`,
+            `PhIMEINumber`,
+            `PhSerialNumber`,
+            `IphoneiOSID`,
+            `PhSIMFREE`,
+            `RestrictionPass`,
+            `EncryptionPass`,
+            `ScreenLockPass`,
+            `ScreenLockDate`,
+            `ScreenLockSendDate`,
+            `TypeID`,
+            `StateID`,
+            `SLstateID`,
+            `Comment`,
+            `CreateDate`,
+            `CreateUser`,
+            `CreateUserID`
+        )
+        VALUES(
+        '$modeli',
+        '$imei',
+        '$serial',
+        $ios,
+        '$simfree',
+        '$passRes',
+        '$passEnc',
+        '$passLock',
+        '$lockDate',
+        '$lockSendDate',
+        gettypeid('iphone_tarebit',getobjid('Iphone')),
+        $status,
+        $SLstatus,
+        '$comment',
+        $currDate,
+        '$currUser',
+        $currUserID
+        ) ";
 }else{
     $sql = "
-    UPDATE
-  `Iphone`
-SET
-  `IphoneModelID` = '$modeli',
-  `PhIMEINumber` = '$imei',
-  `PhSerialNumber` = '$serial',
-  `IphoneiOSID` = $ios,
-  `PhSIMFREE` = '$simfree',
-  `RestrictionPass` = '$passRes',
-  `EncryptionPass` = '$passEnc',
-  `ScreenLockPass` = '$passLock',
-  `ScreenLockDate` = '$lockDate',
-  `ScreenLockSendDate` = '$lockSendDate',
-  `StateID` = $status,
-  `SLstateID` = $SLstatus,
-  `Comment` = '$comment',
-  `ModifyDate` = $currDate,
-  `ModifyUser` = '$currUser',
-  `ModifyUserID` = $currUserID
-WHERE
-  ID = $iphoneID
+        UPDATE
+        `Iphone`
+        SET
+        `ScreenLockPass` = '$passLock',
+        `ScreenLockDate` = '$lockDate',
+        `ScreenLockSendDate` = '$lockSendDate',
+        `SLstateID` = $SLstatus,
+        `Comment` = '$comment'        
     ";
+
+    if ($_SESSION['usertype'] != 'CallCenterOper'){
+        $sql .= ",
+        `IphoneModelID` = '$modeli',
+        `PhIMEINumber` = '$imei',
+        `PhSerialNumber` = '$serial',
+        `IphoneiOSID` = $ios,
+        `PhSIMFREE` = '$simfree',
+        `RestrictionPass` = '$passRes',
+        `EncryptionPass` = '$passEnc',
+        `StateID` = $status,
+        `ModifyDate` = $currDate,
+        `ModifyUser` = '$currUser',
+        `ModifyUserID` = $currUserID        
+        ";
+    }
+
+    $sql .= " WHERE ID = $iphoneID";
 }
 
     $result = mysqli_query($conn, $sql);
@@ -128,6 +139,13 @@ WHERE
             $iphoneID = mysqli_insert_id($conn); //'ok';
             $backinfo['info_cuser'] = $currUser;
             $backinfo['info_cdate'] = date("Y-m-d H:i", time());
+
+            $sql_upd = "UPDATE `Agreements` SET `IphoneFixID` = $iphoneID WHERE id = $agrID ";
+
+            if (!mysqli_query($conn, $sql_upd)){
+                $backinfo['error'] = "can't update Agreements! (at ins_iphone)";
+            }
+
         } else{
             $backinfo['info_muser'] = $currUser;
             $backinfo['info_mdate'] = date("Y-m-d H:i", time());
@@ -194,18 +212,6 @@ WHERE
 //    echo 'myerror: '. $sql;
 //}
 
-$sql = "
-UPDATE
-  `Agreements`
-SET
-  `IphoneFixID` = $iphoneID
-WHERE
-  id = $agrID
-  ";
-
-if (!mysqli_query($conn, $sql)){
-    $backinfo['error'] = "myerror!";
-}
 
 echo json_encode($backinfo);
 $conn->close();

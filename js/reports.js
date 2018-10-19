@@ -190,80 +190,85 @@ function get_rep2_list(kriteri){
         success: function (response) {
 
             var users = Object.keys(response);
-            var branchs = [];
-            var states = [ "Active", "Closed" ];
-            var states_toshow = [ "გახსნა", "დახურვა" ];
-            var table_view2_body = $('#rep2_table').empty().append('<tbody />');
-
-            for(var i in response){
-                var val = response[i];
-                for(var j in val){
-                    var sub_val = val[j];
-                    for(var br in sub_val){
-                        if (!branchs.includes(br)){
-                            branchs.push(br);
+            if (users.includes('error')){
+                alert(response.error);
+            } else {
+                var branchs = [];
+                var states = [ "Active", "Closed" ];
+                var states_toshow = [ "გახსნა", "დახურვა" ];
+                var table_view2_body = $('#rep2_table').empty().append('<tbody />');
+    
+                for(var i in response){
+                    var val = response[i];
+                    for(var j in val){
+                        var sub_val = val[j];
+                        for(var br in sub_val){
+                            if (!branchs.includes(br)){
+                                branchs.push(br);
+                            }
+                        }                    
+                    }                
+                }
+    
+                branchs.sort();
+    
+                var head1 = branchs.slice();
+                head1.unshift("", "");
+                var rowh1 = array_to_th(head1);
+                rowh1.find('th:not(:empty)').attr('colspan', 4);
+                table_view2_body.append(rowh1);
+    
+                var rowh2 = $('<tr />');
+                var t1 = $('<td />').text('ოპერაცია');
+                var t2 = $('<td />').text('ოპერატორი');
+                t2.css("border-right" , '1px solid #aaaaaa');
+                rowh2.append(t1, t2);
+                for (var b in branchs){
+                    for (var i = 1; i <= 4; i++){
+                        var td = $('<td />').text(i).css("text-align" , 'center');
+                        if (i == 4){
+                            td.css("border-right" , '1px solid #aaaaaa');
                         }
-                    }                    
-                }                
-            }
-
-            branchs.sort();
-
-            var head1 = branchs.slice();
-            head1.unshift("", "");
-            var rowh1 = array_to_th(head1);
-            rowh1.find('th:not(:empty)').attr('colspan', 4);
-            table_view2_body.append(rowh1);
-
-            var rowh2 = $('<tr />');
-            var t1 = $('<td />').text('ოპერაცია');
-            var t2 = $('<td />').text('ოპერატორი');
-            t2.css("border-right" , '1px solid #aaaaaa');
-            rowh2.append(t1, t2);
-            for (var b in branchs){
-                for (var i = 1; i <= 4; i++){
-                    var td = $('<td />').text(i).css("text-align" , 'center');
-                    if (i == 4){
-                        td.css("border-right" , '1px solid #aaaaaa');
+                        rowh2.append(td);
                     }
-                    rowh2.append(td);
+                }
+                rowh2.css("background-color" , '#ddffff');
+                table_view2_body.append(rowh2);
+    
+                for (var si in states){
+                    for (var i = 0; i < users.length; i++){
+                        if (response[users[i]][states[si]] == undefined){
+                            response[users[i]][states[si]] = {};
+                        }
+                        var newRow = $('<tr></tr>');
+                        var rowhead = $('<th />').text(states_toshow[si]);
+                        var rowheaduser = $('<th />').text(users[i]).css("border-right" , '1px solid #aaaaaa');
+                        newRow.append(rowhead, rowheaduser);
+                        for (var j = 0; j < branchs.length; j++){
+                            var dataA;
+                            if (response[users[i]][states[si]][branchs[j]] == undefined){
+                                dataA = [0,0,0,0];
+                            }else {
+                                dataA = response[users[i]][states[si]][branchs[j]];
+                            }
+    
+                            for (var ci in dataA){
+                                var new_td = $('<td />').text(dataA[ci]).addClass('equalsimbols').css("text-align" , 'right');
+                                if (ci == 3){
+                                    new_td.css("border-right" , '1px solid #aaaaaa');
+                                }
+                                if (dataA[ci] == 0){
+                                    new_td.text("-");
+                                }
+                                newRow.append(new_td); 
+                            }
+                            
+                        }
+                        table_view2_body.append(newRow);
+                    }
                 }
             }
-            rowh2.css("background-color" , '#ddffff');
-            table_view2_body.append(rowh2);
-
-            for (var si in states){
-                for (var i = 0; i < users.length; i++){
-                    if (response[users[i]][states[si]] == undefined){
-                        response[users[i]][states[si]] = {};
-                    }
-                    var newRow = $('<tr></tr>');
-                    var rowhead = $('<th />').text(states_toshow[si]);
-                    var rowheaduser = $('<th />').text(users[i]).css("border-right" , '1px solid #aaaaaa');
-                    newRow.append(rowhead, rowheaduser);
-                    for (var j = 0; j < branchs.length; j++){
-                        var dataA;
-                        if (response[users[i]][states[si]][branchs[j]] == undefined){
-                            dataA = [0,0,0,0];
-                        }else {
-                            dataA = response[users[i]][states[si]][branchs[j]];
-                        }
-
-                        for (var ci in dataA){
-                            var new_td = $('<td />').text(dataA[ci]).addClass('equalsimbols').css("text-align" , 'right');
-                            if (ci == 3){
-                                new_td.css("border-right" , '1px solid #aaaaaa');
-                            }
-                            if (dataA[ci] == 0){
-                                new_td.text("-");
-                            }
-                            newRow.append(new_td); 
-                        }
-                        
-                    }
-                    table_view2_body.append(newRow);
-                }
-            }
+            
         }
     });    
 }

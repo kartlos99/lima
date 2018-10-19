@@ -8,6 +8,7 @@ var questionDane = false;
 var currmailid = '0';
 var browseMode = false;
 ///var orgDane = false;
+var orgObj = {};
 
 $('#block2').hide();
 $('button').addClass('btn-sm');
@@ -18,6 +19,8 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
+        //console.log(response);
+        Object.assign(orgObj, response);
         response.forEach(function (item) {
             $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization');
         });
@@ -59,52 +62,31 @@ function getsublists(reason, rid) {
 
     var sel_org_id = $('#sel_organization').val();
 
-    // <!--        filialebis chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_branches.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            response.forEach(function (item) {
-                $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
+    // <!--   filialebis / domanebis / rmailebis chamonatvali -->
+    
+    for (i = 0; i < Object.keys(orgObj).length; i++) {
+        if (orgObj[i]['id'] == sel_org_id){
+
+            orgObj[i]['branches'].forEach(function (br) {
+                $('<option />').text(br.BranchName).val(br.id).appendTo('#sel_branch');
             });
             filDane = true;
-        }
-    });
-
-    // <!--        domainebis  chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_domains.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            response.forEach(function (item) {
-                $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
+            
+            orgObj[i]['domains'].forEach(function (dom) {
+                $('<option />').text(dom.DomainName).val(dom.id).appendTo('#sel_domain');
             });
-            domDane = true;
-        }
-    });
-
-    // <!--    usafrtxoebis damatebiti maili -->
-    $.ajax({
-        url: '../php_code/get_rmail.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-
-            response.forEach(function (item) {
-                console.log(item);
-                $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
-
+            domDane = true; 
+            
+            orgObj[i]['rmails'].forEach(function (rm) {
+                $('<option />').text(rm.EmEmail).val(rm.id).appendTo('#sel_rmail');
             });
             if (reason == 'fill') {
-                $("#sel_rmail option[value=" + rid + "]").attr('selected', 'select');
+                // $("#sel_rmail option[value=" + rid + "]").attr('selected', 'select');
+                $("#sel_rmail").val(rid);
             };
-
             rmailDane = true;
         }
-    });
-
+    };
 
 }
 
@@ -193,6 +175,7 @@ $('#btn_addid').on('click', function(){
 });
 
 $('#btn_f2submit').on('click', function(){
+    hideAllPass();
     $('#form2').trigger('submit');
 });
 
@@ -216,6 +199,9 @@ setTimeout(function () {
 
 }, 500);
 
+function hideAllPass(){    
+    $('.eye0 .glyphicon-eye-close').closest('.eye0').trigger('click');
+}
 
 loadProjects();
 
@@ -263,6 +249,7 @@ function onRowClick(num) {
     if ($('#block2').css('display') != 'none' ){
         alert("შეინახეთ ან გააუქმეთ მიმდინარე მონაცემები!");
     }else{
+        hideAllPass();
         browseMode = true;
         currApplID = num;
         var thetr = "tr[onclick=\"onRowClick("+num+")\"]";
@@ -272,7 +259,7 @@ function onRowClick(num) {
         $('#table_block3').find(thetr).css({
             'background-color': '#b5dcff'
         });
-        $('#sel_organization').attr('disabled',true);
+        // $('#sel_organization').attr('disabled',true);
         $('#btn_addid').hide();
 
         $.ajax({
@@ -299,16 +286,16 @@ function onRowClick(num) {
                 $("#ans1").val(row.AplSequrityQuestion1Answer);
                 $("#ans2").val(row.AplSequrityQuestion2Answer);
                 $("#ans3").val(row.AplSequrityQuestion3Answer);
-                // $('#sel_q1').val(row.AplSequrityQuestion1ID);
-                // $('#sel_q2').val(row.AplSequrityQuestion2ID);
-                // $('#sel_q3').val(row.AplSequrityQuestion3ID);
+                $("#sel_q1").val(row.AplSequrityQuestion1ID);
+                $("#sel_q2").val(row.AplSequrityQuestion2ID);
+                $("#sel_q3").val(row.AplSequrityQuestion3ID);
 
-                $('#sel_q1 option').removeAttr('selected');
-                $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
-                $('#sel_q2 option').removeAttr('selected');
-                $("#sel_q2 option[value=" + row.AplSequrityQuestion2ID + "]").attr('selected', 'selected');
-                $('#sel_q3 option').removeAttr('selected');
-                $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');
+                // $('#sel_q1 option').removeAttr('selected');
+                // $("#sel_q1 option[value=" + row.AplSequrityQuestion1ID + "]").attr('selected', 'selected');
+                // $('#sel_q2 option').removeAttr('selected');
+                // $("#sel_q2 option[value=" + row.AplSequrityQuestion2ID + "]").attr('selected', 'selected');
+                // $('#sel_q3 option').removeAttr('selected');
+                // $("#sel_q3 option[value=" + row.AplSequrityQuestion3ID + "]").attr('selected', 'selected');                
 
                 $('#sel_status').val(row.StateID);
                 // $('#sel_status option').removeAttr('selected');
@@ -326,8 +313,6 @@ function onRowClick(num) {
                     method: 'get',
                     dataType: 'json',
                     success: function (r) {
-
-                        console.log(r);
 
                         if (r.get == 0 && r.AgrNumber != "") {
                             alert("Appl ID დაკავებულია, რედაქტირებისთვის იხილეთ ხელშეკრულება N: " + r.AgrNumber);

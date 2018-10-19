@@ -61,9 +61,11 @@
                     <input type="text" class="form-control" id="comment_f31" placeholder="" name="comment">
                 </td>
                 <td class="albuttom">
+                    <?php if ( $_SESSION['usertype'] != 'CallCenterOper' )  : ?>
                     <button id="btn_edit_f31" type="button" class="btn btn-primary">რედაქტირება</button>
                     <button id="btn_save_f31" type="submit" class="btn btn-primary">შენახვა</button>
                     <button id="btn_addiphone_f31" type="button" class="btn btn-primary">Add iPhone</button>
+                    <?php endif; ?>
                 </td>
             </tr>
         </table>
@@ -86,12 +88,13 @@
 
     <div class="panel-body">
 
+        <?php if ( $_SESSION['usertype'] != 'CallCenterOper' )  : ?>
         <table id="f32_h1" class="blokinfo"> <tr >
                 <td>მობილური ტელეფონის ძებნა/გადმოტანა</td>
                 <td class="pan-header-right"><a id="iphone_history" href="../php_code/get_iphone_history.php" target="_blank" class="btn btn-default btn-sm">H</a></td>
             </tr>
         </table>
-
+    
         <table id="f32_h2" class="inputs" style="width: 100%">
             <tr style="width: 100%">
                 <td style="width: 25%">
@@ -115,6 +118,7 @@
                 </td>
             </tr>
         </table>
+        <?php endif; ?>
 
         <p>მობილური ტელეფონის მონაცემები</p>
         <form id="form_32">
@@ -260,6 +264,7 @@
 </div>
 
 <!-- Appl ID panel - f33       ******************88******************************************************     -->
+<?php if ( $_SESSION['usertype'] != 'CallCenterOper' )  : ?>
 
 <div id="pan_f33" class="panel panel-primary">
     <div class="panel-heading">
@@ -503,3 +508,4 @@
 
     </div>
 </div>
+<?php endif; ?>

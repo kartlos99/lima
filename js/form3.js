@@ -109,7 +109,7 @@ $.ajax({
     success: function (response) {
         $('#sel_status_f32').empty();
         $('<option />').text('აირჩიეთ...').attr('value', '0').attr('datacode', '').appendTo('#sel_status_f32');
-        console.log(response);
+        // console.log(response);
         response.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).attr('datacode', item.Code).appendTo('#sel_status_f32');
         });
@@ -119,9 +119,7 @@ $.ajax({
 
 $('#pan_f31').on('click', function () {
 
-    console.log("ccc21");
-    console.log(getCookie("agreementID"));
-    document.cookie = "agreementID=0";
+    //document.cookie = "agreementID=0";
 
 });
 
@@ -136,7 +134,7 @@ function getAgreement() {
         success: function (response) {
             if (response.length > 0) {
                 item = response[0];
-                console.log(item);
+                // console.log(item);
 
                 if (response.length > 1) {
                     alert('იძებნება რამდენიმე ხელშეკრულება')
@@ -261,8 +259,7 @@ $(function () {
 
 
 $('#sel_status_f32').on('change', function () {
-
-screenLockChange();
+    screenLockChange();
 });
 
 function screenLockChange(){

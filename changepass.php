@@ -11,7 +11,7 @@ if (isset($_SESSION['username'])) {
     }
 
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    $url = str_replace('changepass.php', 'administrator/'.$page.'.php', $url);
+    $url = str_replace('changepass.php', $_SESSION['usertype'] . '/' . $page . '.php', $url);
     header("Location: $url");
 }
 

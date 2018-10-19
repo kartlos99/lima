@@ -1,16 +1,14 @@
-body {
-    background: #d9d9c8;
-}
 
+body {
+	background-color: #7aa4a7;
+}
 div {
     margin : 16px;
-
 }
 
 .centered {
     text-align: center;
 }
-
 
 ul li.mmenu {
 	color: #a0a;
@@ -54,7 +52,7 @@ ul li.mmenu:hover {
 
 .error-msg {
     color: #fff;
-    background: #ff4e1b;
+    background: #ff6338;
     border-radius: 5px;
     margin: 0;
     padding: 0px;

@@ -7,15 +7,68 @@
  */
 include_once '../config.php';
 
-    $sql = "SELECT id, OrganizationName, OrganizationNameEng FROM `Organizations` WHERE StateID = 1";
+// organizaciebi
+$sql = "SELECT id, OrganizationName, OrganizationNameEng FROM `Organizations` WHERE StateID = 1";
 
 $result = mysqli_query($conn,$sql);
 
-$arr = array();
+$arr_org = array();
 foreach($result as $row){
-    $arr[] = $row;
+    $row += ['domains' => [] ];
+    $row += ['branches' => [] ];
+    $row += ['rmails' => [] ];
+    $arr_org[] = $row;    
 }
 
-echo(json_encode($arr));
+// filialebi
+$sql = "SELECT OrganizationID, o.id, BranchName FROM OrganizationBranches o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active'";
+
+$result = mysqli_query($conn,$sql);
+
+$arr_br = array();
+foreach($result as $row){
+    $arr_br[] = $row;    
+}
+
+// domainebi
+$sql = "SELECT OrganizationID, o.id, DomainName FROM Domains o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active'";
+
+$result = mysqli_query($conn,$sql);
+
+$arr_dom = array();
+foreach($result as $row){
+    $arr_dom[] = $row;    
+}
+
+// recovery Emails
+$sql = "SELECT OrganizationID, e.id, e.EmEmail FROM `Emails` e JOIN Types t ON e.TypeID = t.ID WHERE t.code = 'Rescue Email'";
+
+$result = mysqli_query($conn,$sql);
+
+$arr_Rmail = array();
+foreach($result as $row){
+    $arr_Rmail[] = $row;    
+}
+
+for ($i = 0 ; $i < count($arr_org) ; $i++){
+    foreach($arr_br as $br){
+        if ($arr_org[$i]['id'] == $br['OrganizationID']){
+            $arr_org[$i]['branches'][] = $br;
+        }
+    }
+    foreach($arr_dom as $dom){
+        if ($arr_org[$i]['id'] == $dom['OrganizationID']){
+            $arr_org[$i]['domains'][] = $dom;
+        }
+    }
+    foreach($arr_Rmail as $rm){
+        if ($arr_Rmail[$i]['id'] == $rm['OrganizationID']){
+            $arr_org[$i]['rmails'][] = $rm;
+        }
+    }
+}
+
+
+echo(json_encode($arr_org));
 
 $conn -> close();

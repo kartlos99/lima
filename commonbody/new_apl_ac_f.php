@@ -18,13 +18,13 @@
                 <label for="sel_organization">ორგანიზაცია</label>
                 <select class="custom-select form-control" id="sel_organization" name="organization"
                         required>
-                    <option value="">აირჩიეთ...</option>
+                    <option value="0">აირჩიეთ...</option>
                 </select>
             </div>
             <div class="col-md-2 mb-3">
                 <label for="sel_branch">ფილიალი</label>
                 <select class="custom-select form-control" id="sel_branch" name="branch" disabled>
-                    <option value="">Choose...</option>
+                    <option value="0">Choose...</option>
                 </select>
 
             </div>
@@ -148,7 +148,7 @@
                 <div class="col-lg-5">
                     <label for="sel_q1">SequrityQuestion 1</label>
                     <select class="form-control" id="sel_q1" name="q1">
-                        <option value="">აირჩიეთ...</option>
+                        <option value="0">აირჩიეთ...</option>
                     </select>
                 </div>
                 <div class="col-lg-3">
@@ -173,7 +173,7 @@
                 <div class="col-lg-5">
                     <label for="sel_q2">SequrityQuestion 2</label>
                     <select class="form-control" id="sel_q2" name="q2">
-                        <option value="">აირჩიეთ...</option>
+                        <option value="0">აირჩიეთ...</option>
                     </select>
                 </div>
                 <div class="col-lg-3">
@@ -198,7 +198,7 @@
                 <div class="col-lg-5">
                     <label for="sel_q3">SequrityQuestion 3</label>
                     <select class="form-control" id="sel_q3" name="q3">
-                        <option value="">აირჩიეთ...</option>
+                        <option value="0">აირჩიეთ...</option>
                     </select>
                 </div>
                 <div class="col-lg-3">

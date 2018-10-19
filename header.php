@@ -65,16 +65,26 @@ if (strpos($_SERVER['PHP_SELF'], "reports.php") && $_SESSION['usertype'] != 'iCl
             <li class="mainLi">
                 <a href="main.php">მთავარი</a>
             </li>
+                                            <?php if ( $_SESSION['usertype'] != 'CallCenterOper' )  : ?>
             <li class="newLoanLi">
                 <a href="agrim.php">ახალი სესხი</a>
             </li>
             <li  class="newiCloudLi">
                 <a href="new_apl_ac.php">ახალი iCloud</a>
             </li>
-            <?php if ($_SESSION['usertype'] == 'admin'): ?>
-<li  class="userManLi"><a href="userman.php">მომხმარებლები</a></li><?php endif; ?>
-            <?php if ($_SESSION['usertype'] == 'iCloudGrH'): ?>
-<li class="reportsPage"><a href="reports.php">რეპორტები</a></li><?php endif; ?>
+                                            <?php endif; ?>
+
+                                            <?php if ($_SESSION['usertype'] == 'admin'): ?>
+            <li  class="userManLi">
+                <a href="userman.php">მომხმარებლები</a>
+            </li>
+                                            <?php endif; ?>
+
+                                            <?php if ($_SESSION['usertype'] == 'iCloudGrH'): ?>
+            <li class="reportsPage">
+                <a href="reports.php">რეპორტები</a>
+            </li>
+                                            <?php endif; ?>
         </ul>
 
         <ul class="list-unstyled CTAs">
@@ -92,7 +102,7 @@ if (strpos($_SERVER['PHP_SELF'], "reports.php") && $_SESSION['usertype'] != 'iCl
 
                 <div class="navbar-header">
                     <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                        <i class="glyphicon glyphicon-align-left"></i>
+                        <i class="glyphicon glyphicon-menu-hamburger"></i>
                         <span></span>
                     </button>
                 </div>

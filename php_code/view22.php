@@ -110,47 +110,37 @@ foreach($result as $row){
 
 // 2.2 view-s damushaveba, mzadaa
 $outdata = [];
-
-for ($i = 1; $i < count($arr); $i++){
-    if ($arr[$i]['aID'] == $arr[$i - 1]['aID']){
-
-        if (($arr[$i]['Code'] == 'Active' || $arr[$i]['Code'] == 'Closed') && $arr[$i]['Code'] != $arr[$i-1]['Code']) {
-            
-            $operation = $arr[$i]['Code'];
-            $fil = $arr[$i]['OrganizationName'] . " : " . $arr[$i]['branch'];
-            $key_user = $arr[$i-1]['ModifyUser'];
-            $cvla = $arr[$i-1]['cvla'] - 1;
-
-            if ( !isset( $outdata[ $key_user ] )){
-                $outdata += [ "$key_user" => array() ];                
+if (count($arr) < 50000 ){
+    for ($i = 1; $i < count($arr); $i++){
+        if ($arr[$i]['aID'] == $arr[$i - 1]['aID']){
+    
+            if (($arr[$i]['Code'] == 'Active' || $arr[$i]['Code'] == 'Closed') && $arr[$i]['Code'] != $arr[$i-1]['Code']) {
+                
+                $operation = $arr[$i]['Code'];
+                $fil = $arr[$i]['OrganizationName'] . " : " . $arr[$i]['branch'];
+                $key_user = $arr[$i-1]['ModifyUser'];
+                $cvla = $arr[$i-1]['cvla'] - 1;
+    
+                if ( !isset( $outdata[ $key_user ] )){
+                    $outdata += [ "$key_user" => array() ];
+                }
+    
+                if ( !isset( $outdata[ $key_user ][ $operation ] )){
+                    $outdata[ $key_user ] += [ "$operation" => array() ]; // useri -> operacia
+                }
+    
+                if ( !isset( $outdata[ $key_user ][ $operation ][ $fil ] )){
+                    $outdata[ $key_user ][ $operation ] += [ "$fil" => [0,0,0,0] ];
+                }
+    
+                $outdata[ $key_user ][ $operation ][ $fil ][ $cvla ] += 1;
             }
-
-            if ( !isset( $outdata[ $key_user ][ $operation ] )){
-                $outdata[ $key_user ] += [ "$operation" => array() ]; // useri -> operacia
-            }
-
-            if ( !isset( $outdata[ $key_user ][ $operation ][ $fil ] )){
-                $outdata[ $key_user ][ $operation ] += [ "$fil" => [0,0,0,0] ];
-            }
-
-            $outdata[ $key_user ][ $operation ][ $fil ][ $cvla ] += 1;
-
-            // if ($arr[$i]['a1'] != $arr[$i - 1]['a1']){
-            //     $key_st_ch .= "_+kitxvebi";
-            // }
-            
-            // if ( !isset( $outdata[ $key_user ][ $key_st_ch ] )){
-            //     $outdata[ $key_user ] += ["$key_st_ch" => "0"];
-            // }
-            
-            // $outdata[ $key_user ][ $key_st_ch ] += 1;
-            // $outdata[ $key_user ][ $key_user ] += 1;
-            // $outdata += ["$key_user" => "0"];
-            // array_push($outdata, "dd" );
         }
-
-    }
+    }    
+} else {
+    $outdata += [ "error" => "მეხსიერების გადავსება! შეამცირეთ დიაპაზონი!" ];
 }
+
 
 // print_r ($outdata);
 

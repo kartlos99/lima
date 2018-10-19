@@ -73,14 +73,16 @@ if ($pos !== false ){
 ?> ></script>
 
 <?php
-
+if ($_SESSION['usertype'] == 'limitedUser'){
+    echo '<script type="text/javascript" src="../js/lim_user.js" ></script>';
+}
 if ($_SESSION['usertype'] == 'AppleIDCreator'){
     echo '<script type="text/javascript" src="../js/form2a.js" ></script>';
 }
 if ($_SESSION['usertype'] == 'CallCenterOper'){
-    echo '<script type="text/javascript" src="../js/form1a.js" ></script>';
+    
     if ($thisPage == 'agrim') {
-        echo '<script type="text/javascript" src="../js/form3a.js" ></script>';
+        echo '<script type="text/javascript" src="../js/form3a.js" ></script>';    
     }
 }
 ?>

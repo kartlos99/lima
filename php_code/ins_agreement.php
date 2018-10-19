@@ -2,6 +2,9 @@
 // აქ შემოდის ხელშეკრულების (1 blokis) გახსნაზეც და რედაქტირებაზეც
 include_once '../config.php';
 session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
@@ -25,6 +28,12 @@ $currUserID = $_SESSION['userID'];
 //print_r($_SESSION);
 $count = 0;
 $backinfo = ['id' => 0, 'error' => "", 'info_cuser' => "", 'info_cdate' => "", 'info_muser' => "", 'info_mdate' => ""];
+
+if ( $_SESSION['usertype'] == 'CallCenterOper' || $_SESSION['usertype'] == 'CallCenterOper' ){
+    $backinfo['error'] = 'No Access!';
+    echo (json_encode($backinfo));
+    die();
+}
 
 if (strlen($agrN) > 0 && $agrN != "-") {
     $sql_chek = "SELECT id FROM `Agreements` WHERE Number = '$agrN' AND `OrganizationID` = $orgID";

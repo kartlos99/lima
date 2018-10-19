@@ -40,12 +40,13 @@ if (isset($_SESSION['username'])) {
     <link href="style/main.css" rel="stylesheet">
 
     <title>Lima iCloud - Login</title>
+    
 </head>
-<body>
+<body background="img/blueImage.jpg">
 
 
 <div style="width: 560px; background: #fff; border: 1px solid #e4e4e4; padding: 20px; margin: 10px auto; border-radius: 5px;">
-    <h3>login</h3>
+    <h3 style="margin : 16px">login</h3>
 
     <form id="loginform" action="" method="post">
 
