@@ -29,7 +29,7 @@ $currUserID = $_SESSION['userID'];
 $count = 0;
 $backinfo = ['id' => 0, 'error' => "", 'info_cuser' => "", 'info_cdate' => "", 'info_muser' => "", 'info_mdate' => ""];
 
-if ( $_SESSION['usertype'] == 'CallCenterOper' || $_SESSION['usertype'] == 'CallCenterOper' ){
+if ( $_SESSION['usertype'] == 'CallCenterOper' || $_SESSION['usertype'] == 'AppleIDCreator' || $_SESSION['usertype'] == 'limitedUser'){
     $backinfo['error'] = 'No Access!';
     echo (json_encode($backinfo));
     die();

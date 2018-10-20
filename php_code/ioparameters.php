@@ -7,7 +7,7 @@ if ($_SESSION['usertype'] != 'iCloudGrH' ){
 }
 
 if (isset($_POST['io']) && $_POST['io'] == 'get'){
-    $sql = " SELECT * FROM `dictionariyitems` WHERE `DictionaryID` = (SELECT ID FROM dictionaries WHERE Code = 'paramiters')";
+    $sql = " SELECT * FROM `DictionariyItems` WHERE `DictionaryID` = (SELECT ID FROM Dictionaries WHERE Code = 'paramiters')";
 
     $result = mysqli_query($conn, $sql);
     
@@ -34,7 +34,7 @@ if (isset($_POST['io']) && $_POST['io'] == 'get'){
     if (isset($_POST['userpassduration'])){
         $val = $_POST['userpassduration'];
         $sql = " UPDATE
-            `dictionariyitems`
+            `DictionariyItems`
         SET
             `ValueInt` = '$val'
         WHERE
@@ -44,7 +44,7 @@ if (isset($_POST['io']) && $_POST['io'] == 'get'){
     if (isset($_POST['reserv_period'])){
         $val = $_POST['reserv_period'];
         $sql = " UPDATE
-            `dictionariyitems`
+            `DictionariyItems`
         SET
             `ValueInt` = '$val'
         WHERE
@@ -54,7 +54,7 @@ if (isset($_POST['io']) && $_POST['io'] == 'get'){
     if (isset($_POST['cvlebi'])){
         $val = $_POST['cvlebi'];
         $sql = " UPDATE
-            `dictionariyitems`
+            `DictionariyItems`
         SET
             `ValueText` = '$val'
         WHERE

@@ -32,7 +32,7 @@ SELECT
     p.LegalAdress,
     pmap.UserName,
     pmap.UserPass,
-    UNIX_TIMESTAMP() - pmap.PassDate - (SELECT valueInt from dictionariyitems WHERE `Code` = 'userpassduration') AS passExp,
+    UNIX_TIMESTAMP() - pmap.PassDate - (SELECT valueInt from DictionariyItems WHERE `Code` = 'userpassduration') AS passExp,
     di.Code AS UserType,
     pmap.ID
 FROM

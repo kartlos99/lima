@@ -55,7 +55,7 @@
                     </td>
                     <td>სტატუსი</td>
                     <td>
-                        <select class="form-control" id="sel_state" name="state">
+                        <select class="form-control" id="sel_state" name="state" required>
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </td>
@@ -91,7 +91,7 @@
                 <tr>
                     <td>მომხმ.ტიპი</td>
                     <td>
-                        <select class="form-control" id="sel_type" name="type">
+                        <select class="form-control" id="sel_type" name="type" required>
                             <option value="">აირჩიეთ...</option>
                         </select>
                     </td>

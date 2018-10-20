@@ -6,6 +6,10 @@
  * Time: 1:36 PM
  */
 include_once '../config.php';
+session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 // am dictionary Code-ze ra itemebi gvaqvs
 $code = $_GET['code'];

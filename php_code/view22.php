@@ -8,7 +8,7 @@ if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'))
 }
 
 $cvlebi_HH = [];
-$sql_getCvlevi = "SELECT ValueText FROM `dictionariyitems` WHERE `Code` = 'cvlebi'";
+$sql_getCvlevi = "SELECT ValueText FROM `DictionariyItems` WHERE `Code` = 'cvlebi'";
 $result = mysqli_query($conn, $sql_getCvlevi);
 $res = mysqli_fetch_assoc($result);
 $cvlebi_HH = explode('|', $res['ValueText']);
@@ -71,7 +71,7 @@ LEFT JOIN States s ON
     s.ID = ah.StateID
 LEFT JOIN Organizations o ON
 	o.ID = ah.OrganizationID
-LEFT JOIN organizationbranches b ON
+LEFT JOIN OrganizationBranches b ON
 	b.ID = ah.OrganizationBranchID
     $kreteria
 UNION
@@ -92,7 +92,7 @@ LEFT JOIN States s ON
     s.ID = a.StateID
 LEFT JOIN Organizations o ON
 	o.ID = a.OrganizationID
-LEFT JOIN organizationbranches b ON
+LEFT JOIN OrganizationBranches b ON
 	b.ID = a.OrganizationBranchID
     $kreteria1
 ORDER BY
@@ -103,14 +103,15 @@ ORDER BY
 // echo $sql;
 $result = mysqli_query($conn, $sql);
 
-$arr = array();
-foreach($result as $row){
-    $arr[] = $row;
-}
-
-// 2.2 view-s damushaveba, mzadaa
 $outdata = [];
-if (count($arr) < 50000 ){
+
+if (mysqli_num_rows($result) < 50000 ){
+
+    $arr = array();
+    foreach($result as $row){
+        $arr[] = $row;
+    }
+
     for ($i = 1; $i < count($arr); $i++){
         if ($arr[$i]['aID'] == $arr[$i - 1]['aID']){
     
@@ -141,18 +142,6 @@ if (count($arr) < 50000 ){
     $outdata += [ "error" => "მეხსიერების გადავსება! შეამცირეთ დიაპაზონი!" ];
 }
 
-
-// print_r ($outdata);
-
 echo(json_encode($outdata));
-
 $conn -> close();
-
-// $sql_chek = "SELECT checkmail('".$emEmail."',4) AS num ";
-// $result1 = mysqli_query($conn, $sql_chek);
-// $arr = mysqli_fetch_assoc($result1);
-// $count = $arr['num'];
-
-
-
 ?>

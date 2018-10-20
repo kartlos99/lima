@@ -48,7 +48,7 @@ $iphoneID = $_POST['iphoneID'];
 //print_r($_SESSION);
 $backinfo = ['id' => 0, 'error' => "", 'info_cuser' => "", 'info_cdate' => "", 'info_muser' => "", 'info_mdate' => ""];
 
-if ( ($iphoneID == 0 && $_SESSION['usertype'] == 'CallCenterOper') || $_SESSION['usertype'] == 'CallCenterOper'){
+if ( ($iphoneID == 0 && $_SESSION['usertype'] == 'CallCenterOper') || $_SESSION['usertype'] == 'AppleIDCreator' || $_SESSION['usertype'] == 'limitedUser'){
     $backinfo['error'] = 'No Access!';
     echo (json_encode($backinfo));
     die();
@@ -111,7 +111,10 @@ if ($iphoneID == 0) {
         `ScreenLockDate` = '$lockDate',
         `ScreenLockSendDate` = '$lockSendDate',
         `SLstateID` = $SLstatus,
-        `Comment` = '$comment'        
+        `Comment` = '$comment',
+        `ModifyDate` = $currDate,
+        `ModifyUser` = '$currUser',
+        `ModifyUserID` = $currUserID        
     ";
 
     if ($_SESSION['usertype'] != 'CallCenterOper'){
@@ -123,10 +126,7 @@ if ($iphoneID == 0) {
         `PhSIMFREE` = '$simfree',
         `RestrictionPass` = '$passRes',
         `EncryptionPass` = '$passEnc',
-        `StateID` = $status,
-        `ModifyDate` = $currDate,
-        `ModifyUser` = '$currUser',
-        `ModifyUserID` = $currUserID        
+        `StateID` = $status
         ";
     }
 

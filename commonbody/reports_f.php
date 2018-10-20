@@ -13,7 +13,7 @@
     <div role="tabpanel" class="tab-pane active" id="viewrep1">
         <p>v2.1</p>
         <div>
-            <table id="rep1_table" class="table table-hover"></table>
+            <table id="rep1_table" class="table justhover"></table>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep2">
@@ -36,7 +36,7 @@
             </table>
         </form>
         <div class="table-responsive">
-            <table id="rep2_table" class="table table-hover table-striped"></table>
+            <table id="rep2_table" class="table justhover"></table>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep3">
@@ -71,7 +71,7 @@
             </table>
         </form>
         <div>
-            <table id="rep3_table" class="table table-hover"></table>
+            <table id="rep3_table" class="table justhover"></table>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep4">
@@ -94,7 +94,7 @@
             </table>
         </form>
         <div>
-            <table id="rep4_table" class="table table-hover"></table>
+            <table id="rep4_table" class="table justhover"></table>
         </div>
     </div>
 </div>

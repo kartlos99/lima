@@ -2,6 +2,9 @@
 
 include_once '../config.php';
 session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 
 $iserID = $_SESSION['userID'];
 $applID = $_POST['applID'];
@@ -12,7 +15,7 @@ $whichpass = $_POST['whichpass'];
 
 
     $sql = "
-    INSERT INTO `applidpasslog`(
+    INSERT INTO `Applidpasslog`(
         `userID`,
         `applid`,
         `texti`,

@@ -42,11 +42,11 @@ if (strlen($kreteria) > 0){
 }
 
 $sql = " 
-SELECT `userID`, o.ID as orgID, o.OrganizationName, b.BranchName, p.UserName, a.AplApplID, `whichpass`, `tarigi`, `texti` FROM `applidpasslog` log
+SELECT `userID`, o.ID as orgID, o.OrganizationName, b.BranchName, p.UserName, a.AplApplID, `whichpass`, `tarigi`, `texti` FROM `Applidpasslog` log
 LEFT JOIN PersonMapping p ON log.userID = p.ID
 LEFT JOIN Organizations o on p.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b on p.OrganizationBranchID = b.ID
-LEFT JOIN Applid a ON log.applid = a.ID " . $kreteria . " Order by tarigi";
+LEFT JOIN ApplID a ON log.applid = a.ID " . $kreteria . " Order by tarigi";
 
 $result = mysqli_query($conn, $sql);
 

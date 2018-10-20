@@ -28,7 +28,7 @@ if ($id == 0){
         WHERE
             st.Code = 'Active' 
             AND ap.`OrganizationID` = $orgID 
-            AND UNIX_TIMESTAMP() - ap.reservDate > (select valueint from dictionariyitems where CODE = 'reserv_period')
+            AND UNIX_TIMESTAMP() - ap.reservDate > (select valueint from DictionariyItems where CODE = 'reserv_period')
             AND 'Active' <> ALL(
             SELECT
                 agst.Code

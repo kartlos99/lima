@@ -6,7 +6,7 @@
  * Time: 1:36 PM
  */
 //include_once '../config.php';
-include_once '../administrator/header_1.php';
+include_once '../commonbody/header_1.php';
 //session_start();
 //$currUserID = $_SESSION['userID'];
 if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH')){
@@ -164,5 +164,5 @@ $output .= '</table>';
 echo '<h3>ხელშეკრულების ისტორია</h3><br>';
 echo $output;
 
-include_once '../administrator/footer.php';
+include_once '../footer.php';
 $conn -> close();

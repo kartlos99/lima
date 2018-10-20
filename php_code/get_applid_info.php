@@ -31,7 +31,7 @@ $problem = false;
 $sql = "
 SELECT 
     a.id, a.`AplApplID`, a.OrganizationID, s.code AS st, 
-    UNIX_TIMESTAMP() - reservDate - (select valueint from dictionariyitems where CODE = 'reserv_period') AS reservation
+    UNIX_TIMESTAMP() - reservDate - (select valueint from DictionariyItems where CODE = 'reserv_period') AS reservation
 FROM `ApplID` a
 LEFT JOIN States s
 ON a.StateID = s.ID

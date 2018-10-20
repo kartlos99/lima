@@ -7,6 +7,9 @@
  */
 include_once '../config.php';
 session_start();
+if (!isset($_SESSION['username'])){
+    die("login");
+}
 $currUserID = $_SESSION['userID'];
 $currUser = $_SESSION['username'];
 $currDate = date("Y-m-d H:i", time());

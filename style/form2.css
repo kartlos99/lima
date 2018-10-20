@@ -26,6 +26,10 @@ body {
     cursor: pointer;
 }
 
+.justhover tr:hover {
+    background-color: #bbccdd;
+}
+
 .pan-header {
     width: 100%;
 }
