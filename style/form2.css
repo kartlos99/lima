@@ -174,3 +174,7 @@ label {
   .slider.round:before {
     border-radius: 50%;
   } */
+
+  .toright {
+    text-align : right;
+  }

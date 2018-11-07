@@ -1,4 +1,7 @@
 <div>
+<div class="toright">
+    <a href="agr_exp.php" class="btn btn-default btn-sm">ხელშეკრულებების სრული ჩამონათვლის ექსპორტი <span class="glyphicon glyphicon-download"></a>
+</div>
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs nav-justified" role="tablist">
