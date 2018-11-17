@@ -8,11 +8,22 @@ if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'))
 }
 
 $cvlebi_HH = [];
+$cvlebi_TB = [];
 $sql_getCvlevi = "SELECT ValueText FROM `DictionariyItems` WHERE `Code` = 'cvlebi'";
 $result = mysqli_query($conn, $sql_getCvlevi);
 $res = mysqli_fetch_assoc($result);
 $cvlebi_HH = explode('|', $res['ValueText']);
-// print_r($cvlebi_HH);
+$cvlisN = 1;
+for ($i = 0; $i < count($cvlebi_HH); $i = $i + 2 ){
+    if ($cvlebi_HH[$i] <= $cvlebi_HH[$i+1]){
+        array_push($cvlebi_TB, [$cvlebi_HH[$i], $cvlebi_HH[$i+1], $cvlisN]);
+    }else{
+        array_push($cvlebi_TB, [$cvlebi_HH[$i], 24, $cvlisN]);
+        array_push($cvlebi_TB, [0, $cvlebi_HH[$i+1], $cvlisN]);
+    }
+    $cvlisN++;
+}
+//  print_r($cvlebi_TB);
 
 $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
@@ -40,18 +51,15 @@ if (strlen($kreteria) > 0){
     $kreteria1 = " WHERE " . $kreteria1;
 }
 
-$cvlebis_dayofa = "(CASE  
-WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[0] AND HOUR(ah.`ModifyDate`) < $cvlebi_HH[1] THEN 1
-WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[1] AND HOUR(ah.`ModifyDate`) < $cvlebi_HH[2] THEN 2
-WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[2] AND HOUR(ah.`ModifyDate`) < $cvlebi_HH[3] THEN 3
-WHEN HOUR(ah.`ModifyDate`) >= $cvlebi_HH[3] OR HOUR(ah.`ModifyDate`) < $cvlebi_HH[0] THEN 4
-END) AS cvla";
-$cvlebis_dayofa1 = "(CASE  
-WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[0] AND HOUR(a.`ModifyDate`) < $cvlebi_HH[1] THEN 1
-WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[1] AND HOUR(a.`ModifyDate`) < $cvlebi_HH[2] THEN 2
-WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[2] AND HOUR(a.`ModifyDate`) < $cvlebi_HH[3] THEN 3
-WHEN HOUR(a.`ModifyDate`) >= $cvlebi_HH[3] OR HOUR(a.`ModifyDate`) < $cvlebi_HH[0] THEN 4
-END) AS cvla";
+$cvlebis_dayofa = "(CASE ";
+$cvlebis_dayofa1 = "(CASE ";
+foreach($cvlebi_TB as $cvla){
+    $cvlebis_dayofa .= " WHEN HOUR(ah.`ModifyDate`) >= $cvla[0] AND HOUR(ah.`ModifyDate`) < $cvla[1] THEN $cvla[2]";
+    $cvlebis_dayofa1 .= " WHEN HOUR(a.`ModifyDate`) >= $cvla[0] AND HOUR(a.`ModifyDate`) < $cvla[1] THEN $cvla[2]";
+}
+$cvlebis_dayofa .= " END) AS cvla";
+$cvlebis_dayofa1 .= " END) AS cvla";
+
 
 $sql = "
 SELECT
@@ -105,7 +113,7 @@ $result = mysqli_query($conn, $sql);
 
 $outdata = [];
 
-if (mysqli_num_rows($result) < 50000 ){
+if (mysqli_num_rows($result) < 40000 ){
 
     $arr = array();
     foreach($result as $row){
@@ -131,7 +139,7 @@ if (mysqli_num_rows($result) < 50000 ){
                 }
     
                 if ( !isset( $outdata[ $key_user ][ $operation ][ $fil ] )){
-                    $outdata[ $key_user ][ $operation ] += [ "$fil" => [0,0,0,0] ];
+                    $outdata[ $key_user ][ $operation ] += [ "$fil" => [0,0] ];
                 }
     
                 $outdata[ $key_user ][ $operation ][ $fil ][ $cvla ] += 1;

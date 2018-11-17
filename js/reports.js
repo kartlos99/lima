@@ -211,11 +211,12 @@ function get_rep2_list(kriteri){
                 }
     
                 branchs.sort();
+                var cvlebisRaodenoba = 2;
     
                 var head1 = branchs.slice();
                 head1.unshift("", "");
                 var rowh1 = array_to_th(head1);
-                rowh1.find('th:not(:empty)').attr('colspan', 4);
+                rowh1.find('th:not(:empty)').attr('colspan', cvlebisRaodenoba);
                 table_view2_body.append(rowh1);
     
                 var rowh2 = $('<tr />');
@@ -224,9 +225,9 @@ function get_rep2_list(kriteri){
                 t2.css("border-right" , '1px solid #aaaaaa');
                 rowh2.append(t1, t2);
                 for (var b in branchs){
-                    for (var i = 1; i <= 4; i++){
+                    for (var i = 1; i <= cvlebisRaodenoba; i++){
                         var td = $('<td />').text(i).css("text-align" , 'center');
-                        if (i == 4){
+                        if (i == cvlebisRaodenoba){
                             td.css("border-right" , '1px solid #aaaaaa');
                         }
                         rowh2.append(td);
@@ -247,14 +248,14 @@ function get_rep2_list(kriteri){
                         for (var j = 0; j < branchs.length; j++){
                             var dataA;
                             if (response[users[i]][states[si]][branchs[j]] == undefined){
-                                dataA = [0,0,0,0];
+                                dataA = [0,0];
                             }else {
                                 dataA = response[users[i]][states[si]][branchs[j]];
                             }
     
                             for (var ci in dataA){
                                 var new_td = $('<td />').text(dataA[ci]).addClass('equalsimbols').css("text-align" , 'right');
-                                if (ci == 3){
+                                if (ci == cvlebisRaodenoba-1){
                                     new_td.css("border-right" , '1px solid #aaaaaa');
                                 }
                                 if (dataA[ci] == 0){

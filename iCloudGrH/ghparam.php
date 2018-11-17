@@ -25,16 +25,21 @@
     <table>
         <tr>
             <td>
-                    <input id="inp_cvla0" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control" />  
+                    <span>I ცვლა (დან - მდე)</span>
+            </td><td>
+                    <input id="inp_cvla0" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control" /> 
             </td><td>
                     <input id="inp_cvla1" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control" />
+            </td>     
+        </tr>
+        <tr>
+            <td>
+                    <span>II ცვლა (დან - მდე)</span>
             </td><td>
-                    <input id="inp_cvla2" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control" />  
+                    <input id="inp_cvla2" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control" />
             </td><td>
-                    <input id="inp_cvla3" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control"/>  
-            </td><td>
-                    <span>ცვლის დაწყების საათები</span>
-            </td>        
+                    <input id="inp_cvla3" type="number" name="applReservPeriod" value="0" min="0" max="23" class="form-control" />
+            </td>     
         </tr>
     </table>        
     <div>
