@@ -57,8 +57,8 @@ foreach($cvlebi_TB as $cvla){
     $cvlebis_dayofa .= " WHEN HOUR(ah.`ModifyDate`) >= $cvla[0] AND HOUR(ah.`ModifyDate`) < $cvla[1] THEN $cvla[2]";
     $cvlebis_dayofa1 .= " WHEN HOUR(a.`ModifyDate`) >= $cvla[0] AND HOUR(a.`ModifyDate`) < $cvla[1] THEN $cvla[2]";
 }
-$cvlebis_dayofa .= " END) AS cvla";
-$cvlebis_dayofa1 .= " END) AS cvla";
+$cvlebis_dayofa .= " ELSE 0 END) AS cvla";
+$cvlebis_dayofa1 .= " ELSE 0 END) AS cvla";
 
 
 $sql = "
@@ -129,6 +129,9 @@ if (mysqli_num_rows($result) < 40000 ){
                 $fil = $arr[$i]['OrganizationName'] . " : " . $arr[$i]['branch'];
                 $key_user = $arr[$i-1]['ModifyUser'];
                 $cvla = $arr[$i-1]['cvla'] - 1;
+                if($cvla == -1){
+                    break;
+                }
     
                 if ( !isset( $outdata[ $key_user ] )){
                     $outdata += [ "$key_user" => array() ];

@@ -21,7 +21,7 @@ $dges = date("Y-m-d", time());
 
 if(isset($_GET["sql"]) && $_GET["sql"]!=""){
     $sql = $_GET["sql"];
-    $depritiatedKeys = ["drop", "insert", "update"];
+    $depritiatedKeys = ["drop", "insert", "update", "alter", "create"];
 
     foreach($depritiatedKeys as $opation){
         if (stripos($sql, $opation) !== false){
