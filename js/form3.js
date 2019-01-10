@@ -13,6 +13,7 @@ var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
 var reasonEdit = false;
 var limited = false;
 var candidateApplidID = 0;
+var organizationObj;
 
 $('button').addClass('btn-sm');
 
@@ -22,10 +23,18 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
+        organizationObj = response;
         response.forEach(function (item) {
-            $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization_f31');
-            $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization_f33');
-        })
+            var opt = $('<option />').text(item.OrganizationName).attr('value', item.id);
+            if (reasonEdit == false){
+                if (item.code == "Active"){
+                    opt.appendTo('#sel_organization_f31');        
+                }
+            }else{
+                opt.appendTo('#sel_organization_f31');
+            }
+        });
+        $('#sel_organization_f33').html($('#sel_organization_f31').html());
     }
 });
 
@@ -833,49 +842,25 @@ function getsublists(br_id) {
     var sel_org_id = $('#sel_organization_f31').val();
 
     // <!--        filialebis chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_branches.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            if (response.length != 1) {
+    organizationObj.forEach(function (org){
+        if (org.id == sel_org_id){
+            var branches = org.branches;
+            if (branches.length != 1) {
                 $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch_f31');
             }
-            response.forEach(function (item) {
+            branches.forEach(function (item) {
                 $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch_f31');
             });
             if (br_id != 0) {
                 $('#sel_branch_f31').val(br_id);
             }
-        }
-    });
 
-    // <!--        domainebis  chamonatvali -->
-    // $.ajax({
-    //     url: '../php_code/get_domains.php?id=' + sel_org_id,
-    //     method: 'get',
-    //     dataType: 'json',
-    //     success: function (response) {
-    //         response.forEach(function (item) {
-    //             $('<option />').text(item.DomainName).attr('value', item.id).appendTo('#sel_domain');
-    //         })
-    //     }
-    // });
-
-    // <!--    usafrtxoebis damatebiti maili -->
-    $.ajax({
-        url: '../php_code/get_rmail.php?id=' + sel_org_id,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-
+            // <!--    usafrtxoebis damatebiti maili -->
+            var rmails = org.rmails;
             $('#sel_rmail').empty();
-            response.forEach(function (item) {
-                console.log(item);
+            rmails.forEach(function (item) {                
                 $('<option />').text(item.EmEmail).attr('value', item.id).appendTo('#sel_rmail');
-
             });
-
         }
     });
 

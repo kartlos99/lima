@@ -8,6 +8,7 @@ var currApplID = 0;
 var org_p1 = 0;
 var org_p3 = 0;
 var lastQuery = "";
+var organizationObj;
 
 $('button').addClass('btn-sm');
 
@@ -17,6 +18,7 @@ $.ajax({
     method: 'get',
     dataType: 'json',
     success: function (response) {
+        organizationObj = response;
         response.forEach(function (item) {
             $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization');
             $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization_f13');
@@ -83,15 +85,14 @@ function loadBranches11(orgID, brID){
         $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
     }
     // <!--    filialebis chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_branches.php?id=' + orgID,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            if (response.length != 1){
+
+    organizationObj.forEach(function (org){
+        if (org.id == orgID){
+            var branches = org.branches;
+            if (branches.length != 1) {
                 $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
             }
-            response.forEach(function (item) {
+            branches.forEach(function (item) {
                 $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
             });
             if (brID > 0){
@@ -108,19 +109,17 @@ $('#sel_organization_f13').on('change', function () {
     $('#sel_branch_f13').empty().removeAttr('disabled');
 
     // <!--        filialebis chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_branches.php?id=' + org_p3,
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            if (response.length != 1){
+    organizationObj.forEach(function (org){
+        if (org.id == org_p3){
+            var branches = org.branches;
+            if (branches.length != 1) {
                 $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch_f13');
             }
-            response.forEach(function (item) {
+            branches.forEach(function (item) {
                 $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch_f13');
             });
         }
-    });
+    });    
 });
 
 
@@ -366,6 +365,7 @@ function serialDataToObj(data){
 }
 
 $("#f11_reset").on('click', function () {
+    $('#sel_branch').empty();
     $('#form_11').trigger('reset');
 });
 

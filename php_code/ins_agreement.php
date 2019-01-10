@@ -35,6 +35,18 @@ if ( $_SESSION['usertype'] == 'CallCenterOper' || $_SESSION['usertype'] == 'Appl
     die();
 }
 
+// vamowmebt organizacia aqtiuria tu ara
+$sql_org_chek = "SELECT s.code FROM `Organizations` o LEFT JOIN `States` s ON s.ID = o.stateID WHERE o.id = $orgID";
+$org_chek_res = mysqli_query($conn, $sql_org_chek);
+if ( mysqli_num_rows($org_chek_res) > 0 ){
+    $res_arr = mysqli_fetch_assoc($org_chek_res);
+    if ( $res_arr['code'] != 'Active' ){
+        $backinfo['error'] = "ორგანიზაცია არ არის აქტიური! ხელშეკრულების რეგისტრაცია შეუძლებელია!";
+        echo json_encode($backinfo);
+        die();
+    }
+}
+
 if (strlen($agrN) > 0 && $agrN != "-") {
     $sql_chek = "SELECT id FROM `Agreements` WHERE Number = '$agrN' AND `OrganizationID` = $orgID";
     $result1 = mysqli_query($conn, $sql_chek);

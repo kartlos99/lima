@@ -12,7 +12,18 @@ if (!isset($_SESSION['username'])){
 }
 
 // organizaciebi
-$sql = "SELECT id, OrganizationName, OrganizationNameEng FROM `Organizations` WHERE StateID = 1";
+$sql = "SELECT
+o.id,
+OrganizationName,
+OrganizationNameEng,
+s.code
+FROM
+`Organizations` o
+LEFT JOIN `States` s 
+ON s.ID = o.stateID
+WHERE
+s.code <> 'disabled'
+";
 
 $result = mysqli_query($conn,$sql);
 

@@ -98,12 +98,28 @@ $outdata = [];
 
 for ($i = 1; $i < count($arr); $i++){
     if ($arr[$i]['aID'] == $arr[$i - 1]['aID']){
-        if ($arr[$i]['StateID'] != $arr[$i - 1]['StateID']){
+        if ($arr[$i]['StateID'] != $arr[$i - 1]['StateID'] 
+            || $arr[$i]['a1'] != $arr[$i - 1]['a1']
+            || $arr[$i]['a2'] != $arr[$i - 1]['a2']
+            || $arr[$i]['a3'] != $arr[$i - 1]['a3']){
+
             $key_st_ch = $arr[$i-1]['val'] . "->-" . $arr[$i]['val'];
             $key_user = $arr[$i-1]['ModifyUser'];
+            
+            $answerN = "";
             if ($arr[$i]['a1'] != $arr[$i - 1]['a1']){
-                $key_st_ch .= "_+kitxvebi";
+                $answerN .= "1";
             }
+            if ($arr[$i]['a2'] != $arr[$i - 1]['a2']){
+                $answerN .= "2";
+            }
+            if ($arr[$i]['a3'] != $arr[$i - 1]['a3']){
+                $answerN .= "3";
+            }
+            if ($answerN != ""){
+                $key_st_ch .= "_kitxvebi_" . $answerN;
+            }
+
             if ( !isset( $outdata[ $key_user ] )){
                 $outdata += ["$key_user" => array() ];
                 $outdata[ $key_user ] += ["$key_user" => "0"];
