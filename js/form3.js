@@ -24,7 +24,15 @@ $.ajax({
     dataType: 'json',
     success: function (response) {
         organizationObj = response;
-        response.forEach(function (item) {
+        fill_org_element();
+    }
+});
+
+function fill_org_element(){
+    $('#sel_organization_f31').html("");
+    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_organization_f31');
+    if (organizationObj != undefined){
+        organizationObj.forEach(function (item) {
             var opt = $('<option />').text(item.OrganizationName).attr('value', item.id);
             if (reasonEdit == false){
                 if (item.code == "Active"){
@@ -34,9 +42,9 @@ $.ajax({
                 opt.appendTo('#sel_organization_f31');
             }
         });
-        $('#sel_organization_f33').html($('#sel_organization_f31').html());
-    }
-});
+    }    
+    $('#sel_organization_f33').html($('#sel_organization_f31').html());
+}
 
 // <!--    statusebi am form31 agreement -->
 $('#sel_status_f31').empty();
@@ -134,7 +142,7 @@ $('#pan_f31').on('click', function () {
 
 
 function getAgreement() {
-    reasonEdit = true;
+    
     $('#agr_history').attr('href','../php_code/get_agr_history.php?agrID=' + currAgreementID);
     $.ajax({
         url: '../php_code/get_agreement.php?id=' + currAgreementID,
@@ -212,6 +220,8 @@ $(function () {
 
     if (getCookie("agreementID") != "" && getCookie("agreementID") != 0) {
         // e.i. ganaxlebis rejimshi vart
+        reasonEdit = true;
+        fill_org_element();
         currAgreementID = getCookie("agreementID");
         document.cookie = "agreementID=0";
 
@@ -222,6 +232,7 @@ $(function () {
 
     }
 
+    
 
     //alert(document.cookie);
     console.log(document.cookie);
