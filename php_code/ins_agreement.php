@@ -40,7 +40,7 @@ $sql_org_chek = "SELECT s.code FROM `Organizations` o LEFT JOIN `States` s ON s.
 $org_chek_res = mysqli_query($conn, $sql_org_chek);
 if ( mysqli_num_rows($org_chek_res) > 0 ){
     $res_arr = mysqli_fetch_assoc($org_chek_res);
-    if ( $res_arr['code'] != 'Active' ){
+    if ( $res_arr['code'] != 'Active' && $agrID == 0 ){
         $backinfo['error'] = "ორგანიზაცია არ არის აქტიური! ხელშეკრულების რეგისტრაცია შეუძლებელია!";
         echo json_encode($backinfo);
         die();

@@ -989,6 +989,18 @@ $('.eye0').on('click', function () {
     }
 });
 
+$('#send_reason_from input').on('click',function(event){
+    if ($(this).val() == ""){
+        $('#message-text').attr('readonly', false);
+        var textdata = $('#message-text').val();        
+        if (textdata.length <= 10){
+            $('#btndone').attr('disabled',true);
+        }        
+    }else{
+        $('#message-text').attr('readonly', true);
+        $('#btndone').attr('disabled',false);
+    }
+});
 
 $('#btndone').on('click',function(event){
     // clicked_eye.attr('data-target','');
@@ -1003,29 +1015,39 @@ $('#btndone').on('click',function(event){
     };
     // tempApplID -shi aris mimdinare da chawerili ID
 
+    var inputs = $('#send_reason_from').serializeArray();
+    
+    inputs.forEach( function(item) {
+        dataObj[item.name] = item.value;
+    });
+
+    if (dataObj.answer != ""){
+        dataObj.text = dataObj.answer;
+    }
+
     $.ajax({
         url: '../php_code/ins_applpasslog.php',
         method: 'post',
         data: dataObj,
         success: function (response) {
-            
             console.log(response);
         }
-    });    
+    });
 
     $('#dialog1').modal('hide');
     $('#message-text').val('');
-    $('#btndone').attr('disabled',true);    
+    $('#btndone').attr('disabled',true);
 })
 
 $('#message-text').on('keyup',function(){
     var textdata = $('#message-text').val();
-    
-    if (textdata.length > 10){
-        $('#btndone').attr('disabled',false);
-    }else{
-        $('#btndone').attr('disabled',true);
-    }
+    if ($('#message-text').attr('readonly') != "readonly"){
+        if (textdata.length > 10){
+            $('#btndone').attr('disabled',false);
+        }else{
+            $('#btndone').attr('disabled',true);
+        }
+    }    
 })
 
 $('#dialog1').on('shown.bs.modal', function () {
