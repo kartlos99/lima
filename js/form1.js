@@ -9,65 +9,60 @@ var org_p1 = 0;
 var org_p3 = 0;
 var lastQuery = "";
 var organizationObj;
+var allListDone = false;
+var hasPrevFiler = false;
 
 $('button').addClass('btn-sm');
 
-//<!--    organizaciebis chamonatvali -->
+var st_arr = ['Agreements', 'ApplID'];
+var dict_code_arr = ['iPhoneModels'];
+
+var requestObj = {
+    'org': 'org',
+    'status': st_arr,
+    'dict_codes': dict_code_arr
+};
+
+// yvela dropdown-is shesasebi listebi mogvaqvs aq
 $.ajax({
-    url: '../php_code/get_organizations.php',
-    method: 'get',
+    url: '../php_code/get_dropdown_lists.php',
+    method: 'post',
+    data: requestObj,
     dataType: 'json',
     success: function (response) {
-        organizationObj = response;
-        response.forEach(function (item) {
+        console.log(response);
+
+        //<!--    organizaciebis chamonatvali -->
+        organizationObj = response.org;
+        organizationObj.forEach(function (item) {
             $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization');
             $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#sel_organization_f13');
-        })
-    }
-});
+        });
 
-//<!--    statusebi agreement -->
-$('#sel_status_f11').empty();
-$.ajax({
-    url: '../php_code/get_statuses.php?objname=Agreements',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
+        //<!--    statusebi agreement -->
+        var agreements_ST = response.Agreements;
         $('<option />').text("ყველა").attr('value', 0).appendTo('#sel_status_f11');
-        response.forEach(function (item) {
+        agreements_ST.forEach(function (item) {
             $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status_f11');
         });
         $('#sel_status_f11 option:first-child').attr('selected', 'selected');
-    }
-});
 
-//<!--    statusebi ApplID -->
-$('#sel_status_f13').empty();
-$.ajax({
-    url: '../php_code/get_statuses.php?objname=ApplID',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
+        //<!--    statusebi ApplID -->
+        var applID_ST = response.ApplID;
         $('<option />').text("ყველა").attr('value', 0).appendTo('#sel_status_f13');
-        response.forEach(function (item) {
+        applID_ST.forEach(function (item) {
             $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status_f13');
         });
         $('#sel_status_f13 option:first-child').attr('selected', 'selected');
-    }
-});
 
-//<!--    modelebi form11 -->
-$('#sel_modeli_f11').empty();
-$.ajax({
-    url: '../php_code/get_dictionaryitems.php?code=iPhoneModels',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
+        //<!--    modelebi form11 -->
         $('<option />').text("ყველა").attr('value', 0).appendTo('#sel_modeli_f11');
-        response.forEach(function (item) {
+        response.iPhoneModels.forEach(function (item) {
             $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_modeli_f11');
         });
         $('#sel_modeli_f11 option:first-child').attr('selected', 'selected');
+
+        allListDone = true;
     }
 });
 
@@ -81,25 +76,26 @@ $('#sel_organization').on('change', function () {
 
 function loadBranches11(orgID, brID){
     $('#sel_branch').empty().removeAttr('disabled');
+
+    // <!--    filialebis chamonatvali -->
     if (orgID == "") {
         $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
+    } else {
+        organizationObj.forEach(function (org){
+            if (org.id == orgID){
+                var branches = org.branches;
+                if (branches.length != 1) {
+                    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
+                }
+                branches.forEach(function (item) {
+                    $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
+                });
+                if (brID > 0){
+                    $('#sel_branch').val(brID);
+                }
+            }
+        });
     }
-    // <!--    filialebis chamonatvali -->
-
-    organizationObj.forEach(function (org){
-        if (org.id == orgID){
-            var branches = org.branches;
-            if (branches.length != 1) {
-                $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch');
-            }
-            branches.forEach(function (item) {
-                $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch');
-            });
-            if (brID > 0){
-                $('#sel_branch').val(brID);
-            }
-        }
-    });
 }
 
 $('#sel_organization_f13').on('change', function () {
@@ -310,42 +306,46 @@ $(function(){
     $('#pan_f12 .panel-heading').trigger('click');
 });
 
+function fillLastFilterForm(){
+    var savedCoocieData = getCookie('f11_pos');
+    var queryData = serialDataToObj(savedCoocieData);
+
+    $('#sel_organization').val(queryData.organization);
+        loadBranches11(queryData.organization, queryData.branch);
+    $('#agrN_f11').val(queryData.agrN);
+    $('#sel_status_f11').val(queryData.status);
+    $('#agrStart1_f11').val(queryData.agrStart1);
+    $('#agrStart2_f11').val(queryData.agrStart2);
+    $('#agrFinish1_f11').val(queryData.agrFinish1);
+    $('#agrFinish2_f11').val(queryData.agrFinish2);
+    $('#imei_f11').val(queryData.imei);
+    $('#sel_modeli_f11').val(queryData.modeli);
+    $('#serialN_f11').val(queryData.serialN);
+    $('#applID_f11').val(queryData.applid);
+    if (queryData.onlyme == 1) {
+        $('#onlyme_f11').prop("checked", true);
+    } else {
+        $('#onlyme_f11').prop("checked", false);
+    }
+    $('#f11_pageN').val( queryData.pageN );
+
+    requestAgreementList(savedCoocieData);    
+}
+
 function f_show(){
     lastQuery = getCookie('f11_pos');
     console.log(getCookie('f11_pos'));
     var savedCoocieData = getCookie('f11_pos');
     if (savedCoocieData != "0" && savedCoocieData != ""){
-        var queryData = serialDataToObj(savedCoocieData);
-
-        $('#sel_organization').val(queryData.organization);
-            loadBranches11(queryData.organization, queryData.branch);
-        $('#agrN_f11').val(queryData.agrN);
-        $('#sel_status_f11').val(queryData.status);
-        $('#agrStart1_f11').val(queryData.agrStart1);
-        $('#agrStart2_f11').val(queryData.agrStart2);
-        $('#agrFinish1_f11').val(queryData.agrFinish1);
-        $('#agrFinish2_f11').val(queryData.agrFinish2);
-        $('#imei_f11').val(queryData.imei);
-        $('#sel_modeli_f11').val(queryData.modeli);
-        $('#serialN_f11').val(queryData.serialN);
-        $('#applID_f11').val(queryData.applid);
-        if (queryData.onlyme == 1) {
-            $('#onlyme_f11').prop("checked", true);
-        } else {
-            $('#onlyme_f11').prop("checked", false);
-        }
-        $('#f11_pageN').val( queryData.pageN );
-
-        //$('#form_11').trigger('submit');
-        requestAgreementList(savedCoocieData);
-        //document.cookie = "f11_pos=0";
+        hasPrevFiler = true;
+        if (hasPrevFiler && allListDone){
+            fillLastFilterForm();
+        }        
     }
     console.log('show');
-
 }
 
 function f_hide(){
-
     if (lastQuery != "organization=&branch=&agrN=&status=0&agrStart1=&agrStart2=&agrFinish1=&agrFinish2=&imei=&modeli=0&serialN=&applid=&pageN=0") {
         document.cookie = "f11_pos=" + lastQuery;
     }else {
@@ -365,7 +365,7 @@ function serialDataToObj(data){
 }
 
 $("#f11_reset").on('click', function () {
-    $('#sel_branch').empty();
+    loadBranches11("", 0);
     $('#form_11').trigger('reset');
 });
 

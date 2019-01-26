@@ -14,17 +14,88 @@ var reasonEdit = false;
 var limited = false;
 var candidateApplidID = 0;
 var organizationObj;
+var allListDone = false;
 
 $('button').addClass('btn-sm');
 
-// <!--    organizaciebis chamonatvali -->
+var st_arr = ['Agreements', 'Iphone', 'ApplID'];
+var dict_code_arr = ['iPhoneModels', 'ios', 'ScreenLockState'];
+
+var requestObj = {
+    'org': 'org',
+    'status': st_arr,
+    'dict_codes': dict_code_arr,
+    'sec_qustion': 'sec_qustion'
+};
+
+// yvela dropdown-is shesasebi listebi mogvaqvs aq
 $.ajax({
-    url: '../php_code/get_organizations.php',
-    method: 'get',
+    url: '../php_code/get_dropdown_lists.php',
+    method: 'post',
+    data: requestObj,
     dataType: 'json',
     success: function (response) {
-        organizationObj = response;
+        console.log(response);
+
+        //<!--    organizaciebis chamonatvali -->
+        organizationObj = response.org;
         fill_org_element();
+
+        // <!--    statusebi am form31 agreement -->
+        response.Agreements.forEach(function (item) {
+            $('<option />').text(item.va).attr('value', item.id).attr('code', item.code).appendTo('#sel_status_f31');
+        });
+        $('#sel_status_f31 option:first-child').attr('selected', 'selected');
+
+        // <!--    statusebi am form32 iphones -->
+        response.Iphone.forEach(function (item) {
+            $('<option />').text(item.va).attr('value', item.id).attr('datacode', item.code).appendTo('#sel_status_f324');
+        });
+        $('#sel_status_f324 option:first-child').attr('selected', 'select');
+
+        // <!--    statusebi am form33 applid -->
+        response.ApplID.forEach(function (item) {
+            $('<option />').text(item.va).attr('value', item.id).attr('datacode', item.code).appendTo('#sel_status_f33');
+        });
+        $('#sel_status_f33 option:first-child').attr('selected', 'select');
+
+        // <!--    modelebi form_32 -->
+        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#sel_modeli_f322');
+        response.iPhoneModels.forEach(function (item) {
+            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_modeli_f322');
+        });
+        $('#sel_modeli_f322 option:first-child').attr('selected', 'select');
+
+        // <!--    ios form_32 -->
+        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#ios_f322');
+        response.ios.forEach(function (item) {
+            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#ios_f322');
+        });
+        $('#ios_f322 option:first-child').attr('selected', 'select');
+
+        // <!--    ScreenLockState form_32 -->
+        $('#sel_status_f32').empty();
+        $('<option />').text('აირჩიეთ...').attr('value', '0').attr('datacode', '').appendTo('#sel_status_f32');
+        // console.log(response);
+        response.ScreenLockState.forEach(function (item) {
+            $('<option />').text(item.ValueText).attr('value', item.ID).attr('datacode', item.Code).appendTo('#sel_status_f32');
+        });
+        $('#sel_status_f32 option:first-child').attr('selected', 'select');
+
+        // <!--    sequrity question chamonatvali -->
+        var sq_num = 0;
+        var i = 0;
+        response.sec_qustion.forEach(function (item) {
+            if (sq_num == item.DictionaryID) {
+                $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q' + i);
+            } else {
+                sq_num = item.DictionaryID;
+                i++;
+                $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q' + i);
+            }
+        })
+
+        allListDone = true;
     }
 });
 
@@ -45,101 +116,6 @@ function fill_org_element(){
     }    
     $('#sel_organization_f33').html($('#sel_organization_f31').html());
 }
-
-// <!--    statusebi am form31 agreement -->
-$('#sel_status_f31').empty();
-$.ajax({
-    url: '../php_code/get_statuses.php?objname=Agreements',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        response.forEach(function (item) {
-            $('<option />').text(item.va).attr('value', item.id).attr('code', item.code).appendTo('#sel_status_f31');
-        });
-        $('#sel_status_f31 option:first-child').attr('selected', 'selected');
-    }
-});
-
-// <!--    statusebi am form32 iphones -->
-$('#sel_status_f324').empty();
-$.ajax({
-    url: '../php_code/get_statuses.php?objname=Iphone',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        response.forEach(function (item) {
-            $('<option />').text(item.va).attr('value', item.id).attr('datacode', item.code).appendTo('#sel_status_f324');
-        });
-        $('#sel_status_f324 option:first-child').attr('selected', 'select');
-    }
-});
-
-// <!--    statusebi am form33 applid -->
-$('#sel_status_f33').empty();
-$.ajax({
-    url: '../php_code/get_statuses.php?objname=ApplID',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        response.forEach(function (item) {
-            $('<option />').text(item.va).attr('value', item.id).attr('datacode', item.code).appendTo('#sel_status_f33');
-        });
-        $('#sel_status_f33 option:first-child').attr('selected', 'select');
-    }
-});
-
-// <!--    modelebi form_32 -->
-$('#sel_modeli_f322').empty();
-$.ajax({
-    url: '../php_code/get_dictionaryitems.php?code=iPhoneModels',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#sel_modeli_f322');
-        response.forEach(function (item) {
-            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_modeli_f322');
-        });
-        $('#sel_modeli_f322 option:first-child').attr('selected', 'select');
-    }
-});
-
-// <!--    ios form_32 -->
-$('#ios_f322').empty();
-$.ajax({
-    url: '../php_code/get_dictionaryitems.php?code=ios',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#ios_f322');
-        response.forEach(function (item) {
-            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#ios_f322');
-        });
-        $('#ios_f322 option:first-child').attr('selected', 'select');
-    }
-});
-
-// <!--    ScreenLockState form_32 -->
-$.ajax({
-    url: '../php_code/get_dictionaryitems.php?code=ScreenLockState',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        $('#sel_status_f32').empty();
-        $('<option />').text('აირჩიეთ...').attr('value', '0').attr('datacode', '').appendTo('#sel_status_f32');
-        // console.log(response);
-        response.forEach(function (item) {
-            $('<option />').text(item.ValueText).attr('value', item.ID).attr('datacode', item.Code).appendTo('#sel_status_f32');
-        });
-        $('#sel_status_f32 option:first-child').attr('selected', 'select');
-    }
-});
-
-$('#pan_f31').on('click', function () {
-
-    //document.cookie = "agreementID=0";
-
-});
-
 
 function getAgreement() {
     
@@ -230,9 +206,7 @@ $(function () {
 
         getAgreement();
 
-    }
-
-    
+    }    
 
     //alert(document.cookie);
     console.log(document.cookie);
@@ -252,28 +226,6 @@ $(function () {
     $('#agrStart_f31').val(strDate).attr('max', strDate);
 
     //$(".panel-heading span.glyphicon").trigger('click');
-
-
-    // <!--    sequrity question chamonatvali -->
-    $.ajax({
-        url: '../php_code/get_sq.php',
-        method: 'get',
-        dataType: 'json',
-        success: function (response) {
-            var sq_num = 0;
-            var i = 0;
-            response.forEach(function (item) {
-                if (sq_num == item.DictionaryID) {
-                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q' + i);
-                } else {
-                    sq_num = item.DictionaryID;
-                    i++;
-                    $('<option />').text(item.ValueText).attr('value', item.id).appendTo('#sel_q' + i);
-                }
-
-            })
-        }
-    });
 
 }); // ready funqciis dasasruli
 

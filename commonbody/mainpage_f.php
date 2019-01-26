@@ -21,7 +21,7 @@
                 <td>
                     <label for="sel_branch">ფილიალი</label>
                     <select class="form-control" id="sel_branch" name="branch">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>
@@ -40,7 +40,7 @@
                 <td>
                     <label for="sel_status_f11">ხელშეკრ. სტატუსი</label>
                     <select class="form-control" id="sel_status_f11" name="status">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td class="doubleinput">
@@ -64,7 +64,7 @@
                 <td>
                     <label for="sel_modeli_f11">მოდელი</label>
                     <select class="form-control" id="sel_modeli_f11" name="modeli">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>
@@ -118,7 +118,7 @@
                 <td>
                     <label for="sel_modeli_f12">მოდელი</label>
                     <select class="form-control" id="sel_modeli_f12" name="modeli">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>
@@ -128,13 +128,13 @@
                 <td>
                     <label for="ios_f12">iOS</label>
                     <select class="form-control" id="ios_f12" name="ios">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>
                     <label for="sel_status_f12">სტატუსი</label>
                     <select class="form-control" id="sel_status_f12" name="status">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td class="albuttom">
@@ -195,7 +195,7 @@
                 <td>
                     <label for="sel_branch_f13">ფილიალი</label>
                     <select class="form-control" id="sel_branch_f13" name="branch" disabled>
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>
@@ -205,7 +205,7 @@
                 <td>
                     <label for="sel_status_f13">სტატუსი</label>
                     <select class="form-control" id="sel_status_f13" name="status">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td class="albuttom">
