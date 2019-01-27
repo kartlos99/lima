@@ -24,7 +24,7 @@
             <div class="col-md-2 mb-3">
                 <label for="sel_branch">ფილიალი</label>
                 <select class="custom-select form-control" id="sel_branch" name="branch" disabled>
-                    <option value="0">Choose...</option>
+                    <option value="0">აირჩიეთ...</option>
                 </select>
 
             </div>

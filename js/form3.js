@@ -18,13 +18,10 @@ var allListDone = false;
 
 $('button').addClass('btn-sm');
 
-var st_arr = ['Agreements', 'Iphone', 'ApplID'];
-var dict_code_arr = ['iPhoneModels', 'ios', 'ScreenLockState'];
-
 var requestObj = {
     'org': 'org',
-    'status': st_arr,
-    'dict_codes': dict_code_arr,
+    'status': ['Agreements', 'Iphone', 'ApplID'],
+    'dict_codes': ['iPhoneModels', 'ios', 'ScreenLockState'],
     'sec_qustion': 'sec_qustion'
 };
 

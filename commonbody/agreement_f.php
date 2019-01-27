@@ -42,7 +42,7 @@
                 <td>
                     <label for="sel_status_f31">სტატუსი</label>
                     <select class="form-control" id="sel_status_f31" name="status">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
             </tr>
@@ -52,7 +52,7 @@
                 <td>
                     <label for="sel_branch_f31">ფილიალი</label>
                     <select class="form-control" id="sel_branch_f31" name="branch" required>
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
 
@@ -134,7 +134,7 @@
                 <td>
                     <label for="sel_modeli_f322">მოდელი</label>
                     <select class="form-control" id="sel_modeli_f322" name="modeli">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>
@@ -144,7 +144,7 @@
                 <td>
                     <label for="ios_f322">iOS</label>
                     <select class="form-control" id="ios_f322" name="ios">
-                        <option value="">Choose...</option>
+                        <option value="">აირჩიეთ...</option>
                     </select>
                 </td>
                 <td>

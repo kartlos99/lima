@@ -14,13 +14,10 @@ var hasPrevFiler = false;
 
 $('button').addClass('btn-sm');
 
-var st_arr = ['Agreements', 'ApplID'];
-var dict_code_arr = ['iPhoneModels'];
-
 var requestObj = {
     'org': 'org',
-    'status': st_arr,
-    'dict_codes': dict_code_arr
+    'status': ['Agreements', 'ApplID'],
+    'dict_codes': ['iPhoneModels']
 };
 
 // yvela dropdown-is shesasebi listebi mogvaqvs aq
@@ -40,17 +37,15 @@ $.ajax({
         });
 
         //<!--    statusebi agreement -->
-        var agreements_ST = response.Agreements;
         $('<option />').text("ყველა").attr('value', 0).appendTo('#sel_status_f11');
-        agreements_ST.forEach(function (item) {
+        response.Agreements.forEach(function (item) {
             $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status_f11');
         });
         $('#sel_status_f11 option:first-child').attr('selected', 'selected');
 
         //<!--    statusebi ApplID -->
-        var applID_ST = response.ApplID;
         $('<option />').text("ყველა").attr('value', 0).appendTo('#sel_status_f13');
-        applID_ST.forEach(function (item) {
+        response.ApplID.forEach(function (item) {
             $('<option />').text(item.va).attr('value', item.id).appendTo('#sel_status_f13');
         });
         $('#sel_status_f13 option:first-child').attr('selected', 'selected');
@@ -63,6 +58,9 @@ $.ajax({
         $('#sel_modeli_f11 option:first-child').attr('selected', 'selected');
 
         allListDone = true;
+        if (hasPrevFiler){
+            fillLastFilterForm();
+        }
     }
 });
 
@@ -338,9 +336,9 @@ function f_show(){
     var savedCoocieData = getCookie('f11_pos');
     if (savedCoocieData != "0" && savedCoocieData != ""){
         hasPrevFiler = true;
-        if (hasPrevFiler && allListDone){
+        if (allListDone){
             fillLastFilterForm();
-        }        
+        }
     }
     console.log('show');
 }

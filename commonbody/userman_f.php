@@ -73,7 +73,7 @@
                     <td>ფილიალი</td>
                     <td>
                         <select class="form-control" id="sel_branch" name="branch">
-                            <option value="">Choose...</option>
+                            <option value="">აირჩიეთ...</option>
                         </select>
                     </td>
                 </tr>
