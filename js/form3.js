@@ -39,6 +39,7 @@ $.ajax({
         fill_org_element();
 
         // <!--    statusebi am form31 agreement -->
+        $('#sel_status_f31').empty();
         response.Agreements.forEach(function (item) {
             $('<option />').text(item.va).attr('value', item.id).attr('code', item.code).appendTo('#sel_status_f31');
         });

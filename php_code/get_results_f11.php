@@ -112,7 +112,7 @@ if ($_SESSION['usertype'] != 'limitedUser'){
     LEFT JOIN Organizations o ON a.OrganizationID = o.ID
     LEFT JOIN OrganizationBranches b ON a.OrganizationBranchID = b.ID
 
-    WHERE a.Number like ('$agrN%') and s.code = 'Project'";
+    WHERE a.Number like ('$agrN%') ";//and s.code = 'Project'";
 
 }    
 

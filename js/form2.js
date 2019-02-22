@@ -370,6 +370,19 @@ $('.eye0').on('click', function () {
     }
 });
 
+$('#send_reason_from input').on('click',function(event){
+    if ($(this).val() == ""){
+        $('#message-text').attr('readonly', false);
+        var textdata = $('#message-text').val();        
+        if (textdata.length <= 10){
+            $('#btndone').attr('disabled',true);
+        }        
+    }else{
+        $('#message-text').attr('readonly', true);
+        $('#btndone').attr('disabled',false);
+    }
+});
+
 $('#btndone').on('click',function(event){
     // clicked_eye.attr('data-target','');
     atag.attr('type','text');
@@ -381,6 +394,16 @@ $('#btndone').on('click',function(event){
         'text': $('#message-text').val(),
         'whichpass': clicked_eye
     };
+
+    var inputs = $('#send_reason_from').serializeArray();
+    
+    inputs.forEach( function(item) {
+        dataObj[item.name] = item.value;
+    });
+
+    if (dataObj.answer != ""){
+        dataObj.text = dataObj.answer;
+    }
 
     $.ajax({
         url: '../php_code/ins_applpasslog.php',
