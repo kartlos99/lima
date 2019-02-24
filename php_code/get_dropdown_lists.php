@@ -60,6 +60,7 @@ if (isset($_POST['org'])){
     ON s.ID = o.stateID
     WHERE
     s.code <> 'disabled'
+    ORDER BY o.SortID
     ";
 
     $result = mysqli_query($conn,$sql);
@@ -73,7 +74,7 @@ if (isset($_POST['org'])){
     }
 
     // filialebi
-    $sql = "SELECT OrganizationID, o.id, BranchName FROM OrganizationBranches o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active'";
+    $sql = "SELECT OrganizationID, o.id, BranchName FROM OrganizationBranches o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active' ORDER BY o.SortID";
 
     $result = mysqli_query($conn,$sql);
 
@@ -83,7 +84,7 @@ if (isset($_POST['org'])){
     }
 
     // domainebi
-    $sql = "SELECT OrganizationID, o.id, DomainName FROM Domains o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active'";
+    $sql = "SELECT OrganizationID, o.id, DomainName FROM Domains o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active' ORDER BY o.SortID";
 
     $result = mysqli_query($conn,$sql);
 

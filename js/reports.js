@@ -153,6 +153,12 @@ function get_rep1_list(kriteri){
                         states.push(sub_key);
                     }                    
                 }
+                if (response[i]['Active_A'] == undefined){
+                    response[i]['Active_A'] = 0;
+                }
+                if (response[i]['Active'] == undefined){
+                    response[i]['Active'] = 0;
+                }
                 response[i]['Active_Free'] = response[i]['Active'] - response[i]['Active_A'];
             }
 

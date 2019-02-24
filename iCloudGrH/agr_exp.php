@@ -40,7 +40,7 @@ ap.id AS AppleID,
 AplApplID,
 AplPassword
 FROM
-`agreements` ag
+`Agreements` ag
 LEFT JOIN ApplID ap ON
 ag.`ApplIDFixID` = ap.ID
 LEFT JOIN Iphone i ON
@@ -51,7 +51,7 @@ LEFT JOIN OrganizationBranches b ON
 ag.`OrganizationBranchID` = b.ID
 LEFT JOIN States s ON
 ag.StateID = s.ID
-LEFT JOIN dictionariyitems d ON
+LEFT JOIN DictionariyItems d ON
 i.SLstateID = d.ID " ;
 
 $output = '<table bordered="3">';
