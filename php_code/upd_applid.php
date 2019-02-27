@@ -83,10 +83,19 @@ if (isset($_POST['emPass'])){
 
 $mailid = $_GET['id'];
 
-$sql = "UPDATE `ApplID` SET " . $applset . " WHERE AplAccountEmailID = '$mailid' ";
+$sql = "UPDATE `ApplID` SET " . $applset . " WHERE AplAccountEmailID = " . $mailid;
 
 if ($_SESSION['usertype'] != "iCloudGrH"){
-    $sql .= " AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))";
+    // applID rom chaasworo, an Proeqtis statusi unda qondes an Restore, an groupHead-i unda iyo!
+    $sql_applst = "SELECT s.code FROM `ApplID` a LEFT JOIN States s on a.stateID = s.ID WHERE `AplAccountEmailID` = " . $mailid;
+    $result_applst = mysqli_query($conn, $sql_applst);
+    if ( mysqli_num_rows($result_applst) > 0 ){
+        $arr_st = mysqli_fetch_assoc($result_applst);
+        if ($arr_st['code'] != 'Project' && $arr_st['code'] != 'Restore'){
+            die("ასეთი სტატუსის მქონე Apple ID -ს ვერ დაარედაქტირებთ.\nstatus : " . $arr_st['code']);
+        }
+    }
+    // $sql .= " AND (StateID = getstateid('Project', getobjid('ApplID')) OR StateID = getstateid('Restore', getobjid('ApplID')))";
 }
 // echo $sql;
 $result = mysqli_query($conn, $sql);

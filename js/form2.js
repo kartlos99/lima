@@ -155,6 +155,9 @@ $('#form2').on('submit', function (event) {
         method: 'post',
         data: $(this).serialize(),
         success: function (response) {
+            if(response != "okok"){
+                alert(response);
+            }
 
             loadProjects();
 //                if ($('#sel_status').text() == 'აქტიური') {
