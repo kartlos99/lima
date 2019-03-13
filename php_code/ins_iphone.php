@@ -139,18 +139,18 @@ if ($iphoneID == 0) {
             $iphoneID = mysqli_insert_id($conn); //'ok';
             $backinfo['info_cuser'] = $currUser;
             $backinfo['info_cdate'] = date("Y-m-d H:i", time());
-
-            $sql_upd = "UPDATE `Agreements` SET `IphoneFixID` = $iphoneID WHERE id = $agrID ";
-
-            if (!mysqli_query($conn, $sql_upd)){
-                $backinfo['error'] = "can't update Agreements! (at ins_iphone)";
-            }
-
         } else{
             $backinfo['info_muser'] = $currUser;
             $backinfo['info_mdate'] = date("Y-m-d H:i", time());
         }
         $backinfo['id'] = $iphoneID;
+
+        $sql_upd = "UPDATE `Agreements` SET `IphoneFixID` = $iphoneID WHERE id = $agrID ";
+
+        if (!mysqli_query($conn, $sql_upd)){
+            $backinfo['error'] = "can't update Agreements! (at ins_iphone)";
+        }
+
     } else {
         $backinfo['error'] = 'myerror';
     }

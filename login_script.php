@@ -82,10 +82,10 @@ WHERE
 
                 // print_r($_SESSION);
 
-               // $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-               // $url = str_replace('login.php', 'administrator/page1.php', $url);
-               // $error = $url;
-//                header("Location: $url");
+                // $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                // $url = str_replace('login.php', 'administrator/page1.php', $url);
+                // $error = $url;
+                // header("Location: $url");
             } else {
                 $error = "incorect password!";
             }

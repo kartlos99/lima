@@ -10,7 +10,7 @@ include_once '../commonbody/header_1.php';
 //session_start();
 //$currUserID = $_SESSION['userID'];
 
-if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH')){
+if (!($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH' || $_SESSION['usertype'] == 'iCloudOper')){
     die('არაგაქვთ ისტორიის ნახვის უფლება.');
 }
 
