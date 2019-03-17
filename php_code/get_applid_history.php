@@ -180,13 +180,13 @@ for ($i = 0; $i< count($arr); $i++){
                     '.$tdcontry.$row["AplCountry"].'</td>
                     '.$tdbdate.$row["AplBirthDay"].'</td>
                     '.$tdapplid.$row["AplApplID"].'</td>
-                    '.$tdpass.$row["AplPassword"].'</td>
+                    '.$tdpass.'***</td>
                     '.$tdq1.$row["q1"].'</td>
-                    '.$tda1.$row["ans1"].'</td>
+                    '.$tda1.'***</td>
                     '.$tdq2.$row["q2"].'</td>
-                    '.$tda2.$row["ans2"].'</td>
+                    '.$tda2.'***</td>
                     '.$tdq3.$row["q3"].'</td>
-                    '.$tda3.$row["ans3"].'</td>
+                    '.$tda3.'***</td>
                     '.$tdrmail.$row["Rmail"].'</td>
                     '.$tdst.$row["va"].'</td>
                     '.$tdcomm.$row["Comment"].'</td>

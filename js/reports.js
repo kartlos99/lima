@@ -1,4 +1,5 @@
-
+var pgN = 0;
+var rowsInPage = 10;
 
 //<!--    organizaciebis chamonatvali -->
 $.ajax({
@@ -30,7 +31,8 @@ $('#form_viewrep2').on('submit', function(event){
 });
 
 $('#form_viewrep3').on('submit', function(event){
-    event.preventDefault();    
+    event.preventDefault();
+    $('#f11_pageN').val( 0 );
     get_rep3_list( $(this).serialize() );    
 });
 
@@ -97,25 +99,32 @@ function get_rep3_list(kriteri){
         data: kriteri,
         dataType: 'json',
         success: function (response) {
+            var itemCount = response[0].n;
+            capt.text(capt_text + "   -   მოიძებნა " + itemCount + " ჩანაწერი");
             $('#rep3_table').empty().append( capt);
             var table_view3_body = $('#rep3_table').append('<tbody />');
             table_view3_body.append(array_to_th(v3_columns));
             console.log(response);
 
-            if (response.length == 0){
+            if (itemCount == 0){
                 alert("არ მოიძებნა ჩანაწერი");
             }
-            // $('#pan_f11 p.info').text("ძიების შედეგი (მოიძებნა "+ response[0].n +" ჩანაწერი, ეკრანზე MAX 20)")
-            // response.splice(0,1);
+                        
+            var pageCount = Math.floor(itemCount / rowsInPage) + 1 ;
+            pgN = parseInt($('#f11_pageN').val()) + 1;
+
+            makePaginationButtons(pageCount);            
+
+            response.splice(0,1);
 
             response.forEach(function (item) {
-                var td_org = $('<td />').text(item.OrganizationName);
-                var td_branch = $('<td />').text(item.BranchName);
-                var td_user = $('<td />').text(item.UserName);
-                var td_applid = $('<td />').text(item.AplApplID);
-                var td_whichpass = $('<td />').text(item.whichpass);
-                var td_date = $('<td />').text(item.tarigi);
-                var td_reason = $('<td />').text(item.texti);                
+                var td_org = $('<td />').text(item.org); //OrganizationName);
+                var td_branch = $('<td />').text(item.br);
+                var td_user = $('<td />').text(item.uname);
+                var td_applid = $('<td />').text(item.aid);
+                var td_whichpass = $('<td />').text(item.wp).addClass("equalsimbols"); //whichpass);
+                var td_date = $('<td />').text(item.dt).addClass("equalsimbols"); //tarigi);
+                var td_reason = $('<td />').text(item.text);                
 
                 var trow = $('<tr></tr>').append(td_org, td_branch, td_user, td_applid, td_whichpass, td_date, td_reason);
                 // trow.attr('onclick', "ont11Click(" + item.ID + ")");
@@ -302,10 +311,63 @@ function array_to_th(columns){
     return headrow;
 };
 
-var capt = $('<caption />').text("დათვალიერებული პაროლები");
+var capt_text = "დათვალიერებული პაროლები";
+var capt = $('<caption />').text(capt_text);
 var v3_columns = ["ორგანიზაცია", "ფილიალი", "მომხ.სახელი", "Apple-ის ანგარიში", "რომელი პაროლი", "დათვალიერების დრო", "დათვალიერების მიზეზი" ];
 
 $('#rep3_table').empty().append(capt, array_to_th(v3_columns)); 
+
+function makePaginationButtons(pgCount){
+    var pages1 = $('ul.pagination');
+    pages1.empty();
+    
+    var aa = $('<a />').text("1").attr('href',"#");
+    var li_first = $('<li />').attr('data','1');
+    li_first.append(aa);
+    pages1.append(li_first);
+//«»
+    var aa = $('<a />').text("<<").attr('href',"#");
+    var li_left = $('<li />').attr('data',pgN-1);
+    li_left.append(aa);
+    if (pgN == 1){
+        li_left.attr('data',pgN);        
+    }
+    pages1.append(li_left);
+    
+    for (var i = pgN - 2 ; i <= pgN + 2 ; i++){
+        if (1 <= i && i <= pgCount){
+            var aa = $('<a />').text(i).attr('href',"#");
+            var lii = $('<li />').attr('data',i);
+            if (i == pgN){
+                lii.addClass("active");
+            }
+            lii.append(aa);
+            pages1.append(lii);
+        }        
+    }
+    
+    var aa = $('<a />').text(">>").attr('href',"#");
+    var li_next = $('<li />').attr('data',pgN+1);
+    li_next.append(aa);
+    if (pgN == pgCount){
+        li_next.attr('data',pgCount);        
+    }
+    pages1.append(li_next);
+
+    var aa = $('<a />').text(pgCount).attr('href',"#");
+    var li_last = $('<li />').attr('data',pgCount);
+    li_last.append(aa);
+    pages1.append(li_last);
+    
+}
+
+$('ul.pagination').on("click", "li", function(e){
+    e.preventDefault();
+    var newPageN = $(this).attr("data");
+    $('#f11_pageN').val( newPageN - 1 );
+    lastQuery = $('#form_viewrep3').serialize();
+    get_rep3_list(lastQuery);
+});
 
 function dateformat(d) {
     var mm, dd;

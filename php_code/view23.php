@@ -10,6 +10,7 @@ $tarigiSt = date("Y-m-d", time());
 $tarigiDt = date("Y-m-d H:i", time());
 
 $kreteria = "";
+$linesAtPage = 10;
 
 if (isset($_POST['organization']) && $_POST['organization'] != ''){
     $o = $_POST['organization'];
@@ -41,16 +42,29 @@ if (strlen($kreteria) > 0){
     $kreteria = " WHERE " . $kreteria;
 }
 
-$sql = " 
-SELECT `userID`, o.ID as orgID, o.OrganizationName, b.BranchName, p.UserName, a.AplApplID, `whichpass`, `tarigi`, `texti` FROM `Applidpasslog` log
+$pageN = $_POST['pageN'];
+$start_row = $pageN * $linesAtPage;
+$Limit=" Limit $start_row, $linesAtPage";
+
+$allFialds = "SELECT `userID` as uid, o.ID as oID, o.OrganizationName as org, b.BranchName as br, p.UserName as uname, a.AplApplID as aid, `whichpass` as wp, `tarigi` as dt, `texti` as text FROM `Applidpasslog` log ";
+$countField = "SELECT count(log.id) as n FROM `Applidpasslog` log ";
+
+$sql_body = " 
 LEFT JOIN PersonMapping p ON log.userID = p.ID
 LEFT JOIN Organizations o on p.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b on p.OrganizationBranchID = b.ID
 LEFT JOIN ApplID a ON log.applid = a.ID " . $kreteria . " Order by tarigi";
 
+$sql = $allFialds . $sql_body . $Limit;
+$sql_Count = $countField . $sql_body;
+
 $result = mysqli_query($conn, $sql);
+$result1 = mysqli_query($conn, $sql_Count);
 
 $arr = array();
+foreach($result1 as $row){
+    $arr[] = $row;
+}
 foreach($result as $row){
     $arr[] = $row;
 }
