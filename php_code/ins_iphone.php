@@ -145,7 +145,13 @@ if ($iphoneID == 0) {
         }
         $backinfo['id'] = $iphoneID;
 
-        $sql_upd = "UPDATE `Agreements` SET `IphoneFixID` = $iphoneID WHERE id = $agrID ";
+        $sql_upd = "UPDATE `Agreements` 
+        SET 
+            `IphoneFixID` = $iphoneID,
+            `ModifyDate` = $currDate,
+            `ModifyUser` = '$currUser',
+            `ModifyUserID` = $currUserID 
+        WHERE id = $agrID ";
 
         if (!mysqli_query($conn, $sql_upd)){
             $backinfo['error'] = "can't update Agreements! (at ins_iphone)";

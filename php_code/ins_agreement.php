@@ -195,7 +195,10 @@ if ($count > 0) {
                         ApplID
                     SET 
                         `StateID` = getstateid('Restore', getobjid('ApplID')), 
-                        `reservDate` = UNIX_TIMESTAMP() 
+                        `reservDate` = UNIX_TIMESTAMP(),
+                        `ModifyDate` = $currDate,
+                        `ModifyUser` = '$currUser',
+                        `ModifyUserID` = $currUserID
                     WHERE
                         ID = $applIDID";
                     $result_update = mysqli_query($conn, $sql_update);
