@@ -30,6 +30,40 @@ $('#form_viewrep2').on('submit', function(event){
     get_rep2_list( $(this).serialize() );    
 });
 
+var rep2_down_link = $('#viewrep2 a');
+$('#form_viewrep2 input').on('change', function(){
+    rep2_down_link.attr('href', 'rep2_exp.php?datefrom=' + $('#datefrom_vr2').val() + '&dateto=' + $('#dateto_vr2').val() );
+});
+
+var rep3_down_link = $('#rep3_down_link');
+$('#form_viewrep3 input').on('change', function(){
+    link_query = 'datefrom=' + $('#datefrom_vr3').val() 
+        + '&dateto=' + $('#dateto_vr3').val()
+        + '&organization=' + $('#sel_organization_vr3').val()
+        + '&username=' + $('#sel_username_vr3').val();
+    rep3_down_link.attr('href', 'rep3_exp.php?' + link_query );
+});
+
+$('#sel_organization_vr3').on('change', function(){
+    link_query = 'datefrom=' + $('#datefrom_vr3').val() 
+        + '&dateto=' + $('#dateto_vr3').val()
+        + '&organization=' + $('#sel_organization_vr3').val()
+        + '&username=' + $('#sel_username_vr3').val();
+    rep3_down_link.attr('href', 'rep3_exp.php?' + link_query );
+});
+$('#sel_username_vr3').on('change', function(){
+    link_query = 'datefrom=' + $('#datefrom_vr3').val() 
+        + '&dateto=' + $('#dateto_vr3').val()
+        + '&organization=' + $('#sel_organization_vr3').val()
+        + '&username=' + $('#sel_username_vr3').val();
+    rep3_down_link.attr('href', 'rep3_exp.php?' + link_query );
+});
+
+var rep4_down_link = $('#rep4_down_link');
+$('#form_viewrep4 input').on('change', function(){
+    rep4_down_link.attr('href', 'rep4_exp.php?datefrom=' + $('#datefrom_vr4').val() + '&dateto=' + $('#dateto_vr4').val() );
+});
+
 $('#form_viewrep3').on('submit', function(event){
     event.preventDefault();
     $('#f11_pageN').val( 0 );
@@ -314,6 +348,13 @@ $(function () {
     nextday.setDate(nextday.getDate() + 1);
     $('input.d1').val(firstday(currdate));
     $('input.d2').val(dateformat(nextday));
+    rep2_down_link.attr('href', 'rep2_exp.php?datefrom='+firstday(currdate)+'&dateto='+dateformat(nextday));
+    link_query3 = 'datefrom=' + firstday(currdate)
+        + '&dateto=' + dateformat(nextday)
+        + '&organization='
+        + '&username=' ;
+    rep3_down_link.attr('href', 'rep3_exp.php?' + link_query3 );
+    rep4_down_link.attr('href', 'rep4_exp.php?datefrom='+firstday(currdate)+'&dateto='+dateformat(nextday));
 });
 
 function f_show(){};

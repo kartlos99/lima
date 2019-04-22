@@ -14,13 +14,14 @@
 <!-- Tab panes -->
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="viewrep1">
-        <p>v2.1</p>
+        <p><a href="rep1_exp.php" >ჩამოტვირთვა <span class="glyphicon glyphicon-download"></a></p>
+        <!-- <a href="rep1_exp.php" class="btn btn-default btn-sm">ჩამოტვირთვა<span class="glyphicon glyphicon-download"></a> -->
         <div>
             <table id="rep1_table" class="table justhover"></table>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep2">
-        <p>v2.2</p>
+        <p><a href="rep2_exp.php" >ჩამოტვირთვა <span class="glyphicon glyphicon-download"></a></p>
         <form id="form_viewrep2" method="post">
             <table class="inputs">
                 <tr>
@@ -43,7 +44,7 @@
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep3">
-        <p>v2.3</p>
+        <p><a id="rep3_down_link" href="rep3_exp.php" >ჩამოტვირთვა <span class="glyphicon glyphicon-download"></a></p>
         <form id="form_viewrep3" method="post">
             <table class="inputs">
                 <tr>
@@ -83,7 +84,7 @@
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="viewrep4">
-        <p>v2.4</p>
+        <p><a id="rep4_down_link" href="rep4_exp.php" >ჩამოტვირთვა <span class="glyphicon glyphicon-download"></a></p>
         <form id="form_viewrep4" method="post">
             <table class="inputs">
                 <tr>
