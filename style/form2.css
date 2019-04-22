@@ -178,3 +178,9 @@ label {
   .toright {
     text-align : right;
   }
+
+  .myLink {
+      color: #10235b;
+      text-decoration: underline;
+      cursor: pointer;
+  }

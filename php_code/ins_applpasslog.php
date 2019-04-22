@@ -13,19 +13,32 @@ $whichpass = $_POST['whichpass'];
 //print_r($_POST);
 //print_r($_SESSION);
 
+function findAgrByApplID(){
+
+}
 
     $sql = "
     INSERT INTO `Applidpasslog`(
         `userID`,
         `applid`,
         `texti`,
-        `whichpass`
+        `whichpass`,
+        `curr_agrim_ID`
     )
     VALUES(
         $iserID,
         $applID,
         '$text',
-        '$whichpass'
+        '$whichpass',
+        ifnull((SELECT
+            max(a.`ID`)
+        FROM
+            Agreements a
+        LEFT JOIN States s ON
+            a.StateID = s.ID
+        WHERE
+            `ApplIDFixID` = $applID AND (s.Code = 'active' or s.Code = 'project')
+                ), 0 )
     )";
 
     $result = mysqli_query($conn, $sql);

@@ -46,14 +46,33 @@ $pageN = $_POST['pageN'];
 $start_row = $pageN * $linesAtPage;
 $Limit=" Limit $start_row, $linesAtPage";
 
-$allFialds = "SELECT `userID` as uid, o.ID as oID, o.OrganizationName as org, b.BranchName as br, p.UserName as uname, a.AplApplID as aid, `whichpass` as wp, `tarigi` as dt, `texti` as text FROM `Applidpasslog` log ";
+$allFialds = "
+SELECT 
+    `userID` as uid,
+    o.ID as oID,
+    o.OrganizationName as org, 
+    b.BranchName as br, 
+    p.UserName as uname, 
+    a.AplApplID as aid, 
+    `whichpass` as wp, 
+    `tarigi` as dt, 
+    `texti` as text,
+    ifnull(agr.Number, '-') AS agrNumber,
+    ifnull(agr_org.OrganizationName, '-') AS agrOrg,
+    ifnull(agr.ID, '-') AS agrID
+FROM 
+    `Applidpasslog` log ";
 $countField = "SELECT count(log.id) as n FROM `Applidpasslog` log ";
 
 $sql_body = " 
 LEFT JOIN PersonMapping p ON log.userID = p.ID
 LEFT JOIN Organizations o on p.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b on p.OrganizationBranchID = b.ID
-LEFT JOIN ApplID a ON log.applid = a.ID " . $kreteria . " Order by tarigi";
+LEFT JOIN ApplID a ON log.applid = a.ID
+LEFT JOIN Agreements agr ON
+	LOG.`curr_agrim_ID` = agr.ID
+LEFT JOIN Organizations agr_org ON
+	agr.OrganizationID = agr_org.ID " . $kreteria . " Order by tarigi";
 
 $sql = $allFialds . $sql_body . $Limit;
 $sql_Count = $countField . $sql_body;

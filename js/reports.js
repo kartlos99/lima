@@ -101,7 +101,7 @@ function get_rep3_list(kriteri){
         success: function (response) {
             var itemCount = response[0].n;
             capt.text(capt_text + "   -   მოიძებნა " + itemCount + " ჩანაწერი");
-            $('#rep3_table').empty().append( capt);
+            $('#rep3_table').empty().append(capt);
             var table_view3_body = $('#rep3_table').append('<tbody />');
             table_view3_body.append(array_to_th(v3_columns));
             console.log(response);
@@ -124,14 +124,31 @@ function get_rep3_list(kriteri){
                 var td_applid = $('<td />').text(item.aid);
                 var td_whichpass = $('<td />').text(item.wp).addClass("equalsimbols"); //whichpass);
                 var td_date = $('<td />').text(item.dt).addClass("equalsimbols"); //tarigi);
-                var td_reason = $('<td />').text(item.text);                
+                var td_reason = $('<td />').text(item.text);  
+                var td_agreement = $('<td />');
+                if (item.agrID != "-"){
+                    td_agreement.text(item.agrNumber + " / " + item.agrOrg)
+                    .attr('onClick', "gotoagr(" + item.agrID + ")")
+                    .addClass("myLink");
+                }else{
+                    td_agreement.text("-");
+                }
 
-                var trow = $('<tr></tr>').append(td_org, td_branch, td_user, td_applid, td_whichpass, td_date, td_reason);
+                var trow = $('<tr></tr>').append(td_org, td_branch, td_user, td_applid, td_whichpass, td_reason, td_agreement, td_date);
                 // trow.attr('onclick', "ont11Click(" + item.ID + ")");
                 table_view3_body.append(trow);
             });
         }
     });    
+}
+
+$('#viewrep3').trigger('click');
+
+function gotoagr(agrID){
+    document.cookie = "agreementID=" + agrID;
+    var url = window.location.pathname;
+    url = url.replace('reports.php','agrim.php');
+    window.open(url);
 }
 
 get_rep1_list();
@@ -313,7 +330,7 @@ function array_to_th(columns){
 
 var capt_text = "დათვალიერებული პაროლები";
 var capt = $('<caption />').text(capt_text);
-var v3_columns = ["ორგანიზაცია", "ფილიალი", "მომხ.სახელი", "Apple-ის ანგარიში", "რომელი პაროლი", "დათვალიერების დრო", "დათვალიერების მიზეზი" ];
+var v3_columns = ["ორგანიზაცია", "ფილიალი", "მომხ.სახელი", "Apple-ის ანგარიში", "რომელი პაროლი", "დათვალიერების მიზეზი", "ხელშეკრულება", "დათვალიერების დრო" ];
 
 $('#rep3_table').empty().append(capt, array_to_th(v3_columns)); 
 
