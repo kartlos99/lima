@@ -61,16 +61,16 @@ SELECT
     ifnull(agr_org.OrganizationName, '-') AS agrOrg,
     `tarigi` as dt
 FROM 
-    `Applidpasslog` log ";
-$countField = "SELECT count(log.id) as n FROM `Applidpasslog` log ";
+    `Applidpasslog` lg ";
+$countField = "SELECT count(lg.id) as n FROM `Applidpasslog` lg ";
 
 $sql_body = " 
-LEFT JOIN PersonMapping p ON log.userID = p.ID
+LEFT JOIN PersonMapping p ON lg.userID = p.ID
 LEFT JOIN Organizations o on p.OrganizationID = o.ID
 LEFT JOIN OrganizationBranches b on p.OrganizationBranchID = b.ID
-LEFT JOIN ApplID a ON log.applid = a.ID
+LEFT JOIN ApplID a ON lg.applid = a.ID
 LEFT JOIN Agreements agr ON
-	LOG.`curr_agrim_ID` = agr.ID
+	lg.curr_agrim_ID = agr.ID
 LEFT JOIN Organizations agr_org ON
 	agr.OrganizationID = agr_org.ID " . $kreteria . " Order by tarigi";
 
