@@ -38,7 +38,7 @@ if (!isset($_SESSION['username'])) {
     <nav id="sidebar">
         <div class="sidebar-header">
             <h3><?= $_SESSION['username'] ?></h3>
-            <h5><?= $_SESSION['usertype'] ?></h5>
+            <h5><?= $_SESSION['M2UT'] ?></h5>
         </div>
 
         <ul class="list-unstyled components">

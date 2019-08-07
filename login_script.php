@@ -34,6 +34,9 @@ SELECT
     pmap.UserPass,
     UNIX_TIMESTAMP() - pmap.PassDate - (SELECT valueInt from DictionariyItems WHERE `Code` = 'userpassduration') AS passExp,
     di.Code AS UserType,
+    dim2.Code AS M2UT,
+    dim3.Code AS M3UT,
+    dim4.Code AS M4UT,
     pmap.ID
 FROM
     `PersonMapping` pmap
@@ -41,6 +44,12 @@ LEFT JOIN Persons p ON
     pmap.PersonID = p.ID
 LEFT JOIN DictionariyItems di ON
     pmap.UserTypeID = di.ID
+LEFT JOIN DictionariyItems dim2 ON
+    pmap.UserTypeM2 = dim2.ID
+LEFT JOIN DictionariyItems dim3 ON
+    pmap.UserTypeM3 = dim3.ID
+LEFT JOIN DictionariyItems dim4 ON
+    pmap.UserTypeM4 = dim4.ID
 LEFT JOIN States s ON
 	pmap.StateID = s.ID
 WHERE
@@ -66,6 +75,9 @@ WHERE
                 $_SESSION['lastname'] = $results['LastName'];
                 $_SESSION['userID'] = $results['ID'];
                 $_SESSION['usertype'] = $results['UserType'];
+                $_SESSION['M2UT'] = $results['M2UT'];
+                $_SESSION['M3UT'] = $results['M3UT'];
+                $_SESSION['M4UT'] = $results['M4UT'];
                 $_SESSION['username_exp'] = $subName;
                 $_SESSION['userpass'] = $storPass;
 
