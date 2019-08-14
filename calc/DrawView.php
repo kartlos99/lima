@@ -9,7 +9,7 @@
 class DrawView
 {
 
-    static function selectorWithBtn($id = "", $title = "", $name)
+    static function selectorWithBtn($id = "", $title = "", $name, $dataNN)
     {
         $div_id = $id . "_btns_div";
         $id = $name . "_" . $id;
@@ -31,32 +31,34 @@ class DrawView
                     </table>";
 
         $selector = "
-    <select class=\"form-control\" id=\"$id\" name=\"$name\">
-        <option value=\"\">აირჩიეთ...</option>
-        <option value=\"\">22...</option>
+    <select class=\"form-control\" id=\"$id\" name=\"$name\" data-nn=\"$dataNN\">
+
     </select>";
         return $name_and_btns . $selector;
     }
 
-    static function selector($id = "", $title = "", $name)
+    static function selector($id = "", $title = "", $name, $options = [])
     {
         $id = $name . "_" . $id;
+        $opt = "";
+        foreach ($options as $item){
+            $vv = $item['vv'];
+            $vt = $item['tt'];
+            $opt .= "<option value=\"$vv\">$vt</option>";
+        }
 
         $all_comp = '
     <label for="' . $id . '">' . $title . '</label>
-    <select class="form-control" id="' . $id . '" name="' . $name . '">
-        <option value="">აირჩიეთ...</option>
-        <option value="">22...</option>
-    </select>';
+    <select class="form-control" id="' . $id . '" name="' . $name . '"> '. $opt .' </select>';
         return $all_comp;
     }
 
-    static function simpleInput($id = "", $name, $title, $type = "text")
+    static function simpleInput($id = "", $name, $title, $dataField = "", $type = "text")
     {
         $id = $name . "_" . $id;
         $view = '
         <label for="' . $id . '">' . $title . '</label>
-        <input type="' . $type . '" class="form-control" id="' . $id . '" placeholder="" name="' . $name . '"/>';
+        <input type="' . $type . '" class="form-control" id="' . $id . '" placeholder="" name="' . $name . '" data-field="'. $dataField .'" />';
         return $view;
     }
 

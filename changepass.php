@@ -5,14 +5,8 @@ include('chekpass.php'); // Includes Login Script
 
 if (isset($_SESSION['username'])) {
 
-    $page = 'main';
-    if ($_SESSION['usertype'] == 'AppleIDCreator'){
-        $page = 'page1';
-    }
+    header('location: index.php');
 
-    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-    $url = str_replace('changepass.php', $_SESSION['usertype'] . '/' . $page . '.php', $url);
-    header("Location: $url");
 }
 
 ?>

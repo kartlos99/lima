@@ -39,7 +39,15 @@
 </script>
 <!--<script type="text/javascript" src="../js/sha256.js"></script>-->
 
-<script type="text/javascript" src="js/page1.js"></script>
+<script type="text/javascript" <?php
+
+$pos = strpos($_SERVER['PHP_SELF'], "typemanager.php");
+if ($pos !== false ){
+    echo "src=\"js/typemanager.js\"";
+    $thisPage = 'typemanager';
+}
+
+?> ></script>
 
 <?php
 if ($_SESSION['usertype'] == 'limitedUser'){

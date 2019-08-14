@@ -10,6 +10,25 @@ session_start();
 $error = ''; // Variable To Store Error Message
 require_once 'config.php';
 
+function getPermission($roleID, $moduleN, $dbcon)
+{
+    $permissions = [];
+    $sql_perm = "
+SELECT p.code FROM `permissionmapping` pm
+LEFT JOIN permission p
+	ON p.id = pm.`permissionID`
+WHERE `roleID` = $$roleID AND p.module = '$moduleN'";
+
+    $res = mysqli_query($dbcon, $sql_perm);
+
+    foreach ($res as $row) {
+        $permissions[] = $row;
+    }
+return [mysqli_num_rows($res)];
+    return $permissions;
+
+}
+
 if (isset($_POST['submit'])) {
 
     if (empty($_POST['username']) || empty($_POST['password'])) {
@@ -37,6 +56,7 @@ SELECT
     dim2.Code AS M2UT,
     dim3.Code AS M3UT,
     dim4.Code AS M4UT,
+    pmap.UserTypeM2,
     pmap.ID
 FROM
     `PersonMapping` pmap
@@ -81,12 +101,30 @@ WHERE
                 $_SESSION['username_exp'] = $subName;
                 $_SESSION['userpass'] = $storPass;
 
+                if ($results['M2UT'] != null) {
+                    $permissions = [];
+                    $roleID = $results['UserTypeM2'];
+                    $sql_perm = "
+SELECT p.code FROM `permissionmapping` pm
+LEFT JOIN permission p
+	ON p.id = pm.`permissionID`
+WHERE `roleID` = $roleID AND p.module = 'm2'";
+
+                    $res = mysqli_query($conn, $sql_perm);
+
+                    foreach ($res as $row) {
+                        $permissions[$row['code']] = 1;
+                    }
+
+                    $_SESSION['permissionM2'] = $permissions;
+                }
+
                 $currDate = time();
-                if ( $results['passExp'] < 0 ) {
+                if ($results['passExp'] < 0) {
 
                     $_SESSION['username'] = $subName;
 
-                }else{
+                } else {
                     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
                     $url = str_replace('login.php', 'changepass.php', $url);
                     header("Location: $url");
@@ -102,7 +140,7 @@ WHERE
                 $error = "incorect password!";
             }
 
-        }else{
+        } else {
             $error = "no user found!";
         }
 
