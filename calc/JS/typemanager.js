@@ -13,6 +13,10 @@ var criteriaPosArray = [];
 var criteriaDataArray = [];
 var criteriasOnTechPosArray = [];
 
+$("input").attr("disabled", true);
+$("td.selstatus select").val(0).attr("disabled", true);
+
+// სისტემაში ასახვა, შენახვა
 $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
     var thistr = this.closest("tr");
     console.log("AAAAAARA");
@@ -27,11 +31,13 @@ $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
         parentID = techPosArray[trtr.attr("data-nn") - 1];
     }
     typeID = trtr.attr("data-type");
+    var action = trtr.attr("data-enterType");
+    var editingID = trtr.find("td.selobject select").val();
 
-    var techName = trtr.find("input[data-field='techName']").val();
-    var techNote = trtr.find("input[data-field='techNote']").val();
+    var techName = trtr.find("input[data-field='name']").val();
+    var techNote = trtr.find("input[data-field='note']").val();
     var statusi = trtr.find("td.selstatus select").val();
-    console.log(techName, techNote, statusi);
+    console.log(techName, techNote, statusi, "editingID", editingID);
 
     if (techName == "" || statusi == null) {
         alert("შეავსეთ მონაცემები!");
@@ -41,7 +47,9 @@ $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
             'techNote': techNote,
             'status': statusi,
             'parentID': parentID,
-            'typeID': typeID
+            'typeID': typeID,
+            'action': action,
+            'editingID': editingID
         };
         console.log(dataObj);
 
@@ -52,11 +60,22 @@ $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
+                if (response.result == "success"){
+                    disableInputs(trtr);
+                    loadTypesList(parentID, trtr.find("td.selobject select").attr("id") );
+                }
             }
         });
     }
 });
 
+function disableInputs(tableRow){
+    tableRow.find("input[data-field='name']").val("").attr("disabled", true);
+    tableRow.find("input[data-field='note']").val("").attr("disabled", true);
+    tableRow.find("td.selstatus select").val(0).attr("disabled", true);
+}
+
+// სისტემაში ასახვა, შენახვა
 $('#critManage').find("i.fa-arrow-alt-circle-left").on("click", function () {
     var trID = this.closest("tr").id;
     var trtr = $('#' + trID);
@@ -66,14 +85,18 @@ $('#critManage').find("i.fa-arrow-alt-circle-left").on("click", function () {
         parentID = criteriaPosArray[trtr.attr("data-nn") - 1];
     }
     typeID = trtr.attr("data-type");
+    var action = trtr.attr("data-enterType");
+    var editingID = trtr.find("td.selobject select").val();
+    var editingMappingID = trtr.find("td.selobject select").find('option:selected').attr('data-mid');
 
-    var vName = trtr.find("input[data-field='criteriaName']").val();
-    var vNote = trtr.find("input[data-field='criteriaNote']").val();
+    var vName = trtr.find("input[data-field='name']").val();
+    var vNote = trtr.find("input[data-field='note']").val();
     var vSstatus = trtr.find("td.selstatus select").val();
 
-    var mappingParentID = $('#selgroupname_id').find('option:selected').attr('data-mid');
 
-    if (vName == "" || vSstatus == null) {
+    if (vName == "") {
+        alert("შეავსეთ მონაცემები!");
+    } else if (vSstatus == null) {
         alert("შეავსეთ მონაცემები!");
     } else {
         var dataObj = {
@@ -82,9 +105,11 @@ $('#critManage').find("i.fa-arrow-alt-circle-left").on("click", function () {
             'status': vSstatus,
             'parentID': parentID,
             'typeID': typeID,
-            'techID' : criteriasOnTechID,
-            'techArr': criteriasOnTechPosArray
-//            'mappingParentID' : mappingParentID
+            'techID': criteriasOnTechID,
+            'techArr': criteriasOnTechPosArray,
+            'action': action,
+            'editingID': editingID,
+            'editingMappingID': editingMappingID
         };
         console.log(dataObj);
 
@@ -95,6 +120,10 @@ $('#critManage').find("i.fa-arrow-alt-circle-left").on("click", function () {
             dataType: 'json',
             success: function (response) {
                 console.log("resp: ", response);
+                if (response.result == "success") {
+                    disableInputs(trtr);
+                    loadCriteriaslist(criteriasOnTechID, parentID, trtr.find("td.selobject select").attr("id"));
+                }
             }
         });
     }
@@ -103,16 +132,44 @@ $('#critManage').find("i.fa-arrow-alt-circle-left").on("click", function () {
 
 $("i.fa-times").on("click", function () {
     var thistr = this.closest("tr");
-
-    var trID = thistr.id;
-
-    var trtr = $('#' + trID);
-    trtr.find("input[data-field='techName']").val("");
-    trtr.find("input[data-field='techNote']").val("");
-    trtr.find("td.selstatus select").val(0);
+    var trtr = $('#' + thistr.id);
+    disableInputs(trtr);
 });
 
-$("i.fa-edit").on("click", function () {
+$("#techManage").find("i.fa-plus").on("click", function () {
+    var thistr = this.closest("tr[id][data-nn]");
+    var trID = thistr.id;
+    var trtr1 = $('#' + trID);
+    changeAppearance1(trtr1, techPosArray);
+});
+
+$("#critManage").find("i.fa-plus").on("click", function () {
+    if (criteriasOnTechID != 0) {
+        var thistr = this.closest("tr[id][data-nn]");
+        var trID = thistr.id;
+        var trtr1 = $('#' + trID);
+        changeAppearance1(trtr1, criteriaPosArray);
+    } else {
+        alert("აირჩიეთ ტექნიკა!");
+    }
+});
+
+function changeAppearance1(trtr, sectionData) {
+    var nn = trtr.data("nn");
+    console.log("nn", nn);
+    console.log(sectionData[nn - 1]);
+
+    if (nn == 0 || (sectionData.length > 0 && sectionData[nn - 1] != 0)) {
+        console.log("nn_", nn);
+        trtr.find("input[data-field='name']").val("").attr("disabled", false);
+        trtr.find("input[data-field='note']").val("").attr("disabled", false);
+        trtr.find("td.selstatus select").val(0).attr("disabled", false);
+        trtr.attr("data-enterType", "new");
+    }
+}
+
+
+$("#techManage").find("i.fa-edit").on("click", function () {
     var thistr = this.closest("tr[id][data-nn]");
 
     var trID = thistr.id;
@@ -125,9 +182,33 @@ $("i.fa-edit").on("click", function () {
         console.log(item);
         console.log(techPosArray);
         if (item.id == techPosArray[nn]) {
-            trtr.find("input[data-field='techName']").val(item.Name);
-            trtr.find("input[data-field='techNote']").val(item.Note);
-            trtr.find("td.selstatus select").val(item.StatusID);
+            trtr.find("input[data-field='name']").attr("disabled", false).val(item.Name);
+            trtr.find("input[data-field='note']").attr("disabled", false).val(item.Note);
+            trtr.find("td.selstatus select").attr("disabled", false).val(item.StatusID);
+            trtr.attr("data-enterType", "edit");
+        }
+    });
+
+});
+
+$("#critManage").find("i.fa-edit").on("click", function () {
+    var thistr = this.closest("tr[id][data-nn]");
+
+    var trID = thistr.id;
+
+    var trtr = $('#' + trID);
+    var nn = trtr.data("nn");
+    console.log("Criteria_nn:", nn);
+    console.log("criteriaDataArray:", criteriaDataArray);
+    var arr = criteriaDataArray[nn];
+    arr.forEach(function (item) {
+        console.log(item);
+        console.log(criteriaPosArray);
+        if (item.CriteriumID == criteriaPosArray[nn]) {
+            trtr.find("input[data-field='name']").attr("disabled", false).val(item.Name);
+            trtr.find("input[data-field='note']").attr("disabled", false).val(item.Note);
+            trtr.find("td.selstatus select").attr("disabled", false).val(item.CriteriumStatusID);
+            trtr.attr("data-enterType", "edit");
         }
     });
 
@@ -171,27 +252,33 @@ function loadTypesList(parentID, selector) {
         dataType: 'json',
         success: function (response) {
 
+            var selEl = $('#' + selector);
+            selEl.empty();
+
             if (response.length > 0) {
-                $('<option />').text(optionChoose).val(0).appendTo('#' + selector);
+                $('<option />').text(optionChoose).val(0).appendTo(selEl);
                 response.forEach(function (item) {
-                    $('<option />').text(item.Name).val(item.id).appendTo('#' + selector);
+                    $('<option />').text(item.Name).val(item.id).appendTo(selEl);
                 });
-                var selEl = $('#' + selector);
+
                 var nn = selEl.data("nn");
                 techPosArray[nn] = selEl.val();
                 console.log(techPosArray);
 
                 techDataArray[nn] = response;
                 console.log(techDataArray);
+
+                selEl.trigger('change');
             }
+
         }
     });
 }
 
-function loadCriteriaslist(techID, parentID, selector){
+function loadCriteriaslist(techID, parentID, selector) {
     console.log("selector", selector);
     var data = {
-        'techID' : techID,
+        'techID': techID,
         'parentID': parentID
     };
 
@@ -202,24 +289,29 @@ function loadCriteriaslist(techID, parentID, selector){
         dataType: 'json',
         success: function (response) {
 
+            var selEl = $('#' + selector);
+            selEl.empty();
+
             if (response.length > 0) {
                 $('<option />').text(optionChoose).val(0).appendTo('#' + selector);
                 response.forEach(function (item) {
                     console.log(item);
                     $('<option />').text(item.Name).val(item.CriteriumID).attr("data-mID", item.id).appendTo('#' + selector);
                 });
-                var selEl = $('#' + selector);
+
                 var nn = selEl.data("nn");
                 criteriaPosArray[nn] = selEl.val();
                 console.log(criteriaPosArray);
 
                 criteriaDataArray[nn] = response;
                 console.log('techDataArray:', criteriaDataArray);
+
+                selEl.trigger('change');
             }
         }
     });
 
-    $('#'+selector).empty();
+    $('#' + selector).empty();
 }
 
 $('#section2').find('i.fa-sync-alt').on('click', function () {

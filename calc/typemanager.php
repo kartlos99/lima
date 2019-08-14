@@ -49,24 +49,24 @@ echo DrawView::titleRow("ტექნიკის ტიპი ბრენდ�
         <tr id="typeRow" data-nn="0" data-type="<?= $tech_types['tech_type'] ?>">
             <td class="selobject"><?= DrawView::selectorWithBtn($id_simple, "ტიპი", "seltypename", 0) ?>  </td>
             <td class="two-btn-width"><?= DrawView::btnsBackCancel() ?> </td>
-            <td><?= DrawView::simpleInput($id_simple, "typename", "ტიპი" . $new_edit, "techName") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "typename", "ტიპი" . $new_edit, "name") ?> </td>
             <td class="selstatus"><?= DrawView::selector($id_simple, "სტატუსი", "typestatus", $tech_statuses) ?></td>
-            <td><?= DrawView::simpleInput($id_simple, "typecomment", $note, "techNote") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "typecomment", $note, "note") ?> </td>
 
         </tr>
         <tr id="brandRow" data-nn="1" data-type="<?= $tech_types['brand'] ?>">
             <td class="selobject"><?= DrawView::selectorWithBtn($id_simple, "ბრენდი", "selbrandname", 1) ?>  </td>
             <td class="two-btn-width"><?= DrawView::btnsBackCancel() ?> </td>
-            <td><?= DrawView::simpleInput($id_simple, "brandname", "ბრენდი" . $new_edit, "techName") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "brandname", "ბრენდი" . $new_edit, "name") ?> </td>
             <td class="selstatus"><?= DrawView::selector($id_simple, "სტატუსი", "brandstatus", $tech_statuses) ?></td>
-            <td><?= DrawView::simpleInput($id_simple, "brandcomment", $note, "techNote") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "brandcomment", $note, "note") ?> </td>
         </tr>
         <tr id="modelRow" data-nn="2" data-type="<?= $tech_types['model'] ?>">
             <td class="selobject"><?= DrawView::selectorWithBtn($id_simple, "მოდელი / კლასი", "selmodelname", 2) ?>  </td>
             <td class="two-btn-width"><?= DrawView::btnsBackCancel() ?> </td>
-            <td><?= DrawView::simpleInput($id_simple, "modelname", "მოდელი" . $new_edit, "techName") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "modelname", "მოდელი" . $new_edit, "name") ?> </td>
             <td class="selstatus"><?= DrawView::selector($id_simple, "სტატუსი", "modeltatus", $tech_statuses) ?></td>
-            <td><?= DrawView::simpleInput($id_simple, "modelcomment", $note, "techNote") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "modelcomment", $note, "note") ?> </td>
         </tr>
         </tbody>
     </table>
@@ -79,16 +79,16 @@ echo DrawView::titleRow("ტექნიკის ტიპი ბრენდ�
         <tr id="critGrRow" data-nn="0" data-type="<?= $criteria_types['criterium_group'] ?>">
             <td class="selobject"><?= DrawView::selectorWithBtn($id_simple, "კრიტერიუმების ჯგუფი", "selgroupname", 0) ?>  </td>
             <td class="two-btn-width"><?= DrawView::btnsBackCancel() ?> </td>
-            <td><?= DrawView::simpleInput($id_simple, "groupname", "ჯგუფი" . $new_edit, "criteriaName") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "groupname", "ჯგუფი" . $new_edit, "name") ?> </td>
             <td class="selstatus"><?= DrawView::selector($id_simple, "სტატუსი", "groupstatus", $criteria_statuses) ?></td>
-            <td><?= DrawView::simpleInput($id_simple, "groupcomment", $note, "criteriaNote") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "groupcomment", $note, "note") ?> </td>
         </tr>
         <tr id="critRow" data-nn="1" data-type="<?= $criteria_types['criterium'] ?>">
             <td class="selobject"><?= DrawView::selectorWithBtn($id_simple, "შეფასების კრიტერიუმი", "selratename", 1) ?>  </td>
             <td class="two-btn-width"><?= DrawView::btnsBackCancel() ?> </td>
-            <td><?= DrawView::simpleInput($id_simple, "ratename", "კრიტერიუმი" . $new_edit, "criteriaName") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "ratename", "კრიტერიუმი" . $new_edit, "name") ?> </td>
             <td class="selstatus"><?= DrawView::selector($id_simple, "სტატუსი", "ratestatus", $criteria_statuses) ?></td>
-            <td><?= DrawView::simpleInput($id_simple, "ratecomment", $note, "criteriaNote") ?> </td>
+            <td><?= DrawView::simpleInput($id_simple, "ratecomment", $note, "note") ?> </td>
         </tr>
         </tbody>
     </table>

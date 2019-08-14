@@ -23,7 +23,7 @@ class DrawView
                             <td>
                                 <div id=\"$div_id\" class=\"toright\">
                                     <i class=\"fas fa-plus fa-2x btn\"></i>
-                                    <i class=\"fas fa-edit fa-2x btn\"></i>                                
+                                    <i class=\"fas fa-edit fa-2x btn\"></i>
                                 </div>
                             </td>
                         </tr>
@@ -66,8 +66,8 @@ class DrawView
     {
         $view =
             '<div>
-                <i class="fas fa-arrow-alt-circle-left fa-2x btn"></i>
-                <i class="fas fa-times fa-2x btn"></i>
+                <i class="fas fa-arrow-alt-circle-left fa-2x btn "></i>
+                <i class="fas fa-times fa-2x btn "></i>
             </div>';
         return $view;
     }

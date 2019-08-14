@@ -24,7 +24,10 @@ $statusID = $_POST['status'];
 $parentID = $_POST['parentID'];
 $typeID = $_POST['typeID'];
 
-$sql = "
+
+if ($_POST['action'] == "new"){
+
+    $sql = "
 INSERT INTO `techniques_tree`(
     `ParentID`,
     `TypeID`,
@@ -49,12 +52,12 @@ VALUES(
 )
 ";
 
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $insID = mysqli_insert_id($conn);
-    $resultArray['insID'] = $insID;
+    $result = mysqli_query($conn, $sql);
+    if ($result) {
+        $insID = mysqli_insert_id($conn);
+        $resultArray['insID'] = $insID;
 
-    $sql_ins_mapping = "
+        $sql_ins_mapping = "
     INSERT INTO `estimate_criteriums_mapping`(
     `TechTreeID`,
     `CriteriumID`,
@@ -81,14 +84,40 @@ SELECT
     FROM estimate_criteriums_mapping
     WHERE TechTreeID = $parentID";
 
-    $resultArray['sql_ins_mapping'] = $sql_ins_mapping;
+        $resultArray['sql_ins_mapping'] = $sql_ins_mapping;
 
-    if (mysqli_query($conn, $sql_ins_mapping)) {
+        if (mysqli_query($conn, $sql_ins_mapping)) {
+            $resultArray['result'] = "success";
+        } else {
+            $resultArray['error'] = "can't ins subTechMapping!";
+        }
+
+    }
+}
+
+if ($_POST['action'] == "edit"){
+
+    $editingID = $_POST['editingID'];
+
+    $sql = "UPDATE
+    `techniques_tree`
+SET
+    `Name` = '$techName',
+    `Note`= '$techNote',
+    `StatusID` = $statusID
+WHERE
+    `techniques_tree`.`ID` = $editingID";
+
+    $resultArray['sql'] = $sql;
+
+    if (mysqli_query($conn, $sql)) {
         $resultArray['result'] = "success";
     } else {
-        $resultArray['error'] = "can't ins subTechMapping!";
+        $resultArray['error'] = "can't update tech!";
     }
 
 }
+
+
 
 echo(json_encode($resultArray));
