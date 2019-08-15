@@ -107,6 +107,10 @@ label {
     width: 75px;
 }
 
+.three-btn-width {
+    width: 110px;
+}
+
 #tb_teknic_price td {
     padding: 4px;
 }

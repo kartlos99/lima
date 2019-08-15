@@ -188,7 +188,7 @@ class DrawView
                     <option value=\"3\">3</option>
                 </select>
             </td>
-            <td class=\"toright\">".self::btnsEditSaveCancel()."</td>";
+            <td class=\"toright three-btn-width\">".self::btnsEditSaveCancel()."</td>";
         return $view;
     }
 }
