@@ -13,6 +13,49 @@ $new_edit = " - ახალი/რედაქტირება";
 $id_simple = "id";
 $note = "შენიშვნა";
 
+$tech_and_crit_weight_states = [];
+$sql = "SELECT id as vv, `code`, `value` as tt FROM `States` WHERE ObjectID = getobjid('tech_and_crit_weight_states') order by SortID";
+$result = mysqli_query($conn, $sql);
+foreach ($result as $row) {
+    $tech_and_crit_weight_states[] = $row;
+}
+
+$price_calc_item_states = [];
+$sql = "SELECT id as vv, `code`, `value` as tt FROM `States` WHERE ObjectID = getobjid('price_calc_item_states') order by SortID";
+$result = mysqli_query($conn, $sql);
+foreach ($result as $row) {
+    $price_calc_item_states[] = $row;
+}
+
+$goal_price_list = [];
+$sql = "SELECT di.id as vv, di.ValueText as tt FROM `dictionariyitems` di LEFT JOIN dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'target_price'";
+$result = mysqli_query($conn, $sql);
+foreach ($result as $row) {
+    $goal_price_list[] = $row;
+}
+
+$impact_list = [];
+$sql = "SELECT di.id as vv, di.ValueText as tt FROM `dictionariyitems` di LEFT JOIN dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'Impact' order by SortID";
+$result = mysqli_query($conn, $sql);
+foreach ($result as $row) {
+    $impact_list[] = $row;
+}
+
+$impact_type_list = [];
+$sql = "SELECT di.id as vv, di.ValueText as tt FROM `dictionariyitems` di LEFT JOIN dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'ImpactType'";
+$result = mysqli_query($conn, $sql);
+foreach ($result as $row) {
+    $impact_type_list[] = $row;
+}
+
+$calculate_Type_list = [];
+$sql = "SELECT di.id as vv, di.ValueText as tt FROM `dictionariyitems` di LEFT JOIN dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'CalculateType'";
+$result = mysqli_query($conn, $sql);
+foreach ($result as $row) {
+    $calculate_Type_list[] = $row;
+}
+
+
 function headerRow($items = [], $pos = 0, $margeN = 1)
 {
     $h_row = "";
@@ -29,7 +72,7 @@ function headerRow($items = [], $pos = 0, $margeN = 1)
 echo DrawView::titleRow("ტექნიკის ტიპი ბრენდი და მოდელი/კლასი", "", false, true);
 ?>
 
-    <table class="table-section">
+    <table class="table-section ">
 
         <tbody>
 
@@ -38,7 +81,7 @@ echo DrawView::titleRow("ტექნიკის ტიპი ბრენდ�
             <td><?= DrawView::selector($id_simple, "ტიპი", "typename") ?></td>
             <td><?= DrawView::selector($id_simple, "ბრენდი", "brandname") ?></td>
             <td><?= DrawView::selector($id_simple, "მოდელი / კლასი", "modelname") ?></td>
-            <td><?= DrawView::selector($id_simple, "ღირებულებისა და კრიტერიუმების წონების სტატუსი", "statusname") ?></td>
+            <td><?= DrawView::selector($id_simple, "ღირებულებისა და კრიტერიუმების წონების სტატუსი", "price_crit_weight_status", $tech_and_crit_weight_states) ?></td>
 
         </tr>
         </tbody>
@@ -66,18 +109,18 @@ echo DrawView::titleRow("ტექნიკის ტიპი ბრენდ�
 
         <tr>
             <?= DrawView::horizontalInput("ახალის საფასური", "price_new", "number") ?>
-            <?= DrawView::horizontalInput("სამიზნე ფასი", "price_goal", "select") ?>
-            <?= DrawView::horizontalInput("გაანგარიშების ტიპი", "calc_type", "select") ?>
+            <?= DrawView::horizontalInput("სამიზნე ფასი", "price_goal", "select", $goal_price_list) ?>
+            <?= DrawView::horizontalInput("გაანგარიშების ტიპი", "calc_type", "select", $calculate_Type_list) ?>
         </tr>
         <tr>
             <?= DrawView::horizontalInput("საბაზრო ფასი", "price_market", "number") ?>
-            <?= DrawView::horizontalInput("ფასზე ზემოქმედება", "price_impact", "select") ?>
+            <?= DrawView::horizontalInput("ფასზე ზემოქმედება", "price_impact", "select", $impact_list) ?>
             <?= DrawView::horizontalInput("მაქსიმუმ გასაცემი თანხა", "max_amount", "number") ?>
         </tr>
         <tr>
             <?= DrawView::horizontalInput("კონკურენტის ფასი", "price_competitor", "number") ?>
-            <?= DrawView::horizontalInput("ზემოქმედების სახეობა", "impact_type", "select") ?>
-            <?= DrawView::horizontalInput("სტატუსი", "status", "select") ?>
+            <?= DrawView::horizontalInput("ზემოქმედების სახეობა", "impact_type", "select", $impact_type_list) ?>
+            <?= DrawView::horizontalInput("სტატუსი", "status", "select", $price_calc_item_states) ?>
         </tr>
         <tr>
             <td></td>

@@ -37,7 +37,7 @@ class DrawView
         return $name_and_btns . $selector;
     }
 
-    static function selector($id = "", $title = "", $name, $options = [])
+    static function selector($id = "", $title = "", $name = "", $options = [])
     {
         $id = $name . "_" . $id;
         $opt = "";
@@ -137,12 +137,17 @@ class DrawView
     static function horizontalInput($title = "", $name, $type = "text", $list = [], $pl_holder = "GEL")
     {
         $id = $name."_id";
+        $opt = "";
+        foreach ($list as $item){
+            $vv = $item['vv'];
+            $vt = $item['tt'];
+            $opt .= "<option value=\"$vv\">$vt</option>";
+        }
 
         if ($type == "select"){
             $inputFeald = "
                 <select name=\"$name\" id=\"$id\" class=\"form-control\">
-                    <option value=\"1\">1</option>
-                    <option value=\"3\">3</option>
+                    $opt
                 </select>";
         }else{
             $inputFeald = "<input id=\"$id\" type=\"$type\" class=\"form-control\" placeholder=\"$pl_holder\" name=\"$name\"/>";

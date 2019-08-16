@@ -49,6 +49,12 @@ if ($pos !== false ){
     $thisPage = 'typemanager';
 }
 
+$pos = strpos($_SERVER['PHP_SELF'], "critratemanager.php");
+if ($pos !== false ){
+    echo "src=\"js/crit_value_manager.js\"";
+    $thisPage = 'typemanager';
+}
+
 ?> ></script>
 
 <?php

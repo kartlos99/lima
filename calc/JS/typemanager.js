@@ -4,11 +4,10 @@
 
 var parentID = 0;
 var typeID = 0;
-var optionChoose = "...აირჩიეთ";
+
 var criteriasOnTechID = 0;
 
-var techPosArray = [0, 0, 0];
-var techDataArray = ["0", "0", "0"];
+
 var criteriaPosArray = [];
 var criteriaDataArray = [];
 var criteriasOnTechPosArray = [];
@@ -283,6 +282,5 @@ $('#selratename_id').on('change', function () {
 $(document).ready(function () {
     console.log("ready!");
     loadTypesList(0, 'seltypename_id');
-    printout("anotherFile!!");
 });
 

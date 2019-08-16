@@ -2,6 +2,10 @@
  * Created by k.diakonidze on 8/15/19.
  */
 
+var optionChoose = "...აირჩიეთ";
+var techPosArray = [0, 0, 0];
+var techDataArray = ["0", "0", "0"];
+
 function f_show() {
 }
 
@@ -42,7 +46,7 @@ function loadTypesList(parentID, selector) {
 
         }
     });
-};
+}
 
 function loadCriteriaslist(techID, parentID, selector) {
     console.log("selector", selector);
