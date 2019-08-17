@@ -10,7 +10,7 @@ var criteriasOnTechID = 0;
 
 var criteriaPosArray = [];
 var criteriaDataArray = [];
-var criteriasOnTechPosArray = [];
+
 
 $("input").attr("disabled", true);
 $("td.selstatus select").val(0).attr("disabled", true);
@@ -59,16 +59,16 @@ $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
-                if (response.result == "success"){
+                if (response.result == "success") {
                     disableInputs(trtr);
-                    loadTypesList(parentID, trtr.find("td.selobject select").attr("id") );
+                    loadTypesList(parentID, trtr.find("td.selobject select").attr("id"));
                 }
             }
         });
     }
 });
 
-function disableInputs(tableRow){
+function disableInputs(tableRow) {
     tableRow.find("input[data-field='name']").val("").attr("disabled", true);
     tableRow.find("input[data-field='note']").val("").attr("disabled", true);
     tableRow.find("td.selstatus select").val(0).attr("disabled", true);
@@ -240,7 +240,6 @@ $('#selmodelname_id').on('change', function () {
 });
 
 
-
 $('#section2').find('i.fa-sync-alt').on('click', function () {
     criteriasOnTechID = 0;
     var criteriasOnText = "";
@@ -260,7 +259,12 @@ $('#section2').find('i.fa-sync-alt').on('click', function () {
 
     $('#section2').find('span.red-in-title').text(criteriasOnText);
 
-    loadCriteriaslist(criteriasOnTechID, 0, 'selgroupname_id');
+    if (criteriasOnTechID > 0){
+        loadCriteriaslist(criteriasOnTechID, 0, 'selgroupname_id');
+    }else{
+        alert("აირჩიეთ ტექნიკის ტიპი, ბრენდი, მოდელი");
+    }
+
 });
 
 $('#selgroupname_id').on('change', function () {
@@ -278,6 +282,55 @@ $('#selratename_id').on('change', function () {
     console.log(criteriaPosArray);
 });
 
+$('#section3').find('i.fa-sync-alt').on('click', function () {
+
+    criteriasOnTechID = 0;
+    var criteriasOnText = "";
+    if (techPosArray[0] != 0) {
+        criteriasOnText += $('#seltypename_id').find('option:selected').text();
+        criteriasOnTechID = techPosArray[0];
+    }
+    if (techPosArray[1] != 0) {
+        criteriasOnText += " > " + $('#selbrandname_id').find('option:selected').text();
+        criteriasOnTechID = techPosArray[1];
+    }
+    if (techPosArray[2] != 0) {
+        criteriasOnText += " > " + $('#selmodelname_id').find('option:selected').text();
+        criteriasOnTechID = techPosArray[2];
+    }
+    criteriasOnTechPosArray = techPosArray.slice();
+
+    $('#section3').find('span.red-in-title').text(criteriasOnText);
+
+    if (criteriasOnTechID > 0) {
+        $.ajax({
+            url: 'php_code/get_criterias_on_tech.php',
+            method: 'get',
+            data: {'techID': criteriasOnTechID},
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                $('#section3Body').empty();
+                response.forEach(function (item) {
+
+                    var td_id = $('<td />').text(item.id);
+                    var td_gr = $('<td />').text(item.gr);
+                    var td_crit = $('<td />').text(item.criteria);
+                    var td_status = $('<td />').text(item.st);
+                    var td_note = $('<td />').text(item.Note);
+                    var td_date = $('<td />').text(item.CreateDate);
+                    var td_user = $('<td />').text(item.CreateUser);
+                    var trow = $('<tr></tr>').append(td_id, td_gr, td_crit, td_status, td_note, td_date, td_user);
+//                trow.attr('onclick', "onRowClick(" + item.id + ")");
+                    $('#section3Body').append(trow);
+                });
+            }
+        });
+    }else{
+        alert("აირჩიეთ ტექნიკის ტიპი, ბრენდი, მოდელი");
+    }
+
+});
 
 $(document).ready(function () {
     console.log("ready!");

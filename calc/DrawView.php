@@ -32,7 +32,6 @@ class DrawView
 
         $selector = "
     <select class=\"form-control\" id=\"$id\" name=\"$name\" data-nn=\"$dataNN\">
-
     </select>";
         return $name_and_btns . $selector;
     }
@@ -40,16 +39,10 @@ class DrawView
     static function selector($id = "", $title = "", $name = "", $options = [])
     {
         $id = $name . "_" . $id;
-        $opt = "";
-        foreach ($options as $item){
-            $vv = $item['vv'];
-            $vt = $item['tt'];
-            $opt .= "<option value=\"$vv\">$vt</option>";
-        }
 
         $all_comp = '
     <label for="' . $id . '">' . $title . '</label>
-    <select class="form-control" id="' . $id . '" name="' . $name . '"> '. $opt .' </select>';
+    <select class="form-control" id="' . $id . '" name="' . $name . '"> '. self::formingOption($options) .' </select>';
         return $all_comp;
     }
 
@@ -134,21 +127,13 @@ class DrawView
         return $view;
     }
 
-    static function horizontalInput($title = "", $name, $type = "text", $list = [], $pl_holder = "GEL")
+    static function horizontalInput($title = "", $name, $type = "text", $list = [], $pl_holder = "₾")
     {
         $id = $name."_id";
-        $opt = "";
-        foreach ($list as $item){
-            $vv = $item['vv'];
-            $vt = $item['tt'];
-            $opt .= "<option value=\"$vv\">$vt</option>";
-        }
 
         if ($type == "select"){
             $inputFeald = "
-                <select name=\"$name\" id=\"$id\" class=\"form-control\">
-                    $opt
-                </select>";
+                <select name=\"$name\" id=\"$id\" class=\"form-control\">". self::formingOption($list) ."</select>";
         }else{
             $inputFeald = "<input id=\"$id\" type=\"$type\" class=\"form-control\" placeholder=\"$pl_holder\" name=\"$name\"/>";
         }
@@ -160,38 +145,46 @@ class DrawView
         return $view;
     }
 
-    static function criteriaEditRow(){
+    function formingOption($dataList){
+        $opt = "";
+        foreach ($dataList as $item){
+            $vv = $item['vv'];
+            $vt = $item['tt'];
+            if (isset($item['code'])){
+                $vc = $item['code'];
+                $opt .= "<option value=\"$vv\" data-code=\"$vc\">$vt</option>";
+            }else{
+                $opt .= "<option value=\"$vv\">$vt</option>";
+            }
+        }
+        return $opt;
+    }
+
+    static function criteriaEditRow($impactList, $impactTypeList, $statesList){
+        $formControl = "form-control";
+//        $formControl = "";
         $view = "
-            <td class=\"criteria-name\"></td>
+            <td class=\"crit-name\"></td>
             <td>
-                <select name=\"impact\" class=\"form-control id_impact\">
-                    <option value=\"1\">1</option>
-                    <option value=\"3\">3</option>
-                </select>
+                <select name=\"impact\" class=\"$formControl id_impact\">" . self::formingOption($impactList) . "</select>
             </td>
             <td>
-                <select name=\"impact_type\" class=\"form-control id_type\">
-                    <option value=\"1\">1</option>
-                    <option value=\"3\">3</option>
-                </select>
+                <select name=\"impact_type\" class=\"$formControl id_type\">" . self::formingOption($impactTypeList) . "</select>
+            </td>
+            <td class=\"toright three-btn-width\">
+                <input type=\"number\" class=\"$formControl id_size\" placeholder=\"\" name=\"size\"/>
             </td>
             <td>
-                <input type=\"number\" class=\"form-control id_size\" placeholder=\"\" name=\"size\"/>
+                <label><input class=\"chk-box\" type=\"checkbox\" name=\"is_main\" value=\"1\" onclick=\"showDetails(this)\"/> ძირ.</label>
+            </td>
+            <td class=\"two-btn-width\">
+                <input type=\"number\" class=\"$formControl id_day\" placeholder=\"დღე\" name=\"rev_day\" style=\"width: 75px\"/>
             </td>
             <td>
-                <label><input type=\"checkbox\" name=\"is_main\" value=\"1\" onclick=\"showDetails(this)\"/> ძირ.</label>
+                <input type=\"date\" class=\"$formControl id_date\" placeholder=\"\" name=\"rev_date\"/>
             </td>
             <td>
-                <input type=\"number\" class=\"form-control id_day\" placeholder=\"დღე\" name=\"price_competitor\"/>
-            </td>
-            <td>
-                <input type=\"date\" class=\"form-control id_date\" placeholder=\"\" name=\"price_competitor\"/>
-            </td>
-            <td>
-                <select name=\"status\" class=\"form-control id_status\">
-                    <option value=\"1\">1</option>
-                    <option value=\"3\">3</option>
-                </select>
+                <select name=\"status\" class=\"$formControl id_status\">" . self::formingOption($statesList) . "</select>
             </td>
             <td class=\"toright three-btn-width\">".self::btnsEditSaveCancel()."</td>";
         return $view;

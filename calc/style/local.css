@@ -108,7 +108,7 @@ label {
 }
 
 .three-btn-width {
-    width: 110px;
+    width: 120px;
 }
 
 #tb_teknic_price td {
@@ -128,4 +128,44 @@ label {
     border-radius: 4px;
     padding: 10px;
     margin: 6px 0;
+}
+
+.equal-size td{
+    width: 25%;
+}
+
+.gr-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #761c19;
+    padding: 4px;
+
+}
+
+.gr-head-row {
+    background-color: #b0c3eb;
+    border: 2px solid transparent;
+    border-top-color: #223;
+}
+
+.criteria-name {
+    font-size: 1.1em;
+    color: #33c;
+    padding: 4px 4px 4px 12px;
+}
+
+.crit-name {
+    /*color: #224;*/
+    border: 2px solid transparent;
+    border-right-color: #445;
+}
+
+.top-line {
+    border: 2px solid transparent;
+    border-bottom-color: #445;
+    padding: 2px;
+}
+
+#tb_technic_criteria th {
+    padding: 3px;
 }

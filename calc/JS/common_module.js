@@ -5,6 +5,9 @@
 var optionChoose = "...აირჩიეთ";
 var techPosArray = [0, 0, 0];
 var techDataArray = ["0", "0", "0"];
+var criteriasOnTechPosArray = [];
+
+
 
 function f_show() {
 }
@@ -87,3 +90,17 @@ function loadCriteriaslist(techID, parentID, selector) {
     $('#' + selector).empty();
 }
 
+function dateformat(d) {
+    var mm, dd;
+    if (d.getMonth() < 9) {
+        mm = "0" + (d.getMonth() + 1);
+    } else {
+        mm = d.getMonth() + 1;
+    }
+    if (d.getDate() < 10) {
+        dd = "0" + d.getDate();
+    } else {
+        dd = d.getDate();
+    }
+    return d.getFullYear() + "-" + mm + "-" + dd;
+}
