@@ -46,13 +46,19 @@
 $pos = strpos($_SERVER['PHP_SELF'], "typemanager.php");
 if ($pos !== false ){
     echo "src=\"js/typemanager.js\"";
-    $thisPage = 'typemanager';
+    $thisPage = 'type_manager';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "critratemanager.php");
 if ($pos !== false ){
     echo "src=\"js/crit_value_manager.js\"";
-    $thisPage = 'typemanager';
+    $thisPage = 'value_manager';
+}
+
+$pos = strpos($_SERVER['PHP_SELF'], "pricerate.php");
+if ($pos !== false ){
+    echo "src=\"js/price_calculation_page.js\"";
+    $thisPage = 'price_calculation';
 }
 
 ?> ></script>

@@ -259,9 +259,9 @@ $('#section2').find('i.fa-sync-alt').on('click', function () {
 
     $('#section2').find('span.red-in-title').text(criteriasOnText);
 
-    if (criteriasOnTechID > 0){
+    if (criteriasOnTechID > 0) {
         loadCriteriaslist(criteriasOnTechID, 0, 'selgroupname_id');
-    }else{
+    } else {
         alert("აირჩიეთ ტექნიკის ტიპი, ბრენდი, მოდელი");
     }
 
@@ -313,10 +313,12 @@ $('#section3').find('i.fa-sync-alt').on('click', function () {
                 $('#section3Body').empty();
                 response.forEach(function (item) {
 
+                    var combineStatus = item.grcode != 'Active' ? item.grstatus : item.st;
+
                     var td_id = $('<td />').text(item.id);
                     var td_gr = $('<td />').text(item.gr);
                     var td_crit = $('<td />').text(item.criteria);
-                    var td_status = $('<td />').text(item.st);
+                    var td_status = $('<td />').text(combineStatus);
                     var td_note = $('<td />').text(item.Note);
                     var td_date = $('<td />').text(item.CreateDate);
                     var td_user = $('<td />').text(item.CreateUser);
@@ -326,7 +328,7 @@ $('#section3').find('i.fa-sync-alt').on('click', function () {
                 });
             }
         });
-    }else{
+    } else {
         alert("აირჩიეთ ტექნიკის ტიპი, ბრენდი, მოდელი");
     }
 

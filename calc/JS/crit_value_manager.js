@@ -80,8 +80,10 @@ $('i.fa-sync-alt').on('click', function () {
                     printout(response)
                 } else {
                     $('#tech_price').trigger('reset');
+                    $('#techPriceRecordID').val(0);
+                    existingTechPriceRecordID = 0;
                 }
-
+                console.log("existingTechPriceRecordID", existingTechPriceRecordID);
             }
         });
         $('#techID').val(criteriasOnTechID);
@@ -102,7 +104,7 @@ $('i.fa-sync-alt').on('click', function () {
 
                 response.forEach(function (item) {
                     var cloneRow = trToClone.clone();
-                    cloneRow.attr("data-id", item.CriteriumID);
+                    cloneRow.attr("data-id", item.id);
 
                     if (grName != item.gr) {
                         var td_grName = $('<td />').text(item.gr);
@@ -230,8 +232,10 @@ techPriceForm.find('i.fa-check').on('click', function () {
                 if (response.result == "success") {
                     // workingID - Insertis dros axlad damatebuli, Update-s dros moqmedi
                     $('#techPriceRecordID').val(response.workingID);
+                    existingTechPriceRecordID = response.workingID;
                     $('#price_crit_weight_status_id').find('option[data-code="Project"]').attr("selected", "selected");
                 }
+                console.log("existingTechPriceRecordID", existingTechPriceRecordID);
             }
         });
         disablePriceForm(techPriceForm);
@@ -259,6 +263,7 @@ function disablePriceForm(aform){
 }
 
 divTitle1.find('i.fa-check').on('click', function () {
+    console.log("existingTechPriceRecordID", existingTechPriceRecordID);
 
     if (criteriasOnTechID != 0) {
         var stateID = $('#price_crit_weight_status_id').val();
@@ -348,10 +353,10 @@ function calculateMaxPrice() {
             break;
     }
 
-    checkCalculationType();
+    checkCalculationType(amount);
 }
 
-function checkCalculationType(){
+function checkCalculationType(amount){
     if ($('#calc_type_id').find('option:selected').data("code") == "impact_on_fees") {
         $('#max_amount_id').val(amount).attr("readonly", true);
     } else {
