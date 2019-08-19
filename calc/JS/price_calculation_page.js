@@ -5,6 +5,9 @@ var criteriasConteiner = $('div.kriterias-box').find('tbody');
 var criteriasData;
 var priceCalculated = 0;
 var appRecID = 0;
+var checkedCriteriastext;
+
+var ganacxadiN;
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -28,6 +31,7 @@ $('#btnRate').on('click', function () {
         var minOut = 0;
         var dontLeave = false;
         priceCalculated = maxPrice;
+        checkedCriteriastext = "";
 
         selecterRows.each(function (index) {
             // console.log( index + ": " + $( this ).attr("data-id") );
@@ -45,30 +49,31 @@ $('#btnRate').on('click', function () {
                     dontLeave = true;
                 } else if (item.impactCode == "negative" || item.impactCode == "positive") {
                     priceCalculated = calculateImpact(item, priceCalculated);
-                    console.log("prMAX:",maxPrice);
-                    console.log("prCalc:",priceCalculated);
+                    console.log("prMAX:", maxPrice);
+                    console.log("prCalc:", priceCalculated);
                 }
-
+                checkedCriteriastext += item.criteria;
+                checkedCriteriastext += ", ";
             }
         });
 
-        if (priceCalculated < minOut){
+        if (priceCalculated < minOut) {
             priceCalculated = minOut;
         }
 
-        if(dontLeave){
+        if (dontLeave) {
             $('#reteResultText').text("არ ვიტოვებთ!").addClass('alert-warning').removeClass('alert-success');
             $('#rateResultNumber').text(0);
-        }else {
+        } else {
             $('#reteResultText').text("შეფასება განხორციელდა წარმატებით !").addClass('alert-success').removeClass('alert-warning');
-            $('#rateResultNumber').text( priceCalculated );
+            $('#rateResultNumber').text(priceCalculated);
         }
 
         // console.log("nna", selN);
     }
 });
 
-function calculateImpact(dataRow, currPrice){
+function calculateImpact(dataRow, currPrice) {
     var newValue;
 
     switch (dataRow.impactTypeCode) {
@@ -224,23 +229,29 @@ function answer2(el) {
 }
 
 var priceCorectionTable = $('#tbPriceCorection');
+var correction = false;
 
 priceCorectionTable.find('input[type=checkbox]').on('click', function () {
-    $('#corection_id').attr("readonly", !(priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") || priceCorectionTable.find('input[name=dec_by_client]').is(":checked")));
+    correction = (priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") || priceCorectionTable.find('input[name=dec_by_client]').is(":checked"))
+    $('#corection_id').attr("readonly", !correction);
+    if (!correction) {
+        $('#corection_id').val(0);
+        $('#rateResultNumberCorected').text(0);
+    }
 });
 
 $('#corection_id').on('blur', function () {
-    $('#rateResultNumberCorected').text($('#corection_id').val());
+    $('#rateResultNumberCorected').text(parseFloat($('#corection_id').val()));
 });
 
 $('#btnInfoGen').on('click', function () {
-    if (priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") && $('#corection_id').val() - priceCalculated > 50){
+    if (priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") && $('#corection_id').val() - priceCalculated > 50) {
         alert("გასაცემი თანხა 50 ლარზე მეტად აღემატება გამოთვლილ მნიშვნელობას!");
-    }else if (!$('#serial_N_id').val()){
+    } else if (!$('#serial_N_id').val()) {
         alert("seriuli nomeri araa Seyvanili");
-    }else if (!$('#imei_id').val()){
+    } else if (!$('#imei_id').val()) {
         alert("IMEI araa Seyvanili");
-    }else {
+    } else {
 // infos Senaxa
         $.ajax({
             url: 'php_code/ins_application.php',
@@ -255,13 +266,37 @@ $('#btnInfoGen').on('click', function () {
                 'ManagerAdd': priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") ? 1 : 0,
                 'ClientDec': priceCorectionTable.find('input[name=dec_by_client]').is(":checked") ? 1 : 0,
                 'CorTechPrice': $('#corection_id').val(),
+                'OrganizationID': $('#organization_id').val(),
+                'BranchID': $('#filial_id').val(),
                 'record_id': appRecID
             },
             dataType: 'json',
             success: function (response) {
                 console.log(response);
                 if (response.result == "success") {
-                    appRecID =  response.record_id;
+
+                    if (appRecID == 0){
+                        ganacxadiN = response.ApNumber + " " + response.ApDate;
+                    }
+                    appRecID = response.record_id;
+
+
+                    var teqnika = $('#type_id').find('option:selected').text() + ", " + $('#brand_id').find('option:selected').text() + ", " + $('#model_id').find('option:selected').text()
+                        + " (" + $('#modelbyhand_id').val() + " IMEI: " + $('#imei_id').val() + ". SN: " + $('#serial_N_id').val() + ")";
+                    var mdgomareoba = checkedCriteriastext.trim(", ");
+                    var gacemuli =  correction ? $('#corection_id').val() : priceCalculated ;
+                    var correctionText = correction ? "დიახ" : "არა" ;
+
+                    var br = "</br>";
+
+                    $('#finalInfo').empty();
+                    $('#finalInfo').append("განაცხადი N: " + ganacxadiN, br);
+                    $('#finalInfo').append("ტექნიკა: " + teqnika, br);
+                    $('#finalInfo').append("მდგომარეობა: " + mdgomareoba, br);
+                    $('#finalInfo').append("თანხა სისტემიდან: " + priceCalculated + " ₾", br);
+                    $('#finalInfo').append("თანხის კორექტირება: " + correctionText, br);
+                    $('#finalInfo').append("გაცემული თანხა: " + gacemuli  + " ₾", br);
+
                 } else {
                     console.log(response.error);
                 }
@@ -341,15 +376,15 @@ $('#organization_id').on('change', function () {
     loadBranches11(org_p1, 0)
 });
 
-function loadBranches11(orgID, brID){
+function loadBranches11(orgID, brID) {
     $('#filial_id').empty().removeAttr('disabled');
 
     // <!--    filialebis chamonatvali -->
     if (orgID == "") {
         $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#filial_id');
     } else {
-        organizationObj.forEach(function (org){
-            if (org.id == orgID){
+        organizationObj.forEach(function (org) {
+            if (org.id == orgID) {
                 var branches = org.branches;
                 if (branches.length != 1) {
                     $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#filial_id');
@@ -357,7 +392,7 @@ function loadBranches11(orgID, brID){
                 branches.forEach(function (item) {
                     $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#filial_id');
                 });
-                if (brID > 0){
+                if (brID > 0) {
                     $('#filial_id').val(brID);
                 }
             }

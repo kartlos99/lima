@@ -17,11 +17,8 @@ $resultArray = [];
 //$apNumber= $_POST['ApNumber'];
 $apNumber = Date( time());
 $apDate= $currDate;
-//$organizationID= $_POST['OrganizationID'];
-//$branchID= $_POST['BranchID'];
-//$apStatus= $_POST['ApStatus'];
-$apStatus= "getstateid('Project', 37)";
-$agreementNumber= "";//$_POST['AgreementNumber'];
+
+
 $techTreeID= $_POST['TechTreeID'];
 $techModelFix= $_POST['TechModelFix'];
 $techSerial= $_POST['TechSerial'];
@@ -34,9 +31,15 @@ $managerAdd= $_POST['ManagerAdd'];
 $clientDec= $_POST['ClientDec'];
 $corTechPrice= $_POST['CorTechPrice'];
 
+$apStatus= isset($_POST['ApStatus']) ? $_POST['ApStatus'] : "getstateid('Project', 37)";
+$organizationID= isset($_POST['OrganizationID']) ? $_POST['OrganizationID'] : 0;
+$branchID = isset($_POST['BranchID']) ? $_POST['BranchID'] : 0;
+$agreementNumber= isset($_POST['AgreementNumber']) ? $_POST['AgreementNumber'] : "";
+
 $record_id = $_POST['record_id'];
 
 if ($record_id == 0) {
+
     $sql = "
 INSERT INTO `tech_estimate_applications`(
     `ApNumber`,
@@ -75,16 +78,41 @@ VALUES(
     $currUserID
 )
 ";
+
+    $resultArray['ApNumber'] = $apNumber;
+    $resultArray['ApDate'] = Date("Y-m-d", time());
 } else {
+
+
 
     $sql = "
 UPDATE
-    `ID` = $record_id";
+    `tech_estimate_applications`
+SET
+    `OrganizationID` = $organizationID,
+    `BranchID` = $branchID,
+    `ApStatus` = $apStatus,
+    `TechModelFix` = '$techModelFix',
+    `TechSerial` = '$techSerial',
+    `TechIMEI` = '$techIMEI',
+    `Note` = '$note',
+    `SysTechPrice` = '$sysTechPrice',
+    `ManagerAdd` = $managerAdd,
+    `ClientDec` = $clientDec,
+    `CorTechPrice` = '$corTechPrice',
+    `ModifyDate` = $currDate,
+    `ModifyUser` = '$currUser',
+    `ModifyUserID` = $currUserID
+where
+   ID = $record_id
+";
 
     $resultArray['record_id'] = $record_id;
 }
 
 $resultArray['sql'] = $sql;
+
+
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
