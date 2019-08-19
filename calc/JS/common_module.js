@@ -7,6 +7,9 @@ var techPosArray = [0, 0, 0];
 var techDataArray = ["0", "0", "0"];
 var criteriasOnTechPosArray = [];
 
+var text_chooseModel = "აირჩიეთ მოდელი!";
+var text_PriceAndCriteriaWeightStatusAlert = "ღირებულებისა და კრიტერიუმების წონების სტატუსი არააქტიურია!";
+var text_NotFound = "ჩანაწერი ვერ მოიძებნა!";
 
 
 function f_show() {

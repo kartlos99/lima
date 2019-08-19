@@ -16,16 +16,21 @@ $arr = array();
 if (isset($_GET['techID']) && $_GET['techID'] != '') {
     $techID = $_GET['techID'];
     $filterActive = "";
-    if (isset($_GET['onlyActive'])){
+    if (isset($_GET['onlyActive'])) {
         $filterActive = " AND s.Code = 'Active' ";
     }
+    $filterActiveValue = "";
+    if (isset($_GET['onlyActiveValue'])) {
+        $filterActiveValue = " AND s2.Code = 'Active' ";
+    }
 
-    if (isset($_GET['withValues'])){
+    if (isset($_GET['withValues'])) {
         // with criteria Values
         $sql = "
 SELECT
     emap.id, egr.Name AS 'gr', ecr.Name AS 'criteria', s.Code, s.Value AS 'st', emap.`Note`, emap.`CreateDate`, emap.`CreateUser`, emap.CriteriumID,
-    ecv.ID AS 'crWeightID', ecv.Impact, ecv.ImpactType, ecv.ImpactValue, ecv.IsMain, ecv.RevDay, ecv.RevDate, ecv.CritValuesStatusID
+    ecv.ID AS 'crWeightID', ecv.Impact, di1.Code AS 'impactCode', ecv.ImpactType, di2.Code AS 'impactTypeCode', ecv.ImpactValue, ecv.IsMain, 
+    ecv.RevDay, ecv.RevDate, ecv.CritValuesStatusID, ecv.CritValuesStatusID, s2.Code AS 's2code'
 FROM
     `estimate_criteriums_mapping` emap
 LEFT JOIN estimate_criteriums egr
@@ -36,8 +41,14 @@ LEFT JOIN states s
 ON emap.`CriteriumStatusID` = s.ID
 LEFT JOIN estimate_criterium_values ecv
 ON emap.ID = ecv.EstimateCriteriumID
+LEFT JOIN states s2
+ON ecv.CritValuesStatusID = s2.ID
+LEFT JOIN dictionariyitems di1
+ON ecv.Impact = di1.ID
+LEFT JOIN dictionariyitems di2
+ON ecv.ImpactType = di2.ID
 WHERE
-    emap.`TechTreeID` = $techID AND emap.`ParentID` <> 0 " . $filterActive . " 
+    emap.`TechTreeID` = $techID AND emap.`ParentID` <> 0 " . $filterActive . $filterActiveValue . " 
     AND `CriteriumID` NOT IN (
             SELECT DISTINCT `CriteriumID` FROM estimate_criteriums_mapping e
         LEFT JOIN states s ON s.ID = e.CriteriumStatusID
@@ -69,7 +80,7 @@ WHERE
     
     ORDER BY egr.Name, ecr.Name";
 
-    }else{
+    } else {
 
 //        $sql = "
 //SELECT
@@ -161,7 +172,6 @@ echo(json_encode($arr));
 //	CriteriumID in (SELECT `CriteriumID` FROM estimate_criteriums_mapping WHERE `TechTreeID` = 50)
 //AND s.code <> 'Active')
 //
-
 
 
 //SELECT DISTINCT `CriteriumID` FROM estimate_criteriums_mapping e

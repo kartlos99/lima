@@ -68,7 +68,7 @@ class DrawView
     static function btnsEditSaveCancel()
     {
         $view =
-            '<div>
+            '<div class="three-btn-width">
                 <i class="fas fa-edit fa-2x btn"></i>
                 <i class="fas fa-check fa-2x btn"></i>
                 <i class="fas fa-times fa-2x btn"></i>
@@ -81,14 +81,12 @@ class DrawView
         $id1 = $name_attr . "_1";
         $id2 = $name_attr . "_2";
         $view = "
-                        <tr>
+                        <tr data-id='0' data-answ='0'>
                             <td style='width: 80px'>
-                        <input id=\"$id1\" type=\"radio\" name=\"$name_attr\" value=\"1\" required>
-                        <label for=\"$id1\"> დიახ  </label>
+                        <label><input class='answ1' type='radio' name=\"$name_attr\" value=\"1\" required onclick='answer1()'> დიახ  </label>
                             </td>
                             <td style='width: 70px'>
-                        <input id=\"$id2\" type=\"radio\" name=\"$name_attr\" value=\"0\" required>
-                        <label for=\"$id2\"> არა</label>
+                        <label><input class='answ2' type='radio' name=\"$name_attr\" value=\"0\" required onclick='answer2(this)'> არა</label>
                             </td>
                             <td  style='width: auto'>
                         <span>$title</span>

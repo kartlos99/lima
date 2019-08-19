@@ -16,7 +16,11 @@ if (!isset($_SESSION['username'])) {
 if (isset($_GET['techID']) && $_GET['techID'] != '') {
     $techID = $_GET['techID'];
 
-    $sql = "SELECT * FROM `tech_price` WHERE TechTreeID = $techID";
+    $sql = "
+SELECT t.*, s.Code AS pcwStatus FROM `tech_price` t
+LEFT JOIN states s
+ON t.StatusID = s.ID
+WHERE t.TechTreeID = $techID";
 
     $result = mysqli_query($conn, $sql);
 

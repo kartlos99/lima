@@ -12,6 +12,20 @@ $new_edit = " - ახალი/რედაქტირება";
 $id_simple = "id";
 $note = "შენიშვნა";
 
+function getStatusItems($dbConn, $sCode)
+{
+    $list = [];
+    $sql = "SELECT id as vv, `code`, `value` as tt
+            FROM `States`
+            WHERE ObjectID = getobjid('$sCode')
+            ORDER BY SortID";
+    $result = mysqli_query($dbConn, $sql);
+    foreach ($result as $row) {
+        $list[] = $row;
+    }
+    return $list;
+}
+
 ?>
 
 <?= DrawView::titleRow("", "შესაფასებელი ტექნიკა:") ?>
@@ -59,22 +73,26 @@ $note = "შენიშვნა";
                 <?= DrawView::titleRow("შეფასების შედეგი და გასაცემი თანხა", "") ?>
 
                 <h4>შეფასების შედეგი</h4>
-                <p id="reteResultText">შეფასება განხორციელდა წარმატებით !</p>
-                <p>სისტემის მიერ გენერირებული გასაცემი თანხა: <span id="rateResultNumber">32</span> ₾</p>
+
+                <p id="reteResultText" class="alert"></p>
+
+                <p>
+                    სისტემის მიერ გენერირებული გასაცემი თანხა: <span id="rateResultNumber" class="resNumber">0</span> ₾
+                </p>
 
                 <table id="tbPriceCorection">
                     <tr>
                         <td>
-                            <?= DrawView::simpleInput($id_simple, "corection", "თანხის კორექტირება") ?>
+                            <?= DrawView::simpleInput($id_simple, "corection", "თანხის კორექტირება", "", "number") ?>
                         </td>
                         <td>
-                            <div><label><input type="checkbox" name="inc_by_manager" value="1" /> დამატება მენეჯერის დასტურით</label></div>
-                            <div><label><input type="checkbox" name="dec_by_client" value="1" /> შემცირება კლიენტის მოთხოვნით</label></div>
+                            <div><label><input type="checkbox" name="inc_by_manager" value="1"/> დამატება მენეჯერის დასტურით</label></div>
+                            <div><label><input type="checkbox" name="dec_by_client" value="1"/> შემცირება კლიენტის მოთხოვნით</label></div>
                         </td>
                     </tr>
                 </table>
 
-                <p>გასაცემი თანხა (კორექტირებული): <span id="rateResultNumber">322</span> ₾</p>
+                <p>გასაცემი თანხა (კორექტირებული): <span id="rateResultNumberCorected" class="resNumber">0</span> ₾</p>
 
             </td>
             <td class="half-width">
@@ -82,15 +100,13 @@ $note = "შენიშვნა";
                 <form>
                     <div class="kriterias-box">
                         <table>
+                            <tbody>
                             <?php
-                                for ($i = 0; $i < 33; $i++){
-                                    echo(DrawView::radioGroupRow("KR_$i", "krit_$i"));
-                                }
+                            //                            for ($i = 0; $i < 33; $i++) {
+                            //                                echo(DrawView::radioGroupRow("KR_$i", "krit_$i"));
+                            //                            }
                             ?>
-
-                            <?= DrawView::radioGroupRow("მესამე dfjs fskjdf klfgk dkf dfg i gifngio dfugnodfingodiug odfg  kgd fgdjfgyj", "krit4") ?>
-                            <?= DrawView::radioGroupRow("მესამე4", "krit5") ?>
-                            <?= DrawView::radioGroupRow("მესამე55 dfsjd ksd ", "krit6") ?>
+                            </tbody>
                         </table>
                     </div>
                 </form>
@@ -102,7 +118,8 @@ $note = "შენიშვნა";
 <?= DrawView::titleRow("შეჯამებული ინფორმაცია შეფასების შესახებ") ?>
 
     <button id="btnInfoGen" class="btn btn-info"><b>ინფორმაციის გენერირება</b></button>
-
+<!--    <button class="btn" onclick="mycopy()">Copy</button>-->
+    <input type="hidden" id="atext"/>
     <p id="finalInfo"> INFO </p>
 
 
@@ -123,7 +140,7 @@ $note = "შენიშვნა";
                             <?= DrawView::simpleInput($id_simple, "agreement", "ხელშეკრულება") ?>
                         </td>
                         <td>
-                            <?= DrawView::selector($id_simple, "სტატუსი", "status") ?>
+                            <?= DrawView::selector($id_simple, "სტატუსი", "status", getStatusItems($conn, "app_states")) ?>
                         </td>
                     </tr>
                     <tr>
@@ -140,7 +157,7 @@ $note = "შენიშვნა";
                 <table class="table">
                     <tr>
                         <td>
-                            <?= DrawView::selector($id_simple, "საკონტროლო შეფასების შედეგი", "control_rate_result") ?>
+                            <?= DrawView::selector($id_simple, "საკონტროლო შეფასების შედეგი", "control_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
                         </td>
                         <td>
                             <?= DrawView::simpleInput($id_simple, "adjusted_amount", "კორექტირებული თანხა") ?>
@@ -161,7 +178,7 @@ $note = "შენიშვნა";
     <table class="table">
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "დეტალური შეფასების შედეგი", "detail_rate_result") ?>
+                <?= DrawView::selector($id_simple, "დეტალური შეფასების შედეგი", "detail_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "adjusted_amount", "კორექტირებული თანხა") ?>
@@ -173,5 +190,9 @@ $note = "შენიშვნა";
     </table>
 
     <button id="btnSave" class="btn"><b>შენახვა</b></button>
+
+    <table class="hidden">
+        <?= DrawView::radioGroupRow("_", "aname") ?>
+    </table>
 
 <?php include_once 'footer.php'; ?>

@@ -56,7 +56,7 @@ function fillTechPriceBlock(dataRow) {
 $('i.fa-sync-alt').on('click', function () {
     criteriasOnTechID = 0;
     if (techPosArray[2] == 0) {
-        alert("აირჩიეთ მოდელი!");
+        alert(text_chooseModel);
     } else {
         var criteriasOnText = "";
         criteriasOnText += $('#typename_id').find('option:selected').text();
@@ -240,7 +240,7 @@ techPriceForm.find('i.fa-check').on('click', function () {
         });
         disablePriceForm(techPriceForm);
     } else {
-        alert("აირჩიეთ მოდელი!");
+        alert(text_chooseModel);
     }
 
 });
@@ -287,7 +287,7 @@ divTitle1.find('i.fa-check').on('click', function () {
             }
         });
     } else {
-        alert("აირჩიეთ მოდელი!");
+        alert(text_chooseModel);
     }
 
 });
@@ -398,9 +398,4 @@ $(document).ready(function () {
     loadTypesList(0, 'typename_id');
 
     trToClone = $('table.hidden').find('tr');
-
-//    var cloneRow = trToClone.clone();
-//    cloneRow.attr("data-id", 289);
-//    $('#criteriaValueTableBody').append(cloneRow);
-//    console.log($('table.hidden').find('tr'));
 });

@@ -169,3 +169,13 @@ label {
 #tb_technic_criteria th {
     padding: 3px;
 }
+
+table td.grNameStyle {
+    color: #ca6d3b;
+    font-weight: bold;
+}
+
+span.resNumber {
+    color: #7a1d1b;
+    font-weight: bold;
+}
