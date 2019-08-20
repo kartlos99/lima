@@ -68,7 +68,7 @@ class DrawView
     static function btnsEditSaveCancel()
     {
         $view =
-            '<div class="three-btn-width">
+            '<div>
                 <i class="fas fa-edit fa-2x btn"></i>
                 <i class="fas fa-check fa-2x btn"></i>
                 <i class="fas fa-times fa-2x btn"></i>

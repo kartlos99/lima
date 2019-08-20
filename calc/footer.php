@@ -61,6 +61,12 @@ if ($pos !== false ){
     $thisPage = 'price_calculation';
 }
 
+$pos = strpos($_SERVER['PHP_SELF'], "index.php");
+if ($pos !== false ){
+    echo "src=\"js/page1.js\"";
+    $thisPage = 'main_page';
+}
+
 ?> ></script>
 
 <?php

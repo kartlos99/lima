@@ -6,25 +6,12 @@
  * Time: 3:44 PM
  */
 include_once 'header.php';
-
+include_once 'common_functions.php';
 include_once 'DrawView.php';
 $new_edit = " - ახალი/რედაქტირება";
 $id_simple = "id";
 $note = "შენიშვნა";
 
-function getStatusItems($dbConn, $sCode)
-{
-    $list = [];
-    $sql = "SELECT id as vv, `code`, `value` as tt
-            FROM `States`
-            WHERE ObjectID = getobjid('$sCode')
-            ORDER BY SortID";
-    $result = mysqli_query($dbConn, $sql);
-    foreach ($result as $row) {
-        $list[] = $row;
-    }
-    return $list;
-}
 
 ?>
 
@@ -194,5 +181,7 @@ function getStatusItems($dbConn, $sCode)
     <table class="hidden">
         <?= DrawView::radioGroupRow("_", "aname") ?>
     </table>
+
+
 
 <?php include_once 'footer.php'; ?>

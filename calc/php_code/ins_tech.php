@@ -25,7 +25,14 @@ $parentID = $_POST['parentID'];
 $typeID = $_POST['typeID'];
 
 
-if ($_POST['action'] == "new"){
+if ($_POST['action'] == "new") {
+
+    $sql_check = "SELECT `ID` FROM `techniques_tree` WHERE `Name` = '$techName' AND `ParentID` = $parentID";
+    if (mysqli_num_rows(mysqli_query($conn, $sql_check)) >= 1) {
+        $resultArray['result'] = "error";
+        $resultArray['error'] = "Dublicated Tech Name!";
+        die(json_encode($resultArray));
+    }
 
     $sql = "
 INSERT INTO `techniques_tree`(
@@ -52,6 +59,7 @@ VALUES(
 )
 ";
 
+    $resultArray['sql'] = $sql;
     $result = mysqli_query($conn, $sql);
     if ($result) {
         $insID = mysqli_insert_id($conn);
@@ -95,7 +103,7 @@ SELECT
     }
 }
 
-if ($_POST['action'] == "edit"){
+if ($_POST['action'] == "edit") {
 
     $editingID = $_POST['editingID'];
 
@@ -117,7 +125,6 @@ WHERE
     }
 
 }
-
 
 
 echo(json_encode($resultArray));

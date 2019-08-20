@@ -27,14 +27,14 @@ foreach ($result as $row) {
 }
 
 $tech_types = [];
-$sql = "SELECT di.id, di.code FROM `dictionariyitems` di LEFT JOIN dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'techniques_tree_type'";
+$sql = "SELECT di.id, di.code FROM `DictionariyItems` di LEFT JOIN Dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'techniques_tree_type'";
 $result = mysqli_query($conn, $sql);
 foreach ($result as $row) {
     $tech_types[$row['code']] = $row['id'];
 }
 
 $criteria_types = [];
-$sql = "SELECT di.id, di.code FROM `dictionariyitems` di LEFT JOIN dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'estimate_criteriums_type'";
+$sql = "SELECT di.id, di.code FROM `DictionariyItems` di LEFT JOIN Dictionaries d ON di.`DictionaryID` = d.ID WHERE d.Code = 'estimate_criteriums_type'";
 $result = mysqli_query($conn, $sql);
 foreach ($result as $row) {
     $criteria_types[$row['code']] = $row['id'];

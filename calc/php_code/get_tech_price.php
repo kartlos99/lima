@@ -18,7 +18,7 @@ if (isset($_GET['techID']) && $_GET['techID'] != '') {
 
     $sql = "
 SELECT t.*, s.Code AS pcwStatus FROM `tech_price` t
-LEFT JOIN states s
+LEFT JOIN States s
 ON t.StatusID = s.ID
 WHERE t.TechTreeID = $techID";
 

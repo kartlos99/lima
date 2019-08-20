@@ -2,6 +2,12 @@
 // header('location: login.php');
 include_once('login_script.php'); // Includes Login Script
 
+if (!isset($_SESSION['username'])) {
+    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/login.php";
+//    $url = str_replace('administrator/page1.php', 'login.php', $url);
+    header("Location: $url");
+}
+
 $url = "";
 if ($_SESSION['usertype'] != null){
     $page = 'main';

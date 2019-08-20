@@ -15,26 +15,26 @@ $resultArray = [];
 
 //
 //$apNumber= $_POST['ApNumber'];
-$apNumber = Date( time());
-$apDate= $currDate;
+$apNumber = Date(time());
+$apDate = $currDate;
 
 
-$techTreeID= $_POST['TechTreeID'];
-$techModelFix= $_POST['TechModelFix'];
-$techSerial= $_POST['TechSerial'];
-$techIMEI= $_POST['TechIMEI'];
-$note= $_POST['note'];
+$techTreeID = $_POST['TechTreeID'];
+$techModelFix = $_POST['TechModelFix'];
+$techSerial = $_POST['TechSerial'];
+$techIMEI = $_POST['TechIMEI'];
+$note = $_POST['note'];
 //$EstimateResult1= $_POST['EstimateResult1'];
 //$EstimateResult2= $_POST['EstimateResult2'];
-$sysTechPrice= $_POST['SysTechPrice'];
-$managerAdd= $_POST['ManagerAdd'];
-$clientDec= $_POST['ClientDec'];
-$corTechPrice= $_POST['CorTechPrice'];
+$sysTechPrice = $_POST['SysTechPrice'];
+$managerAdd = $_POST['ManagerAdd'];
+$clientDec = $_POST['ClientDec'];
+$corTechPrice = $_POST['CorTechPrice'];
 
-$apStatus= isset($_POST['ApStatus']) ? $_POST['ApStatus'] : "getstateid('Project', 37)";
-$organizationID= isset($_POST['OrganizationID']) ? $_POST['OrganizationID'] : 0;
-$branchID = isset($_POST['BranchID']) ? $_POST['BranchID'] : 0;
-$agreementNumber= isset($_POST['AgreementNumber']) ? $_POST['AgreementNumber'] : "";
+$apStatus = isset($_POST['ApStatus']) ? $_POST['ApStatus'] : "getstateid('Project', getobjid('app_states'))";
+$organizationID = isset($_POST['OrganizationID']) && $_POST['OrganizationID'] != "" ? $_POST['OrganizationID'] : 0;
+$branchID = isset($_POST['BranchID']) && $_POST['BranchID'] != "" ? $_POST['BranchID'] : 0;
+$agreementNumber = isset($_POST['AgreementNumber']) ? $_POST['AgreementNumber'] : "";
 
 $record_id = $_POST['record_id'];
 
@@ -82,7 +82,6 @@ VALUES(
     $resultArray['ApNumber'] = $apNumber;
     $resultArray['ApDate'] = Date("Y-m-d", time());
 } else {
-
 
 
     $sql = "

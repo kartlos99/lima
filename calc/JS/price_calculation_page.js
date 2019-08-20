@@ -6,7 +6,7 @@ var criteriasData;
 var priceCalculated = 0;
 var appRecID = 0;
 var checkedCriteriastext;
-
+var estimateResultSucces = false;
 var ganacxadiN;
 
 function compare(a, b) {
@@ -21,6 +21,7 @@ function compare(a, b) {
 
 $('#btnRate').on('click', function () {
     var emptyRows = criteriasConteiner.find('tr[data-answ=0]');
+    estimateResultSucces = false;
 
     if (emptyRows.length > 0) {
         alert("აუცილებელია ყველა კრიტერიუმზე მნიშვნელობის დაფიქსირება!");
@@ -65,33 +66,34 @@ $('#btnRate').on('click', function () {
             $('#reteResultText').text("არ ვიტოვებთ!").addClass('alert-warning').removeClass('alert-success');
             $('#rateResultNumber').text(0);
         } else {
+            estimateResultSucces = true;
             $('#reteResultText').text("შეფასება განხორციელდა წარმატებით !").addClass('alert-success').removeClass('alert-warning');
             $('#rateResultNumber').text(priceCalculated);
         }
 
-        // console.log("nna", selN);
+        console.log("estimateResultSucces", estimateResultSucces);
     }
 });
 
 function calculateImpact(dataRow, currPrice) {
     var newValue;
-
+    currPrice = parseFloat(currPrice);
     switch (dataRow.impactTypeCode) {
         case "coefficient":
-            newValue = currPrice * dataRow.ImpactValue;
+            newValue = currPrice * parseFloat(dataRow.ImpactValue);
             break;
         case "percent":
             if (dataRow.impactCode == "positive") {
-                newValue = currPrice + (currPrice / 100) * dataRow.ImpactValue;
+                newValue = currPrice + (currPrice / 100) * parseFloat(dataRow.ImpactValue);
             } else {
-                newValue = currPrice - (currPrice / 100) * dataRow.ImpactValue;
+                newValue = currPrice - (currPrice / 100) * parseFloat(dataRow.ImpactValue);
             }
             break;
         case "money":
             if (dataRow.impactCode == "positive") {
-                newValue = currPrice + dataRow.ImpactValue;
+                newValue = currPrice + parseFloat(dataRow.ImpactValue);
             } else {
-                newValue = currPrice - dataRow.ImpactValue;
+                newValue = currPrice - parseFloat(dataRow.ImpactValue);
             }
             break;
     }
@@ -237,15 +239,21 @@ priceCorectionTable.find('input[type=checkbox]').on('click', function () {
     if (!correction) {
         $('#corection_id').val(0);
         $('#rateResultNumberCorected').text(0);
+    }else {
+        $('#corection_id').val(parseFloat(priceCalculated).toFixed(2));
     }
 });
 
 $('#corection_id').on('blur', function () {
-    $('#rateResultNumberCorected').text(parseFloat($('#corection_id').val()));
+    $('#rateResultNumberCorected').text(parseFloat($('#corection_id').val()).toFixed(2));
 });
 
 $('#btnInfoGen').on('click', function () {
-    if (priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") && $('#corection_id').val() - priceCalculated > 50) {
+    $('#finalInfo').empty();
+    console.log("estimateResultSucces", estimateResultSucces);
+    if (!estimateResultSucces) {
+        alert("შეფასება განხორციელდა წარუმატებლად!");
+    } else if (priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") && $('#corection_id').val() - priceCalculated > 50) {
         alert("გასაცემი თანხა 50 ლარზე მეტად აღემატება გამოთვლილ მნიშვნელობას!");
     } else if (!$('#serial_N_id').val()) {
         alert("seriuli nomeri araa Seyvanili");
@@ -275,7 +283,7 @@ $('#btnInfoGen').on('click', function () {
                 console.log(response);
                 if (response.result == "success") {
 
-                    if (appRecID == 0){
+                    if (appRecID == 0) {
                         ganacxadiN = response.ApNumber + " " + response.ApDate;
                     }
                     appRecID = response.record_id;
@@ -284,18 +292,18 @@ $('#btnInfoGen').on('click', function () {
                     var teqnika = $('#type_id').find('option:selected').text() + ", " + $('#brand_id').find('option:selected').text() + ", " + $('#model_id').find('option:selected').text()
                         + " (" + $('#modelbyhand_id').val() + " IMEI: " + $('#imei_id').val() + ". SN: " + $('#serial_N_id').val() + ")";
                     var mdgomareoba = checkedCriteriastext.trim(", ");
-                    var gacemuli =  correction ? $('#corection_id').val() : priceCalculated ;
-                    var correctionText = correction ? "დიახ" : "არა" ;
+                    var gacemuli = correction ? $('#corection_id').val() : priceCalculated;
+                    var correctionText = correction ? "დიახ" : "არა";
 
                     var br = "</br>";
 
-                    $('#finalInfo').empty();
+
                     $('#finalInfo').append("განაცხადი N: " + ganacxadiN, br);
                     $('#finalInfo').append("ტექნიკა: " + teqnika, br);
                     $('#finalInfo').append("მდგომარეობა: " + mdgomareoba, br);
                     $('#finalInfo').append("თანხა სისტემიდან: " + priceCalculated + " ₾", br);
                     $('#finalInfo').append("თანხის კორექტირება: " + correctionText, br);
-                    $('#finalInfo').append("გაცემული თანხა: " + gacemuli  + " ₾", br);
+                    $('#finalInfo').append("გაცემული თანხა: " + gacemuli + " ₾", br);
 
                 } else {
                     console.log(response.error);
@@ -345,22 +353,19 @@ $(document).ready(function () {
 
     trToClone = $('table.hidden').find('tr');
 
-    var requestObj = {
-        'org': 'org'
-        // 'status': ['Agreements', 'ApplID'],
-        // 'dict_codes': ['iPhoneModels']
-    };
-
     $.ajax({
         url: '../php_code/get_dropdown_lists.php',
         method: 'post',
-        data: requestObj,
+        data: {
+            'org': 'org'
+        },
         dataType: 'json',
         success: function (response) {
             console.log(response);
 
             //<!--    organizaciebis chamonatvali -->
             organizationObj = response.org;
+            $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#organization_id');
             organizationObj.forEach(function (item) {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#organization_id');
             });

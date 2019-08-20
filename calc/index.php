@@ -6,7 +6,7 @@
  * Time: 10:54 PM
  */
 include_once 'DrawView.php';
-
+include_once 'common_functions.php';
 include_once 'header.php';
 $id_simple = "id";
 $note = "შენიშვნა";
@@ -55,10 +55,10 @@ $note = "შენიშვნა";
                 <?= DrawView::simpleInput($id_simple, "application_N", "განაცხადის_N") ?>
             </td>
             <td>
-                <?= DrawView::simpleInput($id_simple, "date_from", "განაცხადის თარიღი (დან)", "date") ?>
+                <?= DrawView::simpleInput($id_simple, "date_from", "განაცხადის თარიღი (დან)", "", "date") ?>
             </td>
             <td>
-                <?= DrawView::simpleInput($id_simple, "date_till", "განაცხადის თარიღი (მდე)", "date") ?>
+                <?= DrawView::simpleInput($id_simple, "date_till", "განაცხადის თარიღი (მდე)", "", "date") ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "agreement_N", "ხელშეკრულება_N") ?>
@@ -69,13 +69,13 @@ $note = "შენიშვნა";
     <table class="table-section">
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "განაცხადის სტატუსი", "application_status") ?>
+                <?= DrawView::selector($id_simple, "განაცხადის სტატუსი", "application_status", getStatusItems($conn, "app_states")) ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "საკონტროლო შეფასების შედეგი", "control_rate_result") ?>
+                <?= DrawView::selector($id_simple, "საკონტროლო შეფასების შედეგი", "control_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "დეტალური შეფასების შედეგი", "detail_rate_result") ?>
+                <?= DrawView::selector($id_simple, "დეტალური შეფასების შედეგი", "detail_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
             </td>
             <td>
                 <button id="btnSearch" class="btn"><b>ძებნა</b></button>
@@ -93,6 +93,7 @@ $note = "შენიშვნა";
     </table>
 
 <?= DrawView::titleRow("ტექნიკის ღირებულებისა და შეფასების კრიტერიუმები") ?>
+<?php $id_simple = "id2" ?>
 
 
     <table class="table-section">
@@ -108,7 +109,7 @@ $note = "შენიშვნა";
                 <?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "ღირებულებისა და კრიტერიუმების წონების სტატუსი", "price_criteria_status") ?>
+                <?= DrawView::selector($id_simple, "ღირებულებისა და კრიტერიუმების წონების სტატუსი", "price_criteria_status", getStatusItems($conn, 'tech_and_crit_weight_states')) ?>
             </td>
         </tr>
         </tbody>
@@ -117,13 +118,13 @@ $note = "შენიშვნა";
         <tbody>
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "ღირებულების სტატუსი", "price_status") ?>
+                <?= DrawView::selector($id_simple, "ღირებულების სტატუსი", "price_status", getStatusItems($conn, 'price_calc_item_states')) ?>
             </td>
             <td>
-                <?= DrawView::simpleInput($id_simple, "price_date_from", "ღირებ. გადახედვის თარიღი (დან-მდე)", "date") ?>
+                <?= DrawView::simpleInput($id_simple, "price_date_from", "ღირებ. გადახედვის თარიღი (დან-მდე)", "", "date") ?>
             </td>
             <td>
-                <?= DrawView::simpleInput($id_simple, "price_date_till", "", "date") ?>
+                <?= DrawView::simpleInput($id_simple, "price_date_till", "", "", "date") ?>
             </td>
         </tr>
         </tbody>
@@ -131,19 +132,19 @@ $note = "შენიშვნა";
     <table class="table-section">
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "კრიტერიუმების ჯგუფი", "criteria_group") ?>
+                <?= DrawView::selector($id_simple, "კრიტერიუმების ჯგუფი", "criteria_group", getCriteriumItems($conn)) ?>
             </td>
             <td>
                 <?= DrawView::selector($id_simple, "შეფასების კრიტერიუმი", "criteria") ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "კრიტ. სტატუსი", "criteria_status") ?>
+                <?= DrawView::selector($id_simple, "კრიტ. სტატუსი", "criteria_status", getStatusItems($conn, 'estimate_criteriums')) ?>
             </td>
             <td>
-                <?= DrawView::simpleInput($id_simple, "krit_date_from", "კრიტ. გადახედვის თარიღი (დან-მდე)", "date") ?>
+                <?= DrawView::simpleInput($id_simple, "krit_date_from", "კრიტ. გადახედვის თარიღი (დან-მდე)", "", "date") ?>
             </td>
             <td>
-                <?= DrawView::simpleInput($id_simple, "krit_date_till", "", "date") ?>
+                <?= DrawView::simpleInput($id_simple, "krit_date_till", "", "", "date") ?>
             </td>
             <td>
                 <button id="btnSearch" class="btn"><b>ძებნა</b></button>
@@ -159,9 +160,6 @@ $note = "შენიშვნა";
             <td>table</td>
         </tr>
     </table>
-
-
-
 
 
 <?php include_once 'footer.php'; ?>

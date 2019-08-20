@@ -63,6 +63,9 @@ $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
                     disableInputs(trtr);
                     loadTypesList(parentID, trtr.find("td.selobject select").attr("id"));
                 }
+                if (response.result == "error") {
+                    alert(response.error);
+                }
             }
         });
     }
@@ -119,10 +122,18 @@ $('#critManage').find("i.fa-arrow-alt-circle-left").on("click", function () {
             dataType: 'json',
             success: function (response) {
                 console.log("resp: ", response);
-                if (response.result == "success") {
-                    disableInputs(trtr);
-                    loadCriteriaslist(criteriasOnTechID, parentID, trtr.find("td.selobject select").attr("id"));
+                if (response.result != undefined){
+                    if (response.result == "success") {
+                        disableInputs(trtr);
+                        loadCriteriaslist(criteriasOnTechID, parentID, trtr.find("td.selobject select").attr("id"));
+                    }
+                    if (response.result == "error") {
+                        alert(response.error);
+                    }
+                }else {
+                    alert("Connection Error!")
                 }
+
             }
         });
     }

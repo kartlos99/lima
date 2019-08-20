@@ -37,21 +37,21 @@ LEFT JOIN estimate_criteriums egr
 ON emap.`ParentID` = egr.ID
 LEFT JOIN estimate_criteriums ecr
 ON emap.`CriteriumID` = ecr.ID
-LEFT JOIN states s
+LEFT JOIN States s
 ON emap.`CriteriumStatusID` = s.ID
 LEFT JOIN estimate_criterium_values ecv
 ON emap.ID = ecv.EstimateCriteriumID
-LEFT JOIN states s2
+LEFT JOIN States s2
 ON ecv.CritValuesStatusID = s2.ID
-LEFT JOIN dictionariyitems di1
+LEFT JOIN DictionariyItems di1
 ON ecv.Impact = di1.ID
-LEFT JOIN dictionariyitems di2
+LEFT JOIN DictionariyItems di2
 ON ecv.ImpactType = di2.ID
 WHERE
     emap.`TechTreeID` = $techID AND emap.`ParentID` <> 0 " . $filterActive . $filterActiveValue . " 
     AND `CriteriumID` NOT IN (
             SELECT DISTINCT `CriteriumID` FROM estimate_criteriums_mapping e
-        LEFT JOIN states s ON s.ID = e.CriteriumStatusID
+        LEFT JOIN States s ON s.ID = e.CriteriumStatusID
         WHERE
             `TechTreeID` IN (
             SELECT $techID AS ParentID
@@ -65,7 +65,7 @@ WHERE
         AND s.code <> 'Active')
 	AND  emap.`ParentID` NOT IN (
             SELECT DISTINCT `CriteriumID` FROM estimate_criteriums_mapping e
-        LEFT JOIN states s ON s.ID = e.CriteriumStatusID
+        LEFT JOIN States s ON s.ID = e.CriteriumStatusID
         WHERE
             `TechTreeID` IN (
             SELECT $techID AS ParentID
@@ -107,7 +107,7 @@ LEFT JOIN estimate_criteriums egr
 ON emap.`ParentID` = egr.ID
 LEFT JOIN estimate_criteriums ecr
 ON emap.`CriteriumID` = ecr.ID
-LEFT JOIN states s
+LEFT JOIN States s
 ON emap.`CriteriumStatusID` = s.ID
 WHERE
     emap.`TechTreeID` = $techID 
@@ -116,7 +116,7 @@ ORDER BY egr.Name, ecr.Name
 ) as em1
 LEFT JOIN estimate_criteriums_mapping em2
     ON em2.CriteriumID = em1.`ParentID`
-LEFT JOIN states ss
+LEFT JOIN States ss
 ON em2.`CriteriumStatusID` = ss.ID    
 WHERE em2.`TechTreeID` = $techID ";
     }

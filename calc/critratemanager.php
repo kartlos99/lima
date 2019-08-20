@@ -13,19 +13,6 @@ $new_edit = " - ახალი/რედაქტირება";
 $id_simple = "id";
 $note = "შენიშვნა";
 
-function getStatusItems($dbConn, $sCode)
-{
-    $list = [];
-    $sql = "SELECT id as vv, `code`, `value` as tt
-            FROM `States`
-            WHERE ObjectID = getobjid('$sCode')
-            ORDER BY SortID";
-    $result = mysqli_query($dbConn, $sql);
-    foreach ($result as $row) {
-        $list[] = $row;
-    }
-    return $list;
-}
 
 $tech_and_crit_weight_states = getStatusItems($conn, 'tech_and_crit_weight_states');
 $price_calc_item_states = getStatusItems($conn, 'price_calc_item_states');
@@ -34,8 +21,8 @@ function getDictionariyItems($dbConn, $dCode)
 {
     $list = [];
     $sql = "SELECT di.id as vv, di.ValueText as tt, di.code
-            FROM `dictionariyitems` di
-            LEFT JOIN dictionaries d
+            FROM `DictionariyItems` di
+            LEFT JOIN Dictionaries d
                 ON di.`DictionaryID` = d.ID
             WHERE d.Code = '$dCode'
             ORDER BY SortID";
