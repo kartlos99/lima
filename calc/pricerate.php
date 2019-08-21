@@ -109,12 +109,13 @@ $note = "შენიშვნა";
     <input type="hidden" id="atext"/>
     <p id="finalInfo"> INFO </p>
 
+<?php $id_simple = "id_app" ?>
 
     <table class="table" id="tbPriceRate2">
         <tr>
             <td class="half-width">
                 <?= DrawView::titleRow("განაცხადი და ხელშეკრულება") ?>
-                <p id="localInfo1">განაცხადი N</p>
+                <p id="localInfo1">განაცხადი N: <span></span></p>
                 <table class="table">
                     <tr>
                         <td>
@@ -138,6 +139,7 @@ $note = "შენიშვნა";
                 </table>
 
             </td>
+            <?php $id_simple = "id_control" ?>
             <td class="half-width">
                 <?= DrawView::titleRow("საკონტროლო შეფასება") ?>
                 <p id="localInfo2">თარიღი 243243</p>
@@ -160,6 +162,7 @@ $note = "შენიშვნა";
         </tr>
     </table>
 
+<?php $id_simple = "id_market" ?>
 <?= DrawView::titleRow("მაღაზიაში გადატანა") ?>
     <p id="localInfo3">თარიღი 243243</p>
     <table class="table">

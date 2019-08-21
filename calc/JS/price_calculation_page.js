@@ -8,6 +8,9 @@ var appRecID = 0;
 var checkedCriteriastext;
 var estimateResultSucces = false;
 var ganacxadiN;
+var selectedCriteriaIDs = [];
+var allCriteriaIDs = [];
+var groupsHavingMainCrit = [];
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -28,7 +31,9 @@ $('#btnRate').on('click', function () {
     } else {
         var selecterRows = criteriasConteiner.find('tr[data-answ=yes]');
         // console.log("posAnsw:", selecterRows);
-        var selN = [];
+        selectedCriteriaIDs = [];
+
+        groupsHavingMainCrit = [];
         var minOut = 0;
         var dontLeave = false;
         priceCalculated = maxPrice;
@@ -36,22 +41,33 @@ $('#btnRate').on('click', function () {
 
         selecterRows.each(function (index) {
             // console.log( index + ": " + $( this ).attr("data-id") );
-            selN.push($(this).attr("data-id"));
+            selectedCriteriaIDs.push($(this).attr("data-id"));
         });
 
         criteriasData.sort(compare);
 
         criteriasData.forEach(function (item) {
-            if (selN.includes(item.id)) {
+            if (selectedCriteriaIDs.includes(item.id) && item.IsMain == 1) {
+                groupsHavingMainCrit.push(item.gr);
+            }
+        });
+
+        console.log('wMain:', groupsHavingMainCrit);
+
+        criteriasData.forEach(function (item) {
+            if (selectedCriteriaIDs.includes(item.id)) {
                 console.log('id', item.id);
-                if (item.impactCode == "min_out") {
-                    minOut += item.ImpactValue;
-                } else if (item.impactCode == "dont_leave") {
-                    dontLeave = true;
-                } else if (item.impactCode == "negative" || item.impactCode == "positive") {
-                    priceCalculated = calculateImpact(item, priceCalculated);
-                    console.log("prMAX:", maxPrice);
-                    console.log("prCalc:", priceCalculated);
+
+                if ((groupsHavingMainCrit.includes(item.gr) && item.IsMain == 1) || !groupsHavingMainCrit.includes(item.gr)) {
+                    if (item.impactCode == "min_out") {
+                        minOut += item.ImpactValue;
+                    } else if (item.impactCode == "dont_leave") {
+                        dontLeave = true;
+                    } else if (item.impactCode == "negative" || item.impactCode == "positive") {
+                        priceCalculated = calculateImpact(item, priceCalculated);
+                        console.log("prMAX:", maxPrice);
+                        console.log("prCalc:", priceCalculated);
+                    }
                 }
                 checkedCriteriastext += item.criteria;
                 checkedCriteriastext += ", ";
@@ -136,27 +152,6 @@ $('#btnStartPriceRate').on('click', function () {
 
 
 function getEstimateInfo() {
-    // $.ajax({
-    //     url: 'php_code/get_tech_price.php',
-    //     method: 'get',
-    //     data: {'techID': selectedModel},
-    //     dataType: 'json',
-    //     success: function (response) {
-    //
-    //         if (response.length > 0) {
-    //             techPriceRow = response[0];
-    //             fillTechPriceBlock(response[0]);
-    //             $('#price_crit_weight_status_id').val(techPriceRow.StatusID);
-    //             printout(response)
-    //         } else {
-    //             $('#tech_price').trigger('reset');
-    //             $('#techPriceRecordID').val(0);
-    //             existingTechPriceRecordID = 0;
-    //         }
-    //         console.log("existingTechPriceRecordID", existingTechPriceRecordID);
-    //     }
-    // });
-    // $('#techID').val(criteriasOnTechID);
     criteriasData = [];
     $.ajax({
         url: 'php_code/get_criterias_on_tech.php',
@@ -174,11 +169,14 @@ function getEstimateInfo() {
             var grName = "";
 
             criteriasConteiner.empty();
+            allCriteriaIDs = [];
 
             response.forEach(function (item) {
                 // console.log(item);
                 var cloneRow = trToClone.clone();
                 cloneRow.attr("data-id", item.id);
+                allCriteriaIDs.push(item.id);
+                console.log('allCriteriaIDs', allCriteriaIDs);
 
                 if (grName != item.gr) {
                     var td_grName = $('<td />').text(item.gr);
@@ -239,7 +237,7 @@ priceCorectionTable.find('input[type=checkbox]').on('click', function () {
     if (!correction) {
         $('#corection_id').val(0);
         $('#rateResultNumberCorected').text(0);
-    }else {
+    } else {
         $('#corection_id').val(parseFloat(priceCalculated).toFixed(2));
     }
 });
@@ -249,6 +247,8 @@ $('#corection_id').on('blur', function () {
 });
 
 $('#btnInfoGen').on('click', function () {
+    console.log("all", allCriteriaIDs);
+    console.log("allss", selectedCriteriaIDs);
     $('#finalInfo').empty();
     console.log("estimateResultSucces", estimateResultSucces);
     if (!estimateResultSucces) {
@@ -274,9 +274,12 @@ $('#btnInfoGen').on('click', function () {
                 'ManagerAdd': priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") ? 1 : 0,
                 'ClientDec': priceCorectionTable.find('input[name=dec_by_client]').is(":checked") ? 1 : 0,
                 'CorTechPrice': $('#corection_id').val(),
-                'OrganizationID': $('#organization_id').val(),
-                'BranchID': $('#filial_id').val(),
-                'record_id': appRecID
+                // 'OrganizationID': $('#organization_id').val(),
+                // 'BranchID': $('#filial_id_app').val(),
+                'selectedCriteriaIDs': selectedCriteriaIDs,
+                'allCriteriaIDs': allCriteriaIDs,
+                'record_id': appRecID,
+                'event': 'gen_info'
             },
             dataType: 'json',
             success: function (response) {
@@ -297,6 +300,7 @@ $('#btnInfoGen').on('click', function () {
 
                     var br = "</br>";
 
+                    $('#localInfo1 span').text(ganacxadiN);
 
                     $('#finalInfo').append("განაცხადი N: " + ganacxadiN, br);
                     $('#finalInfo').append("ტექნიკა: " + teqnika, br);
@@ -313,6 +317,44 @@ $('#btnInfoGen').on('click', function () {
     }
 
 
+});
+
+$('#btnSave').on('click', function () {
+    $.ajax({
+        url: 'php_code/ins_application.php',
+        method: 'post',
+        data: {
+            'TechTreeID': selectedModel,
+            'record_id': appRecID,
+
+            'OrganizationID': $('#organization_id_app').val(),
+            'BranchID': $('#filial_id_app').val(),
+            'agreement_app': $('#agreement_id_app').val(),
+            'ApStatus': $('#status_id_app').val(),
+            'note_app': $('#note_id_app').val(),
+
+            'control_rate_result_id_control': $('#control_rate_result_id_control').val(),
+            'adjusted_amount_id_control': $('#adjusted_amount_id_control').val(),
+            'note_id_control': $('#note_id_control').val(),
+
+            'detail_rate_result_id_market': $('#detail_rate_result_id_market').val(),
+            'adjusted_amount_id_market': $('#adjusted_amount_id_market').val(),
+            'note_id_market': $('#note_id_market').val(),
+
+            'event': 'btn_save'
+        },
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.result == "success") {
+
+
+
+            } else {
+                console.log(response.error);
+            }
+        }
+    });
 });
 
 $('#type_id').on('change', function () {
@@ -365,40 +407,44 @@ $(document).ready(function () {
 
             //<!--    organizaciebis chamonatvali -->
             organizationObj = response.org;
-            $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#organization_id');
+            $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#organization_id_app');
             organizationObj.forEach(function (item) {
-                $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#organization_id');
+                $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#organization_id_app');
             });
 
         }
     });
+
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#control_rate_result_id_control');
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#detail_rate_result_id_market');
+    $('#control_rate_result_id_control, #detail_rate_result_id_market').val(0);
 });
 
-$('#organization_id').on('change', function () {
+$('#organization_id_app').on('change', function () {
 
-    org_p1 = $('#organization_id').val();
+    org_p1 = $('#organization_id_app').val();
 
     loadBranches11(org_p1, 0)
 });
 
 function loadBranches11(orgID, brID) {
-    $('#filial_id').empty().removeAttr('disabled');
+    $('#filial_id_app').empty().removeAttr('disabled');
 
     // <!--    filialebis chamonatvali -->
     if (orgID == "") {
-        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#filial_id');
+        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#filial_id_app');
     } else {
         organizationObj.forEach(function (org) {
             if (org.id == orgID) {
                 var branches = org.branches;
                 if (branches.length != 1) {
-                    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#filial_id');
+                    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#filial_id_app');
                 }
                 branches.forEach(function (item) {
-                    $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#filial_id');
+                    $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#filial_id_app');
                 });
                 if (brID > 0) {
-                    $('#filial_id').val(brID);
+                    $('#filial_id_app').val(brID);
                 }
             }
         });

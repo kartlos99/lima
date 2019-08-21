@@ -7,6 +7,8 @@ var techPriceForm = $('#tech_price');
 var divTitle1 = $('div.title1');
 var priceAndCritWeightStatusSelector = $('#price_crit_weight_status_id');
 
+var criteriasData;
+var groupsHavingMainCrit = [];
 
 
 $('#typename_id').on('change', function () {
@@ -99,6 +101,18 @@ $('i.fa-sync-alt').on('click', function () {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
+                criteriasData = response.slice();
+                groupsHavingMainCrit = [];
+
+                criteriasData.forEach(function (item) {
+                    if (item.IsMain == 1) {
+                        groupsHavingMainCrit.push({
+                            'name': item.gr,
+                            'id': item.id
+                        });
+                    }
+                });
+
                 var grName = "";
                 $('#criteriaValueTableBody').empty();
 
@@ -114,7 +128,7 @@ $('i.fa-sync-alt').on('click', function () {
                         grName = item.gr;
                     }
                     console.log(item);
-                    cloneRow.find('td.crit-name').addClass("criteria-name").text(item.criteria);
+                    cloneRow.find('td.crit-name').addClass("criteria-name").attr("data-gr", item.gr).text(item.criteria);
 
                     var chackMain = item.IsMain == 1;
 
@@ -145,33 +159,50 @@ var criteriaValueEditTable = $('#tb_technic_criteria');
 
 criteriaValueEditTable.on('click', 'i.fa-check', function () {
     var thisRow = $(this).closest("tr");
+    var mainCritConflict = false;
 
-    $.ajax({
-        url: 'php_code/ins_criteria_values.php',
-        method: 'post',
-        data: {
-            'criteriumID': thisRow.attr("data-id"),
-            'impact': thisRow.find('select.id_impact').val(),
-            'impact_type': thisRow.find('select.id_type').val(),
-            'size': thisRow.find('input.id_size').val(),
-            'is_main': thisRow.find('input.chk-box').is(":checked") ? 1 : 0,
-            'rev_day': thisRow.find('input.id_day').val(),
-            'rev_date': thisRow.find('input.id_date').val(),
-            'status': thisRow.find('select.id_status').val(),
-            'record_id': thisRow.attr("data-recID")
-        },
-        dataType: 'json',
-        success: function (response) {
-            console.log(response);
-            if (response.result == "success") {
-                thisRow.attr("data-recID", response.record_id);
-            } else {
-                console.log(response.error);
+    if (thisRow.find('input.chk-box').is(":checked")) {
+        var grName = thisRow.find('td.crit-name').attr("data-gr");
+        groupsHavingMainCrit.forEach(function (item) {
+            if (item.name == grName && thisRow.attr("data-id") != item.id) {
+
+                mainCritConflict = true;
             }
-        }
-    });
+        })
+    }
 
-    disableValueInputForm(thisRow);
+    if (mainCritConflict) {
+        alert("ამ ჯგუფში უკვე ბანსაზღვრულია ერთი მთავარი კრიტერიუმი!");
+    } else {
+        $.ajax({
+            url: 'php_code/ins_criteria_values.php',
+            method: 'post',
+            data: {
+                'criteriumID': thisRow.attr("data-id"),
+                'impact': thisRow.find('select.id_impact').val(),
+                'impact_type': thisRow.find('select.id_type').val(),
+                'size': thisRow.find('input.id_size').val(),
+                'is_main': thisRow.find('input.chk-box').is(":checked") ? 1 : 0,
+                'rev_day': thisRow.find('input.id_day').val(),
+                'rev_date': thisRow.find('input.id_date').val(),
+                'status': thisRow.find('select.id_status').val(),
+                'record_id': thisRow.attr("data-recID")
+            },
+            dataType: 'json',
+            success: function (response) {
+                console.log(response);
+                if (response.result == "success") {
+                    thisRow.attr("data-recID", response.record_id);
+                } else {
+                    console.log(response.error);
+                }
+                $('i.fa-sync-alt').trigger('click');
+            }
+        });
+    }
+
+
+    // disableValueInputForm(thisRow);
     console.log(thisRow.attr("data-id"));
 });
 
@@ -187,7 +218,7 @@ criteriaValueEditTable.on('click', 'i.fa-edit', function () {
     thisRow.find('input.chk-box').attr("disabled", false);
 });
 
-function disableValueInputForm(conteinerRow){
+function disableValueInputForm(conteinerRow) {
     conteinerRow.find('select').attr("readonly", true).find('option').attr('disabled', true);
     conteinerRow.find('input').attr("readonly", true);
     conteinerRow.find('input.chk-box').attr("disabled", true);
@@ -196,7 +227,7 @@ function disableValueInputForm(conteinerRow){
 criteriaValueEditTable.on('change', 'input.id_day', function () {
     var thisRow = $(this).closest("tr");
     var revisionDate = new Date();
-    var days = revisionDate.getDate() + parseInt( thisRow.find('input.id_day').val());
+    var days = revisionDate.getDate() + parseInt(thisRow.find('input.id_day').val());
 
     revisionDate.setDate(days);
     console.log(revisionDate);
@@ -257,7 +288,7 @@ techPriceForm.find('i.fa-times').on('click', function () {
     disablePriceForm(techPriceForm);
 });
 
-function disablePriceForm(aform){
+function disablePriceForm(aform) {
     aform.find('input').attr("readonly", true);
     aform.find('select').attr("readonly", true).find('option').attr('disabled', true);
 }
@@ -356,7 +387,7 @@ function calculateMaxPrice() {
     checkCalculationType(amount);
 }
 
-function checkCalculationType(amount){
+function checkCalculationType(amount) {
     if ($('#calc_type_id').find('option:selected').data("code") == "impact_on_fees") {
         $('#max_amount_id').val(amount).attr("readonly", true);
     } else {
