@@ -23,8 +23,8 @@ $query .= isset($_POST['organization']) && $_POST['organization'] != "" && $_POS
 $query .= isset($_POST['filial']) && $_POST['filial'] != "" && $_POST['filial'] != "0" ? " AND BranchID = " . $_POST['filial'] : "";
 $query .= isset($_POST['operator']) && $_POST['operator'] != "" ? " AND app.`ModifyUser` like '" . $_POST['operator'] . "%'" : "";
 $query .= isset($_POST['application_N']) && $_POST['application_N'] != "" ? " AND app.`ApNumber` like '" . $_POST['application_N'] . "%'" : "";
-$query .= isset($_POST['date_from']) && $_POST['date_from'] != "" ? " AND app.`ApDate` >= " . $_POST['date_from'] : "";
-$query .= isset($_POST['date_till']) && $_POST['date_till'] != "" ? " AND app.`ApDate` <= " . $_POST['date_till'] : "";
+$query .= isset($_POST['date_from']) && $_POST['date_from'] != "" ? " AND app.`ApDate` >= '" . $_POST['date_from'] . "'" : "";
+$query .= isset($_POST['date_till']) && $_POST['date_till'] != "" ? " AND app.`ApDate` <= '" . $_POST['date_till'] . "'" : "";
 $query .= isset($_POST['agreement_N']) && $_POST['agreement_N'] != "" ? " AND app.`AgreementNumber` like '" . $_POST['agreement_N'] . "%'" : "";
 $query .= isset($_POST['application_status']) && $_POST['application_status'] != "" && $_POST['application_status'] != "0" ? " AND app.`ApStatus` = " . $_POST['application_status'] : "";
 $query .= isset($_POST['control_rate_result']) && $_POST['control_rate_result'] != "" && $_POST['control_rate_result'] != "0" ? " AND `CEstStatus` = " . $_POST['control_rate_result'] : "";

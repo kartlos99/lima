@@ -81,7 +81,7 @@ $note = "შენიშვნა";
                     <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
                 </td>
                 <td>
-                    <button id="btnClearApp" class="btn"><b>გასუბთავება</b></button>
+                    <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button>
                 </td>
             </tr>
         </table>
@@ -100,6 +100,7 @@ $note = "შენიშვნა";
 <?= DrawView::titleRow("ტექნიკის ღირებულებისა და შეფასების კრიტერიუმები") ?>
 <?php $id_simple = "id2" ?>
 
+    <form id="critListForm" action="">
 
     <table class="table-section">
         <tbody>
@@ -155,15 +156,21 @@ $note = "შენიშვნა";
                 <button id="btnSearchCrit" class="btn"><b>ძებნა</b></button>
             </td>
             <td>
-                <button id="btnClearCrit" class="btn"><b>გასუბთავება</b></button>
+                <button id="btnClearCrit" class="btn"><b>გასუფთავება</b></button>
             </td>
         </tr>
     </table>
 
-    <table class="table-bordered">
+    </form>
+
+    <p id="titleForTechPriceTable" class="mytbtitle"></p>
+    <table id="critListTable" class="table-bordered table">
+        <thead>
         <tr>
-            <td>table</td>
+            <?= headerRow(["ID", "ტიპი", "ბრენდი", "მოდელი", "ღირ.კრიტ. წონის სტატუსი", "ღირ. სტატუსი", "ღირ. გადახ. თარიღი", "მახას. ჯგუფი", "მახას. კრიტერიუმი", "კრიტ. სტატუსი", "კრიტ. გადახ. თარიღი"], 0, 1) ?>
         </tr>
+        </thead>
+        <tbody></tbody>
     </table>
 
 

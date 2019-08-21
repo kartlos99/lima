@@ -28,14 +28,14 @@ $techID = $_POST['techID'];
 $techArr = $_POST['techArr'];
 $RealParentID = $_POST['parentID'];
 
-if ($_POST['action'] == "new") {
+$sql_check = "SELECT `ID` FROM `estimate_criteriums` WHERE `Name` = '$Name' AND `ParentID` = $parentID";
+if (mysqli_num_rows(mysqli_query($conn, $sql_check)) >= 1) {
+    $resultArray['result'] = "error";
+    $resultArray['error'] = "Dublicated Criteria Name!";
+    die(json_encode($resultArray));
+}
 
-    $sql_check = "SELECT `ID` FROM `estimate_criteriums` WHERE `Name` = '$Name' AND `ParentID` = $parentID";
-    if (mysqli_num_rows(mysqli_query($conn, $sql_check)) >= 1) {
-        $resultArray['result'] = "error";
-        $resultArray['error'] = "Dublicated Criteria Name!";
-        die(json_encode($resultArray));
-    }
+if ($_POST['action'] == "new") {
 
     $sql = "
 INSERT INTO `estimate_criteriums`(

@@ -2,7 +2,7 @@
  * Created by k.diakonidze on 7/29/19.
  */
 var organizationObj;
-var lastQuery;
+var lastQuery, lastQuery2;
 
 $('#btnSearchApp').on('click', function () {
     console.log('from:',$('#appFilterForm').serialize());
@@ -14,10 +14,63 @@ $('#btnClearApp').on('click', function () {
     $('#appFilterForm').trigger('reset');
 });
 
-
 $('#appFilterForm').on('submit',function (event) {
     event.preventDefault();
 });
+
+$('#btnSearchCrit').on('click', function () {
+    console.log('from:',$('#critListForm').serialize());
+    lastQuery2 = $('#critListForm').serialize();
+    getCritList(lastQuery2);
+});
+
+$('#btnClearCrit').on('click', function () {
+    $('#critListForm').trigger('reset');
+});
+
+$('#critListForm').on('submit',function (event) {
+    event.preventDefault();
+});
+
+var critTable = $('#critListTable').find('tbody');
+
+function getCritList(querys){
+    $.ajax({
+        url: 'php_code/get_techPrAndCr_list.php',
+        method: 'post',
+        data: querys,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            critTable.empty();
+
+            var itemCount = response.count[0];
+            console.log(itemCount.n);
+            var appdata = response.data;
+            $('#titleForTechPriceTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი, ლიმიტი 20");
+
+            appdata.forEach(function (item) {
+
+                var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
+                var td_type = $('<td />').text(item.techtype);
+                var td_brand = $('<td />').text(item.brand);
+                var td_model = $('<td />').text(item.model);
+                var tpacw_st = $('<td />').text(item.tpacw_st);
+                var pr_st = $('<td />').text(item.pr_st);
+                var revDate = $('<td />').text(item.RevDate).addClass('equalsimbols datewidth');
+                var crgr = $('<td />').text(item.crgr);
+                var crit = $('<td />').text(item.crit);
+                var crit_st = $('<td />').text(item.crit_st);
+                var crit_revDate = $('<td />').text(item.crit_revDate).addClass('equalsimbols datewidth');
+
+
+                var trow = $('<tr></tr>').append(td_id, td_type, td_brand, td_model, tpacw_st, pr_st, revDate, crgr, crit, crit_st, crit_revDate);
+                // trow.attr('onclick', "ont11Click(" + item.ID + ")");
+                critTable.append(trow);
+            });
+        }
+    });
+}
 
 var appTable = $('#appListTable').find('tbody');
 
@@ -140,7 +193,20 @@ $('#model_id2').on('change', function () {
     console.log(techPosArray);
 });
 
+$('#criteria_group_id2').on('change', function () {
+    // criteriaPosArray[0] = $('#criteria_group_id2').val();
+    // criteriaPosArray[1] = "0";
+    $('#criteria_id2').empty();
+    if ($('#criteria_group_id2').val() != 0) {
+        loadCriteriaslist("", $('#criteria_group_id2').val(), 'criteria_id2');
+    }
+    // console.log(criteriaPosArray);
+});
 
+$('#criteria_id2').on('change', function () {
+    // criteriaPosArray[1] = $('#selratename_id').val();
+    // console.log(criteriaPosArray);
+});
 
 $(document).ready(function () {
     console.log("ready!");
@@ -172,6 +238,6 @@ $(document).ready(function () {
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#detail_rate_result_id');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#price_status_id2');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_group_id2');
-    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_status_id2');
-    $('#application_status_id, #control_rate_result_id, #detail_rate_result_id, #price_status_id2, #criteria_group_id2, #criteria_status_id2').val(0);
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_status_id2, #price_criteria_status_id2');
+    $('#application_status_id, #control_rate_result_id, #detail_rate_result_id, #price_status_id2, #criteria_group_id2, #criteria_status_id2, #price_criteria_status_id2').val(0);
 });

@@ -8,10 +8,6 @@ var typeID = 0;
 var criteriasOnTechID = 0;
 
 
-var criteriaPosArray = [];
-var criteriaDataArray = [];
-
-
 $("input").attr("disabled", true);
 $("td.selstatus select").val(0).attr("disabled", true);
 

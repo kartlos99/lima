@@ -15,13 +15,22 @@ if (!isset($_SESSION['username'])) {
 
 if (isset($_GET['parentID']) && $_GET['parentID'] != '') {
     $parentID = $_GET['parentID'];
-    $techID = $_GET['techID'];
-
-    $sql = "
+    $addFilter = "";
+    if (isset($_GET['techID']) && $_GET['techID'] != '') {
+        $techID = $_GET['techID'];
+        $sql = "
 SELECT em.`TechTreeID`, em.`CriteriumID`, e.Name, em.`Note`, em.`id`, em.CriteriumStatusID FROM `estimate_criteriums_mapping` em
 LEFT JOIN estimate_criteriums e
 	ON em.`CriteriumID` = e.ID
-WHERE e.`ParentID` = $parentID AND em.`TechTreeID` = $techID";
+WHERE e.`ParentID` = $parentID  AND em.`TechTreeID` = $techID";
+
+    }else{
+        $sql = "
+SELECT ID as 'CriteriumID', Name FROM estimate_criteriums
+WHERE parentID = $parentID ";
+    }
+
+
 
     $result = mysqli_query($conn, $sql);
 
