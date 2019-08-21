@@ -180,3 +180,11 @@ span.resNumber {
     color: #7a1d1b;
     font-weight: bold;
 }
+p.mytbtitle {
+    margin-top: 6px;
+    color: #8a6d3b;
+}
+
+td.datewidth {
+    white-space: nowrap;
+}

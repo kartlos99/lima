@@ -175,7 +175,7 @@ if ($event == "btn_save") {
     $organizationID = isset($_POST['OrganizationID']) && $_POST['OrganizationID'] != "" ? $_POST['OrganizationID'] : 0;
     $branchID = isset($_POST['BranchID']) && $_POST['BranchID'] != "" ? $_POST['BranchID'] : 0;
     $agreementNumber = isset($_POST['agreement_app']) ? $_POST['agreement_app'] : "";
-    $status_app = $_POST['status_app'];
+//    $status_app = $_POST['status_app'];
     $note_app = $_POST['note_app'];
 
     $control_rate_result_id_control = $_POST['control_rate_result_id_control'];

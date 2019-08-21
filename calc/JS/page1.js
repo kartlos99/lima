@@ -2,8 +2,62 @@
  * Created by k.diakonidze on 7/29/19.
  */
 var organizationObj;
+var lastQuery;
+
+$('#btnSearchApp').on('click', function () {
+    console.log('from:',$('#appFilterForm').serialize());
+    lastQuery = $('#appFilterForm').serialize();
+    getAppList(lastQuery);
+});
+
+$('#btnClearApp').on('click', function () {
+    $('#appFilterForm').trigger('reset');
+});
 
 
+$('#appFilterForm').on('submit',function (event) {
+    event.preventDefault();
+});
+
+var appTable = $('#appListTable').find('tbody');
+
+function getAppList(querys){
+    $.ajax({
+        url: 'php_code/get_app_list.php',
+        method: 'post',
+        data: querys,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            appTable.empty();
+
+            var itemCount = response.count[0];
+            console.log(itemCount.n);
+            var appdata = response.data;
+            $('#titleForAppTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი, ლიმიტი 20");
+
+            appdata.forEach(function (item) {
+
+                var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
+                var td_type = $('<td />').text(item.techtype);
+                var td_brand = $('<td />').text(item.brand);
+                var td_model = $('<td />').text(item.model);
+                var td_apNumber = $('<td />').text(item.ApNumber).addClass('equalsimbols');
+                var td_apDate = $('<td />').text(item.ApDate).addClass('equalsimbols datewidth');
+                var td_status = $('<td />').text(item.st);
+                var td_operator = $('<td />').text(item.ModifyUser);
+                var td_org = $('<td />').text(item.OrganizationName);
+                var td_agr = $('<td />').text(item.AgreementNumber).addClass('equalsimbols');
+                var td_cst = $('<td />').text(item.control_st);
+                var td_fst = $('<td />').text(item.final_st);
+
+                var trow = $('<tr></tr>').append(td_id, td_type, td_brand, td_model, td_apNumber, td_apDate, td_status, td_operator, td_org, td_agr, td_cst, td_fst);
+                // trow.attr('onclick', "ont11Click(" + item.ID + ")");
+                appTable.append(trow);
+            });
+        }
+    });
+}
 
 $('#organization_id').on('change', function () {
 
@@ -112,4 +166,12 @@ $(document).ready(function () {
 
         }
     });
+
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#application_status_id');
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#control_rate_result_id');
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#detail_rate_result_id');
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#price_status_id2');
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_group_id2');
+    $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_status_id2');
+    $('#application_status_id, #control_rate_result_id, #detail_rate_result_id, #price_status_id2, #criteria_group_id2, #criteria_status_id2').val(0);
 });

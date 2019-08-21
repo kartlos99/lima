@@ -14,82 +14,87 @@ $note = "შენიშვნა";
 ?>
 
 <?= DrawView::titleRow("ტექნიკის შეფასების განაცხადები") ?>
+    <form id="appFilterForm" action="">
+        <table class="table-section">
+            <tbody>
+            <tr>
+                <td>
+                    <?= DrawView::selector($id_simple, "ტიპი", "type") ?>
+                </td>
+                <td>
+                    <?= DrawView::selector($id_simple, "ბრენდი", "brand") ?>
+                </td>
+                <td>
+                    <?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "modelbyhand", "მოდელი (ხელოვნური განსაზღვრა)") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "serial_N", "სერიული_N") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "imei", "IMEI კოდი") ?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table-section">
+            <tbody>
+            <tr>
+                <td>
+                    <?= DrawView::selector($id_simple, "ორგანიზაცა", "organization") ?>
+                </td>
+                <td>
+                    <?= DrawView::selector($id_simple, "ფილიალი", "filial") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "operator", "ოპერატორი") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "application_N", "განაცხადის_N") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "date_from", "განაცხადის თარიღი (დან)", "", "date") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "date_till", "განაცხადის თარიღი (მდე)", "", "date") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "agreement_N", "ხელშეკრულება_N") ?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table-section">
+            <tr>
+                <td>
+                    <?= DrawView::selector($id_simple, "განაცხადის სტატუსი", "application_status", getStatusItems($conn, "app_states")) ?>
+                </td>
+                <td>
+                    <?= DrawView::selector($id_simple, "საკონტროლო შეფასების შედეგი", "control_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
+                </td>
+                <td>
+                    <?= DrawView::selector($id_simple, "დეტალური შეფასების შედეგი", "detail_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
+                </td>
+                <td>
+                    <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
+                </td>
+                <td>
+                    <button id="btnClearApp" class="btn"><b>გასუბთავება</b></button>
+                </td>
+            </tr>
+        </table>
+    </form>
 
-    <table class="table-section">
-        <tbody>
+    <p id="titleForAppTable" class="mytbtitle"></p>
+    <table id="appListTable" class="table-bordered table">
+        <thead>
         <tr>
-            <td>
-                <?= DrawView::selector($id_simple, "ტიპი", "type") ?>
-            </td>
-            <td>
-                <?= DrawView::selector($id_simple, "ბრენდი", "brand") ?>
-            </td>
-            <td>
-                <?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "modelbyhand", "მოდელი (ხელოვნური განსაზღვრა)") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "serial_N", "სერიული_N") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "imei", "IMEI კოდი") ?>
-            </td>
+            <?= headerRow(["ID", "ტიპი", "ბრენდი", "მოდელი", "განცხადება", "თარიღი", "განცხ. სტატუსი", "ოპერატორი", "ორგანიზ.", "ხელშეკრ.", "საკონტრ.", "დეტალური"], 0, 1) ?>
         </tr>
-        </tbody>
-    </table>
-    <table class="table-section">
-        <tbody>
-        <tr>
-            <td>
-                <?= DrawView::selector($id_simple, "ორგანიზაცა", "organization") ?>
-            </td>
-            <td>
-                <?= DrawView::selector($id_simple, "ფილიალი", "filial") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "operator", "ოპერატორი") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "application_N", "განაცხადის_N") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "date_from", "განაცხადის თარიღი (დან)", "", "date") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "date_till", "განაცხადის თარიღი (მდე)", "", "date") ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "agreement_N", "ხელშეკრულება_N") ?>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="table-section">
-        <tr>
-            <td>
-                <?= DrawView::selector($id_simple, "განაცხადის სტატუსი", "application_status", getStatusItems($conn, "app_states")) ?>
-            </td>
-            <td>
-                <?= DrawView::selector($id_simple, "საკონტროლო შეფასების შედეგი", "control_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
-            </td>
-            <td>
-                <?= DrawView::selector($id_simple, "დეტალური შეფასების შედეგი", "detail_rate_result", getStatusItems($conn, "control_estimate_states")) ?>
-            </td>
-            <td>
-                <button id="btnSearch" class="btn"><b>ძებნა</b></button>
-            </td>
-            <td>
-                <button id="btnClear" class="btn"><b>გასუბთავება</b></button>
-            </td>
-        </tr>
-    </table>
-
-    <table class="table-bordered">
-        <tr>
-            <td>table</td>
-        </tr>
+        </thead>
+        <tbody></tbody>
     </table>
 
 <?= DrawView::titleRow("ტექნიკის ღირებულებისა და შეფასების კრიტერიუმები") ?>
@@ -147,10 +152,10 @@ $note = "შენიშვნა";
                 <?= DrawView::simpleInput($id_simple, "krit_date_till", "", "", "date") ?>
             </td>
             <td>
-                <button id="btnSearch" class="btn"><b>ძებნა</b></button>
+                <button id="btnSearchCrit" class="btn"><b>ძებნა</b></button>
             </td>
             <td>
-                <button id="btnClear" class="btn"><b>გასუბთავება</b></button>
+                <button id="btnClearCrit" class="btn"><b>გასუბთავება</b></button>
             </td>
         </tr>
     </table>
