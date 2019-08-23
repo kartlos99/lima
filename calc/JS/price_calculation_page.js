@@ -270,6 +270,7 @@ $('#btnInfoGen').on('click', function () {
                 'TechSerial': $('#serial_N_id').val(),
                 'TechIMEI': $('#imei_id').val(),
                 'note': $('#note_id').val(),
+                'maxPrice': maxPrice,
                 'SysTechPrice': priceCalculated,
                 'ManagerAdd': priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") ? 1 : 0,
                 'ClientDec': priceCorectionTable.find('input[name=dec_by_client]').is(":checked") ? 1 : 0,
@@ -353,7 +354,6 @@ $('#btnSave').on('click', function () {
             if (response.result == "success") {
 
 
-
             } else {
                 console.log(response.error);
             }
@@ -421,10 +421,10 @@ $(document).ready(function () {
 
     console.log('cook', getCookie("appID"));
     appRecID = getCookie("appID");
-    if (appRecID != '' && appRecID != 0){
+    if (appRecID != '' && appRecID != 0) {
         document.cookie = "appID=0";
         getAppData(appRecID);
-    }else{
+    } else {
         appRecID = 0;
     }
 
@@ -433,7 +433,7 @@ $(document).ready(function () {
     $('#control_rate_result_id_control, #detail_rate_result_id_market').val(0);
 });
 
-function getAppData(appID){
+function getAppData(appID) {
     $.ajax({
         url: 'php_code/get_app_info.php',
         method: 'get',
@@ -444,7 +444,11 @@ function getAppData(appID){
         success: function (response) {
             console.log(response);
 
+            // var cData = Object.values(response.app_crit_data);
+
             var appInfo1 = response.app_data;
+            selectedModel = appInfo1.TechTreeID;
+            maxPrice = appInfo1.maxPrice;
 
             $('#type_id').val(appInfo1.techtype);
             loadTypesList(appInfo1.techtype, 'brand_id', appInfo1.brand);
@@ -455,10 +459,12 @@ function getAppData(appID){
             $('#note_id').val(appInfo1.Note);
 
             $('#rateResultNumber').text(appInfo1.SysTechPrice);
-            $('#corection_id').val(appInfo1.techtype);
+            $('#corection_id').val(appInfo1.CorTechPrice);
+            $('#rateResultNumberCorected').text(appInfo1.CorTechPrice);
             priceCorectionTable.find('input[name=inc_by_manager]').attr("checked", appInfo1.ManagerAdd == 1);
             priceCorectionTable.find('input[name=dec_by_client]').attr("checked", appInfo1.ClientDec == 1);
 
+            $('#localInfo1').find('span').text(appInfo1.ApNumber + " " + appInfo1.ApDate);
             $('#organization_id_app').val(appInfo1.OrganizationID);
             loadBranches11(appInfo1.OrganizationID, appInfo1.BranchID);
 //            $('#filial_id_app').val(appInfo1.BranchID);
@@ -466,46 +472,74 @@ function getAppData(appID){
             $('#status_id_app').val(appInfo1.ApStatus);
             $('#note_id_app').val(appInfo1.appNote);
 
+            $('#localInfo2').find('span').text(appInfo1.CEstDate + " მომხ." + appInfo1.CEstPerson);
+            $('#control_rate_result_id_control').val(appInfo1.CEstStatus);
+            $('#adjusted_amount_id_control').val(appInfo1.CEstPrice);
+            $('#note_id_control').val(appInfo1.CEstNote);
 
-//            $('#type_id').trigger('change');
+            $('#localInfo3').find('span').text(appInfo1.FEstDate + " მომხ." + appInfo1.FEstPerson);
+            $('#detail_rate_result_id_market').val(appInfo1.FEstStatus);
+            $('#adjusted_amount_id_market').val(appInfo1.FEstPrice);
+            $('#note_id_market').val(appInfo1.FEstNote);
 
 
-//            criteriasData = response.slice();
-//            var grName = "";
-//
-//            criteriasConteiner.empty();
-//            allCriteriaIDs = [];
-//
-//            response.forEach(function (item) {
-//                // console.log(item);
-//                var cloneRow = trToClone.clone();
-//                cloneRow.attr("data-id", item.id);
-//                allCriteriaIDs.push(item.id);
-//                console.log('allCriteriaIDs', allCriteriaIDs);
-//
-//                if (grName != item.gr) {
-//                    var td_grName = $('<td />').text(item.gr);
-//                    td_grName.addClass("grNameStyle");
-//                    var trow = $('<tr></tr>').append(td_grName, $('<td />'), $('<td />'));
-//                    trow.find('td:first').attr("colspan", 3);
-//                    criteriasConteiner.append(trow);
-//                    grName = item.gr;
-//                }
-//
-//                cloneRow.find('span').text(item.criteria);
-//                cloneRow.find('input').attr("name", "name_" + item.id);
-//
-//                if (item.crWeightID == null) {
-//                    console.log("No Values Found! id:", item.id);
-//                }
-//
-//                criteriasConteiner.append(cloneRow);
-//
-//            });
+            criteriasData = response.app_crit_data.slice();
+            var grName = "";
+            // criteriasData.sort(compare);
+            console.log('criteriasData:', criteriasData);
+
+            criteriasConteiner.empty();
+            allCriteriaIDs = [];
+
+            criteriasData.forEach(function (item) {
+                // console.log(item);
+                var cloneRow = trToClone.clone();
+                cloneRow.attr("data-id", item.id);
+                allCriteriaIDs.push(item.id);
+                console.log('allCriteriaIDs', allCriteriaIDs);
+
+                if (grName != item.gr) {
+                    var td_grName = $('<td />').text(item.gr);
+                    td_grName.addClass("grNameStyle");
+                    var trow = $('<tr></tr>').append(td_grName, $('<td />'), $('<td />'));
+                    trow.find('td:first').attr("colspan", 3);
+                    criteriasConteiner.append(trow);
+                    grName = item.gr;
+                }
+
+                cloneRow.find('span').text(item.criteria);
+                cloneRow.find('input').attr("name", "name_" + item.id);
+                if (item.OpChoice == 1){
+                    cloneRow.find('input.answ1').attr("checked", true);
+                    cloneRow.attr("data-answ", "yes");
+                }
+                if (item.OpChoice == 2){
+                    cloneRow.find('input.answ2').attr("checked", true);
+                    cloneRow.attr("data-answ", "no");
+                }
+
+                if (item.crWeightID == null) {
+                    console.log("No Values Found! id:", item.id);
+                }
+
+                criteriasConteiner.append(cloneRow);
+
+            });
 
         }
     });
 
+    // $.ajax({
+    //     url: 'php_code/get_app_info.php',
+    //     method: 'get',
+    //     data: {
+    //         'appID': appID
+    //     },
+    //     dataType: 'json',
+    //     success: function (response) {
+    //
+    //     }
+    // });
 }
 
 $('#organization_id_app').on('change', function () {

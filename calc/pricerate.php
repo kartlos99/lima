@@ -144,7 +144,7 @@ $note = "შენიშვნა";
             <?php $id_simple = "id_control" ?>
             <td class="half-width">
                 <?= DrawView::titleRow("საკონტროლო შეფასება") ?>
-                <p id="localInfo2">თარიღი 243243</p>
+                <p id="localInfo2">თარიღი: <span></span></p>
                 <table class="table">
                     <tr>
                         <td>
@@ -166,7 +166,7 @@ $note = "შენიშვნა";
 
 <?php $id_simple = "id_market" ?>
 <?= DrawView::titleRow("მაღაზიაში გადატანა") ?>
-    <p id="localInfo3">თარიღი 243243</p>
+    <p id="localInfo3">თარიღი: <span></span></p>
     <table class="table">
         <tr>
             <td>

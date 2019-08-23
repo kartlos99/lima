@@ -39,6 +39,7 @@ if ($event == "gen_info") {
     $managerAdd = $_POST['ManagerAdd'];
     $clientDec = $_POST['ClientDec'];
     $corTechPrice = $_POST['CorTechPrice'];
+    $maxPrice = $_POST['maxPrice'];
 
     if ($record_id == 0) {
 
@@ -52,6 +53,7 @@ INSERT INTO `tech_estimate_applications`(
     `TechSerial`,
     `TechIMEI`,
     `Note`,
+    `maxPrice`,
     `SysTechPrice`,
     `ManagerAdd`,
     `ClientDec`,
@@ -69,6 +71,7 @@ VALUES(
     '$techSerial',
     '$techIMEI',
     '$note',
+    $maxPrice,
     '$sysTechPrice',
     '$managerAdd',
     '$clientDec',
@@ -93,6 +96,7 @@ SET
     `TechSerial` = '$techSerial',
     `TechIMEI` = '$techIMEI',
     `Note` = '$note',
+    `maxPrice` = $maxPrice,
     `SysTechPrice` = '$sysTechPrice',
     `ManagerAdd` = $managerAdd,
     `ClientDec` = $clientDec,
@@ -140,6 +144,7 @@ INSERT INTO `m2calc_applications_op_choice`(
     `Impact`,
     `ImpactType`,
     `ImpactValue`,
+    `IsMain`,
     `OpChoice`,
     `ISLast`,
     `EstVersion`,
@@ -148,7 +153,7 @@ INSERT INTO `m2calc_applications_op_choice`(
     `CreateUser`,
     `CreateUserID`
 )
-SELECT $record_id, $techTreeID, `EstimateCriteriumID`, `Impact`, `ImpactType`, `ImpactValue`, 2, 1, $vers , 93, $currDate, '$currUser', $currUserID FROM `estimate_criterium_values` 
+SELECT $record_id, $techTreeID, `EstimateCriteriumID`, `Impact`, `ImpactType`, `ImpactValue`, `IsMain`, 2, 1, $vers , 93, $currDate, '$currUser', $currUserID FROM `estimate_criterium_values` 
 WHERE `EstimateCriteriumID` IN ($idsString)";
 
         $sql_isLastCorection = "UPDATE `m2calc_applications_op_choice` SET `ISLast` = 0 WHERE `APPID` = $record_id ";
