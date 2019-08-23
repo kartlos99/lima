@@ -105,9 +105,11 @@ $note = "შენიშვნა";
 <?= DrawView::titleRow("შეჯამებული ინფორმაცია შეფასების შესახებ") ?>
 
     <button id="btnInfoGen" class="btn btn-info"><b>ინფორმაციის გენერირება</b></button>
-<!--    <button class="btn" onclick="mycopy()">Copy</button>-->
-    <input type="hidden" id="atext"/>
-    <p id="finalInfo"> INFO </p>
+    <button class="btn" onclick="mycopy()">Copy</button>
+<!--    <input type="hidden" id="atext" value="ertyy7"/>-->
+<p></p>
+    <textarea readonly="true" name="suminfo" id="finalInfo" cols="30" rows="10"></textarea>
+<!--    <p id="finalInfo"> INFO </p>-->
 
 <?php $id_simple = "id_app" ?>
 

@@ -8,8 +8,10 @@ var typeID = 0;
 var criteriasOnTechID = 0;
 
 
-$("input").attr("disabled", true);
-$("td.selstatus select").val(0).attr("disabled", true);
+function disableAllInputs(){
+    $("input").attr("disabled", true).val("");
+    $("td.selstatus").find("select").val(0).attr("disabled", true);
+}
 
 // სისტემაში ასახვა, შენახვა
 $("#techManage").find("i.fa-arrow-alt-circle-left").on("click", function () {
@@ -341,8 +343,13 @@ $('#section3').find('i.fa-sync-alt').on('click', function () {
 
 });
 
+$('td.selobject').find('select').on('change', function(){
+    disableAllInputs();
+});
+
 $(document).ready(function () {
     console.log("ready!");
+    disableAllInputs();
     loadTypesList(0, 'seltypename_id');
 });
 

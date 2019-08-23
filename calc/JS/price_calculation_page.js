@@ -298,16 +298,19 @@ $('#btnInfoGen').on('click', function () {
                     var gacemuli = correction ? $('#corection_id').val() : priceCalculated;
                     var correctionText = correction ? "დიახ" : "არა";
 
-                    var br = "</br>";
+                    var br = "\n";
 
                     $('#localInfo1 span').text(ganacxadiN);
 
-                    $('#finalInfo').append("განაცხადი N: " + ganacxadiN, br);
-                    $('#finalInfo').append("ტექნიკა: " + teqnika, br);
-                    $('#finalInfo').append("მდგომარეობა: " + mdgomareoba, br);
-                    $('#finalInfo').append("თანხა სისტემიდან: " + priceCalculated + " ₾", br);
-                    $('#finalInfo').append("თანხის კორექტირება: " + correctionText, br);
-                    $('#finalInfo').append("გაცემული თანხა: " + gacemuli + " ₾", br);
+                    var resultText = "განაცხადი N: " + ganacxadiN + br;
+                    resultText += "ტექნიკა: " + teqnika + br;
+                    resultText += "მდგომარეობა: " + mdgomareoba + br;
+                    resultText += "თანხა სისტემიდან: " + priceCalculated + " ₾" + br;
+                    resultText += "თანხის კორექტირება: " + correctionText + br;
+                    resultText += "გაცემული თანხა: " + gacemuli + " ₾" + br;
+
+                    $('#finalInfo').text(resultText);
+
 
                 } else {
                     console.log(response.error);
@@ -326,6 +329,7 @@ $('#btnSave').on('click', function () {
         data: {
             'TechTreeID': selectedModel,
             'record_id': appRecID,
+            'EstimateResult1': $('#finalInfo').val(),
 
             'OrganizationID': $('#organization_id_app').val(),
             'BranchID': $('#filial_id_app').val(),
@@ -415,10 +419,94 @@ $(document).ready(function () {
         }
     });
 
+    console.log('cook', getCookie("appID"));
+    appRecID = getCookie("appID");
+    if (appRecID != '' && appRecID != 0){
+        document.cookie = "appID=0";
+        getAppData(appRecID);
+    }else{
+        appRecID = 0;
+    }
+
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#control_rate_result_id_control');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#detail_rate_result_id_market');
     $('#control_rate_result_id_control, #detail_rate_result_id_market').val(0);
 });
+
+function getAppData(appID){
+    $.ajax({
+        url: 'php_code/get_app_info.php',
+        method: 'get',
+        data: {
+            'appID': appID
+        },
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+
+            var appInfo1 = response.app_data;
+
+            $('#type_id').val(appInfo1.techtype);
+            loadTypesList(appInfo1.techtype, 'brand_id', appInfo1.brand);
+            loadTypesList(appInfo1.brand, 'model_id', appInfo1.TechTreeID);
+            $('#modelbyhand_id').val(appInfo1.TechModelFix);
+            $('#serial_N_id').val(appInfo1.TechSerial);
+            $('#imei_id').val(appInfo1.TechIMEI);
+            $('#note_id').val(appInfo1.Note);
+
+            $('#rateResultNumber').text(appInfo1.SysTechPrice);
+            $('#corection_id').val(appInfo1.techtype);
+            priceCorectionTable.find('input[name=inc_by_manager]').attr("checked", appInfo1.ManagerAdd == 1);
+            priceCorectionTable.find('input[name=dec_by_client]').attr("checked", appInfo1.ClientDec == 1);
+
+            $('#organization_id_app').val(appInfo1.OrganizationID);
+            loadBranches11(appInfo1.OrganizationID, appInfo1.BranchID);
+//            $('#filial_id_app').val(appInfo1.BranchID);
+            $('#agreement_id_app').val(appInfo1.AgreementNumber);
+            $('#status_id_app').val(appInfo1.ApStatus);
+            $('#note_id_app').val(appInfo1.appNote);
+
+
+//            $('#type_id').trigger('change');
+
+
+//            criteriasData = response.slice();
+//            var grName = "";
+//
+//            criteriasConteiner.empty();
+//            allCriteriaIDs = [];
+//
+//            response.forEach(function (item) {
+//                // console.log(item);
+//                var cloneRow = trToClone.clone();
+//                cloneRow.attr("data-id", item.id);
+//                allCriteriaIDs.push(item.id);
+//                console.log('allCriteriaIDs', allCriteriaIDs);
+//
+//                if (grName != item.gr) {
+//                    var td_grName = $('<td />').text(item.gr);
+//                    td_grName.addClass("grNameStyle");
+//                    var trow = $('<tr></tr>').append(td_grName, $('<td />'), $('<td />'));
+//                    trow.find('td:first').attr("colspan", 3);
+//                    criteriasConteiner.append(trow);
+//                    grName = item.gr;
+//                }
+//
+//                cloneRow.find('span').text(item.criteria);
+//                cloneRow.find('input').attr("name", "name_" + item.id);
+//
+//                if (item.crWeightID == null) {
+//                    console.log("No Values Found! id:", item.id);
+//                }
+//
+//                criteriasConteiner.append(cloneRow);
+//
+//            });
+
+        }
+    });
+
+}
 
 $('#organization_id_app').on('change', function () {
 
@@ -452,9 +540,7 @@ function loadBranches11(orgID, brID) {
 }
 
 function mycopy() {
-    $('#atext').val($('#finalInfo').text())
-    var copyel = document.getElementById("atext");
+    var copyel = document.getElementById("finalInfo");
     copyel.select();
     document.execCommand("copy");
-    // alert("Copied the text: " + copyel.value);
 }

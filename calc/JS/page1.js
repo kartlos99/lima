@@ -105,7 +105,7 @@ function getAppList(querys){
                 var td_fst = $('<td />').text(item.final_st);
 
                 var trow = $('<tr></tr>').append(td_id, td_type, td_brand, td_model, td_apNumber, td_apDate, td_status, td_operator, td_org, td_agr, td_cst, td_fst);
-                // trow.attr('onclick', "ont11Click(" + item.ID + ")");
+                trow.attr('onclick', "onAppClick(" + item.ID + ")");
                 appTable.append(trow);
             });
         }
@@ -212,6 +212,7 @@ $(document).ready(function () {
     console.log("ready!");
     loadTypesList(0, 'type_id');
     loadTypesList(0, 'type_id2');
+    document.cookie = "appID=0";
 
     $.ajax({
         url: '../php_code/get_dropdown_lists.php',
@@ -241,3 +242,16 @@ $(document).ready(function () {
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_status_id2, #price_criteria_status_id2');
     $('#application_status_id, #control_rate_result_id, #detail_rate_result_id, #price_status_id2, #criteria_group_id2, #criteria_status_id2, #price_criteria_status_id2').val(0);
 });
+
+
+function onAppClick(app_id){
+
+    document.cookie = "appID=" + app_id;
+
+    var url = window.location.pathname;
+    url = url.replace('index.php','pricerate.php');
+    // console.log(url);
+    //alert(url);
+    window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
+    // console.log(document.cookie);
+}

@@ -42,8 +42,8 @@ $sql = "
 FROM `tech_estimate_applications` app
 LEFT JOIN States s ON s.ID = app.`ApStatus`
 LEFT JOIN Organizations o ON o.ID = app.`OrganizationID` 
-LEFT JOIN States sc ON s.ID = app.`CEstStatus`
-LEFT JOIN States sf ON s.ID = app.`FEstStatus`
+LEFT JOIN States sc ON sc.ID = app.`CEstStatus`
+LEFT JOIN States sf ON sf.ID = app.`FEstStatus`
 LEFT JOIN techniques_tree tm ON app.`TechTreeID` = tm.ID
 LEFT JOIN techniques_tree tbr ON tm.ParentID = tbr.ID
 LEFT JOIN techniques_tree ttp ON tbr.ParentID = ttp.ID

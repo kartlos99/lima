@@ -177,6 +177,7 @@ if ($event == "btn_save") {
     $agreementNumber = isset($_POST['agreement_app']) ? $_POST['agreement_app'] : "";
 //    $status_app = $_POST['status_app'];
     $note_app = $_POST['note_app'];
+    $estimateResult1 = $_POST['EstimateResult1'];
 
     $control_rate_result_id_control = $_POST['control_rate_result_id_control'];
     $adjusted_amount_id_control = $_POST['adjusted_amount_id_control'];
@@ -220,6 +221,7 @@ SET
     `AgreementNumber` = '$agreementNumber',
     `TechTreeID` = $techTreeID,
     `appNote` = '$note_app',
+    `EstimateResult1` = '$estimateResult1',
 
     $is_control
 

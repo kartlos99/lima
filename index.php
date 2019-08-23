@@ -1,6 +1,7 @@
 <?php
 // header('location: login.php');
 include_once('login_script.php'); // Includes Login Script
+include_once('config.php');
 
 if (!isset($_SESSION['username'])) {
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/login.php";
@@ -17,6 +18,7 @@ if ($_SESSION['usertype'] != null){
 
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     $url = str_replace('index.php', $_SESSION['usertype'] . '/' . $page . '.php', $url);
+    $m1_URL = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/" . $_SESSION['usertype'] . "/main.php";
 }
 
 // header("Location: $url");
@@ -47,7 +49,7 @@ if ($_SESSION['usertype'] != null){
     <table style="margin: auto">
         <tr>
             <td>
-                <a href="<?php if ($_SESSION['usertype'] != null){echo $url;} ?>"><img src="img\icloud.png" title="iCloud"/></a>
+                <a href="<?php if ($_SESSION['usertype'] != null){echo $m1_URL;} ?>"><img src="img\icloud.png" title="iCloud"/></a>
             </td>
             <td >
                 <a href="<?php if ($_SESSION['M2UT'] != null){echo "calc\\index.php";} ?>"><img src="img\calc.png" title="შეფასება"/></a>

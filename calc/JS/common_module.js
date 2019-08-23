@@ -24,7 +24,7 @@ function printout(x) {
     console.log("printed:", x);
 }
 
-function loadTypesList(parentID, selector) {
+function loadTypesList(parentID, selector, pos = 0) {
     var data = {
         'parentID': parentID
     };
@@ -52,7 +52,11 @@ function loadTypesList(parentID, selector) {
                 techDataArray[nn] = response;
                 console.log(techDataArray);
 
-                selEl.trigger('change');
+                if (pos.length > 0){
+                    selEl.val(pos);
+                }else{
+                    selEl.trigger('change');
+                }
             }
 
         }
@@ -111,4 +115,20 @@ function dateformat(d) {
         dd = d.getDate();
     }
     return d.getFullYear() + "-" + mm + "-" + dd;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
