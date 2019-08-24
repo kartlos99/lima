@@ -60,6 +60,7 @@ if (!isset($_SESSION['username'])) {
             <!-- <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li> -->
             <li><a href="../logout.php" class="article">გასვლა</a></li>
         </ul>
+        <div class="onbuttom">v 0.3</div>
     </nav>
     <!--sidebar-->
 

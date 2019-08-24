@@ -84,7 +84,7 @@ $('#btnRate').on('click', function () {
         } else {
             estimateResultSucces = true;
             $('#reteResultText').text("შეფასება განხორციელდა წარმატებით !").addClass('alert-success').removeClass('alert-warning');
-            $('#rateResultNumber').text(priceCalculated);
+            $('#rateResultNumber').text(parseFloat(priceCalculated).toFixed(2));
         }
 
         console.log("estimateResultSucces", estimateResultSucces);
@@ -464,9 +464,9 @@ function getAppData(appID) {
             $('#imei_id').val(appInfo1.TechIMEI);
             $('#note_id').val(appInfo1.Note);
 
-            $('#rateResultNumber').text(appInfo1.SysTechPrice);
+            $('#rateResultNumber').text(parseFloat(appInfo1.SysTechPrice).toFixed(2));
             $('#corection_id').val(appInfo1.CorTechPrice);
-            $('#rateResultNumberCorected').text(appInfo1.CorTechPrice);
+            $('#rateResultNumberCorected').text(parseFloat(appInfo1.CorTechPrice).toFixed(2));
             priceCorectionTable.find('input[name=inc_by_manager]').attr("checked", appInfo1.ManagerAdd == 1);
             priceCorectionTable.find('input[name=dec_by_client]').attr("checked", appInfo1.ClientDec == 1);
             if (appInfo1.ClientDec == 1 || appInfo1.ManagerAdd == 1){
