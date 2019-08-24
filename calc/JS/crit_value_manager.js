@@ -47,7 +47,7 @@ function fillTechPriceBlock(dataRow) {
     $('#impact_type_id').val(dataRow.ImpactType);
     $('#status_id').val(dataRow.MaxPriceStatusID);
     $('#impact_size_id').val(dataRow.ImpactValue);
-    $('#revision_period_id').val(dataRow.RevDay);
+    $('#revision_period_id').val(daysTillDate(dataRow.RevDate));
     $('#price_note_id').val(dataRow.Note);
     $('#revision_date_id').val(dataRow.RevDate);
 
@@ -56,6 +56,7 @@ function fillTechPriceBlock(dataRow) {
 }
 
 $('i.fa-sync-alt').on('click', function () {
+    techPriceForm.find('i.fa-times').trigger('click');
     criteriasOnTechID = 0;
     if (techPosArray[2] == 0) {
         alert(text_chooseModel);
@@ -137,7 +138,7 @@ $('i.fa-sync-alt').on('click', function () {
                         cloneRow.find('select.id_type').val(item.ImpactType);
                         cloneRow.find('input.id_size').val(item.ImpactValue);
                         cloneRow.find('input.chk-box').attr("checked", chackMain);
-                        cloneRow.find('input.id_day').val(item.RevDay);
+                        cloneRow.find('input.id_day').val(daysTillDate(item.RevDate));
                         cloneRow.find('input.id_date').val(item.RevDate);
                         cloneRow.find('select.id_status').val(item.CritValuesStatusID);
                         cloneRow.attr("data-recID", item.crWeightID);
@@ -172,7 +173,7 @@ criteriaValueEditTable.on('click', 'i.fa-check', function () {
     }
 
     if (mainCritConflict) {
-        alert("ამ ჯგუფში უკვე ბანსაზღვრულია ერთი მთავარი კრიტერიუმი!");
+        alert("ამ ჯგუფში უკვე განსაზღვრულია ერთი მთავარი კრიტერიუმი!");
     } else {
         $.ajax({
             url: 'php_code/ins_criteria_values.php',
@@ -207,8 +208,9 @@ criteriaValueEditTable.on('click', 'i.fa-check', function () {
 });
 
 criteriaValueEditTable.on('click', 'i.fa-times', function () {
-    var thisRow = $(this).closest("tr");
-    disableValueInputForm(thisRow);
+//    var thisRow = $(this).closest("tr");
+//    disableValueInputForm(thisRow);
+    $('i.fa-sync-alt').trigger('click');
 });
 
 criteriaValueEditTable.on('click', 'i.fa-edit', function () {
@@ -406,16 +408,15 @@ $('#revision_period_id').on('change', function () {
 });
 
 $('#revision_date_id').on('change', function () {
+    $('#revision_period_id').val(daysTillDate($('#revision_date_id').val()));
+});
 
-    var revisionDate = $('#revision_date_id').val();
-    var revDate = new Date(revisionDate);
+function daysTillDate(dateString) {
+    var revDate = new Date(dateString);
     var now = new Date();
     var diff = new Date(revDate - now);
-    console.log(revDate);
-    console.log(revDate.getDate() - now.getDate());
-
-    $('#revision_period_id').val(Math.floor(diff / 1000 / 60 / 60 / 24) + 1);
-});
+    return Math.floor(diff / 1000 / 60 / 60 / 24) + 1;
+}
 
 var trToClone;
 
@@ -429,4 +430,5 @@ $(document).ready(function () {
     loadTypesList(0, 'typename_id');
 
     trToClone = $('table.hidden').find('tr');
+    techPriceForm.find('i.fa-times').trigger('click');
 });
