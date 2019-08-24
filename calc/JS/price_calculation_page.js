@@ -289,7 +289,10 @@ $('#btnInfoGen').on('click', function () {
 
                     if (appRecID == 0) {
                         ganacxadiN = response.ApNumber + " " + response.ApDate;
+                    }else{
+                        ganacxadiN = $('#localInfo1').find('span').text();
                     }
+
                     appRecID = response.record_id;
 
 
@@ -310,7 +313,7 @@ $('#btnInfoGen').on('click', function () {
                     resultText += "თანხის კორექტირება: " + correctionText + br;
                     resultText += "გაცემული თანხა: " + gacemuli + " ₾" + br;
 
-                    $('#finalInfo').text(resultText);
+                    $('#finalInfo').val(resultText);
 
 
                 } else {
@@ -446,9 +449,12 @@ function getAppData(appID) {
 
             // var cData = Object.values(response.app_crit_data);
 
+
             var appInfo1 = response.app_data;
             selectedModel = appInfo1.TechTreeID;
             maxPrice = appInfo1.maxPrice;
+            priceCalculated = appInfo1.SysTechPrice;
+            techPosArray = [appInfo1.techtype, appInfo1.brand, selectedModel];
 
             $('#type_id').val(appInfo1.techtype);
             loadTypesList(appInfo1.techtype, 'brand_id', appInfo1.brand);
@@ -463,6 +469,9 @@ function getAppData(appID) {
             $('#rateResultNumberCorected').text(appInfo1.CorTechPrice);
             priceCorectionTable.find('input[name=inc_by_manager]').attr("checked", appInfo1.ManagerAdd == 1);
             priceCorectionTable.find('input[name=dec_by_client]').attr("checked", appInfo1.ClientDec == 1);
+            if (appInfo1.ClientDec == 1 || appInfo1.ManagerAdd == 1){
+                $('#corection_id').attr("readonly", false);
+            }
 
             $('#localInfo1').find('span').text(appInfo1.ApNumber + " " + appInfo1.ApDate);
             $('#organization_id_app').val(appInfo1.OrganizationID);
@@ -472,17 +481,20 @@ function getAppData(appID) {
             $('#status_id_app').val(appInfo1.ApStatus);
             $('#note_id_app').val(appInfo1.appNote);
 
-            $('#localInfo2').find('span').text(appInfo1.CEstDate + " მომხ." + appInfo1.CEstPerson);
+            $('#localInfo2').find('span').text(appInfo1.CEstDate + " მომხ. " + appInfo1.CEstPerson);
             $('#control_rate_result_id_control').val(appInfo1.CEstStatus);
             $('#adjusted_amount_id_control').val(appInfo1.CEstPrice);
             $('#note_id_control').val(appInfo1.CEstNote);
 
-            $('#localInfo3').find('span').text(appInfo1.FEstDate + " მომხ." + appInfo1.FEstPerson);
+            $('#localInfo3').find('span').text(appInfo1.FEstDate + " მომხ. " + appInfo1.FEstPerson);
             $('#detail_rate_result_id_market').val(appInfo1.FEstStatus);
             $('#adjusted_amount_id_market').val(appInfo1.FEstPrice);
             $('#note_id_market').val(appInfo1.FEstNote);
 
+            $('#finalInfo').val(appInfo1.EstimateResult1);
 
+
+            // shenaxuli comentarebi tavisi mdgomareobit
             criteriasData = response.app_crit_data.slice();
             var grName = "";
             // criteriasData.sort(compare);

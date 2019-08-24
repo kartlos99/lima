@@ -31,7 +31,9 @@ SELECT
     op.`TechTreeID`,
     `EstimateCriteriumID` AS id,
     `Impact`,
+    di1.Code AS impactCode,
     `ImpactType`,
+    di2.Code AS impactTypeCode,
     `ImpactValue`,
     `IsMain`,
     `OpChoice`,
@@ -52,6 +54,10 @@ LEFT JOIN estimate_criteriums ec ON
     ecm.CriteriumID = ec.ID
 LEFT JOIN estimate_criteriums ecp ON
     ecm.ParentID = ecp.ID
+LEFT JOIN DictionariyItems di1 ON
+	di1.ID = op.`Impact`
+LEFT JOIN DictionariyItems di2 ON
+	di2.ID = op.`ImpactType`
 WHERE
     `APPID` = $appID AND ISLast = 1 
 ORDER BY
