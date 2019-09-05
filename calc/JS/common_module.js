@@ -19,6 +19,9 @@ function f_show() {
 }
 function f_hide() {
 }
+var pageJS = $('#currusertype').attr("data-page");
+$('ul.components').find('li').removeClass('active');
+$('ul.components').find('li.'+pageJS).addClass('active');
 
 function printout(x) {
     console.log("printed:", x);

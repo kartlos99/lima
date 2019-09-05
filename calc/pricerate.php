@@ -25,26 +25,14 @@ $note = "შენიშვნა";
                 <table class="table-section">
                     <tr>
                         <td>
-                            <?= DrawView::selector($id_simple, "ტიპი", "type") ?>
+                            <div class="in-form"><?= DrawView::selector($id_simple, "ტიპი", "type") ?></div>
+                            <div class="in-form"><?= DrawView::selector($id_simple, "ბრენდი", "brand") ?></div>
+                            <div class="in-form"><?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?></div>
                         </td>
                         <td>
-                            <?= DrawView::simpleInput($id_simple, "modelbyhand", "მოდელი (ხელოვნური განსაზღვრა)") ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?= DrawView::selector($id_simple, "ბრენდი", "brand") ?>
-                        </td>
-                        <td>
-                            <?= DrawView::simpleInput($id_simple, "serial_N", "სერიული N") ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?>
-                        </td>
-                        <td>
-                            <?= DrawView::simpleInput($id_simple, "imei", "IMEI კოდი") ?>
+                            <div class="in-form"><?= DrawView::simpleInput($id_simple, "modelbyhand", "მოდელი (ხელოვნური განსაზღვრა)") ?></div>
+                            <div class="in-form"><?= DrawView::simpleInput($id_simple, "serial_N", "სერიული N") ?></div>
+                            <div class="in-form"><?= DrawView::simpleInput($id_simple, "imei", "IMEI კოდი") ?></div>
                         </td>
                     </tr>
                     <tr>

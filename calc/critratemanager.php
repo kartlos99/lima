@@ -74,38 +74,60 @@ function getDictionariyItems($dbConn, $dCode)
         <input id="techID" type="hidden" value="0" name="tech_id"/>
         <input id="techPriceRecordID" type="hidden" value="0" name="record_id"/>
 
-        <table id="tb_teknic_price" class="table-section">
-            <tbody>
+        <div class="divTable">
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <table class="table-section">
+                        <tr>
+                            <?= DrawView::horizontalInput("ახალის საფასური", "price_new", "number") ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("საბაზრო ფასი", "price_market", "number") ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("კონკურენტის ფასი", "price_competitor", "number") ?>
+                        </tr>
+                    </table>
+                </div>
+                <div class="divTableCell">
+                    <table class="table-section">
+                        <tr>
+                            <?= DrawView::horizontalInput("სამიზნე ფასი", "price_goal", "select", getDictionariyItems($conn, 'target_price')) ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("ფასზე ზემოქმედება", "price_impact", "select", getDictionariyItems($conn, 'Impact')) ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("ზემოქმედების სახეობა", "impact_type", "select", getDictionariyItems($conn, 'ImpactType')) ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("ზემოქმედების მნიშვნელობა", "impact_size", "number") ?>
+                        </tr>
+                    </table>
+                </div>
+                <div class="divTableCell">
+                    <table class="table-section">
+                        <tr>
+                            <?= DrawView::horizontalInput("გაანგარიშების ტიპი", "calc_type", "select", getDictionariyItems($conn, 'CalculateType')) ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("მაქსიმუმ გასაცემი თანხა", "max_amount", "number") ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("სტატუსი", "status", "select", $price_calc_item_states) ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("გადახედვის ვადა (დღე)", "revision_period", "number", [], "") ?>
+                        </tr>
+                        <tr>
+                            <?= DrawView::horizontalInput("გადახედვის თარიღი", "revision_date", "date") ?>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-            <tr>
-                <?= DrawView::horizontalInput("ახალის საფასური", "price_new", "number") ?>
-                <?= DrawView::horizontalInput("სამიზნე ფასი", "price_goal", "select", getDictionariyItems($conn, 'target_price')) ?>
-                <?= DrawView::horizontalInput("გაანგარიშების ტიპი", "calc_type", "select", getDictionariyItems($conn, 'CalculateType')) ?>
-            </tr>
-            <tr>
-                <?= DrawView::horizontalInput("საბაზრო ფასი", "price_market", "number") ?>
-                <?= DrawView::horizontalInput("ფასზე ზემოქმედება", "price_impact", "select", getDictionariyItems($conn, 'Impact')) ?>
-                <?= DrawView::horizontalInput("მაქსიმუმ გასაცემი თანხა", "max_amount", "number") ?>
-            </tr>
-            <tr>
-                <?= DrawView::horizontalInput("კონკურენტის ფასი", "price_competitor", "number") ?>
-                <?= DrawView::horizontalInput("ზემოქმედების სახეობა", "impact_type", "select", getDictionariyItems($conn, 'ImpactType')) ?>
-                <?= DrawView::horizontalInput("სტატუსი", "status", "select", $price_calc_item_states) ?>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <?= DrawView::horizontalInput("ზემოქმედების მნიშვნელობა", "impact_size", "number") ?>
-                <?= DrawView::horizontalInput("გადახედვის ვადა (დღე)", "revision_period", "number", [], "") ?>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <?= DrawView::simpleInput($id_simple, "price_note", $note) ?>
-                </td>
-                <?= DrawView::horizontalInput("გადახედვის თარიღი", "revision_date", "date") ?>
-            </tr>
-            </tbody>
-        </table>
+        <?= DrawView::simpleInput($id_simple, "price_note", $note) ?>
 
     </form>
 
@@ -123,11 +145,11 @@ function getDictionariyItems($dbConn, $dCode)
         </tbody>
     </table>
 
-<table class="hidden">
-    <tr class="top-line" data-recID="0">
-        <?= DrawView::criteriaEditRow(getDictionariyItems($conn, 'ImpactV2'), getDictionariyItems($conn, 'ImpactType'), $price_calc_item_states) ?>
-    </tr>
-</table>
+    <table class="hidden">
+        <tr class="top-line" data-recID="0">
+            <?= DrawView::criteriaEditRow(getDictionariyItems($conn, 'ImpactV2'), getDictionariyItems($conn, 'ImpactType'), $price_calc_item_states) ?>
+        </tr>
+    </table>
 
 
 

@@ -137,7 +137,7 @@ class DrawView
         }
 
         $view = "
-            <td class=\"toright\"><label for=\"$id\">$title</label></td>
+            <td><label for=\"$id\">$title</label></td>
             <td>$inputFeald</td>";
 
         return $view;

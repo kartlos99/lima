@@ -32,7 +32,30 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body onpageshow="f_show()" onpagehide="f_hide()">
-<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['usertype'] ?>"/>
+<?php
+
+$pos = strpos($_SERVER['PHP_SELF'], "typemanager.php");
+if ($pos !== false ){
+    $thisPage = 'typemanager';
+}
+
+$pos = strpos($_SERVER['PHP_SELF'], "critratemanager.php");
+if ($pos !== false ){
+    $thisPage = 'crit_value_manager';
+}
+
+$pos = strpos($_SERVER['PHP_SELF'], "pricerate.php");
+if ($pos !== false ){
+    $thisPage = 'price_calculation_page';
+}
+
+$pos = strpos($_SERVER['PHP_SELF'], "index.php");
+if ($pos !== false ){
+    $thisPage = 'page1';
+}
+
+?>
+<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['usertype'] ?>" data-page="<?= $thisPage ?>"/>
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
@@ -42,16 +65,16 @@ if (!isset($_SESSION['username'])) {
         </div>
 
         <ul class="list-unstyled components">
-            <li class="main">
+            <li class="page1">
                 <a href="index.php">მთავარი</a>
             </li>
-            <li class="pricerate">
+            <li class="price_calculation_page">
                 <a href="pricerate.php">ტექნიკის შეფასება</a>
             </li>
             <li class="typemanager">
                 <a href="typemanager.php">ტიპები და მახასიათებლები</a>
             </li>
-            <li class="critratemanager">
+            <li class="crit_value_manager">
                 <a href="critratemanager.php">შეფასების კრიტერიუმები</a>
             </li>
         </ul>
@@ -71,18 +94,3 @@ if (!isset($_SESSION['username'])) {
             <i class="glyphicon glyphicon-menu-hamburger"></i>
             <span></span>
         </button>
-
-<!--        <nav class="navbar navbar-default">-->
-<!--            <div class="container-fluid">-->
-<!---->
-<!--                <div class="navbar-header">-->
-<!---->
-<!--                </div>-->
-<!---->
-<!--                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
-<!--                    <ul class="nav navbar-nav navbar-right">-->
-<!--                        <li id="paramLi" class="alert-light" style="border-radius: 8px"><a href="parametrebi.php">პარამეტრები</a></li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </nav>-->
