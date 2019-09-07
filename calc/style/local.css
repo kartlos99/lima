@@ -1,5 +1,11 @@
 body {
     font-size: 12px;
+    font-family: "BPG Arial", sans-serif;
+
+}
+ul {
+    font-family: "ALK Sanet", sans-serif;
+    font-size: 14px;
 }
 
 p {

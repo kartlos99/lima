@@ -28,6 +28,8 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
+    <link rel="stylesheet" href="css/alk-sanet.min.css"/>
+    <link rel="stylesheet" href="css/bpg-arial.min.css"/>
     <link rel="stylesheet" href="style/local.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
