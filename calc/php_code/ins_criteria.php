@@ -28,7 +28,17 @@ $techID = $_POST['techID'];
 $techArr = $_POST['techArr'];
 $RealParentID = $_POST['parentID'];
 
-$sql_check = "SELECT `ID` FROM `estimate_criteriums` WHERE `Name` = '$Name' AND `ParentID` = $parentID";
+$sql_check = "
+SELECT
+    e.`ID`, em.TechTreeID
+FROM
+    `estimate_criteriums` e
+LEFT JOIN estimate_criteriums_mapping em
+	ON e.ID = em.CriteriumID
+WHERE
+    e.`Name` = '$Name' AND e.`ParentID` = $parentID AND em.TechTreeID = $techID
+";
+
 if (mysqli_num_rows(mysqli_query($conn, $sql_check)) >= 1) {
     $resultArray['result'] = "error";
     $resultArray['error'] = "Dublicated Criteria Name!";

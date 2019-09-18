@@ -418,6 +418,22 @@ function daysTillDate(dateString) {
     return Math.floor(diff / 1000 / 60 / 60 / 24) + 1;
 }
 
+$('#impact_type_id').on('change', function (el) {
+    var holder = "";
+    switch ($('#impact_type_id').find('option:selected').data("code")) {
+        case "money":
+            holder = "₾";
+            break;
+        case "percent":
+            holder = "%";
+            break;
+        case "coefficient":
+            holder = "x კოეფ.";
+    }
+
+    $('#impact_size_id').attr("placeholder", holder);
+});
+
 var trToClone;
 
 $(document).ready(function () {
