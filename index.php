@@ -10,9 +10,9 @@ if (!isset($_SESSION['username'])) {
 }
 
 $url = "";
-if ($_SESSION['usertype'] != null){
+if ($_SESSION['usertype'] != null) {
     $page = 'main';
-    if ($_SESSION['usertype'] == 'AppleIDCreator'){
+    if ($_SESSION['usertype'] == 'AppleIDCreator') {
         $page = 'new_apl_ac';
     }
 
@@ -33,6 +33,7 @@ if ($_SESSION['usertype'] != null){
             width: 200px;
             height: 200px;
         }
+
         img:hover {
             border: 1px solid rosybrown;
             border-radius: 20px;
@@ -42,6 +43,11 @@ if ($_SESSION['usertype'] != null){
         td {
             padding: 30px;
         }
+        #dout {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -49,21 +55,32 @@ if ($_SESSION['usertype'] != null){
     <table style="margin: auto">
         <tr>
             <td>
-                <a href="<?php if ($_SESSION['usertype'] != null){echo $m1_URL;} ?>"><img src="img\icloud.png" title="iCloud"/></a>
+                <a href="<?php if ($_SESSION['usertype'] != null) {
+                    echo $m1_URL;
+                } ?>"><img src="img\icloud.png" title="iCloud"/></a>
             </td>
-            <td >
-                <a href="<?php if ($_SESSION['M2UT'] != null){echo "calc\\index.php";} ?>"><img src="img\calc.png" title="შეფასება"/></a>
+            <td>
+                <a href="<?php if ($_SESSION['M2UT'] != null) {
+                    echo "calc\\index.php";
+                } ?>"><img src="img\calc.png" title="შეფასება"/></a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="<?php if ($_SESSION['M3UT'] != null){echo "#";} ?>"><img src="img\conflict.png" title="conflict" ></a>
+                <a href="<?php if ($_SESSION['M3UT'] != null) {
+                    echo "#";
+                } ?>"><img src="img\conflict.png" title="conflict"></a>
             </td>
             <td>
-                <a href="<?php if ($_SESSION['M4UT'] != null){echo "#";} ?>"><img src="img\agreement.png" title="agreem" ></a>
+                <a href="<?php if ($_SESSION['M4UT'] != null) {
+                    echo "trial\\index.php";
+                } ?>"><img src="img\agreement.png" title="agreem"></a>
             </td>
         </tr>
     </table>
+</div>
+<div id="dout">
+    <a href="logout.php" class="article">გასვლა</a>
 </div>
 </body>
 </html>
