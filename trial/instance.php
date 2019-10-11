@@ -5,10 +5,10 @@
 <table class="table-section">
     <tr>
         <td>
-            <?= DrawView::selector($id_simple, "განსჯადი უწყების ტიპი", $namePref . "judicial_type") ?>
+            <?= DrawView::selector($id_simple, "განსჯადი უწყების ტიპი", $namePref . "judicial_type", getDictionariyItems($conn, 'judicial_type')) ?>
         </td>
         <td>
-            <?= DrawView::selector($id_simple, "განსჯადი უწყების დასახელება", $namePref . "judicial_name") ?>
+            <?= DrawView::selector($id_simple, "განსჯადი უწყების დასახელება", $namePref . "judicial_name", getDictionariyItems($conn, 'judicial_name')) ?>
         </td>
     </tr>
 </table>
@@ -17,7 +17,7 @@
 <table class="table-section">
     <tr>
         <td>
-            <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "settle_currency") ?>
+            <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "settle_currency", getDictionariyItems($conn, 'currency')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "footer", "ძირი", "", "number") ?>
@@ -42,7 +42,7 @@
 
 <div class="subtitle">
     <span>სასამართლოსთვის სარჩელის ჩაბარება</span>
-    <select class="_form-control" id="<?= $id_simple ?>SelPutSuit" name="<?= $namePref ?>put_suit"></select>
+    <?= DrawView::selector($id_simple . "SelPutSuit", "", $namePref . "put_suit", getDictionariyItems($conn, 'claim_delivery_status')) ?>
 </div>
 <table class="table-section">
     <tr>
@@ -60,7 +60,7 @@
 
 <div class="subtitle">
     <span>სარჩელის წარმოებაში მიღება</span>
-    <select class="_form-control" id="<?= $id_simple ?>SelTakeSuit" name="<?= $namePref ?>take_suit"></select>
+    <?= DrawView::selector($id_simple . "SelTakeSuit", "", $namePref . "take_suit", getDictionariyItems($conn, 'claim_proceeed')) ?>
 </div>
 <table class="table-section">
     <tr>
@@ -81,13 +81,12 @@
 
 <div class="subtitle">
     <span>მხარისათვის სარჩელის ჩაბარება</span>
-    <select class="_form-control" id="<?= $id_simple ?>SelClientPutSuit"
-            name="<?= $namePref ?>client_put_suit"></select>
+    <?= DrawView::selector($id_simple . "SelClientPutSuit", "", $namePref . "client_put_suit", getDictionariyItems($conn, 'clto_delivery_status')) ?>
 </div>
 <table class="table-section">
     <tr>
         <td>
-            <?= DrawView::selector($id_simple, "ჩაბარების მეთოდი", $namePref . "suit_put_type") ?>
+            <?= DrawView::selector($id_simple, "ჩაბარების მეთოდი", $namePref . "suit_put_type", getDictionariyItems($conn, 'clto_delivery_method')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "suit_client_put_date", "ჩაბარების თარიღი", "", "date") ?>
@@ -113,7 +112,7 @@
             <?= DrawView::simpleInput($id_simple, $namePref . "suit_send_result2", "II გაგზავნის შედეგი", "", "text") ?>
         </td>
         <td>
-            <?= DrawView::selector($id_simple, "შედეგი", $namePref . "suit_put_result") ?>
+            <?= DrawView::selector($id_simple, "შედეგი", $namePref . "suit_put_result", getDictionariyItems($conn, 'clto_standard_sent_result')) ?>
         </td>
     </tr>
 </table>
@@ -145,7 +144,7 @@
 <table class="table-section">
     <tr>
         <td>
-            <?= DrawView::selector($id_simple, "შესაგებლის სტატუსი", $namePref . "response_status") ?>
+            <?= DrawView::selector($id_simple, "შესაგებლის სტატუსი", $namePref . "response_status", getDictionariyItems($conn, 'claim_cont_status')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "response_date", "შესაგებლის წარმოდგენის თარიღი", "", "date") ?>
@@ -155,7 +154,7 @@
 
 <div class="subtitle">
     <span>სასამართლოს სხდომის მონაცემები</span>
-    <select class="_form-control" id="<?= $id_simple ?>CourtStatus" name="<?= $namePref ?>court_status"></select>
+    <?= DrawView::selector($id_simple . "CourtStatus", "", $namePref . "court_status", getDictionariyItems($conn, 'court_process_status')) ?>
 </div>
 <table class="table-section">
     <tr>
@@ -182,7 +181,7 @@
     <tbody>
     <tr>
         <td>
-            <?= DrawView::selector($id_simple, "გადაწყვეტილების ტიპი", $namePref . "decision_type") ?>
+            <?= DrawView::selector($id_simple, "გადაწყვეტილების ტიპი", $namePref . "decision_type", getDictionariyItems($conn, 'court_dec_type')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "decision_take_date", "გადაწყ. მიღების თარიღი", "", "date") ?>
@@ -194,7 +193,7 @@
             გადაწყვეტილება:
         </td>
         <td>
-            <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "decision_currency") ?>
+            <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "decision_currency", getDictionariyItems($conn, 'currency')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "decision_footer", "ძირი", "", "number") ?>

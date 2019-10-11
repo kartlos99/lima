@@ -41,19 +41,9 @@ if ($pos !== false ){
     $thisPage = 'new_case';
 }
 
-$pos = strpos($_SERVER['PHP_SELF'], "critratemanager.php");
-if ($pos !== false ){
-    $thisPage = 'crit_value_manager';
-}
-
-$pos = strpos($_SERVER['PHP_SELF'], "pricerate.php");
-if ($pos !== false ){
-    $thisPage = 'price_calculation_page';
-}
-
 $pos = strpos($_SERVER['PHP_SELF'], "index.php");
 if ($pos !== false ){
-    $thisPage = 'page1';
+    $thisPage = 'main_page';
 }
 
 ?>
@@ -67,10 +57,10 @@ if ($pos !== false ){
         </div>
 
         <ul class="list-unstyled components">
-            <li class="page1">
+            <li class="main_page">
                 <a href="index.php">მთავარი</a>
             </li>
-            <li class="price_calculation_page">
+            <li class="new_case">
                 <a href="new_case.php">ახალი საქმე</a>
             </li>
         </ul>

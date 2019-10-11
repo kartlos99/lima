@@ -38,11 +38,15 @@ class DrawView
 
     static function selector($id = "", $title = "", $name = "", $options = [], $form = null)
     {
+        $cssClass = "";
+        $all_comp = "";
         $id = $name . "_" . $id;
         $form_attr = $form == null ? "" : "form=\"$form\"";
-        $all_comp = '
-    <label for="' . $id . '">' . $title . '</label>
-    <select class="form-control" id="' . $id . '" name="' . $name . '" '. $form_attr .'> '. self::formingOption($options) .' </select>';
+        if ($title != ""){
+            $all_comp = '<label for="' . $id . '">' . $title . '</label>';
+            $cssClass = "form-control";
+        }
+        $all_comp .= '<select class="'. $cssClass.'" id="' . $id . '" name="' . $name . '" '. $form_attr .'> '. self::formingOption($options) .' </select>';
         return $all_comp;
     }
 

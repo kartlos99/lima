@@ -12,8 +12,6 @@ $id_simple = "id";
 $note = "შენიშვნა";
 $caseForm = "caseform";
 ?>
-    <i class="fas fa-history"></i>
-    <i class="fas fa-users"></i>
 
     <table class="title-table">
         <tbody>
@@ -55,13 +53,13 @@ $caseForm = "caseform";
             <tbody>
             <tr>
                 <td>
-                    <?= DrawView::selector($id_simple, "სტატუსი", "case_status") ?>
+                    <?= DrawView::selector($id_simple, "სტატუსი", "case_status", getDictionariyItems($conn, 'PCM_aplication_status')) ?>
                 </td>
                 <td>
-                    <?= DrawView::selector($id_simple, "ეტაპი", "case_stage") ?>
+                    <?= DrawView::selector($id_simple, "ეტაპი", "case_stage", getDictionariyItems($conn, 'pcm_stage')) ?>
                 </td>
                 <td>
-                    <?= DrawView::selector($id_simple, "ინსტანცია", "instance") ?>
+                    <?= DrawView::selector($id_simple, "ინსტანცია", "instance", getDictionariyItems($conn, 'instance')) ?>
                 </td>
                 <td>
                     <?= DrawView::simpleInput($id_simple, "time_of_begin", "მიღება", "", "date") ?>
@@ -127,7 +125,7 @@ $namePref = "i1_";
             <table id="table_instance1_header" class="table-section">
                 <tr>
                     <td>პირველი ინსტანციის სარჩელი</td>
-                    <td class="toright"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td class="toright"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -135,8 +133,6 @@ $namePref = "i1_";
             <?php include 'instance.php'; ?>
         </div>
     </div>
-
-    <br/>
 
 <?php
 $id_simple = "i2_id";
@@ -147,7 +143,7 @@ $namePref = "i2_";
             <table id="table_instance1_header" class="table-section">
                 <tr>
                     <td>სააპელაციო სარჩელი</td>
-                    <td class="toright"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td class="toright"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -155,8 +151,6 @@ $namePref = "i2_";
             <?php include 'instance.php'; ?>
         </div>
     </div>
-
-    <br/>
 
 <?php
 $id_simple = "i3_id";
@@ -167,7 +161,7 @@ $namePref = "i3_";
             <table id="table_instance1_header" class="table-section">
                 <tr>
                     <td>უზენაესის სარჩელი</td>
-                    <td class="toright"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td class="toright"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>
@@ -176,8 +170,6 @@ $namePref = "i3_";
         </div>
     </div>
 
-    <br/>
-
 
 <?= DrawView::titleRow("სააღსრულებლო პროცესი") ?>
 <?php $id_simple = "enf_id" ?>
@@ -185,7 +177,7 @@ $namePref = "i3_";
         <tbody>
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "სტატუსი", "enf_status", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "სტატუსი", "enf_status", getDictionariyItems($conn, 'exec_status'), $caseForm) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "enf_request_time", "მოთხოვნა", "", "date", $caseForm) ?>
@@ -197,7 +189,7 @@ $namePref = "i3_";
                 <?= DrawView::simpleInput($id_simple, "enf_start_time", "იძ. აღსრულების დაწყება", "", "date", $caseForm) ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "შედეგი", "enf_result", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "შედეგი", "enf_result", getDictionariyItems($conn, 'exec_result'), $caseForm) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "enf_amount", "ჩამორიცხული თანხა", "", "number", $caseForm) ?>
@@ -212,7 +204,7 @@ $namePref = "i3_";
         <tbody>
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "სტატუსი", "baj_status", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "სტატუსი", "baj_status", getDictionariyItems($conn, 'duty_status'), $caseForm) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "baj_request_time", "მოთხოვნა", "", "date", $caseForm) ?>
@@ -221,7 +213,7 @@ $namePref = "i3_";
                 <?= DrawView::simpleInput($id_simple, "baj_take_time", "მიღება", "", "date", $caseForm) ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "შედეგი", "baj_result", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "შედეგი", "baj_result", getDictionariyItems($conn, 'duty_result'), $caseForm) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "baj_amount", "დაბრუნებული ბაჟი", "", "number", $caseForm) ?>
@@ -236,7 +228,7 @@ $namePref = "i3_";
         <tbody>
         <tr>
             <td>
-                <?= DrawView::selector($id_simple, "სტატუსი", "settle_status", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "სტატუსი", "settle_status", getDictionariyItems($conn, 'sett_status'), $caseForm) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "settle_start_time", "დაწყება", "", "date", $caseForm) ?>
@@ -245,10 +237,10 @@ $namePref = "i3_";
                 <?= DrawView::simpleInput($id_simple, "settle_time", "მორიგების თარიღი", "", "date", $caseForm) ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "შედეგი", "settle_result", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "შედეგი", "settle_result", getDictionariyItems($conn, 'sett_result'), $caseForm) ?>
             </td>
             <td>
-                <?= DrawView::selector($id_simple, "ვალუტა", "settle_currency", [], $caseForm) ?>
+                <?= DrawView::selector($id_simple, "ვალუტა", "settle_currency", getDictionariyItems($conn, 'currency'), $caseForm) ?>
             </td>
             <td>
                 <?= DrawView::simpleInput($id_simple, "settle_footer", "ძირი", "", "number", $caseForm) ?>

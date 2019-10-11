@@ -33,12 +33,15 @@ function getStatusItems($dbConn, $sCode)
     return $list;
 }
 
-function getCriteriumItems($dbConn, $parentID = 0)
+function getDictionariyItems($dbConn, $dCode)
 {
     $list = [];
-$sql = "
-SELECT e.id AS vv, e.Name as tt FROM estimate_criteriums e
-WHERE e.`ParentID` = $parentID ";
+    $sql = "SELECT di.id as vv, di.ValueText as tt, di.code
+            FROM `DictionariyItems` di
+            LEFT JOIN Dictionaries d
+                ON di.`DictionaryID` = d.ID
+            WHERE d.Code = '$dCode'
+            ORDER BY SortID";
     $result = mysqli_query($dbConn, $sql);
     foreach ($result as $row) {
         $list[] = $row;
