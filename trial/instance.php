@@ -1,6 +1,7 @@
 
 <form action="" id="<?= $namePref ?>form">
 
+    <input type="hidden" id="<?= $namePref ?>ID" name="instID" value="0">
     <?= DrawView::subTitle("განსჯადი უწყება") ?>
 <table class="table-section">
     <tr>
@@ -17,7 +18,7 @@
 <table class="table-section">
     <tr>
         <td>
-            <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "settle_currency", getDictionariyItems($conn, 'currency')) ?>
+            <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "currency", getDictionariyItems($conn, 'currency')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "footer", "ძირი", "", "number") ?>
@@ -103,13 +104,13 @@
             <?= DrawView::simpleInput($id_simple, $namePref . "suit_send_time1", "I გაგზავნის თარიღი", "", "date") ?>
         </td>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "suit_send_result1", "I გაგზავნის შედეგი", "", "text") ?>
+            <?= DrawView::selector($id_simple, "I გაგზავნის შედეგი", $namePref . "suit_send_result1", getDictionariyItems($conn, 'clto_standard_sent_result')) ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "suit_send_time2", "II გაგზავნის თარიღი", "", "date") ?>
         </td>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "suit_send_result2", "II გაგზავნის შედეგი", "", "text") ?>
+            <?= DrawView::selector($id_simple, "II გაგზავნის შედეგი", $namePref . "suit_send_result2", getDictionariyItems($conn, 'clto_standard_sent_result')) ?>
         </td>
         <td>
             <?= DrawView::selector($id_simple, "შედეგი", $namePref . "suit_put_result", getDictionariyItems($conn, 'clto_standard_sent_result')) ?>
@@ -134,6 +135,8 @@
         </td>
         <td>
             <?= DrawView::simpleCheckbox($id_simple, $namePref . "public_put_reminder", "შემახსენებელი", "", "checkbox") ?>
+            <input id="<?= $id_simple ?>cltoPerPublicRemainderStartDate" type="hidden" name="<?= $namePref ?>cltoPerPublicRemainderStartDate" value="0"/>
+            <input id="<?= $id_simple ?>cltoPerPublicRemainderEndDate" type="hidden" name="<?= $namePref ?>cltoPerPublicRemainderEndDate" value="0"/>
         </td>
     </tr>
 </table>
@@ -169,6 +172,8 @@
         </td>
         <td>
             <?= DrawView::simpleCheckbox($id_simple, $namePref . "court_hearing_reminder", "შემახსენებელი", "", "checkbox") ?>
+            <input id="<?= $id_simple ?>CourtProcessRemainderStartDate" type="hidden" name="<?= $namePref ?>CourtProcessRemainderStartDate" value="0"/>
+            <input id="<?= $id_simple ?>CourtProcessRemainderEndDate" type="hidden" name="<?= $namePref ?>CourtProcessRemainderEndDate" value="0"/>
         </td>
     </tr>
 </table>
@@ -176,6 +181,8 @@
 <div class="subtitle">
     <span>სასამართლო გადაწყვეტილება</span>
     <?= DrawView::simpleCheckbox($id_simple, $namePref . "court_decision_reminder", "შემახსენებელი", "", "checkbox") ?>
+    <input id="<?= $id_simple ?>CourtDecRemainderStartDate" type="hidden" name="<?= $namePref ?>CourtDecRemainderStartDate" value="0"/>
+    <input id="<?= $id_simple ?>CourtDecRemainderEndDate" type="hidden" name="<?= $namePref ?>CourtDecRemainderEndDate" value="0"/>
 </div>
 <table class="table-section">
     <tbody>

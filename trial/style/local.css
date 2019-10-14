@@ -266,12 +266,6 @@ td.datewidth {
     margin-right: 6px;
 }
 
-.pos-right {
-    margin: 0 0 0 155px;
-    /*position: relative;*/
-    /*margin-right: 0;*/
-}
-
 #tb_in_title td {
     padding: 0 4px 0 4px;
 }
@@ -282,4 +276,9 @@ td.datewidth {
 
 .panel-body {
     display: none;
+}
+
+.inline-div {
+    display: inline-block;
+    padding: 2px 6px;
 }

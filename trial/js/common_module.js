@@ -20,7 +20,7 @@ function f_show() {
 function f_hide() {
 }
 var pageJS = $('#currusertype').attr("data-page");
-console.log(pageJS);
+console.log("currPage:", pageJS);
 $('ul.components').find('li').removeClass('active');
 $('ul.components').find('li.'+pageJS).addClass('active');
 
@@ -138,7 +138,7 @@ function getCookie(cname) {
 }
 
 function getOrganizations(sel_ID) {
-    console.log("org & fil List");
+//    console.log("org & fil List");
 
     $.ajax({
         url: '../php_code/get_dropdown_lists.php',
@@ -148,11 +148,11 @@ function getOrganizations(sel_ID) {
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+//            console.log(response);
 
             //<!--    organizaciebis chamonatvali -->
             organizationObj = response.org;
-            $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#' + sel_ID);
+            $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#' + sel_ID);
             organizationObj.forEach(function (item) {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#' + sel_ID);
             });
@@ -167,13 +167,13 @@ function loadBranches(orgID, brID, sel_ID) {
     $(branches_el_ID).empty().removeAttr('disabled');
 
     if (orgID == "") {
-        $('<option />').text('აირჩიეთ...').attr('value', '').appendTo(branches_el_ID);
+        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo(branches_el_ID);
     } else {
         organizationObj.forEach(function (org) {
             if (org.id == orgID) {
                 var branches = org.branches;
                 if (branches.length != 1) {
-                    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo(branches_el_ID);
+                    $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo(branches_el_ID);
                 }
                 branches.forEach(function (item) {
                     $('<option />').text(item.BranchName).attr('value', item.id).appendTo(branches_el_ID);

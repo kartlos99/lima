@@ -50,6 +50,30 @@ class DrawView
         return $all_comp;
     }
 
+    static function doubleDateInput($id = "", $name, $title, $dataField = "", $type = "text", $form = null)
+    {
+        $name1 = $name . "_from";
+        $name2 = $name . "_to";
+        $id1 = $name1 . "_" . $id ;
+        $id2 = $name2 . "_" . $id ;
+        $form_attr = $form == null ? "" : "form=\"$form\"";
+        $view = '<label for="' . $id . '">' . $title . '</label>
+                <table>
+                    <tr>
+                        <td>
+                            <input type="' . $type . '" class="form-control" id="' . $id1 . '" name="' . $name1 . '" data-field="'. $dataField .'" '. $form_attr .'>
+                        </td>
+                        <td>
+                            <input type="' . $type . '" class="form-control" id="' . $id2 . '" name="' . $name2 . '" data-field="'. $dataField .'" '. $form_attr .'>
+                        </td>
+                    </tr>
+                </table>';
+//        $view = '
+//        <label for="' . $id . '">' . $title . '</label>
+//        <input type="' . $type . '" class="form-control" id="' . $id . '" placeholder="" name="' . $name . '" data-field="'. $dataField .'" '. $form_attr .'/>';
+        return $view;
+    }
+
     static function simpleInput($id = "", $name, $title, $dataField = "", $type = "text", $form = null)
     {
         $id = $name . "_" . $id;

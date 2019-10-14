@@ -21,27 +21,22 @@ $caseForm = "caseform";
                 <label>საქმის რეკვიზიტები</label>
             </td>
             <td>
-                <div>
-                    <table id="tb_in_title" class="pos-right">
-                        <tr>
-                            <td>
-                                <span id="caseN" class="red-in-title">case N</span>
-                            </td>
-                            <td>
-                                <span>მფლობელი</span> <br/>
-
-                                <p id="currOwner">user</p>
-                            </td>
-                            <td>
-                                <span>დაწერის თარიღი</span> <br/>
-                                <input type="date" id="get_started_date_id" name="get_started_date">
-                            </td>
-                            <td>
-                                <i class="fas fa-users btn"></i>
-                                <i class="fas fa-history btn"></i>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="toright">
+                    <div class="inline-div">
+                        <span id="caseN" class="red-in-title">case N</span>
+                    </div>
+                    <div class="inline-div">
+                        <span>მფლობელი</span> <br/>
+                        <span id="currOwner">user</span>
+                    </div>
+                    <div class="inline-div">
+                        <span>დაწერის თარიღი</span> <br/>
+                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">
+                    </div>
+                    <div class="inline-div">
+                        <i class="fas fa-users btn"></i>
+                        <i class="fas fa-history btn"></i>
+                    </div>
                 </div>
             </td>
         </tr>
@@ -49,6 +44,11 @@ $caseForm = "caseform";
     </table>
 
     <form id="caseform" action="">
+        <input type="hidden" id="caseID" name="caseID" value="0">
+        <input type="hidden" id="ownerID" name="ownerID" value="0">
+        <input type="hidden" id="userID" name="userID" value="<?= $_SESSION['userID'] ?>">
+
+
         <table class="table-section">
             <tbody>
             <tr>

@@ -52,7 +52,7 @@ if ($pos !== false ){
     <!-- Sidebar Holder -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><?= $_SESSION['username'] ?></h3>
+            <h3 id="loged_username"><?= $_SESSION['username'] ?></h3>
             <h5><?= $_SESSION['M4UT'] ?></h5>
         </div>
 
