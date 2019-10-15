@@ -119,7 +119,6 @@ function fillInstanceForm(instance) {
     caseObj.instBefore[i] = $('#i' + i + '_form').serialize();
 }
 
-
 function getCaseData(id) {
     $.ajax({
         url: 'php_code/get_case_data.php',
@@ -141,6 +140,7 @@ function getCaseData(id) {
         }
     });
 }
+
 $(function () {
     console.log('new_case_ready');
     getOrganizations('organization_id');

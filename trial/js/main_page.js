@@ -8,20 +8,24 @@ var filterForm;
 $(function(){
     caseTable = $('#tb_case_list').find('tbody');
     filterForm = $('#caseFilterForm');
-
-    filterForm.on('submit', function(e){
-        e.preventDefault();
-        console.log("def_cenceled!!!");
-    });
+    getOrganizations('organization_id');
+    loadBranches(0, 0, 'filial_id');
+    $('select').val(0);
 });
 
-
+$('#organization_id').on('change', function () {
+    loadBranches($('#organization_id').val(), 0, 'filial_id');
+});
 
 $('#btnSearchApp').on('click', function () {
-
     lastQuery = filterForm.serialize();
     console.log('from:',lastQuery);
     getCaseList(lastQuery);
+});
+
+$('#btnClearApp').on('click', function () {
+    filterForm.trigger('reset');
+    $('select').val(0);
 });
 
 function getCaseList(querys){

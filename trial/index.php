@@ -44,19 +44,19 @@ $note = "შენიშვნა";
             <tbody>
             <tr>
                 <td>
-                    <?= DrawView::doubleDateInput($id_simple, "create_date", "მიღების თარიღი (დან - მდე)", "", "date") ?>
+                    <?= DrawView::doubleDateInput($id_simple, "receive_date", "მიღების თარიღი (დან - მდე)", "", "date") ?>
                 </td>
                 <td>
-                    <?= DrawView::doubleDateInput($id_simple, "create_date", "განაწილების თარიღი (დან - მდე)", "", "date") ?>
+                    <?= DrawView::doubleDateInput($id_simple, "distr_date", "განაწილების თარიღი (დან - მდე)", "", "date") ?>
                 </td>
                 <td>
-                    <?= DrawView::doubleDateInput($id_simple, "create_date", "დასრულების თარიღი (დან - მდე)", "", "date") ?>
+                    <?= DrawView::doubleDateInput($id_simple, "close_date", "დასრულების თარიღი (დან - მდე)", "", "date") ?>
                 </td>
                 <td>
-                    <?= DrawView::selector($id_simple, "მფლობელი", "case_owner", []) ?>
+                    <?= DrawView::selector($id_simple, "მფლობელი", "case_owner", getOwners($conn, 4)) ?>
                 </td>
                 <td>
-                    <?= DrawView::doubleDateInput($id_simple, "create_date", "დაწერის sdsdsds თარიღი (დან - მდე)", "", "date") ?>
+                    <?= DrawView::doubleDateInput($id_simple, "own_date", "დაწერის თარიღი (დან - მდე)", "", "date") ?>
                 </td>
             </tr>
             </tbody>
@@ -87,16 +87,12 @@ $note = "შენიშვნა";
                 <td>
                     <?= DrawView::simpleCheckbox($id_simple, "reminder", "შემახსენებელი", "", "checkbox") ?>
                 </td>
-                <td>
-                    <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
-                </td>
-                <td>
-                    <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button>
-                </td>
+
             </tr>
             </tbody>
         </table>
     </form>
+    <div class="toright"><button id="btnSearchApp" class="btn"><b>ძებნა</b></button> <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button></div>
 
 <?= DrawView::subTitle("ფილტრაციის შედეგი") ?>
 
