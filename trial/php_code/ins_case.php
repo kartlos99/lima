@@ -61,10 +61,13 @@ $settle_costs = $_POST['settle_costs'];
 //}
 $index = 'i1_';
 
-function saveInstance($index, $caseID, $connDB)
+function saveInstance($instance, $caseID, $connDB)
 {
     global $currDate, $currUser, $currUserID;
-    $instance = $index[1];
+
+    $index = 'i' . $instance . '_';
+
+    $instID = $_POST[$index . 'instID'];
 
     $judicial_type = $_POST[$index . 'judicial_type'];
     $judicial_name = $_POST[$index . 'judicial_name'];
@@ -146,7 +149,8 @@ function saveInstance($index, $caseID, $connDB)
         $courtDecRemainderEndDate = time();
     }
 
-    $sql_inst = "
+    if ($instID == 0) {
+        $sql_inst = "
 INSERT INTO `pcm_aplication_instances`(
     `caseID`,
     `TypesID`,
@@ -267,14 +271,82 @@ VALUES(
     )
     ";
 
-//    return $sql_inst;
+        if (mysqli_query($connDB, $sql_inst)) {
+            return mysqli_insert_id($connDB);
+        }
 
-    if (mysqli_query($connDB, $sql_inst)){
-        return mysqli_insert_id($connDB);
+    }else{
+        // redaqtireba, instID > 0
+        $sqlInstUpdate = "
+        UPDATE
+    `pcm_aplication_instances`
+SET
+    `JudicialentityTypeID` = $judicial_type,
+    `JudicialentityD` = $judicial_name,
+    `ClaimCurID` = $currency,
+    `Claimbase` = '$footer',
+    `ClaimPercent` = '$percent',
+    `ClaimPenalty` = '$puncture',
+    `ClaimCost` = '$costs',
+    `ClaimDuty` = '$baj',
+    `ClaimNotice` = '$request_add_info',
+    `ClaimdeliveryStatus` = '$put_suit',
+    `ClaimdeliveryDate` = '$suit_put_date',
+    `ClaimSysUserName` = '$el_code_user',
+    `ClaimSysPassword` = '$el_code_pass',
+    `ClaimProceeedID` = '$take_suit',
+    `ClaimProceeedDate` = '$suit_take_date',
+    `ClaimJudgeName` = '$judge_name',
+    `ClaimJudgeAssistant` = '$assistant_name',
+    `ClaimJudgePhone` = '$contact_info',
+    `CltoPerDeliveryStatus` = '$client_put_suit',
+    `CltoPerDeliveryMethod` = '$suit_put_type',
+    `CltoPerDeliveryDate` = '$suit_client_put_date',
+    `CltoPerFirstSentDate` = '$suit_send_time1',
+    `CltoPerFirstSentResult` = '$suit_send_result1',
+    `CltoPerSecondSentDate` = '$suit_send_time2',
+    `CltoPerSecondSentResult` = '$suit_send_result2',
+    `CltoPerStandardSentResult` = '$suit_put_result',
+    `CltoPerDeliveryToCourtDate` = '$judge_notice_date',
+    `CltoPerPublicDeliveryReqDate` = '$public_put_date',
+    `CltoPerPublicRemainderStartDate` = '$cltoPerPublicRemainderStartDate',
+    `CltoPerPublicRemainderEndDate` = '$cltoPerPublicRemainderEndDate',
+    `CltoPerPublicRemainder` = '$public_put_reminder',
+    `ClaimContStatusID` = '$response_status',
+    `ClaimContPresDate` = '$response_date',
+    `CourtProcessStatusID` = '$court_status',
+    `CourtProcessPreDate` = '$court_mark_date',
+    `CourtProcessComment` = '$court_mark_comment',
+    `CourtProcessDate` = '$court_date',
+    `CourtProcessRemainderStartDate` = '$courtProcessRemainderStartDate',
+    `CourtProcessRemainderEndDate` = '$courtProcessRemainderEndDate',
+    `CourtProcessRemainder` = '$court_hearing_reminder',
+    `CourtDecRemainderStartDate` = '$courtDecRemainderStartDate',
+    `CourtDecRemainderEndDate` = '$courtDecRemainderEndDate',
+    `CourtDecRemainder` = '$court_decision_reminder',
+    `CourtDecTypeID` = '$decision_type',
+    `CourtDecDate` = '$decision_take_date',
+    `CourtDecActDate` = '$decision_take_effect_date',
+    `CourtDecResCurID` = '$decision_currency',
+    `CourtDecResBase` = '$decision_footer',
+    `CourtDecResPercent` = '$decision_percent',
+    `CourtDecResPenalty` = '$decision_puncture',
+    `CourtDecResCost` = '$decision_costs',
+    `Notice` = '$additional_info',
+    `UpdateDate` = $currDate,
+    `UpdateUserID` = $currUserID,
+    `UpdateUser` = '$currUser'
+WHERE
+    `ID` = $instID
+    ";
+
+//        return $sqlInstUpdate;
+        if (mysqli_query($connDB, $sqlInstUpdate)) {
+            return $instID;
+        }
     }
     return 0;
 }
-$sq = "";
 
 if ($caseID == 0) {
 
@@ -379,7 +451,82 @@ VALUES(
         $res2 = true;
         for ($i = 1; $i <= 3; $i++) {
             if (isset($_POST['i' . $i . '_judicial_type'])) {
-                $resultArray['i' . $i] = saveInstance('i' . $i . '_', $caseID, $conn);
+                $resultArray['i' . $i] = saveInstance($i, $caseID, $conn);
+                if (!$resultArray['i' . $i]) {
+                    $res2 = false;
+                }
+            }
+        }
+
+        if ($res2) {
+            $resultArray['result'] = "success";
+        } else {
+            $resultArray['result'] = "error";
+            $resultArray['error'] = "can't add case_Instance!";
+        }
+
+    } else {
+        $resultArray['result'] = "error";
+        $resultArray['error'] = "can't add case!";
+    }
+
+} else {
+    // redaqtireba! caseID > 0
+    $caseUpdateSql = "
+UPDATE
+    `pcm_aplication`
+SET
+    `StatusID` = $case_status,
+    `StageID` = $case_stage,
+    `InstanceID` = $instance,
+    `OwnerID` = $ownerID,
+    `OwnDate` = '$get_started_date',
+    `ReceiveDate` = '$time_of_begin',
+    `DistrDate` = '$time_of_distribution',
+    `CloseDate` = '$time_of_finish',
+    `AgrNumber` = '$agreement_N',
+    `AgrDate` = '$date_of_decoration',
+    `AgrOrgID` = $organization,
+    `AgrOrgBranchID` = $filial,
+    `DebFirstName` = '$client_name',
+    `DebPrivateNumber` = '$client_N',
+    `DebAddress` = '$client_address',
+    `ExecStatusID` = $enf_status,
+    `ExecReqDate` = '$enf_request_time',
+    `ExecGetDate` = '$enf_take_time',
+    `ExecProcessDate` = '$enf_start_time',
+    `ExecResultID` = '$enf_result',
+    `ExecMoney` = '$enf_amount',
+    `DutyStatusID` = $baj_status,
+    `DutyReqDate` = '$baj_request_time',
+    `DutyGetDate` = '$baj_take_time',
+    `DutyResultID` = '$baj_result',
+    `DutyMoney` = '$baj_amount',
+    `SettStatusID` = $settle_status,
+    `SettStartDate` = '$settle_start_time',
+    `SettResultID` = '$settle_result',
+    `SettDate` = '$settle_time',
+    `SettCurID` = $settle_currency,
+    `Settbase` = '$settle_footer',
+    `SettPercent` = '$settle_percent',
+    `SettPenalty` = '$settle_puncture',
+    `SettCost` = '$settle_costs',
+    `UpdateDate` = $currDate,
+    `UpdateUserID` = $currUserID,
+    `UpdateUser` = '$currUser'
+WHERE
+    `ID` = $caseID
+    ";
+
+    $result = mysqli_query($conn, $caseUpdateSql);
+
+    if ($result) {
+        $resultArray['caseID'] = $caseID;
+
+        $res2 = true;
+        for ($i = 1; $i <= 3; $i++) {
+            if (isset($_POST['i' . $i . '_judicial_type'])) {
+                $resultArray['i' . $i] = saveInstance($i, $caseID, $conn);
                 if (!$resultArray['i' . $i]) {
                     $res2 = false;
                 }
@@ -400,8 +547,7 @@ VALUES(
 
 }
 
-$resultArray['sql'] = $sql;
-$resultArray['sq'] = $sq;
+//$resultArray['sql'] = $sql;
 
 
 echo(json_encode($resultArray));

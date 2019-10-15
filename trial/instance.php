@@ -1,7 +1,7 @@
 
 <form action="" id="<?= $namePref ?>form">
 
-    <input type="hidden" id="<?= $namePref ?>ID" name="instID" value="0">
+    <input type="hidden" id="<?= $namePref ?>ID" name="<?= $namePref ?>instID" value="0">
     <?= DrawView::subTitle("განსჯადი უწყება") ?>
 <table class="table-section">
     <tr>

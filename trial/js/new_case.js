@@ -54,7 +54,7 @@ function fillCaseForm(caseData) {
 
 function fillInstanceForm(instance) {
     var i = instance.TypesID;
-    console.log(instance.TypesID, instance);
+//    console.log(instance.TypesID, instance);
     $('#i' + i + '_ID').val(instance.ID);
 
     $('#i' + i + '_judicial_type_i' + i + '_id').val(instance.JudicialentityTypeID);
@@ -146,14 +146,14 @@ $(function () {
     getOrganizations('organization_id');
     loadBranches(0, 0, 'filial_id');
     caseObj.id = getCookie("appID");
+    caseObj.instBefore[1] = $('#i1_form').serialize();
+    caseObj.instBefore[2] = $('#i2_form').serialize();
+    caseObj.instBefore[3] = $('#i3_form').serialize();
     console.log(caseObj);
 
     if (caseObj.id == 0 || caseObj.id == "") {
         $('#ownerID').val($('#userID').val());
         $('#currOwner').text($('#loged_username').text());
-        caseObj.instBefore[1] = $('#i1_form').serialize();
-        caseObj.instBefore[2] = $('#i2_form').serialize();
-        caseObj.instBefore[3] = $('#i3_form').serialize();
     } else {
         // redaqtirebis rejimi, wamvigot sachiro saqme da avsaxot gverdze
         getCaseData(caseObj.id);
@@ -171,6 +171,7 @@ $('#btnSaveCase').on('click', function () {
         }
     }
     console.log(sendData);
+    console.log(caseObj);
 
     $.ajax({
         url: 'php_code/ins_case.php',

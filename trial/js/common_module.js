@@ -166,7 +166,7 @@ function loadBranches(orgID, brID, sel_ID) {
     var branches_el_ID = '#' + sel_ID;
     $(branches_el_ID).empty().removeAttr('disabled');
 
-    if (orgID == "") {
+    if (orgID == "" || orgID == "0") {
         $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo(branches_el_ID);
     } else {
         organizationObj.forEach(function (org) {
