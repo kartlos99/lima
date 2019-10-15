@@ -26,6 +26,7 @@ $('#btnSearchApp').on('click', function () {
 $('#btnClearApp').on('click', function () {
     filterForm.trigger('reset');
     $('select').val(0);
+    $('#reminder_id').bootstrapToggle('off');
 });
 
 function getCaseList(querys){

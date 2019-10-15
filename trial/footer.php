@@ -42,7 +42,7 @@
 <script type="text/javascript" src="js/common_module.js"></script>
 
 <script type="text/javascript" src="js/<?= $thisPage ?>.js"></script>
-
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
 </body>
 </html>

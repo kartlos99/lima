@@ -88,7 +88,9 @@ $note = "შენიშვნა";
                     <?= DrawView::simpleInput($id_simple, "borrower_PN", "მსესხებლის პირადი N") ?>
                 </td>
                 <td>
-                    <?= DrawView::simpleCheckbox($id_simple, "reminder", "შემახსენებელი", "", "checkbox") ?>
+                    <label for="reminder_id">შემახსენებელი</label>
+                    <input id="reminder_id" name="reminder" type="checkbox" data-toggle="toggle"
+                           data-on="ჩართულია" data-off="გათიშულია">
                 </td>
 
             </tr>
