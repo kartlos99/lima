@@ -7,7 +7,7 @@ var caseObj = {
 };
 
 function fillCaseForm(caseData) {
-    $('#caseN').text('case_N ' + caseData.ID);
+    $('#caseN').text('case_N ' + caseData.ID + " " + caseData.CreateDate);
     $('#currOwner').text(caseData.ownerName);
     $('#caseID').val(caseData.ID);
     $('#ownerID').val(caseData.OwnerID);
@@ -181,6 +181,7 @@ $('#btnSaveCase').on('click', function () {
         success: function (response) {
             console.log(response);
             if (response.result == "success") {
+                caseObj.id = response.caseID;
                 getCaseData(response.caseID);
                 alert("saved!");
 
@@ -209,4 +210,74 @@ $(".panel-heading").on('click', function (el) {
 
 function f_hide() {
     document.cookie = "appID=0";
+}
+
+$('#btnUserCh').on('click', function(){
+    if (caseObj.id > 0){
+        $('#dialogUserChange').modal('show');
+        $('#old_owner_D1').val($('#currOwner').text());
+        $('#ownerID_old').val($('#ownerID').val());
+        $('#d1_caseID').val(caseObj.id);
+    }else{
+        alert("საქმე არაა შენახული!");
+    }
+
+});
+
+$('#btnDoneD1').on('click', function(){
+    var sendData = $('#userChForm').serialize();
+    console.log(sendData);
+
+    $.ajax({
+        url: 'php_code/ins_userCh.php',
+        method: 'post',
+        data: sendData,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.result == "success") {
+                getCaseData(caseObj.id);
+                alert("saved!");
+            } else {
+                console.log(response.error);
+            }
+        }
+    });
+});
+
+$('#btnUserHist').on('click', function(){
+    if (caseObj.id > 0){
+        getHistList({'caseid': caseObj.id});
+        $('#histModalTiTle').text($('#caseN').text());
+        $('#dialogUserHist').modal('show');
+    }else{
+        alert("საქმე არაა შენახული!");
+    }
+
+});
+
+function getHistList(querys){
+    $.ajax({
+        url: 'php_code/get_owner_hist.php',
+        method: 'post',
+        data: querys,
+        dataType: 'json',
+        success: function (response) {
+            hTable = $('#tb_user_hist').find('tbody');
+            hTable.empty();
+            var appdata = response.data;
+
+            appdata.forEach(function (item) {
+
+                var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
+                var td_owner = $('<td />').text(item.owner);
+                var td_tarigi = $('<td />').text(item.tarigi);
+                var td_OwnChangeReason = $('<td />').text(item.OwnChangeReason);
+                var td_op = $('<td />').text(item.op);
+
+                var trow = $('<tr></tr>').append(td_id, td_owner, td_tarigi, td_OwnChangeReason, td_op);
+                hTable.append(trow);
+            });
+        }
+    });
 }

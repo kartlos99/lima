@@ -122,7 +122,7 @@ $sql_case = "SELECT
     `SettPercent`,
     `SettPenalty`,
     `SettCost`,
-    cs.`CreateDate`,
+    date(cs.`CreateDate`) as CreateDate,
     cs.`CreateUserID`,
     cs.`CreateUser`,
     cs.`UpdateDate`,

@@ -11,6 +11,8 @@ $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 $resultArray = [];
 $limit = " limit 20";
+$order = " ORDER BY rem";
+$reminder = isset($_POST['reminder']);
 
 function getValueInt($fieldName, $postKey){
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
@@ -28,7 +30,7 @@ function getValuedate($fieldName, $postKey, $oper){
 
 function getValueStr($fieldName, $postKey){
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
-        return " AND $fieldName like '" . $_POST[$postKey] . "%'";
+        return " AND `$fieldName` like '" . $_POST[$postKey] . "%'";
     }
     return "";
 }
@@ -65,9 +67,9 @@ $sql_count = "SELECT count(cs.ID) as n FROM `pcm_aplication` cs
 LEFT JOIN dictionariyitems di1 ON di1.ID = cs.StatusID
 LEFT JOIN dictionariyitems di2 ON di2.ID = cs.StageID
 LEFT JOIN organizations o on o.ID = cs.AgrOrgID";
-
+$index = 1;
 $sql_fields = "
-SELECT cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
+SELECT $index as rem, cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
 LEFT JOIN dictionariyitems di1 ON di1.ID = cs.StatusID
 LEFT JOIN dictionariyitems di2 ON di2.ID = cs.StageID
 LEFT JOIN organizations o on o.ID = cs.AgrOrgID
@@ -75,9 +77,40 @@ LEFT JOIN organizations o on o.ID = cs.AgrOrgID
 
 $sql = " WHERE ";
 
-$resultArray['sql'] = $sql_fields . $sql . $query . $limit;
 
-$result = mysqli_query($conn,  $sql_fields . $sql . $query . $limit);
+$fullSQL = $sql_fields . $sql . $query;
+
+if ($reminder){
+    $query2 = "
+cs.ID IN (
+SELECT DISTINCT
+    (caseID)
+FROM
+    pcm_aplication_instances ins
+WHERE
+    (
+        DATEDIFF(CourtProcessDate,  CURRENT_DATE()) <= 5 AND CourtProcessRemainder = 1
+    ) OR (
+        UNIX_TIMESTAMP(CURRENT_DATE()) - CltoPerPublicRemainderStartDate < 60 * 60 * 24 * 30 AND CltoPerPublicRemainder = 1
+    ) OR (
+        UNIX_TIMESTAMP(CURRENT_DATE()) - CourtDecRemainderStartDate < 60 * 60 * 24 * 30 AND CourtDecRemainder = 1)
+)
+";
+    $index = 0;
+    $sql_fields = "
+SELECT $index as rem, cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
+LEFT JOIN dictionariyitems di1 ON di1.ID = cs.StatusID
+LEFT JOIN dictionariyitems di2 ON di2.ID = cs.StageID
+LEFT JOIN organizations o on o.ID = cs.AgrOrgID
+";
+    $fullSQL .= " union " . $sql_fields . $sql . $query2;
+}
+
+$fullSQL .= $order . $limit;
+
+$resultArray['sql'] = $fullSQL;
+
+$result = mysqli_query($conn,  $fullSQL);
 $result_N = mysqli_query($conn, $sql_count . $sql . $query);
 
 $arr = [];
@@ -92,3 +125,5 @@ $resultArray['data'] = $arr;
 $resultArray['count'] = $nn;
 
 echo(json_encode($resultArray));
+
+// SELECT dateDIFF('2019-10-13', CURRENT_DATE()) AS diff1, unix_timestamp(CURRENT_DATE()), 60*60*24*30 AS dge;

@@ -34,8 +34,8 @@ $caseForm = "caseform";
                         <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">
                     </div>
                     <div class="inline-div">
-                        <i class="fas fa-users btn"></i>
-                        <i class="fas fa-history btn"></i>
+                        <i id="btnUserCh" class="fas fa-users btn"></i>
+                        <i id="btnUserHist" class="fas fa-history btn"></i>
                     </div>
                 </div>
             </td>
@@ -261,5 +261,8 @@ $namePref = "i3_";
 
     <button id="btnSaveCase" class="btn"><b>დამახსოვრება</b></button>
 
-
-<?php include_once 'footer.php'; ?>
+<?php
+include_once 'userChangeModal.php';
+include_once 'userHistModal.php';
+include_once 'footer.php';
+?>
