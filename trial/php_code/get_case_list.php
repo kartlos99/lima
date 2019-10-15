@@ -16,14 +16,14 @@ $reminder = isset($_POST['reminder']);
 
 function getValueInt($fieldName, $postKey){
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
-        return " AND $fieldName = " . $_POST[$postKey];
+        return " AND `$fieldName` = " . $_POST[$postKey];
     }
     return "";
 }
 
 function getValuedate($fieldName, $postKey, $oper){
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
-        return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND $fieldName > '1'";
+        return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND `$fieldName` > '1'";
     }
     return "";
 }
@@ -91,9 +91,9 @@ WHERE
     (
         DATEDIFF(CourtProcessDate,  CURRENT_DATE()) <= 5 AND CourtProcessRemainder = 1
     ) OR (
-        UNIX_TIMESTAMP(CURRENT_DATE()) - CltoPerPublicRemainderStartDate < 60 * 60 * 24 * 30 AND CltoPerPublicRemainder = 1
+        UNIX_TIMESTAMP() - CltoPerPublicRemainderStartDate > 60 * 60 * 24 * 30 AND CltoPerPublicRemainder = 1
     ) OR (
-        UNIX_TIMESTAMP(CURRENT_DATE()) - CourtDecRemainderStartDate < 60 * 60 * 24 * 30 AND CourtDecRemainder = 1)
+        UNIX_TIMESTAMP() - CourtDecRemainderStartDate > 60 * 60 * 24 * 30 AND CourtDecRemainder = 1)
 )
 ";
     $index = 0;

@@ -50,10 +50,13 @@ $note = "შენიშვნა";
                     <?= DrawView::doubleDateInput($id_simple, "distr_date", "განაწილების თარიღი (დან - მდე)", "", "date") ?>
                 </td>
                 <td>
-                    <?= DrawView::doubleDateInput($id_simple, "close_date", "დასრულების თარიღი (დან - მდე)", "", "date") ?>
-                </td>
-                <td>
                     <?= DrawView::selector($id_simple, "მფლობელი", "case_owner", getOwners($conn, 4)) ?>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <?= DrawView::doubleDateInput($id_simple, "close_date", "დასრულების თარიღი (დან - მდე)", "", "date") ?>
                 </td>
                 <td>
                     <?= DrawView::doubleDateInput($id_simple, "own_date", "დაწერის თარიღი (დან - მდე)", "", "date") ?>
@@ -92,7 +95,10 @@ $note = "შენიშვნა";
             </tbody>
         </table>
     </form>
-    <div class="toright"><button id="btnSearchApp" class="btn"><b>ძებნა</b></button> <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button></div>
+    <div class="toright panel-footer">
+        <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
+        <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button>
+    </div>
 
 <?= DrawView::subTitle("ფილტრაციის შედეგი") ?>
 

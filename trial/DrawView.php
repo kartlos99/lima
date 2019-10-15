@@ -58,7 +58,7 @@ class DrawView
         $id2 = $name2 . "_" . $id ;
         $form_attr = $form == null ? "" : "form=\"$form\"";
         $view = '<label for="' . $id . '">' . $title . '</label>
-                <table>
+                <table class="table-section">
                     <tr>
                         <td>
                             <input type="' . $type . '" class="form-control" id="' . $id1 . '" name="' . $name1 . '" data-field="'. $dataField .'" '. $form_attr .'>

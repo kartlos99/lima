@@ -70,9 +70,9 @@ $caseForm = "caseform";
                 <td>
                     <?= DrawView::simpleInput($id_simple, "time_of_finish", "დასრულება", "", "date") ?>
                 </td>
-                <td>
-                    <button class="btn"><i class="fas fa-history"></i></button>
-                </td>
+<!--                <td>-->
+<!--                    <button class="btn"><i class="fas fa-history"></i></button>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>
@@ -258,8 +258,10 @@ $namePref = "i3_";
         </tbody>
     </table>
 
-
+<div class="panel-footer">
     <button id="btnSaveCase" class="btn"><b>დამახსოვრება</b></button>
+</div>
+
 
 <?php
 include_once 'userChangeModal.php';
