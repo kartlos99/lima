@@ -64,15 +64,15 @@ if ($query == "")
     $query = "1";
 
 $sql_count = "SELECT count(cs.ID) as n FROM `pcm_aplication` cs
-LEFT JOIN dictionariyitems di1 ON di1.ID = cs.StatusID
-LEFT JOIN dictionariyitems di2 ON di2.ID = cs.StageID
-LEFT JOIN organizations o on o.ID = cs.AgrOrgID";
+LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
+LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
+LEFT JOIN Organizations o on o.ID = cs.AgrOrgID";
 $index = 1;
 $sql_fields = "
 SELECT $index as rem, cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
-LEFT JOIN dictionariyitems di1 ON di1.ID = cs.StatusID
-LEFT JOIN dictionariyitems di2 ON di2.ID = cs.StageID
-LEFT JOIN organizations o on o.ID = cs.AgrOrgID
+LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
+LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
+LEFT JOIN Organizations o on o.ID = cs.AgrOrgID
 ";
 
 $sql = " WHERE ";
@@ -99,9 +99,9 @@ WHERE
     $index = 0;
     $sql_fields = "
 SELECT $index as rem, cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
-LEFT JOIN dictionariyitems di1 ON di1.ID = cs.StatusID
-LEFT JOIN dictionariyitems di2 ON di2.ID = cs.StageID
-LEFT JOIN organizations o on o.ID = cs.AgrOrgID
+LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
+LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
+LEFT JOIN Organizations o on o.ID = cs.AgrOrgID
 ";
     $fullSQL .= " union " . $sql_fields . $sql . $query2;
 }

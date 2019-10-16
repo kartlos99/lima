@@ -67,7 +67,7 @@ function fillInstanceForm(instance) {
     $('#i' + i + '_baj_i' + i + '_id').val(instance.ClaimDuty);
     $('#i' + i + '_request_add_info_i' + i + '_id').val(instance.ClaimNotice);
 
-    $('#i' + i + '_put_suit').val(instance.ClaimdeliveryStatus);
+    $('#i' + i + '_put_suit_i' + i + '_idSelPutSuit').val(instance.ClaimdeliveryStatus);
     $('#i' + i + '_suit_put_date_i' + i + '_id').val(instance.ClaimdeliveryDate);
     $('#i' + i + '_el_code_user_i' + i + '_id').val(instance.ClaimSysUserName);
     $('#i' + i + '_el_code_pass_i' + i + '_id').val(instance.ClaimSysPassword);

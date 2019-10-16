@@ -131,7 +131,7 @@ $sql_case = "SELECT
     per.UserName AS ownerName
 FROM
     `pcm_aplication` cs
-LEFT JOIN personmapping per
+LEFT JOIN PersonMapping per
 ON cs.OwnerID = per.ID
 WHERE
     cs.ID = $caseID";
