@@ -941,7 +941,7 @@ $('.eye0').on('click', function () {
         atag.attr('type','password');
         aicon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
     } else {
-        if (browseMode == false){
+        if (browseMode == false || $('div.sidebar-header').find('h5').text() == 'iCloudGrH'){
             atag.attr('type','text');
             aicon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
         } else{
