@@ -30,6 +30,7 @@ $time_of_distribution = $_POST['time_of_distribution'];
 $time_of_finish = $_POST['time_of_finish'];
 $agreement_N = $_POST['agreement_N'];
 $date_of_decoration = $_POST['date_of_decoration'];
+$loanType = $_POST['loan_type'];
 $organization = $_POST['organization'];
 $filial = $_POST['filial'];
 $client_name = $_POST['client_name'];
@@ -363,6 +364,7 @@ INSERT INTO `pcm_aplication`(
     `CloseDate`,
     `AgrNumber`,
     `AgrDate`,
+    `AgrLoanType`,
     `AgrOrgID`,
     `AgrOrgBranchID`,
     `DebLastName`,
@@ -407,6 +409,7 @@ VALUES(
     '$time_of_finish',
     '$agreement_N',
     '$date_of_decoration',
+    $loanType,
     $organization,
     $filial,
     '',
@@ -486,6 +489,7 @@ SET
     `CloseDate` = '$time_of_finish',
     `AgrNumber` = '$agreement_N',
     `AgrDate` = '$date_of_decoration',
+    `AgrLoanType` = $loanType,
     `AgrOrgID` = $organization,
     `AgrOrgBranchID` = $filial,
     `DebFirstName` = '$client_name',

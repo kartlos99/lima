@@ -1,8 +1,7 @@
-
 <form action="" id="<?= $namePref ?>form">
 
-    <input type="hidden" id="<?= $namePref ?>ID" name="<?= $namePref ?>instID" value="0">
-    <?= DrawView::subTitle("განსჯადი უწყება") ?>
+<input type="hidden" id="<?= $namePref ?>ID" name="<?= $namePref ?>instID" value="0">
+<?= DrawView::subTitle("განსჯადი უწყება") ?>
 <table class="table-section">
     <tr>
         <td>
@@ -135,8 +134,10 @@
         </td>
         <td>
             <?= DrawView::simpleCheckbox($id_simple, $namePref . "public_put_reminder", "შემახსენებელი", "", "checkbox") ?>
-            <input id="<?= $id_simple ?>cltoPerPublicRemainderStartDate" type="hidden" name="<?= $namePref ?>cltoPerPublicRemainderStartDate" value="0"/>
-            <input id="<?= $id_simple ?>cltoPerPublicRemainderEndDate" type="hidden" name="<?= $namePref ?>cltoPerPublicRemainderEndDate" value="0"/>
+            <input id="<?= $id_simple ?>cltoPerPublicRemainderStartDate" type="hidden"
+                   name="<?= $namePref ?>cltoPerPublicRemainderStartDate" value="0"/>
+            <input id="<?= $id_simple ?>cltoPerPublicRemainderEndDate" type="hidden"
+                   name="<?= $namePref ?>cltoPerPublicRemainderEndDate" value="0"/>
         </td>
     </tr>
 </table>
@@ -172,8 +173,10 @@
         </td>
         <td>
             <?= DrawView::simpleCheckbox($id_simple, $namePref . "court_hearing_reminder", "შემახსენებელი", "", "checkbox") ?>
-            <input id="<?= $id_simple ?>CourtProcessRemainderStartDate" type="hidden" name="<?= $namePref ?>CourtProcessRemainderStartDate" value="0"/>
-            <input id="<?= $id_simple ?>CourtProcessRemainderEndDate" type="hidden" name="<?= $namePref ?>CourtProcessRemainderEndDate" value="0"/>
+            <input id="<?= $id_simple ?>CourtProcessRemainderStartDate" type="hidden"
+                   name="<?= $namePref ?>CourtProcessRemainderStartDate" value="0"/>
+            <input id="<?= $id_simple ?>CourtProcessRemainderEndDate" type="hidden"
+                   name="<?= $namePref ?>CourtProcessRemainderEndDate" value="0"/>
         </td>
     </tr>
 </table>
@@ -181,8 +184,10 @@
 <div class="subtitle">
     <span>სასამართლო გადაწყვეტილება</span>
     <?= DrawView::simpleCheckbox($id_simple, $namePref . "court_decision_reminder", "შემახსენებელი", "", "checkbox") ?>
-    <input id="<?= $id_simple ?>CourtDecRemainderStartDate" type="hidden" name="<?= $namePref ?>CourtDecRemainderStartDate" value="0"/>
-    <input id="<?= $id_simple ?>CourtDecRemainderEndDate" type="hidden" name="<?= $namePref ?>CourtDecRemainderEndDate" value="0"/>
+    <input id="<?= $id_simple ?>CourtDecRemainderStartDate" type="hidden"
+           name="<?= $namePref ?>CourtDecRemainderStartDate" value="0"/>
+    <input id="<?= $id_simple ?>CourtDecRemainderEndDate" type="hidden" name="<?= $namePref ?>CourtDecRemainderEndDate"
+           value="0"/>
 </div>
 <table class="table-section">
     <tbody>
@@ -221,7 +226,12 @@
     <tbody>
     <tr>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "additional_info", "დამატებითი ინფორმაცია", "", "text") ?>
+            <div>
+                <label for="<?= $namePref ?>additional_info_<?= $id_simple ?>">დამატებითი ინფორმაცია</label>
+            </div>
+            <div>
+                <textarea name="<?= $namePref ?>additional_info" id="<?= $namePref ?>additional_info_<?= $id_simple ?>" rows="4"></textarea>
+            </div>
         </td>
     </tr>
     </tbody>

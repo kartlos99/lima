@@ -89,6 +89,9 @@ $caseForm = "caseform";
                     <?= DrawView::simpleInput($id_simple, "date_of_decoration", "გაფორმების თარიღი", "", "date") ?>
                 </td>
                 <td>
+                    <?= DrawView::selector($id_simple, "სესხის ტიპი", "loan_type", getDictionariyItems($conn, 'loan_type')) ?>
+                </td>
+                <td>
                     <?= DrawView::selector($id_simple, "ორგანიზაცა", "organization") ?>
                 </td>
                 <td>

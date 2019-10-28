@@ -93,6 +93,7 @@ $sql_case = "SELECT
     DATE(`CloseDate`) AS `CloseDate`,
     `AgrNumber`,
     DATE(`AgrDate`) AS `AgrDate`,
+    `AgrLoanType`,
     `AgrOrgID`,
     `AgrOrgBranchID`,
     `DebLastName`,

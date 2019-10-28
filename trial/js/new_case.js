@@ -21,6 +21,7 @@ function fillCaseForm(caseData) {
     $('#time_of_finish_id').val(caseData.CloseDate);
     $('#agreement_N_id').val(caseData.AgrNumber);
     $('#date_of_decoration_id').val(caseData.AgrDate);
+    $('#loan_type_id').val(caseData.AgrLoanType);
     $('#organization_id').val(caseData.AgrOrgID);
     loadBranches(caseData.AgrOrgID, caseData.AgrOrgBranchID, 'filial_id');
     $('#client_name_id').val(caseData.DebFirstName);

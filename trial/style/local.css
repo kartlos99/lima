@@ -287,3 +287,10 @@ td.datewidth {
     background-color: rgba(247, 39, 5, 0.51);
     font-weight: bold;
 }
+
+td div textarea {
+    padding: 5px;
+    width: 100%;
+    resize: none;
+    overflow: auto;
+}
