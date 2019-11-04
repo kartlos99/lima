@@ -57,6 +57,8 @@ $settle_percent = $_POST['settle_percent'];
 $settle_puncture = $_POST['settle_puncture'];
 $settle_costs = $_POST['settle_costs'];
 
+$case_note = $_POST['case_note'];
+
 //foreach($_POST as $kay => $dt ){
 //    echo($kay . " = \$_POST['" . $kay . "']; </br>");
 //}
@@ -394,6 +396,7 @@ INSERT INTO `pcm_aplication`(
     `SettPercent`,
     `SettPenalty`,
     `SettCost`,
+    `caseNote`,
     `CreateDate`,
     `CreateUserID`,
     `CreateUser`
@@ -439,6 +442,7 @@ VALUES(
     '$settle_percent',
     '$settle_puncture',
     '$settle_costs',
+    '$case_note',
     $currDate,
     $currUserID,
     '$currUser'
@@ -515,6 +519,7 @@ SET
     `SettPercent` = '$settle_percent',
     `SettPenalty` = '$settle_puncture',
     `SettCost` = '$settle_costs',
+    `caseNote` = '$case_note',
     `UpdateDate` = $currDate,
     `UpdateUserID` = $currUserID,
     `UpdateUser` = '$currUser'

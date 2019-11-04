@@ -51,6 +51,8 @@ function fillCaseForm(caseData) {
     $('#settle_puncture_settle_id').val(caseData.SettPenalty);
     $('#settle_costs_settle_id').val(caseData.SettCost);
 
+    $('#case_note_id').val(caseData.caseNote);
+
 }
 
 function fillInstanceForm(instance) {

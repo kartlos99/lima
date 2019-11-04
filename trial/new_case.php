@@ -261,6 +261,22 @@ $namePref = "i3_";
         </tbody>
     </table>
 
+    <?php $id_simple = "id" ?>
+    <table class="table-section">
+    <tbody>
+    <tr>
+        <td>
+            <div>
+                <label for="case_note_<?= $id_simple ?>">დამატებითი ინფორმაცია</label>
+            </div>
+            <div>
+                <textarea name="case_note" id="case_note_<?= $id_simple ?>" rows="4" form="caseform"></textarea>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 <div class="panel-footer">
     <button id="btnSaveCase" class="btn"><b>დამახსოვრება</b></button>
 </div>

@@ -34,10 +34,21 @@
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "baj", "ბაჟი", "", "number") ?>
         </td>
+    </tr>
+</table>
+<table class="table-section">
+    <tbody>
+    <tr>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "request_add_info", "დამატებითი ინფორმაცია") ?>
+            <div>
+                <label for="<?= $namePref ?>request_add_info_<?= $id_simple ?>">დამატებითი ინფორმაცია</label>
+            </div>
+            <div>
+                <textarea name="<?= $namePref ?>request_add_info" id="<?= $namePref ?>request_add_info_<?= $id_simple ?>" rows="4"></textarea>
+            </div>
         </td>
     </tr>
+    </tbody>
 </table>
 
 <div class="subtitle">
