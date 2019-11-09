@@ -100,6 +100,7 @@ $note = "შენიშვნა";
     <div class="toright panel-footer">
         <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
         <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button>
+        <button id="btnCaseExp" class="btn">EXP<i class="fas fa-arrow-alt-circle-down"></i></button>
     </div>
 
 <?= DrawView::subTitle("ფილტრაციის შედეგი") ?>

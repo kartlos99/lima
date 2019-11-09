@@ -16,7 +16,11 @@ $reminder = isset($_POST['reminder']);
 
 function getValueInt($fieldName, $postKey){
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
-        return " AND `$fieldName` = " . $_POST[$postKey];
+        if (strpos($fieldName, ".") !== false){
+            return " AND $fieldName = " . $_POST[$postKey];
+        }else{
+            return " AND `$fieldName` = " . $_POST[$postKey];
+        }
     }
     return "";
 }

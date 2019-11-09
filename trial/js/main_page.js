@@ -23,6 +23,10 @@ $('#btnSearchApp').on('click', function () {
     getCaseList(lastQuery);
 });
 
+$('#btnCaseExp').on('click', function () {
+    window.location.href = "php_code/rep_case_exp.php?" + lastQuery;
+});
+
 $('#btnClearApp').on('click', function () {
     filterForm.trigger('reset');
     $('select').val(0);
