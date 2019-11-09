@@ -4,8 +4,9 @@
 var lastQuery, lastQuery2;
 var caseTable;
 var filterForm;
+var pageNav = $('#my-pagination');
 
-$(function(){
+$(function () {
     caseTable = $('#tb_case_list').find('tbody');
     filterForm = $('#caseFilterForm');
     getOrganizations('organization_id');
@@ -18,10 +19,17 @@ $('#organization_id').on('change', function () {
 });
 
 $('#btnSearchApp').on('click', function () {
-    lastQuery = filterForm.serialize();
-    console.log('from:',lastQuery);
-    getCaseList(lastQuery);
+    pageNav.empty();
+    pageNav.removeData("twbs-pagination");
+    pageNav.unbind("page");
+    prepareSerch();
 });
+
+function prepareSerch() {
+    lastQuery = filterForm.serialize();
+    console.log('from:', lastQuery);
+    getCaseList(lastQuery);
+}
 
 $('#btnCaseExp').on('click', function () {
     window.location.href = "php_code/rep_case_exp.php?" + lastQuery;
@@ -33,7 +41,7 @@ $('#btnClearApp').on('click', function () {
     $('#reminder_id').bootstrapToggle('off');
 });
 
-function getCaseList(querys){
+function getCaseList(querys) {
     $.ajax({
         url: 'php_code/get_case_list.php',
         method: 'post',
@@ -45,13 +53,13 @@ function getCaseList(querys){
             shownID = {};
 
             var itemCount = response.count[0];
-            console.log(itemCount.n);
+            var pageCount = Math.ceil(itemCount.n / 20);
             var appdata = response.data;
 //            $('#titleForAppTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი, ლიმიტი 20");
 
             appdata.forEach(function (item) {
                 var newID = item.ID;
-                if (shownID[newID] == undefined){
+                if (shownID[newID] == undefined) {
                     shownID[newID] = newID;
                     var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
                     var td_caseN = $('<td />').text(item.caseN);
@@ -63,22 +71,35 @@ function getCaseList(querys){
 
                     var trow = $('<tr></tr>').append(td_id, td_caseN, td_case_st, td_case_stage, td_org, td_AgrNumber, td_DebFirstName);
                     trow.attr('ondblclick', "onCaseClick(" + item.ID + ")");
-                    if (item.rem == 0){
+                    if (item.rem == 0) {
                         trow.addClass("reminder-tr");
                     }
                     caseTable.append(trow);
                 }
             });
             console.log(shownID);
+
+            pageNav.twbsPagination({
+                totalPages: pageCount,
+                visiblePages: 5,
+                first: 'პირველი',
+                last: 'ბოლო',
+                next: '>>',
+                prev: '<<',
+                onPageClick: function (event, page) {
+                    $('#casePageN').val(page);
+                    prepareSerch();
+                }
+            });
         }
     });
 }
 
-function onCaseClick(app_id){
+function onCaseClick(app_id) {
 
     document.cookie = "appID=" + app_id;
 
     var url = window.location.pathname;
-    url = url.replace('index.php','new_case.php');
+    url = url.replace('index.php', 'new_case.php');
     window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
 }

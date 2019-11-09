@@ -92,10 +92,10 @@ $note = "შენიშვნა";
                     <input id="reminder_id" name="reminder" type="checkbox" data-toggle="toggle"
                            data-on="ჩართულია" data-off="გათიშულია">
                 </td>
-
             </tr>
             </tbody>
         </table>
+        <input id="casePageN" type="hidden" name="pageN" value="1"/>
     </form>
     <div class="toright panel-footer">
         <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
@@ -113,6 +113,16 @@ $note = "შენიშვნა";
         </thead>
         <tbody></tbody>
     </table>
+
+    <div class="pg_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul id="my-pagination" class="pagination-sm"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <?php include_once 'footer.php'; ?>

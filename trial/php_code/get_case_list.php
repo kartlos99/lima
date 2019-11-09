@@ -10,30 +10,38 @@ $currDate = 'CURRENT_TIMESTAMP';
 $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 $resultArray = [];
-$limit = " limit 20";
+
 $order = " ORDER BY rem";
 $reminder = isset($_POST['reminder']);
+$pageN = $_POST['pageN'];
 
-function getValueInt($fieldName, $postKey){
-    if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
-        if (strpos($fieldName, ".") !== false){
+$records_per_page = 20;
+$offset = ($pageN - 1) * $records_per_page;
+$limit = " Limit $offset, $records_per_page";
+
+function getValueInt($fieldName, $postKey)
+{
+    if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0") {
+        if (strpos($fieldName, ".") !== false) {
             return " AND $fieldName = " . $_POST[$postKey];
-        }else{
+        } else {
             return " AND `$fieldName` = " . $_POST[$postKey];
         }
     }
     return "";
 }
 
-function getValuedate($fieldName, $postKey, $oper){
-    if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
+function getValuedate($fieldName, $postKey, $oper)
+{
+    if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0") {
         return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND `$fieldName` > '1'";
     }
     return "";
 }
 
-function getValueStr($fieldName, $postKey){
-    if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0"){
+function getValueStr($fieldName, $postKey)
+{
+    if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0") {
         return " AND `$fieldName` like '" . $_POST[$postKey] . "%'";
     }
     return "";
@@ -84,7 +92,7 @@ $sql = " WHERE ";
 
 $fullSQL = $sql_fields . $sql . $query;
 
-if ($reminder){
+if ($reminder) {
     $query2 = "
 cs.ID IN (
 SELECT DISTINCT
@@ -114,15 +122,15 @@ $fullSQL .= $order . $limit;
 
 $resultArray['sql'] = $fullSQL;
 
-$result = mysqli_query($conn,  $fullSQL);
+$result = mysqli_query($conn, $fullSQL);
 $result_N = mysqli_query($conn, $sql_count . $sql . $query);
 
 $arr = [];
 $nn = [];
-foreach($result as $row){
+foreach ($result as $row) {
     $arr[] = $row;
 }
-foreach($result_N as $row){
+foreach ($result_N as $row) {
     $nn[] = $row;
 }
 $resultArray['data'] = $arr;

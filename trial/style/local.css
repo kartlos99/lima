@@ -294,3 +294,16 @@ td div textarea {
     resize: none;
     overflow: auto;
 }
+
+.pg_wrapper{
+    margin: 20px auto;
+    text-align: center;
+}
+
+#my-pagination{
+    display: inline-block;
+    margin-bottom: 1.75em;
+}
+#my-pagination li{
+    display: inline-block;
+}
