@@ -11,8 +11,7 @@ $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 $resultArray = [];
 
-$order = " ORDER BY rem";
-$reminder = isset($_POST['reminder']);
+$order = " ORDER BY rem, caseN";
 $pageN = $_POST['pageN'];
 
 $records_per_page = 20;
@@ -75,27 +74,12 @@ $query = trim($query, " AND");
 if ($query == "")
     $query = "1";
 
-$sql_count = "SELECT count(cs.ID) as n FROM `pcm_aplication` cs
-LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
-LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
-LEFT JOIN Organizations o on o.ID = cs.AgrOrgID";
-$index = 1;
-$sql_fields = "
-SELECT $index as rem, cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
-LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
-LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
-LEFT JOIN Organizations o on o.ID = cs.AgrOrgID
-";
-
-$sql = " WHERE ";
-
-
-$fullSQL = $sql_fields . $sql . $query;
-
-if ($reminder) {
-    $query2 = "
-cs.ID IN (
-SELECT DISTINCT
+$joinReminder = "";
+$reminderFeald = ", 1 AS rem";
+if (isset($_POST['reminder'])) {
+    $reminderFeald = ", if(cid.caseID is null, 1, 0) AS rem";
+    $joinReminder = "
+LEFT JOIN (SELECT DISTINCT
     (caseID)
 FROM
     pcm_aplication_instances ins
@@ -105,20 +89,26 @@ WHERE
     ) OR (
         UNIX_TIMESTAMP() - CltoPerPublicRemainderStartDate > 60 * 60 * 24 * 30 AND CltoPerPublicRemainder = 1
     ) OR (
-        UNIX_TIMESTAMP() - CourtDecRemainderStartDate > 60 * 60 * 24 * 30 AND CourtDecRemainder = 1)
-)
+        UNIX_TIMESTAMP() - CourtDecRemainderStartDate > 60 * 60 * 24 * 30 AND CourtDecRemainder = 1)) cid ON cid.caseID = cs.ID
 ";
-    $index = 0;
-    $sql_fields = "
-SELECT $index as rem, cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName` FROM `pcm_aplication` cs
+}
+
+$sql_count = "SELECT count(cs.ID) as n FROM `pcm_aplication` cs
+LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
+LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
+LEFT JOIN Organizations o on o.ID = cs.AgrOrgID";
+
+$sql_fields = "
+SELECT cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName`$reminderFeald FROM `pcm_aplication` cs
 LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
 LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
 LEFT JOIN Organizations o on o.ID = cs.AgrOrgID
+$joinReminder
 ";
-    $fullSQL .= " union " . $sql_fields . $sql . $query2;
-}
 
-$fullSQL .= $order . $limit;
+$sql = " WHERE ";
+
+$fullSQL = $sql_fields . $sql . $query . $order . $limit;
 
 $resultArray['sql'] = $fullSQL;
 

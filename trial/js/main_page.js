@@ -50,7 +50,6 @@ function getCaseList(querys) {
         success: function (response) {
             console.log(response);
             caseTable.empty();
-            shownID = {};
 
             var itemCount = response.count[0];
             var pageCount = Math.ceil(itemCount.n / 20);
@@ -58,26 +57,21 @@ function getCaseList(querys) {
 //            $('#titleForAppTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი, ლიმიტი 20");
 
             appdata.forEach(function (item) {
-                var newID = item.ID;
-                if (shownID[newID] == undefined) {
-                    shownID[newID] = newID;
-                    var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
-                    var td_caseN = $('<td />').text(item.caseN);
-                    var td_case_st = $('<td />').text(item.case_st);
-                    var td_case_stage = $('<td />').text(item.case_stage);
-                    var td_org = $('<td />').text(item.OrganizationName);
-                    var td_AgrNumber = $('<td />').text(item.AgrNumber);
-                    var td_DebFirstName = $('<td />').text(item.DebFirstName);
+                var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
+                var td_caseN = $('<td />').text(item.caseN);
+                var td_case_st = $('<td />').text(item.case_st);
+                var td_case_stage = $('<td />').text(item.case_stage);
+                var td_org = $('<td />').text(item.OrganizationName);
+                var td_AgrNumber = $('<td />').text(item.AgrNumber);
+                var td_DebFirstName = $('<td />').text(item.DebFirstName);
 
-                    var trow = $('<tr></tr>').append(td_id, td_caseN, td_case_st, td_case_stage, td_org, td_AgrNumber, td_DebFirstName);
-                    trow.attr('ondblclick', "onCaseClick(" + item.ID + ")");
-                    if (item.rem == 0) {
-                        trow.addClass("reminder-tr");
-                    }
-                    caseTable.append(trow);
+                var trow = $('<tr></tr>').append(td_id, td_caseN, td_case_st, td_case_stage, td_org, td_AgrNumber, td_DebFirstName);
+                trow.attr('ondblclick', "onCaseClick(" + item.ID + ")");
+                if (item.rem == 0) {
+                    trow.addClass("reminder-tr");
                 }
+                caseTable.append(trow);
             });
-            console.log(shownID);
 
             pageNav.twbsPagination({
                 totalPages: pageCount,
