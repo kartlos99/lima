@@ -13,24 +13,47 @@ $resultArray = [];
 
 $sql = " 
 SELECT
+	a.ID,
     `AgrNumber`,
     `DebFirstName`,
     di.ValueText AS loanType,
     di_st.ValueText AS statusi,
     di_stage.ValueText AS stage,
-    CONCAT(p.FirstName, ' ', p.LastName) AS OWNER
+    CONCAT(p.FirstName, ' ', p.LastName) AS OWNER,
+    if (a.ExecProcessDate = '0000-00-00 00:00:00', '', a.ExecProcessDate) AS ExecProcessDate,
+    ifnull(di_jt.ValueText, '') AS JudicialentityType,
+    ifnull(di_jn.ValueText, '') AS Judicialentity,
+    ifnull(di_cur1.ValueText, '') AS ClaimCur,
+    ifnull(ai.Claimbase, '') AS Claimbase,
+    ifnull(ai.ClaimPercent, '') AS ClaimPercent,
+    ifnull(ai.ClaimCost, '') AS ClaimCost,
+    if (ai.CourtDecDate = '0000-00-00 00:00:00', '', ifnull(ai.CourtDecDate, '')) AS CourtDecDate,
+    ifnull(di_cur2.ValueText, '') AS CourtDecResCurID,
+    ifnull(ai.CourtDecResBase, '') AS CourtDecResBase,
+    ifnull(ai.CourtDecResPercent, '') AS CourtDecResPercent,
+    ifnull(ai.CourtDecResCost, '') AS CourtDecResCost
 FROM
     `pcm_aplication` a
+LEFT JOIN pcm_aplication_instances ai ON
+	a.ID = ai.caseID
 LEFT JOIN DictionariyItems di ON
     a.`AgrLoanType` = di.ID
 LEFT JOIN DictionariyItems di_st ON
     a.`StatusID` = di_st.ID
 LEFT JOIN DictionariyItems di_stage ON
     a.`StageID` = di_stage.ID
-LEFT JOIN personmapping pmap ON
+LEFT JOIN PersonMapping pmap ON
     OwnerID = pmap.ID
-LEFT JOIN persons p ON
+LEFT JOIN Persons p ON
     pmap.PersonID = p.ID
+LEFT JOIN DictionariyItems di_jt ON
+    ai.JudicialentityTypeID = di_jt.ID
+LEFT JOIN DictionariyItems di_jn ON
+    ai.JudicialentityD = di_jn.ID
+LEFT JOIN DictionariyItems di_cur1 ON
+    ai.ClaimCurID = di_cur1.ID    
+LEFT JOIN DictionariyItems di_cur2 ON
+    ai.CourtDecResCurID = di_cur2.ID  
 WHERE 
 ";
 
@@ -87,7 +110,8 @@ $query = trim($query, " AND");
 if ($query == "")
     $query = "1";
 //die($sql . $query);
-$result = mysqli_query($conn, $sql . $query);
+$order = " ORDER BY a.ID, ai.JudicialentityTypeID";
+$result = mysqli_query($conn, $sql . $query . $order);
 
 $arr = array();
 foreach ($result as $row) {
@@ -122,18 +146,25 @@ function makerow($columns)
 }
 
 $tHead = [
+    "ID",
     "ხელშეკრულების ნომერი",
     "მოპასუხის სახელი და გვარი ",
     "სესხის ტიპი",
-    "განსჯადი უწყების ტიპი",
-    "განსჯადი უწყება",
     "სტატუსი",
     "ეტაპი",
-    "სასარჩელო მოთხოვნა",
-    "დაკმაყოფილებული მოთხოვნა",
-    "გადაწყვეტილების მიღების თარიღი",
+    "საქმის მფლობელის სახელი და გვარი",
     "აღსრულების დაწყების თარიღი",
-    "საქმის მფლობელის სახელი და გვარი"
+    "განსჯადი უწყების ტიპი",
+    "განსჯადი უწყება",
+    "სასარჩელო მოთხოვნა ვალუტა",
+    "მოთხოვნა ძირი",
+    "მოთხოვნა პროცენტი",
+    "მოთხოვნა ხარჯი",
+    "გადაწყვ. მიღების თარიღი",
+    "გადაწყვ. შედეგი ვალუტა",
+    "შედეგი ძირი",
+    "შედეგი პროცენტი",
+    "შედეგი ხარჯი"
 ];
 
 $output .= makeHrow($tHead);

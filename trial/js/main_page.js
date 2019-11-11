@@ -73,18 +73,20 @@ function getCaseList(querys) {
                 caseTable.append(trow);
             });
 
-            pageNav.twbsPagination({
-                totalPages: pageCount,
-                visiblePages: 5,
-                first: 'პირველი',
-                last: 'ბოლო',
-                next: '>>',
-                prev: '<<',
-                onPageClick: function (event, page) {
-                    $('#casePageN').val(page);
-                    prepareSerch();
-                }
-            });
+            if (pageCount > 0){
+                pageNav.twbsPagination({
+                    totalPages: pageCount,
+                    visiblePages: 5,
+                    first: 'პირველი',
+                    last: 'ბოლო',
+                    next: '>>',
+                    prev: '<<',
+                    onPageClick: function (event, page) {
+                        $('#casePageN').val(page);
+                        prepareSerch();
+                    }
+                });
+            }
         }
     });
 }
