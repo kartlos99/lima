@@ -27,6 +27,7 @@ $typeID = $_POST['typeID'];
 $techID = $_POST['techID'];
 $techArr = $_POST['techArr'];
 $RealParentID = $_POST['parentID'];
+$editingID = $_POST['editingID'];
 
 $sql_check = "
 SELECT
@@ -39,10 +40,16 @@ WHERE
     e.`Name` = '$Name' AND e.`ParentID` = $parentID AND em.TechTreeID = $techID
 ";
 
-if (mysqli_num_rows(mysqli_query($conn, $sql_check)) >= 1) {
-    $resultArray['result'] = "error";
-    $resultArray['error'] = "Dublicated Criteria Name!";
-    die(json_encode($resultArray));
+$result_check_duplicate = mysqli_query($conn, $sql_check);
+
+if (mysqli_num_rows($result_check_duplicate) >= 1) {
+    $resArray = mysqli_fetch_assoc($result_check_duplicate);
+    if ($resArray["ID"] != $editingID){
+        $resultArray['result'] = "error";
+        $resultArray['error'] = "Dublicated Criteria Name!";
+        $resultArray['sql_check'] = $sql_check;
+        die(json_encode($resultArray));
+    }
 }
 
 if ($_POST['action'] == "new") {
@@ -199,7 +206,6 @@ VALUES";
 
 if ($_POST['action'] == "edit") {
 
-    $editingID = $_POST['editingID'];
     $editingMappingID = $_POST['editingMappingID'];
 
     $sql = "UPDATE
