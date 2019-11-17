@@ -68,7 +68,7 @@ if ($_SESSION['usertype'] != null) {
         <tr>
             <td>
                 <a href="<?php if ($_SESSION['M3UT'] != null) {
-                    echo "#";
+                    echo "accident\\index.php";
                 } ?>"><img src="img\conflict.png" title="conflict"></a>
             </td>
             <td>
