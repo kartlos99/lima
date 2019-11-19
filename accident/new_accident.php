@@ -162,7 +162,7 @@ $required = "required";
             <tbody>
             <tr>
                 <td>
-                    <?= DrawView::selector($id_simple, "შემსრულებელი პირი", "SolverID", getDictionariyItems($conn, 'exec_status'), $caseForm) ?>
+                    <?= DrawView::selector($id_simple, "შემსრულებელი პირი", "SolverID", getOwners($conn, 3)) ?>
                 </td>
                 <td>
                     <?= DrawView::simpleInput($id_simple, "DurationDeys", "ხანგრძლივობა (დღე, საათი)", "", "number") ?>

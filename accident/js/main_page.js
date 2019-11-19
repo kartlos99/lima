@@ -18,7 +18,8 @@ $('#organization_id').on('change', function () {
     loadBranches($('#organization_id').val(), 0, 'filial_id');
 });
 
-$('#btnSearchApp').on('click', function () {
+$('#btnSearchApp').on('click', function (event) {
+    event.preventDefault();
     pageNav.empty();
     pageNav.removeData("twbs-pagination");
     pageNav.unbind("page");
@@ -28,7 +29,7 @@ $('#btnSearchApp').on('click', function () {
 function prepareSerch() {
     lastQuery = filterForm.serialize();
     console.log('from:', lastQuery);
-    getCaseList(lastQuery);
+    getAccidentsList(lastQuery);
 }
 
 $('#btnCaseExp').on('click', function () {
@@ -41,9 +42,9 @@ $('#btnClearApp').on('click', function () {
     $('#reminder_id').bootstrapToggle('off');
 });
 
-function getCaseList(querys) {
+function getAccidentsList(querys) {
     $.ajax({
-        url: 'php_code/get_case_list.php',
+        url: 'php_code/get_accident_list.php',
         method: 'post',
         data: querys,
         dataType: 'json',
@@ -58,15 +59,16 @@ function getCaseList(querys) {
 
             appdata.forEach(function (item) {
                 var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
-                var td_caseN = $('<td />').text(item.caseN);
-                var td_case_st = $('<td />').text(item.case_st);
-                var td_case_stage = $('<td />').text(item.case_stage);
-                var td_org = $('<td />').text(item.OrganizationName);
+                var td_cat = $('<td />').text(item.category);
+                var td_scat = $('<td />').text(item.subcaegory);
+                var td_st = $('<td />').text(item.st);
+                var td_org = $('<td />').text(item.org);
                 var td_AgrNumber = $('<td />').text(item.AgrNumber);
-                var td_DebFirstName = $('<td />').text(item.DebFirstName);
+                var td_owner = $('<td />').text(item.username);
+                var td_datefix = $('<td />').text(item.FactDate);
 
-                var trow = $('<tr></tr>').append(td_id, td_caseN, td_case_st, td_case_stage, td_org, td_AgrNumber, td_DebFirstName);
-                trow.attr('ondblclick', "onCaseClick(" + item.ID + ")");
+                var trow = $('<tr></tr>').append(td_id, td_cat, td_scat, td_org, td_AgrNumber, td_st, td_owner, td_datefix);
+                trow.attr('ondblclick', "onRowClick(" + item.ID + ")");
                 if (item.rem == 0) {
                     trow.addClass("reminder-tr");
                 }
@@ -89,11 +91,11 @@ function getCaseList(querys) {
     });
 }
 
-function onCaseClick(app_id) {
+function onRowClick(app_id) {
 
     document.cookie = "appID=" + app_id;
 
     var url = window.location.pathname;
-    url = url.replace('index.php', 'new_case.php');
+    url = url.replace('index.php', 'new_accident.php');
     window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
 }

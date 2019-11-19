@@ -34,7 +34,7 @@ function fillAccidentForm(aData) {
     $('#CategoryID_id').val(aData.CategoryID);
     $('#CategoryOther_id').val(aData.CategoryOther);
 
-    $('#SubCategoryID_id').val(aData.SubCategoryID);
+    loadSubCategory(aData.CategoryID, aData.SubCategoryID, 'SubCategoryID_id')
     $('#SubCategoryOther_id').val(aData.SubCategoryOther);
 
     // ulGuiltyPersons
@@ -98,6 +98,7 @@ $(function () {
     $("input[type='time']").each(function () {
         $(this).val('00:00');
     });
+    $('#OwnerID_id').val($('#userID').val());
 
     if (theAccidentObj.id == 0 || theAccidentObj.id == "") {
         $('#ownerID').val($('#userID').val());

@@ -52,6 +52,7 @@ function getDictionariyItems($dbConn, $dCode)
 function getOwners($dbConn, $module_N)
 {
     $list = [];
+    $list[] = [ "vv" => "", "tt" => "აირჩიეთ"];
     $sql = "SELECT ID as vv, UserName as tt FROM `PersonMapping` WHERE ifnull(`UserTypeM" . $module_N . "`, 0) <> 0";
 
     $result = mysqli_query($dbConn, $sql);
