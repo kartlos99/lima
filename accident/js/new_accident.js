@@ -94,10 +94,10 @@ $(function () {
     getCategory('CategoryID_id');
     loadSubCategory(0, 0, 'SubCategoryID_id');
     theAccidentObj.id = getCookie("appID");
-    theAccidentObj.instBefore[1] = $('#i1_form').serialize();
-    theAccidentObj.instBefore[2] = $('#i2_form').serialize();
-    theAccidentObj.instBefore[3] = $('#i3_form').serialize();
     console.log(theAccidentObj);
+    $("input[type='time']").each(function () {
+        $(this).val('00:00');
+    });
 
     if (theAccidentObj.id == 0 || theAccidentObj.id == "") {
         $('#ownerID').val($('#userID').val());
