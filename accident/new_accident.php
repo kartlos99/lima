@@ -26,16 +26,15 @@ $required = "required";
                     <div class="inline-div">
                         <span id="caseN" class="red-in-title">case N</span>
                     </div>
+<!--                    <div class="inline-div">-->
+<!--                        <span>მფლობელი</span> <br/>-->
+<!--                        <span id="currOwner">user</span>-->
+<!--                    </div>-->
+<!--                    <div class="inline-div">-->
+<!--                        <span>დაწერის თარიღი</span> <br/>-->
+<!--                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">-->
+<!--                    </div>-->
                     <div class="inline-div">
-                        <span>მფლობელი</span> <br/>
-                        <span id="currOwner">user</span>
-                    </div>
-                    <div class="inline-div">
-                        <span>დაწერის თარიღი</span> <br/>
-                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">
-                    </div>
-                    <div class="inline-div">
-                        <i id="btnUserCh" class="fas fa-users btn"></i>
                         <i id="btnUserHist" class="fas fa-history btn"></i>
                     </div>
                 </div>
@@ -45,8 +44,8 @@ $required = "required";
     </table>
 
     <form id="accident_form" action="">
-        <input type="hidden" id="caseID" name="caseID" value="0">
-        <input type="hidden" id="ownerID" name="ownerID" value="0">
+        <input type="hidden" id="recID" name="recID" value="0">
+<!--        <input type="hidden" id="ownerID" name="ownerID" value="0">-->
         <input type="hidden" id="userID" name="userID" value="<?= $_SESSION['userID'] ?>">
 
 

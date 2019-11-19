@@ -153,7 +153,7 @@ function getOrganizations(sel_ID) {
 //            console.log(response);
             //<!--    organizaciebis chamonatvali -->
             organizationObj = response.org;
-            $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo('#' + sel_ID);
+            $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#' + sel_ID);
             organizationObj.forEach(function (item) {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#' + sel_ID);
             });
@@ -172,7 +172,7 @@ function loadBranches(orgID, brID, sel_ID) {
             if (org.id == orgID) {
                 var branches = org.branches;
                 if (branches.length != 1) {
-                    $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo(branches_el_ID);
+                    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo(branches_el_ID);
                 }
                 branches.forEach(function (item) {
                     $('<option />').text(item.BranchName).attr('value', item.id).appendTo(branches_el_ID);
