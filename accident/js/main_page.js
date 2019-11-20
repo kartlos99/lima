@@ -8,10 +8,16 @@ var pageNav = $('#my-pagination');
 
 $(function () {
     caseTable = $('#tb_case_list').find('tbody');
-    filterForm = $('#caseFilterForm');
+    filterForm = $('#filterForm');
     getOrganizations('organization_id');
     loadBranches(0, 0, 'filial_id');
+    getCategory('CategoryID_id');
+    loadSubCategory(0, 0, 'SubCategoryID_id');
     $('select').val(0);
+});
+
+$('#CategoryID_id').on('change', function () {
+    loadSubCategory($('#CategoryID_id').val(), 0, 'SubCategoryID_id');
 });
 
 $('#organization_id').on('change', function () {
@@ -36,7 +42,8 @@ $('#btnCaseExp').on('click', function () {
     window.location.href = "php_code/rep_case_exp.php?" + lastQuery;
 });
 
-$('#btnClearApp').on('click', function () {
+$('#btnClearApp').on('click', function (event) {
+    event.preventDefault();
     filterForm.trigger('reset');
     $('select').val(0);
     $('#reminder_id').bootstrapToggle('off');

@@ -33,7 +33,7 @@ function getValueInt($fieldName, $postKey)
 function getValuedate($fieldName, $postKey, $oper)
 {
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0") {
-        return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND `$fieldName` > '1'";
+        return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND $fieldName > '1'";
     }
     return "";
 }
@@ -46,28 +46,38 @@ function getValueStr($fieldName, $postKey)
     return "";
 }
 
-$query = "";
-$query .= getValueInt('cs.ID', 'case_N');
-$query .= getValueInt('StatusID', 'case_status');
-$query .= getValueInt('StageID', 'case_stage');
-$query .= getValueInt('InstanceID', 'instance');
-$query .= getValuedate('CreateDate', 'create_date_from', ">");
-$query .= getValuedate('CreateDate', 'create_date_to', "<");
-$query .= getValuedate('ReceiveDate', 'receive_date_from', ">");
-$query .= getValuedate('ReceiveDate', 'receive_date_to', "<");
-$query .= getValuedate('DistrDate', 'distr_date_from', ">");
-$query .= getValuedate('DistrDate', 'distr_date_to', "<");
-$query .= getValuedate('CloseDate', 'close_date_from', ">");
-$query .= getValuedate('CloseDate', 'close_date_to', "<");
-$query .= getValuedate('OwnDate', 'own_date_from', ">");
-$query .= getValuedate('OwnDate', 'own_date_to', "<");
-$query .= getValueInt('OwnerID', 'case_owner');
-$query .= getValueStr('AgrNumber', 'agreement_N');
-$query .= getValuedate('AgrDate', 'agreem_date', "");
-$query .= getValueInt('AgrOrgID', 'organization');
-$query .= getValueInt('AgrOrgBranchID', 'filial');
-$query .= getValueStr('DebFirstName', 'borrower');
-$query .= getValueStr('DebPrivateNumber', 'borrower_PN');
+
+$query = isset($_POST['guiltyUserID']) ? "gp.StatusID = (
+        SELECT di.ID FROM `DictionariyItems` di
+		LEFT JOIN Dictionaries d on d.ID = di.DictionaryID
+		WHERE d.Code = 'im_guilty_person_map_status' AND di.`Code` = 'active'
+    )" : "";
+
+$query .= getValueInt('im.ID', 'accident_N');
+$query .= getValueInt('im.TypeID', 'TypeID');
+$query .= getValueInt('PriorityID', 'PriorityID');
+$query .= getValueInt('im.StatusID', 'StatusID');
+$query .= getValueInt('OwnerID', 'OwnerID');
+$query .= getValueInt('OrgID', 'organization');
+$query .= getValueInt('OrgBranchID', 'filial');
+
+$query .= getValueStr('AgrNumber', 'AgrNumber');
+
+$query .= getValueInt('gp.IM_PersonsID', 'guiltyUserID');
+$query .= getValueInt('im.CategoryID', 'CategoryID');
+$query .= getValueInt('im.SubCategoryID', 'SubCategoryID');
+$query .= getValueInt('DiscovererID', 'DiscovererID');
+$query .= getValueInt('SolverID', 'SolverID');
+$query .= getValueInt('NotInStatistics', 'NotInStatistics');
+
+$query .= getValuedate('im.CreateDate', 'create_date_from', ">");
+$query .= getValuedate('im.CreateDate', 'create_date_to', "<");
+$query .= getValuedate('FactDate', 'fix_date_from', ">");
+$query .= getValuedate('FactDate', 'fix_date_to', "<");
+$query .= getValuedate('DiscoverDate', 'discover_date_from', ">");
+$query .= getValuedate('DiscoverDate', 'discover_date_to', "<");
+$query .= getValuedate('SolveDate', 'SolveDate_from', ">");
+$query .= getValuedate('SolveDate', 'SolveDate_to', "<");
 
 
 $query = trim($query, " AND");
@@ -75,10 +85,10 @@ if ($query == "")
     $query = "1";
 
 
-$sql_count = "SELECT count(im.ID) as n ";
+$sql_count = "SELECT count(DISTINCT im.ID) as n ";
 
 $sql_fields = "
-SELECT
+SELECT DISTINCT
     im.ID,
     ifnull(cat.name, '') AS category,
     ifnull(scat.name, '') AS subcaegory,
@@ -101,14 +111,16 @@ LEFT JOIN dictionariyitems di_st ON
     di_st.ID = im.`StatusID`
 LEFT JOIN personmapping pmap ON
     pmap.ID = im.`OwnerID` 
+LEFT JOIN im_guilty_persons gp ON
+    gp.IM_RequestID = im.ID    
 WHERE ";
 
-$fullSQL = $sql_fields . $sql . "1" . $order . $limit;
+$fullSQL = $sql_fields . $sql . $query . $order . $limit;
 
 $resultArray['sql'] = $fullSQL;
 
 $result = mysqli_query($conn, $fullSQL);
-$result_N = mysqli_query($conn, $sql_count . $sql . "1");
+$result_N = mysqli_query($conn, $sql_count . $sql . $query);
 
 $arr = [];
 $nn = [];

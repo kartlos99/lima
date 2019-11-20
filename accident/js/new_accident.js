@@ -49,7 +49,7 @@ function fillAccidentForm(aData) {
 
     $('#solv_description_id').val(aData.SolvDescription);
 
-    $('#NotInStatistics_id').attr("checked", aData.NotInStatistics == 1);
+    $('#NotInStatistics_id').attr("checked", aData.NotInStatistics == 0);
 }
 
 function addgPerson(person) {

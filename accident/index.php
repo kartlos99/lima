@@ -15,7 +15,7 @@ $note = "შენიშვნა";
 
 <?= DrawView::titleRow("მიმდინარე და მოგვარებული ინციდენტები") ?>
 
-    <form id="caseFilterForm" action="">
+    <form id="filterForm" action="">
         <table class="table-section">
             <tbody>
             <tr>
@@ -55,7 +55,7 @@ $note = "შენიშვნა";
                     <?= DrawView::simpleInput($id_simple, "AgrNumber", "ხელშეკრულება N", "", "text") ?>
                 </td>
                 <td>
-                    <?= DrawView::selector($id_simple, "დამრღვევი პირი", "guiltyUserID", getOwners($conn, 3)) ?>
+                    <?= DrawView::selector($id_simple, "დამრღვევი პირი", "guiltyUserID", getPersons($conn, PERSON_GUILTY)) ?>
                 </td>
                 <td>
                     <?= DrawView::doubleDateInput($id_simple, "fix_date", "დაფიქსირების თარიღი (დან - მდე)", "", "date") ?>
@@ -72,7 +72,7 @@ $note = "შენიშვნა";
 
                 </td>
                 <td>
-                    <?= DrawView::selector($id_simple, "აღმომჩენი პირი", "DiscovererID", getOwners($conn, 3)) ?>
+                    <?= DrawView::selector($id_simple, "აღმომჩენი პირი", "DiscovererID", getPersons($conn, PERSON_DISCOVERER)) ?>
                 </td>
                 <td>
                     <?= DrawView::doubleDateInput($id_simple, "discover_date", "აღმოჩენის თარიღი (დან - მდე)", "", "date") ?>

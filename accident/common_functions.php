@@ -5,6 +5,8 @@
  * Date: 8/17/19
  * Time: 10:54 AM
  */
+define('PERSON_DISCOVERER', 'founder');
+define('PERSON_GUILTY', 'violator');
 
 function headerRow($items = [], $pos = 0, $margeN = 1)
 {
