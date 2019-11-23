@@ -8,6 +8,10 @@ var theAccidentObj = {
 var accidentForm = $('#accident_form');
 var guiltyPersonSelect = $('#guiltyPersonID_id');
 var ulGuiltyPersons = $('#divGuiltyPersons ul');
+var commentForm = $('#commentForm');
+var commentTable = $('#tb_comment_list').find('tbody');
+var currCommentsPageN = 0;
+var commentsPageCount = 0;
 
 function fillAccidentForm(aData) {
     $('#caseN').text('case_N ' + aData.accidentN + " " + aData.CreateDate);
@@ -104,8 +108,10 @@ $(function () {
         $('#ownerID').val($('#userID').val());
         $('#currOwner').text($('#loged_username').text());
     } else {
-        // redaqtirebis rejimi, wamvigot sachiro saqme da avsaxot gverdze
+        // redaqtirebis rejimi, wamvigot sachiro monacemebi da avsaxot gverdze
         getAccidentData(theAccidentObj.id);
+        currCommentsPageN = 1;
+        getComments(theAccidentObj.id, currCommentsPageN)
     }
 });
 
@@ -176,6 +182,7 @@ $('#btnSave').on('click', function (event) {
         saveAccidentRequest(sendData)
         console.log("form IS valid");
     } else {
+        alert("გთხოვთ, შეავსოთ სავალდებულო რეკვიზიტები ☹")
         console.log("form not valid");
     }
 });
@@ -291,5 +298,77 @@ function getHistList(querys) {
                 hTable.append(trow);
             });
         }
+    });
+}
+
+$('#btnSaveComment').on('click', function (event) {
+    event.preventDefault();
+    $('#commentForRecID').val($('#recID').val());
+    currCommentsPageN = 1;
+    saveComment(commentForm.serialize());
+    $('#btnCommentNextPage').show();
+});
+
+$('#btnCommentNextPage').on('click', function (event) {
+    currCommentsPageN++;
+    getComments($('#recID').val(), currCommentsPageN);
+    if (currCommentsPageN == commentsPageCount){
+        $('#btnCommentNextPage').hide();
+    }
+});
+
+function saveComment(commData) {
+    commentTable.empty();
+    $.ajax({
+        url: 'php_code/ins_comment.php',
+        method: 'post',
+        data: commData,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.result == "success") {
+                getComments($('#recID').val(), currCommentsPageN);
+                commentForm.find('textarea').val('');
+            } else {
+                console.log(response.error);
+            }
+        }
+    });
+}
+
+function getComments(imID, pageN) {
+    var sendObj = {
+        'recID': imID,
+        'pageN': pageN
+    };
+    $.ajax({
+        url: 'php_code/get_comments.php',
+        method: 'post',
+        data: sendObj,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            fillcommentsTable(response.data);
+
+            var itemCount = response.count;
+            commentsPageCount = Math.ceil(itemCount / 10);
+            console.log('commentsPageCount ' + commentsPageCount);
+            if (commentsPageCount == 1){
+                $('#btnCommentNextPage').hide();
+            }
+        }
+    });
+}
+
+function fillcommentsTable(comments) {
+    comments.forEach(function (item) {
+        var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
+        var td_comm = $('<td />').text(item.Comment);
+        var td_date = $('<td />').text(item.dro);
+        var td_user = $('<td />').text(item.UserName);
+
+        var trow = $('<tr></tr>').append(td_id, td_comm, td_user, td_date);
+
+        commentTable.append(trow);
     });
 }

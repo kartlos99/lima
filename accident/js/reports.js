@@ -76,15 +76,13 @@ function formCheck() {
             alert('შეამცირეთ დიაპაზონი 365 დღემდე!');
         }else {
             if ($('#repExpMode').val() == 'show'){
-                console.log("SHOW");
                 getRep1(filterForm.serialize());
             }else {
-                console.log("EXP");
                 window.location.href = "php_code/rep_by_day.php?" + filterForm.serialize();
             }
         }
     } else {
-        alert('შეავსეთაუცილებელი ველები!');
+        alert('გთხოვთ, შეავსოთ სავალდებულო რეკვიზიტები ☹');
     }
 
 }

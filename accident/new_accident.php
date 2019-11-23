@@ -26,14 +26,14 @@ $required = "required";
                     <div class="inline-div">
                         <span id="caseN" class="red-in-title">case N</span>
                     </div>
-<!--                    <div class="inline-div">-->
-<!--                        <span>მფლობელი</span> <br/>-->
-<!--                        <span id="currOwner">user</span>-->
-<!--                    </div>-->
-<!--                    <div class="inline-div">-->
-<!--                        <span>დაწერის თარიღი</span> <br/>-->
-<!--                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">-->
-<!--                    </div>-->
+                    <!--                    <div class="inline-div">-->
+                    <!--                        <span>მფლობელი</span> <br/>-->
+                    <!--                        <span id="currOwner">user</span>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="inline-div">-->
+                    <!--                        <span>დაწერის თარიღი</span> <br/>-->
+                    <!--                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">-->
+                    <!--                    </div>-->
                     <div class="inline-div">
                         <i id="btnUserHist" class="fas fa-history btn"></i>
                     </div>
@@ -45,7 +45,7 @@ $required = "required";
 
     <form id="accident_form" action="">
         <input type="hidden" id="recID" name="recID" value="0">
-<!--        <input type="hidden" id="ownerID" name="ownerID" value="0">-->
+        <!--        <input type="hidden" id="ownerID" name="ownerID" value="0">-->
         <input type="hidden" id="userID" name="userID" value="<?= $_SESSION['userID'] ?>">
 
 
@@ -135,7 +135,9 @@ $required = "required";
                     </table>
                 </td>
                 <td style="width: 280px">
-                    <div id="divGuiltyPersons" class="kriterias-box"><ul></ul></div>
+                    <div id="divGuiltyPersons" class="kriterias-box">
+                        <ul></ul>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -211,23 +213,26 @@ $required = "required";
     </form>
 
     <br/>
-    <table class="table-section">
-        <tbody>
-        <tr>
-            <td>
-                <div>
-                    <label class="" for="case_note_<?= $id_simple ?>">შენიშვნები და სხვა ინფორმაცია</label>
-                </div>
-                <div>
-                    <textarea name="Comment" id="case_note_<?= $id_simple ?>" rows="3"></textarea>
-                </div>
-            </td>
-            <td style="padding: 6px">
-                <button class="btn"><i class="fas fa-plus"></i></button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <form id="commentForm">
+        <input type="hidden" id="commentForRecID" name="recID" value="0">
+        <table class="table-section">
+            <tbody>
+            <tr>
+                <td>
+                    <div>
+                        <label class="" for="case_note_<?= $id_simple ?>">შენიშვნები და სხვა ინფორმაცია</label>
+                    </div>
+                    <div>
+                        <textarea name="comment" id="case_note_<?= $id_simple ?>" rows="3"></textarea>
+                    </div>
+                </td>
+                <td style="padding: 6px">
+                    <button class="btn" id="btnSaveComment"><i class="fas fa-plus"></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
 
     <table id="tb_comment_list" class="table-section table">
         <thead>
@@ -237,6 +242,8 @@ $required = "required";
         </thead>
         <tbody></tbody>
     </table>
+
+    <button id="btnCommentNextPage" class="btn">შემდეგი</button>
 
 
 <?php
