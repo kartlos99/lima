@@ -3,6 +3,7 @@ body {
     font-family: "BPG Arial", sans-serif;
 
 }
+
 ul {
     font-family: "ALK Sanet", sans-serif;
     font-size: 14px;
@@ -36,7 +37,7 @@ div.toright {
     text-align: right;
 }
 
-td.toright{
+td.toright {
     text-align: right;
 }
 
@@ -74,7 +75,6 @@ li.guilty-item span {
     font-size: 1.3em;
     margin: 6px;
 }
-
 
 
 /*.fa-plus:hover {*/
@@ -162,7 +162,7 @@ li.guilty-item span {
     height: auto;
 }
 
-.equal-size td{
+.equal-size td {
     width: 25%;
 }
 
@@ -211,6 +211,7 @@ span.resNumber {
     color: #7a1d1b;
     font-weight: bold;
 }
+
 p.mytbtitle {
     margin-top: 6px;
     color: #8a6d3b;
@@ -226,18 +227,21 @@ td.datewidth {
     padding: 8px;
 }
 
-.divTable{
+.divTable {
     display: table;
     width: 100%;
     margin-bottom: -10px;
 }
+
 .divTableRow {
     display: table-row;
 }
+
 .divTableHeading {
     background-color: #EEE;
     display: table-header-group;
 }
+
 .divTableCell, .divTableHead {
     /*border: 1px solid #299999;*/
     display: table-cell;
@@ -246,7 +250,7 @@ td.datewidth {
     min-width: 200px;
 }
 
-.divTable tr td{
+.divTable tr td {
     padding: 4px 0;
     vertical-align: middle;
 }
@@ -308,21 +312,28 @@ td div textarea {
     overflow: auto;
 }
 
-.pg_wrapper{
+.pg_wrapper {
     margin: 20px auto;
     text-align: center;
 }
 
-#my-pagination{
+#my-pagination {
     display: inline-block;
     margin-bottom: 1.75em;
 }
-#my-pagination li{
+
+#my-pagination li {
     display: inline-block;
 }
 
 #accident_form label.required:after {
-    content:"*";
+    content: "*";
+    font-size: 1.3em;
+    color: #ff1d1b;
+}
+
+#reportFilterForm label.required:after {
+    content: "*";
     font-size: 1.3em;
     color: #ff1d1b;
 }
@@ -330,4 +341,42 @@ td div textarea {
 div.kriterias-box ul {
     list-style-type: none;
     padding-inline-start: 4px;
+}
+
+.first-row {
+    background: #b8cad2;
+    font-family: "ALK Sanet", sans-serif;
+    font-weight: bold;
+}
+
+.first-row td {
+    text-align: center;
+    vertical-align: center;
+    white-space: nowrap;
+}
+
+.r90 {
+    /* FF3.5+ */
+    -moz-transform: rotate(-90.0deg);
+    /* Opera 10.5 */
+    -o-transform: rotate(-90.0deg);
+    /* Saf3.1+, Chrome */
+    -webkit-transform: rotate(-90.0deg);
+    /* Standard */
+    transform: rotate(-90.0deg);
+    height: 90px;
+    /*width: 10px;*/
+}
+
+.gray-text-color {
+    color: #969194;
+}
+
+.rep-data {
+    text-align: center;
+    vertical-align: center;
+}
+
+.filter-text {
+    font-weight: bold;
 }

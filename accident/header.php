@@ -78,7 +78,7 @@ if ($pos !== false ){
                 <a href="reports.php">რეპორტები</a>
             </li>
             <li class="add_person">
-                <a href="add_person.php">პერსონს</a>
+                <a href="add_person.php">პერსონის დამატება</a>
             </li>
         </ul>
 

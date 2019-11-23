@@ -119,7 +119,7 @@ WHERE d.Code = 'im_guilty_person_map_status' AND di.`Code` = 'active')";
         return mysqli_query($connDB, $sqlInstUpdate);
     }
 }
-
+$sql = "";
 if ($recID == 0) {
 
     $sql = "
