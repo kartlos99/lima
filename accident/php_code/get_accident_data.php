@@ -65,11 +65,10 @@ $sql_select_gPersons = "SELECT
     gp.`CreateUser`    
 FROM
     `im_guilty_persons` gp
-LEFT JOIN dictionariyitems di 
+LEFT JOIN DictionariyItems di 
 ON di.ID = gp.`StatusID`
 LEFT JOIN im_persons p 
 ON p.ID = gp.`IM_PersonsID`
-
 WHERE
     di.Code = 'active' AND gp.`IM_RequestID` = $recID";
 

@@ -41,8 +41,8 @@ function getValueCustom($fieldName, $postKey)
 {
     if (isset($_GET[$postKey]) && $_GET[$postKey] != "" && $_GET[$postKey] != "0") {
         return " AND $fieldName IN (
-        SELECT  gp.IM_RequestID from im_guilty_persons gp
-        LEFT JOIN dictionariyitems di ON di.ID = gp.StatusID
+        SELECT gp.IM_RequestID from im_guilty_persons gp
+        LEFT JOIN DictionariyItems di ON di.ID = gp.StatusID
         WHERE di.Code = 'active' AND gp.IM_PersonsID = " . $_GET[$postKey] . ")";
     }
     return "";

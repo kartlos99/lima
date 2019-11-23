@@ -21,8 +21,8 @@ $limit = " Limit $offset, $records_per_page";
 
 $sql = "
 SELECT imc.ID, imc.Comment, DATE_FORMAT(imc.CreateDate, '%Y-%m-%d %H:%i') AS dro, pmap.UserName FROM `im_comments` imc
-LEFT JOIN personmapping pmap ON imc.CreateUser = pmap.ID
-WHERE imc.`IM_RequestID` = $recID" . $order . $limit;
+LEFT JOIN PersonMapping pmap ON imc.CreateUser = pmap.ID
+WHERE imc.`IM_RequestID` = " . $recID . $order . $limit;
 
 $sqlCount = "SELECT COUNT(imc.ID) as nn FROM `im_comments` imc
 WHERE imc.`IM_RequestID` = $recID";
