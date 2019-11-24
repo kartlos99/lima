@@ -9,7 +9,7 @@ var criteriasOnTechPosArray = [];
 var criteriaPosArray = [];
 var criteriaDataArray = [];
 var categoryObj;
-
+var waitingItem;
 
 var text_chooseModel = "აირჩიეთ მოდელი!";
 var text_PriceAndCriteriaWeightStatusAlert = "ღირებულებისა და კრიტერიუმების წონების სტატუსი არააქტიურია!";
@@ -195,10 +195,14 @@ function getCategory(sel_ID) {
         dataType: 'json',
         success: function (response) {
             categoryObj = response.category;
+            console.log("categoriebi movida");
             $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#' + sel_ID);
             categoryObj.forEach(function (item) {
                 $('<option />').text(item.name).attr('value', item.ID).appendTo('#' + sel_ID);
             });
+            if (waitingItem != undefined){
+                fillAccidentForm(waitingItem);
+            }
         }
     });
 }

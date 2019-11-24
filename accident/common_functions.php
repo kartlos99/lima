@@ -70,9 +70,9 @@ function getPersons($dbConn, $personType)
     $list[] = [ "vv" => "", "tt" => "აირჩიეთ", "Code" => "none"];
     $sql = "
 SELECT p.id AS vv, concat(FirstName, ' ', LastName) AS tt, ditype.Code FROM `im_persons` p
-LEFT JOIN dictionariyitems ditype
+LEFT JOIN DictionariyItems ditype
 ON ditype.ID = p.`TypeID`
-LEFT JOIN dictionariyitems di_st
+LEFT JOIN DictionariyItems di_st
 ON di_st.ID = p.`StatusID`
 WHERE (ditype.Code = 'both' or ditype.Code = '$personType') AND di_st.Code = 'active'
 ORDER BY tt ";

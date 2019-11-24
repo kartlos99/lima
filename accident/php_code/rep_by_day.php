@@ -130,15 +130,14 @@ if ($isExport == 'exp') {
     }
     $output .= '</table>';
 
-    $fileName = "report_" . $mode . "_" . $dges;
+    header("Content-Type: application/octet-stream");
+    header("Content-Transfer-Encoding: binary");
+    header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    header('Content-Disposition: attachment; filename = "Export_' . $mode[0] . '_' . date("Y-m-d") . '.xls"');
+    header('Pragma: no-cache');
 
-//header("Content-Type: application/xls");
-    header("Content-type: application/octet-stream");
-    header("Content-Disposition: attachment; filename=$fileName.xls");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-
-    echo $output;
+//these characters will make correct encoding to excel
+    echo chr(255) . chr(254) . iconv("UTF-8", "UTF-16LE//IGNORE", $output);
 } else {
     echo(json_encode($resultArray));
 }

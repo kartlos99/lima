@@ -105,11 +105,11 @@ LEFT JOIN im_category cat ON
     cat.ID = im.`CategoryID`
 LEFT JOIN im_subcategory scat ON
     scat.ID = im.`SubCategoryID`
-LEFT JOIN organizations o ON
+LEFT JOIN Organizations o ON
     o.ID = im.`OrgID`
-LEFT JOIN dictionariyitems di_st ON
+LEFT JOIN DictionariyItems di_st ON
     di_st.ID = im.`StatusID`
-LEFT JOIN personmapping pmap ON
+LEFT JOIN PersonMapping pmap ON
     pmap.ID = im.`OwnerID` 
 LEFT JOIN im_guilty_persons gp ON
     gp.IM_RequestID = im.ID    

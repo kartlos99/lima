@@ -37,7 +37,7 @@ function fillAccidentForm(aData) {
 
     $('#CategoryID_id').val(aData.CategoryID);
     $('#CategoryOther_id').val(aData.CategoryOther);
-
+    console.log("Forma ivseba!!!");
     loadSubCategory(aData.CategoryID, aData.SubCategoryID, 'SubCategoryID_id')
     $('#SubCategoryOther_id').val(aData.SubCategoryOther);
 
@@ -78,7 +78,12 @@ function getAccidentData(id) {
             console.log(response);
             if (response.accident != undefined) {
 //                console.log(response.case);
-                fillAccidentForm(response.accident);
+                if (categoryObj == undefined) {
+                    waitingItem = response.accident;
+                } else {
+                    fillAccidentForm(response.accident);
+                }
+
                 ulGuiltyPersons.empty();
                 response.gPersons.forEach(function (gPerson) {
                     addgPerson(gPerson);
@@ -303,16 +308,22 @@ function getHistList(querys) {
 
 $('#btnSaveComment').on('click', function (event) {
     event.preventDefault();
-    $('#commentForRecID').val($('#recID').val());
-    currCommentsPageN = 1;
-    saveComment(commentForm.serialize());
-    $('#btnCommentNextPage').show();
+    if ($('#recID').val() != 0) {
+        if (commentForm.find('textarea').val() != '') {
+            $('#commentForRecID').val($('#recID').val());
+            currCommentsPageN = 1;
+            saveComment(commentForm.serialize());
+            $('#btnCommentNextPage').show();
+        }
+    } else {
+        alert('ინციდენტი არაა შენახული!');
+    }
 });
 
 $('#btnCommentNextPage').on('click', function (event) {
     currCommentsPageN++;
     getComments($('#recID').val(), currCommentsPageN);
-    if (currCommentsPageN == commentsPageCount){
+    if (currCommentsPageN == commentsPageCount) {
         $('#btnCommentNextPage').hide();
     }
 });
@@ -353,7 +364,7 @@ function getComments(imID, pageN) {
             var itemCount = response.count;
             commentsPageCount = Math.ceil(itemCount / 10);
             console.log('commentsPageCount ' + commentsPageCount);
-            if (commentsPageCount == 1){
+            if (commentsPageCount == 1) {
                 $('#btnCommentNextPage').hide();
             }
         }
