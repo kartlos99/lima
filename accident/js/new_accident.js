@@ -136,7 +136,9 @@ $('#addGuiltyPerson').on('click', function (event) {
             var iIcon = $('<i />').addClass("fas fa-minus-circle fa-lg");
             var nameTag = $('<span />').text(guiltyPersonSelect.find('option:selected').text())
             var newLi = $('<li></li>').addClass("guilty-item").append(iIcon, nameTag, guiltyInp);
+            newLi.fadeOut(1);
             ulGuiltyPersons.append(newLi);
+            ulGuiltyPersons.find("li:last").fadeIn(300);
         } else {
             console.log("alredi in list");
         }
@@ -146,7 +148,11 @@ $('#addGuiltyPerson').on('click', function (event) {
 
 ulGuiltyPersons.on('click', 'li.guilty-item i', function (it) {
     console.log($(this).closest('li').html());
-    $(this).closest('li').remove();
+    var li = $(this).closest('li');
+    li.fadeOut(300);
+    setTimeout(function () {
+        li.remove();
+    } , 300);
 });
 
 $('#btnSave').on('click', function (event) {
