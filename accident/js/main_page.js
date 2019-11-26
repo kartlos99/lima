@@ -14,13 +14,15 @@ $(function () {
     getCategory('CategoryID_id');
     loadSubCategory(0, 0, 'SubCategoryID_id');
     $('select').val(0);
+    if($('#currusertype').data('ut') == 'performer')
+        blockSolverSelector($('#currusertype').data('userid'))
 });
 
 $('#CategoryID_id').on('change', function () {
     loadSubCategory($('#CategoryID_id').val(), 0, 'SubCategoryID_id');
 });
 
-$('#organization_id').on('change', function () {
+orgSelector.on('change', function () {
     loadBranches($('#organization_id').val(), 0, 'filial_id');
 });
 

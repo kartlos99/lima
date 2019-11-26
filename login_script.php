@@ -57,6 +57,8 @@ SELECT
     dim3.Code AS M3UT,
     dim4.Code AS M4UT,
     pmap.UserTypeM2,
+    pmap.UserTypeM3,
+    pmap.OrganizationID,
     pmap.ID
 FROM
     `PersonMapping` pmap
@@ -100,6 +102,7 @@ WHERE
                 $_SESSION['M4UT'] = $results['M4UT'];
                 $_SESSION['username_exp'] = $subName;
                 $_SESSION['userpass'] = $storPass;
+                $_SESSION['OrganizationID'] = $results['OrganizationID'];
 
                 if ($results['M2UT'] != null) {
                     $permissions = [];
@@ -117,6 +120,24 @@ WHERE `roleID` = $roleID AND p.module = 'm2'";
                     }
 
                     $_SESSION['permissionM2'] = $permissions;
+                }
+
+                if ($results['M3UT'] != null) {
+                    $permissions = [];
+                    $roleID = $results['UserTypeM3'];
+                    $sql_perm = "
+                        SELECT p.code FROM `permissionmapping` pm
+                        LEFT JOIN permission p
+                            ON p.id = pm.`permissionID`
+                        WHERE `roleID` = $roleID AND p.module = 'm3'";
+
+                    $res = mysqli_query($conn, $sql_perm);
+
+                    foreach ($res as $row) {
+                        $permissions[$row['code']] = 1;
+                    }
+
+                    $_SESSION['permissionM3'] = $permissions;
                 }
 
                 $currDate = time();

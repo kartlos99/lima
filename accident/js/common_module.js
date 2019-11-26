@@ -14,7 +14,9 @@ var waitingItem;
 var text_chooseModel = "აირჩიეთ მოდელი!";
 var text_PriceAndCriteriaWeightStatusAlert = "ღირებულებისა და კრიტერიუმების წონების სტატუსი არააქტიურია!";
 var text_NotFound = "ჩანაწერი ვერ მოიძებნა!";
-
+var orgSelector = $('#organization_id');
+var solverSelector = $('#SolverID_id');
+var waitForDropdowns = 0;
 
 function f_show() {
 }
@@ -140,6 +142,33 @@ function getCookie(cname) {
     return "";
 }
 
+function blockSolverSelector(uID = 0){
+    if (uID > 0){
+        solverSelector.val(uID);
+    }
+    solverSelector.find('option').attr('disabled', true);
+    solverSelector.attr('readonly', true);
+}
+
+function unBlockSolverSelector(){
+    solverSelector.find('option').removeAttr('disabled');
+    solverSelector.removeAttr('readonly');
+}
+
+function blockOrgSelector(orgID = 0){
+    if (orgID > 0){
+        orgSelector.val(orgID);
+        loadBranches(orgID, 0, 'filial_id');
+    }
+    orgSelector.find('option').attr('disabled', true);
+    orgSelector.attr('readonly', true);
+}
+
+function unBlockOrgSelector(){
+    orgSelector.find('option').removeAttr('disabled');
+    orgSelector.removeAttr('readonly');
+}
+
 function getOrganizations(sel_ID) {
 //    console.log("org & fil List");
     $.ajax({
@@ -157,6 +186,11 @@ function getOrganizations(sel_ID) {
             organizationObj.forEach(function (item) {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#' + sel_ID);
             });
+
+            if($('#currusertype').data('ut') == 'im_owner')
+                blockOrgSelector($('#currusertype').data('org'));
+
+            waitForDropdowns++;
         }
     });
 }
@@ -200,6 +234,8 @@ function getCategory(sel_ID) {
             categoryObj.forEach(function (item) {
                 $('<option />').text(item.name).attr('value', item.ID).appendTo('#' + sel_ID);
             });
+
+            waitForDropdowns++;
             if (waitingItem != undefined){
                 fillAccidentForm(waitingItem);
             }

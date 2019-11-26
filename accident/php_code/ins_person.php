@@ -10,7 +10,11 @@ $currDate = 'CURRENT_TIMESTAMP';
 $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 $resultArray = [];
-
+if (!isset($_SESSION['permissionM3']['add_person'])) {
+    $resultArray[RESULT] = ERROR;
+    $resultArray[ERROR] = "no person insert permission!";
+    die(json_encode($resultArray));
+}
 $resultArray['post'] = $_POST;
 //die(json_encode($resultArray));
 

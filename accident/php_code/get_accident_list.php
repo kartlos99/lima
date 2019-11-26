@@ -53,6 +53,13 @@ $query = isset($_POST['guiltyUserID']) ? "gp.StatusID = (
 		WHERE d.Code = 'im_guilty_person_map_status' AND di.`Code` = 'active'
     )" : "";
 
+if ($_SESSION['M3UT'] == 'im_owner'){
+    $query .= " AND OrgID = " . $_SESSION['OrganizationID'];
+}
+if ($_SESSION['M3UT'] == 'performer'){
+    $query .= " AND SolverID = " . $currUserID;
+}
+
 $query .= getValueInt('im.ID', 'accident_N');
 $query .= getValueInt('im.TypeID', 'TypeID');
 $query .= getValueInt('PriorityID', 'PriorityID');

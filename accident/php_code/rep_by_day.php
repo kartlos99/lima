@@ -10,6 +10,11 @@ $currDate = 'CURRENT_TIMESTAMP';
 $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 $resultArray = [];
+if (!isset($_SESSION['permissionM3']['view_report'])) {
+    $resultArray[RESULT] = ERROR;
+    $resultArray[ERROR] = "no access to reports!";
+    die(json_encode($resultArray));
+}
 date_default_timezone_set("Asia/Tbilisi");
 $dges = date("Y-m-d", time());
 

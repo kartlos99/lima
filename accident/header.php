@@ -31,34 +31,36 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/alk-sanet.min.css"/>
     <link rel="stylesheet" href="css/bpg-arial.min.css"/>
     <link rel="stylesheet" href="style/local.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 </head>
 <body onpageshow="f_show()" onpagehide="f_hide()">
 <?php
 
 $pos = strpos($_SERVER['PHP_SELF'], "new_accident.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'new_accident';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "reports.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'reports';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "add_person.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'add_person';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "index.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'main_page';
 }
 
 ?>
-<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['usertype'] ?>" data-page="<?= $thisPage ?>"/>
+<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['M3UT'] ?>" data-page="<?= $thisPage ?>"
+       data-org="<?= $_SESSION['OrganizationID'] ?>" data-userID="<?= $_SESSION['userID'] ?>"/>
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
@@ -72,14 +74,22 @@ if ($pos !== false ){
                 <a href="index.php">მთავარი</a>
             </li>
             <li class="new_accident">
-                <a href="new_accident.php">ახალი ინციდენტი</a>
+                <?php if ($_SESSION['M3UT'] != 'performer') : ?>
+                    <a href="new_accident.php">ახალი ინციდენტი</a>
+                <?php else : ?>
+                    <a href="">ინციდენტი</a>
+                <?php endif; ?>
             </li>
-            <li class="reports">
-                <a href="reports.php">რეპორტები</a>
-            </li>
-            <li class="add_person">
-                <a href="add_person.php">პერსონის დამატება</a>
-            </li>
+            <?php if (isset($_SESSION['permissionM3']['view_report'])) : ?>
+                <li class="reports">
+                    <a href="reports.php">რეპორტები</a>
+                </li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['permissionM3']['add_person'])) : ?>
+                <li class="add_person">
+                    <a href="add_person.php">პერსონის დამატება</a>
+                </li>
+            <?php endif; ?>
         </ul>
 
         <ul class="list-unstyled CTAs">

@@ -5,6 +5,7 @@ var theAccidentObj = {
     instBefore: [],
     instAfter: []
 };
+var canEdit = ['StatusID_id', 'DurationDeys_id', 'DurationHours_id', 'SolveDate_id', 'SolveDateTime_id', 'solv_description_id'];
 var accidentForm = $('#accident_form');
 var guiltyPersonSelect = $('#guiltyPersonID_id');
 var ulGuiltyPersons = $('#divGuiltyPersons ul');
@@ -12,8 +13,13 @@ var commentForm = $('#commentForm');
 var commentTable = $('#tb_comment_list').find('tbody');
 var currCommentsPageN = 0;
 var commentsPageCount = 0;
+var typeSelector = $('#TypeID_id');
+var formIsBlocked = false;
 
 function fillAccidentForm(aData) {
+    if ($('#currusertype').data('ut') == 'monitoring'){
+        unBlockFormPart()
+    }
     $('#caseN').text('case_N ' + aData.accidentN + " " + aData.CreateDate);
     $('#currOwner').text(aData.ownerName);
     $('#recID').val(aData.ID);
@@ -54,6 +60,15 @@ function fillAccidentForm(aData) {
     $('#solv_description_id').val(aData.SolvDescription);
 
     $('#NotInStatistics_id').attr("checked", aData.NotInStatistics == 0);
+
+    if (waitForDropdowns == 2 && $('#currusertype').data('ut') == 'performer')
+        blockFormPart();
+    if ($('#currusertype').data('ut') == 'monitoring' && $('#currusertype').data('userid') != aData.CreateUser){
+        blockFormPart()
+    }
+    if ($('#currusertype').data('ut') == 'monitoring' ){
+        blockTypeSelector();
+    }
 }
 
 function addgPerson(person) {
@@ -118,7 +133,74 @@ $(function () {
         currCommentsPageN = 1;
         getComments(theAccidentObj.id, currCommentsPageN)
     }
+    if ($('#currusertype').data('ut') == 'im_owner')
+        blockTypeSelector('type_standard');
+    if ($('#currusertype').data('ut') == 'monitoring'){
+        canEdit = [];
+        if (theAccidentObj.id == 0){
+            blockTypeSelector('type_monitoring');
+        }else {
+            blockFormPart();
+        }
+    }
+
 });
+
+function blockFormPart() {
+    accidentForm.find('input').each(function (value) {
+        if (!canEdit.includes($(this).attr('id'))) {
+            $(this).attr('readonly', true);
+        }
+    });
+    accidentForm.find('textarea').each(function (value) {
+        if (!canEdit.includes($(this).attr('id'))) {
+            $(this).attr('disabled', true);
+        }
+    });
+    accidentForm.find('select').each(function (value) {
+        if (!canEdit.includes($(this).attr('id'))) {
+            $(this).find('option').attr('disabled', true);
+            $(this).attr('readonly', true);
+        }
+    });
+    $('#NotInStatistics_id').attr('disabled', true);
+    formIsBlocked = true
+}
+
+function unBlockFormPart() {
+    accidentForm.find('input').each(function (value) {
+        if (!canEdit.includes($(this).attr('id'))) {
+            $(this).removeAttr('readonly');
+        }
+    });
+    accidentForm.find('textarea').each(function (value) {
+        if (!canEdit.includes($(this).attr('id'))) {
+            $(this).removeAttr('disabled');
+        }
+    });
+    accidentForm.find('select').each(function (value) {
+        if (!canEdit.includes($(this).attr('id'))) {
+            $(this).find('option').removeAttr('disabled');
+            $(this).removeAttr('readonly');
+        }
+    });
+    $('#NotInStatistics_id').removeAttr('disabled');
+    formIsBlocked = false
+}
+
+function blockTypeSelector(typeCode = "") {
+    if (typeCode != ""){
+        var id = typeSelector.find("option[data-code='" + typeCode + "']").val();
+        typeSelector.val(id);
+    }
+    typeSelector.find('option').attr('disabled', true);
+    typeSelector.attr('readonly', true);
+}
+
+function unBlockTypeSelector() {
+    typeSelector.find('option').removeAttr('disabled');
+    typeSelector.removeAttr('readonly');
+}
 
 $('#addGuiltyPerson').on('click', function (event) {
     event.preventDefault();
@@ -147,19 +229,32 @@ $('#addGuiltyPerson').on('click', function (event) {
 });
 
 ulGuiltyPersons.on('click', 'li.guilty-item i', function (it) {
-    console.log($(this).closest('li').html());
-    var li = $(this).closest('li');
-    li.fadeOut(300);
-    setTimeout(function () {
-        li.remove();
-    } , 300);
+    if (!formIsBlocked){
+        console.log($(this).closest('li').html());
+        var li = $(this).closest('li');
+        li.fadeOut(300);
+        setTimeout(function () {
+            li.remove();
+        }, 300);
+    }
 });
 
 $('#btnSave').on('click', function (event) {
     event.preventDefault();
     var formIsValid = true;
+    if ($('#currusertype').data('ut') == 'im_owner') {
+        unBlockTypeSelector()
+        unBlockOrgSelector()
+    }
+    if ($('#currusertype').data('ut') == 'performer') {
+        unBlockFormPart()
+    }
+    if ($('#currusertype').data('ut') == 'monitoring') {
+        unBlockTypeSelector()
+    }
 
     var sendData = accidentForm.serialize();
+    console.log(sendData);
 
     var recEl1 = $('select:required');
     var recEl2 = $('input:required');
@@ -188,6 +283,17 @@ $('#btnSave').on('click', function (event) {
             $(this).focus();
         }
     });
+
+    if ($('#currusertype').data('ut') == 'im_owner') {
+        blockTypeSelector();
+        blockOrgSelector()
+    }
+    if ($('#currusertype').data('ut') == 'performer') {
+        blockFormPart()
+    }
+    if ($('#currusertype').data('ut') == 'monitoring') {
+        blockTypeSelector()
+    }
 
     if (formIsValid) {
         saveAccidentRequest(sendData)

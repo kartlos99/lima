@@ -5,6 +5,9 @@
  * Date: 10/3/19
  * Time: 3:43 PM
  */
+if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['add_person'])) {
+    die("login / no access");
+}
 include_once 'DrawView.php';
 include_once 'common_functions.php';
 include_once 'header.php';
