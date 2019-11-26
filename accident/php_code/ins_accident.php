@@ -20,7 +20,7 @@ $input = 23;
 //echo($time1 . str_pad($input, 5, "0", STR_PAD_LEFT));
 
 $recID = $_POST['recID'];
-if (!isset($_SESSION['permissionM3']['create_incident']) && $recID = 0) {
+if (!isset($_SESSION['permissionM3']['create_incident']) && $recID == 0) {
     $resultArray[RESULT] = ERROR;
     $resultArray[ERROR] = "no accident insert permission!";
     die(json_encode($resultArray));
