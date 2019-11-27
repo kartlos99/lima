@@ -5,7 +5,7 @@
  * Date: 7/14/2019
  * Time: 10:54 PM
  */
-
+session_start();
 if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['view_report'])) {
     die("login / no access");
 }

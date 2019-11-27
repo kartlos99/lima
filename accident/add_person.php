@@ -5,6 +5,7 @@
  * Date: 10/3/19
  * Time: 3:43 PM
  */
+session_start();
 if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['add_person'])) {
     die("login / no access");
 }
