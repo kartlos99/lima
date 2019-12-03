@@ -18,6 +18,14 @@ $records_per_page = 20;
 $offset = ($pageN - 1) * $records_per_page;
 $limit = " Limit $offset, $records_per_page";
 
+$max = "";
+$grouping = "";
+
+if (!isset($_POST['duplicates'])){
+    $max = "max";
+    $grouping = "GROUP by im.categoryID, im.subcategoryID, im.AgrNumber";
+}
+
 function getValueInt($fieldName, $postKey)
 {
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0") {
@@ -95,7 +103,7 @@ if ($query == "")
 $sql_count = "SELECT count(DISTINCT im.ID) as n ";
 
 $sql_fields = "
-SELECT DISTINCT
+SELECT 
     im.ID,
     ifnull(cat.name, '') AS category,
     ifnull(scat.name, '') AS subcaegory,
@@ -107,27 +115,43 @@ SELECT DISTINCT
 ";
 
 $sql = " FROM
-    `im_request` im
-LEFT JOIN im_category cat ON
-    cat.ID = im.`CategoryID`
-LEFT JOIN im_subcategory scat ON
-    scat.ID = im.`SubCategoryID`
-LEFT JOIN Organizations o ON
-    o.ID = im.`OrgID`
-LEFT JOIN DictionariyItems di_st ON
-    di_st.ID = im.`StatusID`
-LEFT JOIN PersonMapping pmap ON
-    pmap.ID = im.`OwnerID` 
-LEFT JOIN im_guilty_persons gp ON
-    gp.IM_RequestID = im.ID    
-WHERE ";
+        `im_request` im
+    LEFT JOIN im_category cat ON
+        cat.ID = im.`CategoryID`
+    LEFT JOIN im_subcategory scat ON
+        scat.ID = im.`SubCategoryID`
+    LEFT JOIN Organizations o ON
+        o.ID = im.`OrgID`
+    LEFT JOIN DictionariyItems di_st ON
+        di_st.ID = im.`StatusID`
+    LEFT JOIN PersonMapping pmap ON
+        pmap.ID = im.`OwnerID` 
+    WHERE im.ID in (
+        SELECT $max(im.ID) FROM
+        `im_request` im
+     LEFT JOIN im_category cat ON
+        cat.ID = im.`CategoryID`
+    LEFT JOIN im_subcategory scat ON
+        scat.ID = im.`SubCategoryID`
+    LEFT JOIN Organizations o ON
+        o.ID = im.`OrgID`
+    LEFT JOIN DictionariyItems di_st ON
+        di_st.ID = im.`StatusID`
+    LEFT JOIN PersonMapping pmap ON
+        pmap.ID = im.`OwnerID` 
+    LEFT JOIN im_guilty_persons gp ON
+        gp.IM_RequestID = im.ID    
+    WHERE $query
+   $grouping
+)  
+ ";
 
-$fullSQL = $sql_fields . $sql . $query . $order . $limit;
+$fullSQL = $sql_fields . $sql . $order . $limit;
 
 $resultArray['sql'] = $fullSQL;
 
 $result = mysqli_query($conn, $fullSQL);
-$result_N = mysqli_query($conn, $sql_count . $sql . $query);
+$result_N = mysqli_query($conn, $sql_count . $sql);
 
 $arr = [];
 $nn = [];
@@ -143,3 +167,5 @@ $resultArray['count'] = $nn;
 echo(json_encode($resultArray));
 
 // SELECT dateDIFF('2019-10-13', CURRENT_DATE()) AS diff1, unix_timestamp(CURRENT_DATE()), 60*60*24*30 AS dge;
+
+//SELECT  im.ID, ifnull(cat.name, '') AS category, ifnull(scat.name, '') AS subcaegory, ifnull(o.OrganizationName, '') AS org, `AgrNumber`, ifnull(di_st.ValueText, '') AS st, ifnull(pmap.UserName, '') AS username, DATE(`FactDate`) AS FactDate FROM `im_request` imLEFT JOIN im_category cat ON cat.ID = im.`CategoryID`LEFT JOIN im_subcategory scat ON scat.ID = im.`SubCategoryID`LEFT JOIN Organizations o ON o.ID = im.`OrgID`LEFT JOIN DictionariyItems di_st ON di_st.ID = im.`StatusID`LEFT JOIN PersonMapping pmap ON pmap.ID = im.`OwnerID` WHERE im.ID in (\tSELECT max(im.ID) FROM `im_request` imLEFT JOIN im_category cat ON cat.ID = im.`CategoryID`LEFT JOIN im_subcategory scat ON scat.ID = im.`SubCategoryID`LEFT JOIN Organizations o ON o.ID = im.`OrgID`LEFT JOIN DictionariyItems di_st ON di_st.ID = im.`StatusID`LEFT JOIN PersonMapping pmap ON pmap.ID = im.`OwnerID` LEFT JOIN im_guilty_persons gp ON gp.IM_RequestID = im.ID WHERE 1 GROUP by im.categoryID, im.subcategoryID, im.AgrNumber) WHERE ORDER BY im.ID Limit 20
