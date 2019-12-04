@@ -36,7 +36,7 @@ function fillAccidentForm(aData) {
 
     $('#FactDate_id').val(aData.FactDate);
     $('#FactDateTime_id').val(aData.FactDateTime);
-    $('#DiscovererID_id').val(aData.DiscovererID);
+    $('#DiscovererID_id').val(aData.DiscovererID).trigger('chosen:updated');
     $('#DiscoveryDate_id').val(aData.DiscoverDate);
     $('#DiscoveryDateTime_id').val(aData.DiscoverDateTime);
     // $('#guiltyPersonID_id').val(aData.DebFirstName);  damrRvevi pirebi box-shi
@@ -144,6 +144,10 @@ $(function () {
         }
     }
 
+    $('#DiscovererID_id').addClass("chosen").chosen();
+    $('#guiltyPersonID_id').addClass("chosen").chosen();
+    $("<br/>").insertAfter("#DiscovererID_id");
+    $("<br/>").insertAfter("#guiltyPersonID_id");
 });
 
 function blockFormPart() {

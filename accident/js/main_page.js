@@ -15,7 +15,10 @@ $(function () {
     loadSubCategory(0, 0, 'SubCategoryID_id');
     $('select').val(0);
     if($('#currusertype').data('ut') == 'performer')
-        blockSolverSelector($('#currusertype').data('userid'))
+        blockSolverSelector($('#currusertype').data('userid'));
+
+    $('#DiscovererID_id').addClass("chosen").chosen();
+    $('#guiltyUserID_id').addClass("chosen").chosen();
 });
 
 $('#CategoryID_id').on('change', function () {
@@ -49,6 +52,9 @@ $('#btnClearApp').on('click', function (event) {
     filterForm.trigger('reset');
     $('select').val(0);
     $('#reminder_id').bootstrapToggle('off');
+
+    $('#DiscovererID_id').trigger('chosen:updated');
+    $('#guiltyUserID_id').trigger('chosen:updated');
 });
 
 function getAccidentsList(querys) {
