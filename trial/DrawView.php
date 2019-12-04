@@ -42,11 +42,11 @@ class DrawView
         $all_comp = "";
         $id = $name . "_" . $id;
         $form_attr = $form == null ? "" : "form=\"$form\"";
-        if ($title != ""){
+        if ($title != "") {
             $all_comp = '<label for="' . $id . '">' . $title . '</label>';
             $cssClass = "form-control";
         }
-        $all_comp .= '<select class="'. $cssClass.'" id="' . $id . '" name="' . $name . '" '. $form_attr .'> '. self::formingOption($options) .' </select>';
+        $all_comp .= '<select class="' . $cssClass . '" id="' . $id . '" name="' . $name . '" ' . $form_attr . '> ' . self::formingOption($options) . ' </select>';
         return $all_comp;
     }
 
@@ -54,17 +54,17 @@ class DrawView
     {
         $name1 = $name . "_from";
         $name2 = $name . "_to";
-        $id1 = $name1 . "_" . $id ;
-        $id2 = $name2 . "_" . $id ;
+        $id1 = $name1 . "_" . $id;
+        $id2 = $name2 . "_" . $id;
         $form_attr = $form == null ? "" : "form=\"$form\"";
         $view = '<label for="' . $id . '">' . $title . '</label>
                 <table class="table-section">
                     <tr>
                         <td>
-                            <input type="' . $type . '" class="form-control" id="' . $id1 . '" name="' . $name1 . '" data-field="'. $dataField .'" '. $form_attr .'>
+                            <input type="' . $type . '" class="form-control ge-date-format" id="' . $id1 . '" name="' . $name1 . '" data-date="__" data-date-format="' . DATE_FORMAT . '" data-field="' . $dataField . '" ' . $form_attr . '>
                         </td>
                         <td>
-                            <input type="' . $type . '" class="form-control" id="' . $id2 . '" name="' . $name2 . '" data-field="'. $dataField .'" '. $form_attr .'>
+                            <input type="' . $type . '" class="form-control ge-date-format" id="' . $id2 . '" name="' . $name2 . '" data-date="__" data-date-format="' . DATE_FORMAT . '" data-field="' . $dataField . '" ' . $form_attr . '>
                         </td>
                     </tr>
                 </table>';
@@ -78,9 +78,11 @@ class DrawView
     {
         $id = $name . "_" . $id;
         $form_attr = $form == null ? "" : "form=\"$form\"";
+        $dataDate = $type == "date" ? 'data-date="__" data-date-format="' . DATE_FORMAT . '"' : "";
+        $dateClass = $type == "date" ? ' ge-date-format' : "";
         $view = '
         <label for="' . $id . '">' . $title . '</label>
-        <input type="' . $type . '" class="form-control" id="' . $id . '" placeholder="" name="' . $name . '" data-field="'. $dataField .'" '. $form_attr .'/>';
+        <input type="' . $type . '" class="form-control' . $dateClass . '" id="' . $id . '" placeholder="" name="' . $name . '" ' . $dataDate . ' data-field="' . $dataField . '" ' . $form_attr . '/>';
         return $view;
     }
 
@@ -88,7 +90,7 @@ class DrawView
     {
         $id = $name . "_" . $id;
         $view = '
-        <input type="' . $type . '" id="' . $id . '" placeholder="" name="' . $name . '" data-field="'. $dataField .'" />
+        <input type="' . $type . '" id="' . $id . '" placeholder="" name="' . $name . '" data-field="' . $dataField . '" />
         <label for="' . $id . '">' . $title . '</label>';
         return $view;
     }
@@ -165,12 +167,12 @@ class DrawView
 
     static function horizontalInput($title = "", $name, $type = "text", $list = [], $pl_holder = "₾")
     {
-        $id = $name."_id";
+        $id = $name . "_id";
 
-        if ($type == "select"){
+        if ($type == "select") {
             $inputFeald = "
-                <select name=\"$name\" id=\"$id\" class=\"form-control\">". self::formingOption($list) ."</select>";
-        }else{
+                <select name=\"$name\" id=\"$id\" class=\"form-control\">" . self::formingOption($list) . "</select>";
+        } else {
             $inputFeald = "<input id=\"$id\" type=\"$type\" class=\"form-control\" placeholder=\"$pl_holder\" name=\"$name\"/>";
         }
 
@@ -181,22 +183,24 @@ class DrawView
         return $view;
     }
 
-    function formingOption($dataList){
+    function formingOption($dataList)
+    {
         $opt = "";
-        foreach ($dataList as $item){
+        foreach ($dataList as $item) {
             $vv = $item['vv'];
             $vt = $item['tt'];
-            if (isset($item['code'])){
+            if (isset($item['code'])) {
                 $vc = $item['code'];
                 $opt .= "<option value=\"$vv\" data-code=\"$vc\">$vt</option>";
-            }else{
+            } else {
                 $opt .= "<option value=\"$vv\">$vt</option>";
             }
         }
         return $opt;
     }
 
-    static function criteriaEditRow($impactList, $impactTypeList, $statesList){
+    static function criteriaEditRow($impactList, $impactTypeList, $statesList)
+    {
         $formControl = "form-control";
 //        $formControl = "";
         $view = "
@@ -222,11 +226,12 @@ class DrawView
             <td>
                 <select name=\"status\" class=\"$formControl id_status\">" . self::formingOption($statesList) . "</select>
             </td>
-            <td class=\"toright three-btn-width\">".self::btnsEditSaveCancel()."</td>";
+            <td class=\"toright three-btn-width\">" . self::btnsEditSaveCancel() . "</td>";
         return $view;
     }
 
-    static function subTitle($title){
+    static function subTitle($title)
+    {
         $view = "<div class=\"subtitle\">
                     <span>$title</span>
                 </div>";

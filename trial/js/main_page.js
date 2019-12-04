@@ -12,6 +12,7 @@ $(function () {
     getOrganizations('organization_id');
     loadBranches(0, 0, 'filial_id');
     $('select').val(0);
+    resetDateInputs()
 });
 
 $('#organization_id').on('change', function () {
@@ -39,6 +40,7 @@ $('#btnClearApp').on('click', function () {
     filterForm.trigger('reset');
     $('select').val(0);
     $('#reminder_id').bootstrapToggle('off');
+    resetDateInputs();
 });
 
 function getCaseList(querys) {
@@ -73,7 +75,7 @@ function getCaseList(querys) {
                 caseTable.append(trow);
             });
 
-            if (pageCount > 0){
+            if (pageCount > 0) {
                 pageNav.twbsPagination({
                     totalPages: pageCount,
                     visiblePages: 5,

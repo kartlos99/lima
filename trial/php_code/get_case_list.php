@@ -33,7 +33,7 @@ function getValueInt($fieldName, $postKey)
 function getValuedate($fieldName, $postKey, $oper)
 {
     if (isset($_POST[$postKey]) && $_POST[$postKey] != "" && $_POST[$postKey] != "0") {
-        return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND `$fieldName` > '1'";
+        return " AND date($fieldName) $oper= '" . $_POST[$postKey] . "' AND $fieldName > '1'";
     }
     return "";
 }
@@ -51,8 +51,8 @@ $query .= getValueInt('cs.ID', 'case_N');
 $query .= getValueInt('StatusID', 'case_status');
 $query .= getValueInt('StageID', 'case_stage');
 $query .= getValueInt('InstanceID', 'instance');
-$query .= getValuedate('CreateDate', 'create_date_from', ">");
-$query .= getValuedate('CreateDate', 'create_date_to', "<");
+$query .= getValuedate('cs.CreateDate', 'create_date_from', ">");
+$query .= getValuedate('cs.CreateDate', 'create_date_to', "<");
 $query .= getValuedate('ReceiveDate', 'receive_date_from', ">");
 $query .= getValuedate('ReceiveDate', 'receive_date_to', "<");
 $query .= getValuedate('DistrDate', 'distr_date_from', ">");

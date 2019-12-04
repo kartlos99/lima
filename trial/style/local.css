@@ -307,3 +307,47 @@ td div textarea {
 #my-pagination li{
     display: inline-block;
 }
+
+input.ge-date-format {
+    position: relative;
+    width: 200px;
+    height: 34px;
+    color: white;
+}
+
+input.ge-date-format:before {
+    position: absolute;
+    top: 0px; left: 5px;
+    content: attr(data-date);
+    display: inline-block;
+    color: #555;
+}
+
+input.ge-date-format::-webkit-datetime-edit, input.ge-date-format::-webkit-inner-spin-button, input.ge-date-format::-webkit-clear-button {
+    display: none;
+}
+
+input.ge-date-format::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    color: #555;
+    width: 10px;
+    padding: 10px;
+}
+
+.ge-date-format.in-title {
+    position: relative;
+    width: 150px;
+    height: 24px;
+    color: white;
+}
+
+.ge-date-format.in-title::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    color: #555;
+    width: 8px;
+    padding: 4px;
+}
