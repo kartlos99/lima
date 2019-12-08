@@ -31,7 +31,7 @@ $caseForm = "caseform";
                     </div>
                     <div class="inline-div">
                         <span>დაწერის თარიღი</span> <br/>
-                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform" class="ge-date-format in-title" data-date="" data-date-format="DD/MM/YYYY" value="">
+                        <input type="date" id="get_started_date_id" name="get_started_date" form="caseform">
                     </div>
                     <div class="inline-div">
                         <i id="btnUserCh" class="fas fa-users btn"></i>

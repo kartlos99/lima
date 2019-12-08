@@ -185,22 +185,3 @@ function loadBranches(orgID, brID, sel_ID) {
         });
     }
 }
-
-$("input.ge-date-format").on("change", function() {
-    this.setAttribute(
-        "data-date",
-        moment(this.value, "YYYY-MM-DD")
-            .format( this.getAttribute("data-date-format") )
-    )
-}).trigger("change");
-
-function resetDateInputs() {
-    $('input.ge-date-format').val('').trigger("change").attr('data-date', "-");
-}
-function resetDateInputsIfEmpty() {
-    $('input.ge-date-format').each(function () {
-        if ($(this).val() == "" ){
-            $(this).attr('data-date', "-");
-        }
-    })
-}

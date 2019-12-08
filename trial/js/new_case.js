@@ -15,12 +15,12 @@ function fillCaseForm(caseData) {
     $('#case_status_id').val(caseData.StatusID);
     $('#case_stage_id').val(caseData.StageID);
     $('#instance_id').val(caseData.InstanceID);
-    $('#time_of_begin_id').val(caseData.ReceiveDate).trigger("change");
-    $('#get_started_date_id').val(caseData.OwnDate).trigger("change");
-    $('#time_of_distribution_id').val(caseData.DistrDate).trigger("change");
-    $('#time_of_finish_id').val(caseData.CloseDate).trigger("change");
+    $('#time_of_begin_id').val(caseData.ReceiveDate);
+    $('#get_started_date_id').val(caseData.OwnDate);
+    $('#time_of_distribution_id').val(caseData.DistrDate);
+    $('#time_of_finish_id').val(caseData.CloseDate);
     $('#agreement_N_id').val(caseData.AgrNumber);
-    $('#date_of_decoration_id').val(caseData.AgrDate).trigger("change");
+    $('#date_of_decoration_id').val(caseData.AgrDate);
     $('#loan_type_id').val(caseData.AgrLoanType);
     $('#organization_id').val(caseData.AgrOrgID);
     loadBranches(caseData.AgrOrgID, caseData.AgrOrgBranchID, 'filial_id');
@@ -29,21 +29,21 @@ function fillCaseForm(caseData) {
     $('#client_address_id').val(caseData.DebAddress);
 
     $('#enf_status_enf_id').val(caseData.ExecStatusID);
-    $('#enf_request_time_enf_id').val(caseData.ExecReqDate).trigger("change");
-    $('#enf_take_time_enf_id').val(caseData.ExecGetDate).trigger("change");
-    $('#enf_start_time_enf_id').val(caseData.ExecProcessDate).trigger("change");
+    $('#enf_request_time_enf_id').val(caseData.ExecReqDate);
+    $('#enf_take_time_enf_id').val(caseData.ExecGetDate);
+    $('#enf_start_time_enf_id').val(caseData.ExecProcessDate);
     $('#enf_result_enf_id').val(caseData.ExecResultID);
     $('#enf_amount_enf_id').val(caseData.ExecMoney);
 
     $('#baj_status_baj_id').val(caseData.DutyStatusID);
-    $('#baj_request_time_baj_id').val(caseData.DutyReqDate).trigger("change");
-    $('#baj_take_time_baj_id').val(caseData.DutyGetDate).trigger("change");
+    $('#baj_request_time_baj_id').val(caseData.DutyReqDate);
+    $('#baj_take_time_baj_id').val(caseData.DutyGetDate);
     $('#baj_result_baj_id').val(caseData.DutyResultID);
     $('#baj_amount_baj_id').val(caseData.DutyMoney);
 
     $('#settle_status_settle_id').val(caseData.SettStatusID);
-    $('#settle_start_time_settle_id').val(caseData.SettStartDate).trigger("change");
-    $('#settle_time_settle_id').val(caseData.SettDate).trigger("change");
+    $('#settle_start_time_settle_id').val(caseData.SettStartDate);
+    $('#settle_time_settle_id').val(caseData.SettDate);
     $('#settle_result_settle_id').val(caseData.SettResultID);
     $('#settle_currency_settle_id').val(caseData.SettCurID);
     $('#settle_footer_settle_id').val(caseData.Settbase);
@@ -71,47 +71,47 @@ function fillInstanceForm(instance) {
     $('#i' + i + '_request_add_info_i' + i + '_id').val(instance.ClaimNotice);
 
     $('#i' + i + '_put_suit_i' + i + '_idSelPutSuit').val(instance.ClaimdeliveryStatus);
-    $('#i' + i + '_suit_put_date_i' + i + '_id').val(instance.ClaimdeliveryDate).trigger("change");
+    $('#i' + i + '_suit_put_date_i' + i + '_id').val(instance.ClaimdeliveryDate);
     $('#i' + i + '_el_code_user_i' + i + '_id').val(instance.ClaimSysUserName);
     $('#i' + i + '_el_code_pass_i' + i + '_id').val(instance.ClaimSysPassword);
 
     $('#i' + i + '_take_suit_i' + i + '_idSelTakeSuit').val(instance.ClaimProceeedID);
-    $('#i' + i + '_suit_take_date_i' + i + '_id').val(instance.ClaimProceeedDate).trigger("change");
+    $('#i' + i + '_suit_take_date_i' + i + '_id').val(instance.ClaimProceeedDate);
     $('#i' + i + '_judge_name_i' + i + '_id').val(instance.ClaimJudgeName);
     $('#i' + i + '_assistant_name_i' + i + '_id').val(instance.ClaimJudgeAssistant);
     $('#i' + i + '_contact_info_i' + i + '_id').val(instance.ClaimJudgePhone);
 
     $('#i' + i + '_client_put_suit_i' + i + '_idSelClientPutSuit').val(instance.CltoPerDeliveryStatus);
     $('#i' + i + '_suit_put_type_i' + i + '_id').val(instance.CltoPerDeliveryMethod);
-    $('#i' + i + '_suit_client_put_date_i' + i + '_id').val(instance.CltoPerDeliveryDate).trigger("change");
-    $('#i' + i + '_suit_send_time1_i' + i + '_id').val(instance.CltoPerFirstSentDate).trigger("change");
+    $('#i' + i + '_suit_client_put_date_i' + i + '_id').val(instance.CltoPerDeliveryDate);
+    $('#i' + i + '_suit_send_time1_i' + i + '_id').val(instance.CltoPerFirstSentDate);
     $('#i' + i + '_suit_send_result1_i' + i + '_id').val(instance.CltoPerFirstSentResult);
-    $('#i' + i + '_suit_send_time2_i' + i + '_id').val(instance.CltoPerSecondSentDate).trigger("change");
+    $('#i' + i + '_suit_send_time2_i' + i + '_id').val(instance.CltoPerSecondSentDate);
     $('#i' + i + '_suit_send_result2_i' + i + '_id').val(instance.CltoPerSecondSentResult);
     $('#i' + i + '_suit_put_result_i' + i + '_id').val(instance.CltoPerStandardSentResult);
-    $('#i' + i + '_judge_notice_date_i' + i + '_id').val(instance.CltoPerDeliveryToCourtDate).trigger("change");
-    $('#i' + i + '_public_put_date_i' + i + '_id').val(instance.CltoPerPublicDeliveryReqDate).trigger("change");
+    $('#i' + i + '_judge_notice_date_i' + i + '_id').val(instance.CltoPerDeliveryToCourtDate);
+    $('#i' + i + '_public_put_date_i' + i + '_id').val(instance.CltoPerPublicDeliveryReqDate);
     $('#i' + i + '_public_put_reminder_i' + i + '_id').attr("checked", instance.CltoPerPublicRemainder == 1);
-    $('#i' + i + '_idcltoPerPublicRemainderStartDate').val(instance.CltoPerPublicRemainderStartDate).trigger("change");
-    $('#i' + i + '_idcltoPerPublicRemainderEndDate').val(instance.CltoPerPublicRemainderEndDate).trigger("change");
+    $('#i' + i + '_idcltoPerPublicRemainderStartDate').val(instance.CltoPerPublicRemainderStartDate);
+    $('#i' + i + '_idcltoPerPublicRemainderEndDate').val(instance.CltoPerPublicRemainderEndDate);
 
     $('#i' + i + '_response_status_i' + i + '_id').val(instance.ClaimContStatusID);
-    $('#i' + i + '_response_date_i' + i + '_id').val(instance.ClaimContPresDate).trigger("change");
+    $('#i' + i + '_response_date_i' + i + '_id').val(instance.ClaimContPresDate);
 
     $('#i' + i + '_court_status_i' + i + '_idCourtStatus').val(instance.CourtProcessStatusID);
-    $('#i' + i + '_court_mark_date_i' + i + '_id').val(instance.CourtProcessPreDate).trigger("change");
+    $('#i' + i + '_court_mark_date_i' + i + '_id').val(instance.CourtProcessPreDate);
     $('#i' + i + '_court_mark_comment_i' + i + '_id').val(instance.CourtProcessComment);
-    $('#i' + i + '_court_date_i' + i + '_id').val(instance.CourtProcessDate).trigger("change");
+    $('#i' + i + '_court_date_i' + i + '_id').val(instance.CourtProcessDate);
     $('#i' + i + '_court_hearing_reminder_i' + i + '_id').attr("checked", instance.CourtProcessRemainder == 1);
-    $('#i' + i + '_idCourtProcessRemainderStartDate').val(instance.CourtProcessRemainderStartDate).trigger("change");
-    $('#i' + i + '_idCourtProcessRemainderEndDate').val(instance.CourtProcessRemainderEndDate).trigger("change");
+    $('#i' + i + '_idCourtProcessRemainderStartDate').val(instance.CourtProcessRemainderStartDate);
+    $('#i' + i + '_idCourtProcessRemainderEndDate').val(instance.CourtProcessRemainderEndDate);
 
     $('#i' + i + '_court_decision_reminder_i' + i + '_id').attr("checked", instance.CourtDecRemainder == 1);
-    $('#i' + i + '_idCourtDecRemainderStartDate').val(instance.CourtDecRemainderStartDate).trigger("change");
-    $('#i' + i + '_idCourtDecRemainderEndDate').val(instance.CourtDecRemainderEndDate).trigger("change");
+    $('#i' + i + '_idCourtDecRemainderStartDate').val(instance.CourtDecRemainderStartDate);
+    $('#i' + i + '_idCourtDecRemainderEndDate').val(instance.CourtDecRemainderEndDate);
     $('#i' + i + '_decision_type_i' + i + '_id').val(instance.CourtDecTypeID);
-    $('#i' + i + '_decision_take_date_i' + i + '_id').val(instance.CourtDecDate).trigger("change");
-    $('#i' + i + '_decision_take_effect_date_i' + i + '_id').val(instance.CourtDecActDate).trigger("change");
+    $('#i' + i + '_decision_take_date_i' + i + '_id').val(instance.CourtDecDate);
+    $('#i' + i + '_decision_take_effect_date_i' + i + '_id').val(instance.CourtDecActDate);
     $('#i' + i + '_decision_currency_i' + i + '_id').val(instance.CourtDecResCurID);
     $('#i' + i + '_decision_footer_i' + i + '_id').val(instance.CourtDecResBase);
     $('#i' + i + '_decision_percent_i' + i + '_id').val(instance.CourtDecResPercent);
@@ -136,7 +136,6 @@ function getCaseData(id) {
                 response.instances.forEach(function (instance) {
                     fillInstanceForm(instance);
                 });
-                resetDateInputsIfEmpty();
             } else {
                 console.log('case not found');
             }
@@ -154,7 +153,6 @@ $(function () {
     caseObj.instBefore[3] = $('#i3_form').serialize();
     console.log(caseObj);
 
-    resetDateInputs();
     if (caseObj.id == 0 || caseObj.id == "") {
         $('#ownerID').val($('#userID').val());
         $('#currOwner').text($('#loged_username').text());
