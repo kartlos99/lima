@@ -25,6 +25,7 @@ function fillCaseForm(caseData) {
     $('#organization_id').val(caseData.AgrOrgID);
     loadBranches(caseData.AgrOrgID, caseData.AgrOrgBranchID, 'filial_id');
     $('#client_name_id').val(caseData.DebFirstName);
+    $('#client_lastname_id').val(caseData.DebLastName);
     $('#client_N_id').val(caseData.DebPrivateNumber);
     $('#client_address_id').val(caseData.DebAddress);
 

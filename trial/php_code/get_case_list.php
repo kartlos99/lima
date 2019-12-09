@@ -99,7 +99,7 @@ LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
 LEFT JOIN Organizations o on o.ID = cs.AgrOrgID";
 
 $sql_fields = "
-SELECT cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, `DebFirstName`$reminderFeald FROM `pcm_aplication` cs
+SELECT cs.ID, LPAD(cs.ID, 5, '0') AS caseN, StatusID, di1.ValueText AS case_st, StageID, di2.ValueText AS case_stage, `AgrOrgID`, o.OrganizationName, `AgrNumber`, concat(`DebFirstName`, ' ', `DebLastName`) AS DebFirstName $reminderFeald FROM `pcm_aplication` cs
 LEFT JOIN DictionariyItems di1 ON di1.ID = cs.StatusID
 LEFT JOIN DictionariyItems di2 ON di2.ID = cs.StageID
 LEFT JOIN Organizations o on o.ID = cs.AgrOrgID

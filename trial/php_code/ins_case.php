@@ -34,6 +34,7 @@ $loanType = $_POST['loan_type'];
 $organization = $_POST['organization'];
 $filial = $_POST['filial'];
 $client_name = $_POST['client_name'];
+$client_lastName = $_POST['client_lastname'];
 $client_N = $_POST['client_N'];
 $client_address = $_POST['client_address'];
 $enf_status = $_POST['enf_status'];
@@ -412,7 +413,7 @@ VALUES(
     $loanType,
     $organization,
     $filial,
-    '',
+    '$client_lastName',
     '$client_name',
     '$client_N',
     '$client_address',
@@ -491,6 +492,7 @@ SET
     `AgrOrgID` = $organization,
     `AgrOrgBranchID` = $filial,
     `DebFirstName` = '$client_name',
+    `DebLastName` = '$client_lastName',
     `DebPrivateNumber` = '$client_N',
     `DebAddress` = '$client_address',
     `ExecStatusID` = $enf_status,

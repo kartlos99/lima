@@ -103,7 +103,10 @@ $caseForm = "caseform";
         <table class="table-section">
             <tr>
                 <td>
-                    <?= DrawView::simpleInput($id_simple, "client_name", "მსესხებლის სახელი და გვარი") ?>
+                    <?= DrawView::simpleInput($id_simple, "client_name", "მსესხებლის სახელი") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "client_lastname", "მსესხებლის გვარი") ?>
                 </td>
                 <td>
                     <?= DrawView::simpleInput($id_simple, "client_N", "მსესხებლის პირადი N") ?>
