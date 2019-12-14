@@ -29,7 +29,7 @@ if ($id == 0){
         WHERE
             st.Code = 'Active' 
             AND SUBSTRING_INDEX(AplApplID, '@', -1) = ANY 
-        		(SELECT `DomainName` FROM `domains` WHERE `OrganizationBranchID` = $branchID)
+        		(SELECT `DomainName` FROM `Domains` WHERE `OrganizationBranchID` = $branchID)
             AND ap.`OrganizationID` = $orgID 
             AND UNIX_TIMESTAMP() - ap.reservDate > (select valueint from DictionariyItems where CODE = 'reserv_period')
             AND 'Active' <> ALL(
