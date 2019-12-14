@@ -84,7 +84,21 @@ if (isset($_POST['org'])){
     }
 
     // domainebi
-    $sql = "SELECT OrganizationID, o.id, DomainName FROM Domains o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active' ORDER BY o.SortID";
+    $sql = "
+    SELECT
+        OrganizationID,
+        `OrganizationBranchID` AS brID,
+        o.id,
+        DomainName
+    FROM
+        Domains o
+    LEFT JOIN States s ON
+        o.StateID = s.ID
+    WHERE
+        s.Code = 'Active'
+    ORDER BY
+        `OrganizationID`, `OrganizationBranchID`, o.SortID
+    ";
 
     $result = mysqli_query($conn,$sql);
 
@@ -103,17 +117,23 @@ if (isset($_POST['org'])){
         $arr_Rmail[] = $row;    
     }
 
+    for ($i = 0 ; $i < count($arr_br) ; $i++){
+
+        foreach($arr_dom as $dom){
+            if ($arr_br[$i]['id'] == $dom['brID']){
+                $arr_br[$i]['domains'][] = $dom;
+            }
+        }
+    
+    }
+
     for ($i = 0 ; $i < count($arr_org) ; $i++){
         foreach($arr_br as $br){
             if ($arr_org[$i]['id'] == $br['OrganizationID']){
                 $arr_org[$i]['branches'][] = $br;
             }
         }
-        foreach($arr_dom as $dom){
-            if ($arr_org[$i]['id'] == $dom['OrganizationID']){
-                $arr_org[$i]['domains'][] = $dom;
-            }
-        }
+        
         foreach($arr_Rmail as $rm){
             if ($arr_Rmail[$i]['id'] == $rm['OrganizationID']){
                 $arr_org[$i]['rmails'][] = $rm;

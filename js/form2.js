@@ -15,7 +15,7 @@ $('button').addClass('btn-sm');
 
 // <!--    organizaciebis chamonatvali -->
 $.ajax({
-    url: '../php_code/get_organizations.php',
+    url: '../php_code/get_organizations_v2.php',
     method: 'get',
     dataType: 'json',
     success: function (response) {
@@ -54,6 +54,33 @@ $('#sel_organization').on('change', function () {
     getsublists();
 });
 
+$('#sel_branch').on('change', function () {
+    document.getElementById("email").removeAttribute('readonly');
+    setDomainList($('#sel_branch').val());
+});
+
+function setDomainList(brID){
+    $('#sel_domain').empty();
+
+    var sel_org_id = $('#sel_organization').val();
+
+    for (i = 0; i < Object.keys(orgObj).length; i++) {
+        if (orgObj[i]['id'] == sel_org_id){
+
+            console.log(orgObj[i]['branches'])
+            orgObj[i]['branches'].forEach(branch => 
+                {
+                    if (branch.id == brID){
+                        branch.domains.forEach(function (dom){
+                        $('<option />').text(dom.DomainName).val(dom.id).appendTo('#sel_domain');
+                    })
+                }
+            })
+            domDane = true; 
+        }
+    };
+}
+
 function getsublists(reason, rid) {
     // organizaciis archevs mere shesabamisad vanaxlebt masze mibmul siebs
     $('#sel_branch').empty();
@@ -72,10 +99,10 @@ function getsublists(reason, rid) {
             });
             filDane = true;
             
-            orgObj[i]['domains'].forEach(function (dom) {
-                $('<option />').text(dom.DomainName).val(dom.id).appendTo('#sel_domain');
-            });
-            domDane = true; 
+            // orgObj[i]['domains'].forEach(function (dom) {
+            //     $('<option />').text(dom.DomainName).val(dom.id).appendTo('#sel_domain');
+            // });
+            // domDane = true; 
             
             orgObj[i]['rmails'].forEach(function (rm) {
                 $('<option />').text(rm.EmEmail).val(rm.id).appendTo('#sel_rmail');
@@ -87,7 +114,7 @@ function getsublists(reason, rid) {
             rmailDane = true;
         }
     };
-
+    setDomainList($('#sel_branch').val())
 }
 
 // <!--    statusebi am ApplID cxrilistvis -->
@@ -126,6 +153,7 @@ $('#form1').on('submit', function (event) {
                     currmailid = response;
                     $('#btn_addid').hide();
                     $('#sel_organization').attr('disabled',true);
+                    $('#sel_branch').attr('disabled',true);
                     var d = new Date();
                     $('#appl_id_info').text('ID: '+ response + ' CreateDate: '  + d.getFullYear()  + "-" + (d.getMonth()+1) + "-" + d.getDate() + " " +
                         d.getHours() + ":" + d.getMinutes());

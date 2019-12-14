@@ -9,7 +9,7 @@ $tarigiDt = date("Y-m-d H:i", time());
 $domainName = 'gettere';
 
 $orgID = $_POST['organization'];
-$branchID = 1; //$_POST['branch'];
+$branchID = $_POST['branch'];
 $domainID = $_POST['domain'];
 $emEmail = $_POST['email'];
 $emailPass = $_POST['password'];

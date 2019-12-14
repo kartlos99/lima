@@ -9,6 +9,7 @@ var tempIphoneID = 0;
 var currApplID = 0;
 var tempApplID = 0;
 var currOrg = 0;
+var currBranch = 0;
 var causer="", cadate="", ciuser="", cidate="", capuser="", capdate="";
 var reasonEdit = false;
 var limited = false;
@@ -136,7 +137,7 @@ function getAgreement() {
                     $('#sel_organization_f31').val(item.OrganizationID);
                     currOrg = item.OrganizationID;
                     //$('#sel_branch_f31').attr("disabled", true);
-
+                    currBranch = item.OrganizationBranchID 
                     getsublists(item.OrganizationBranchID);
 
                     $('#agrN_f31').val(item.Number);
@@ -262,6 +263,9 @@ $('#sel_organization_f31').on('change', function () {
     getsublists(0);
 });
 
+$('#sel_branch_f31').on('change', function () {
+    currBranch = $('#sel_branch_f31').val();
+});
 
 $('#btn_addiphone_f31').on('click', function () {
     pan2Active = true;
@@ -610,6 +614,12 @@ $('#btn_go_f33').on('click', function () {
                     $('#btn_get_f33').attr('disabled', true);
                 }
 
+                // vamowmebt domeinis daSvebas filialze
+                if (!domainToBranchValidation(applid, currBranch)){
+                    alert("მითითებული დომეინი არ დაიშვება ამ ფილიალზე!");
+                    $('#btn_get_f33').attr('disabled', true);
+                }
+
                 if (response.AppleIDR > 1) {
                     alert("იძებნება რამდენიმე Appl ID !!!");
                     $('#btn_get_f33').attr('disabled', true);
@@ -628,6 +638,31 @@ $('#btn_go_f33').on('click', function () {
         $('#applid_f33').attr('placeholder', 'შეიყვანეთ ApplID');
     }
 });
+
+function domainToBranchValidation(applID, brID){
+    var inList = false;
+    var domainArr = applID.split("@")
+    if (domainArr.length > 1){
+        var domain = domainArr[1];
+        console.log(domain);
+
+        organizationObj.forEach(function (org) {
+
+            org.branches.forEach(function (br){
+                if (br.id == brID){
+                    br.domains.forEach(function (dom){
+                        if (dom.DomainName == domain){
+                            console.log('true');
+                            inList = true;
+                        }
+                    })
+                }
+            });
+        });
+    }
+    console.log(inList);
+    return inList;    
+}
 
 $('#btn_get_f33').on('click', function () {
     var applid = $('#applid_f33').val();
@@ -690,7 +725,7 @@ $('#btn_addApplid_f33').on('click', function () {
 
     console.log(currOrg);
     $.ajax({
-        url: '../php_code/get_apple_id_data.php?id=0&orgid=' + currOrg,
+        url: '../php_code/get_apple_id_data.php?id=0&orgid=' + currOrg + '&branchID=' + currBranch,
         method: 'get',
         dataType: 'json',
         success: function (response) {

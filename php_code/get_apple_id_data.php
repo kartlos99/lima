@@ -16,6 +16,7 @@ $orgID = 0;
 $id = $_GET['id'];
 if ($id == 0){
     $orgID = $_GET['orgid'];
+    $branchID = $_GET['branchID'];
 
     $sql = "
     SELECT
@@ -27,6 +28,8 @@ if ($id == 0){
         
         WHERE
             st.Code = 'Active' 
+            AND SUBSTRING_INDEX(AplApplID, '@', -1) = ANY 
+        		(SELECT `DomainName` FROM `domains` WHERE `OrganizationBranchID` = $branchID)
             AND ap.`OrganizationID` = $orgID 
             AND UNIX_TIMESTAMP() - ap.reservDate > (select valueint from DictionariyItems where CODE = 'reserv_period')
             AND 'Active' <> ALL(
