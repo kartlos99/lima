@@ -83,7 +83,6 @@ $query .= getValueInt('im.CategoryID', 'CategoryID');
 $query .= getValueInt('im.SubCategoryID', 'SubCategoryID');
 $query .= getValueInt('DiscovererID', 'DiscovererID');
 $query .= getValueInt('SolverID', 'SolverID');
-$query .= getValueInt('NotInStatistics', 'NotInStatistics');
 
 $query .= getValuedate('im.CreateDate', 'create_date_from', ">");
 $query .= getValuedate('im.CreateDate', 'create_date_to', "<");
@@ -94,6 +93,9 @@ $query .= getValuedate('DiscoverDate', 'discover_date_to', "<");
 $query .= getValuedate('SolveDate', 'SolveDate_from', ">");
 $query .= getValuedate('SolveDate', 'SolveDate_to', "<");
 
+if (isset($_POST['NotInStatistics'])){
+    $query .= " AND `NotInStatistics` = 0 ";
+}
 
 $query = trim($query, " AND");
 if ($query == "")

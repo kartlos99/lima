@@ -5,13 +5,14 @@
  * Date: 10/3/19
  * Time: 3:43 PM
  */
-session_start();
-if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['add_person'])) {
-    die("login / no access");
-}
 include_once 'DrawView.php';
 include_once 'common_functions.php';
 include_once 'header.php';
+
+if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['add_person'])) {
+    die("login / no access");
+}
+
 $id_simple = "id";
 $note = "შენიშვნა";
 $caseForm = "caseform";

@@ -5,13 +5,14 @@
  * Date: 7/14/2019
  * Time: 10:54 PM
  */
-session_start();
-if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['view_report'])) {
-    die("login / no access");
-}
 include_once 'DrawView.php';
 include_once 'common_functions.php';
 include_once 'header.php';
+
+if (!isset($_SESSION['username']) || !isset($_SESSION['permissionM3']['view_report'])) {
+    die("login / no access");
+}
+
 $id_simple = "id";
 $note = "შენიშვნა";
 $currDay = date("Y-m-d", time());
