@@ -184,3 +184,17 @@ label {
       text-decoration: underline;
       cursor: pointer;
   }
+
+  #userRolesTable td, #userRolesTable th {
+      padding: 4px 8px 4px 8px;
+  }
+
+#currOpInfo span {
+    color: #ac2925;
+    font-size: 1.1em;
+}
+
+#userRolesTable {
+    background-color: #cadbe7;
+    border-radius: 8px;
+}

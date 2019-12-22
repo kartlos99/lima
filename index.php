@@ -45,8 +45,8 @@ if ($_SESSION['usertype'] != null) {
         }
         #dout {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 16px;
+            right: 16px;
         }
     </style>
 </head>
@@ -69,18 +69,33 @@ if ($_SESSION['usertype'] != null) {
             <td>
                 <a href="<?php if ($_SESSION['M3UT'] != null) {
                     echo "accident\\index.php";
-                } ?>"><img src="img\conflict.png" title="conflict"></a>
+                } ?>"><img src="img\conflict.png" title="ინციდენტების მართვა"></a>
             </td>
             <td>
                 <a href="<?php if ($_SESSION['M4UT'] != null) {
                     echo "trial\\index.php";
-                } ?>"><img src="img\agreement.png" title="agreem"></a>
+                } ?>"><img src="img\agreement.png" title="პრობლემური სესხების სასამართლო პროცესების მართვა"></a>
             </td>
         </tr>
     </table>
 </div>
 <div id="dout">
-    <a href="logout.php" class="article">გასვლა</a>
+<?php
+function isAdmin(){
+    if ($_SESSION['usertype'] == 'iCloudGrH' ||
+        $_SESSION['M2UT'] == 'administrator' ||
+        $_SESSION['M3UT'] == 'admin' ||
+        $_SESSION['M4UT'] == 'administrator' ){
+        return true;
+    }
+    return false;
+}
+if (isAdmin()){
+    echo '<a href="userManagement.php" class="article">მომხმარებლების მართვა</a>';
+}
+?>
+    <span>  |  </span>
+    <a href="logout.php" class="article"> გასვლა</a>
 </div>
 </body>
 </html>

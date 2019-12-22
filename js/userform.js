@@ -3,12 +3,14 @@
  */
 
 var userdata;
+var infoText = $('#currOpInfo').find('span');
+var operacia = $('#operacia');
 
 $('button').addClass('btn-sm');
 
 //<!--    organizaciebis chamonatvali -->
 $.ajax({
-    url: '../php_code/get_organizations.php',
+    url: 'php_code/get_organizations.php',
     method: 'get',
     dataType: 'json',
     success: function (response) {
@@ -21,7 +23,7 @@ $.ajax({
 //<!--    statusebi agreement -->
 $('#sel_state').empty();
 $.ajax({
-    url: '../php_code/get_statuses.php?objname=Personmapping',
+    url: 'php_code/get_statuses.php?objname=Personmapping',
     method: 'get',
     dataType: 'json',
     success: function (response) {
@@ -35,18 +37,20 @@ $.ajax({
 
 // momxmareblis tipebi
 $('#sel_type').empty();
-$.ajax({
-    url: '../php_code/get_dictionaryitems.php?code=iCloud_UserType',
-    method: 'get',
-    dataType: 'json',
-    success: function (response) {
-        $('<option />').text("აირჩიეთ...").attr('value', 0).appendTo('#sel_type');
-        response.forEach(function (item) {
-            $('<option />').text(item.ValueText).attr('value', item.ID).appendTo('#sel_type');
-        });
-        $('#sel_type option:first-child').attr('selected', 'selected');
-    }
-});
+
+function getUserRoles(diCode, selectorID) {
+    $.ajax({
+        url: 'php_code/get_dictionaryitems.php?code=' + diCode,
+        method: 'get',
+        dataType: 'json',
+        success: function (response) {
+            response.forEach(function (item) {
+                $('<option />').text(item.ValueText).attr('value', item.ID).appendTo(selectorID);
+            });
+        }
+    });
+
+}
 
 
 $('#sel_organization').on('change', function () {
@@ -63,7 +67,7 @@ function loadBranches11(orgID, brID) {
     }
     // <!--        filialebis chamonatvali -->
     $.ajax({
-        url: '../php_code/get_branches.php?id=' + orgID,
+        url: 'php_code/get_branches.php?id=' + orgID,
         method: 'get',
         dataType: 'json',
         success: function (response) {
@@ -84,14 +88,14 @@ function loadBranches11(orgID, brID) {
 function getusers(querys) {
 
     $.ajax({
-        url: '../php_code/get_users.php',
+        url: 'php_code/get_users.php',
         method: 'post',
         data: querys,
         dataType: 'json',
         success: function (response) {
             console.log(response);
 
-            if ($('#operacia').val() == '2') {
+            if (operacia.val() == '2') {
                 $('#table_f11').empty().html(table11_hr);
 
                 userdata = response;
@@ -111,27 +115,51 @@ function getusers(querys) {
                 });
             }
 
-            if ($('#operacia').val() == '1') {
+            if (operacia.val() == '1') {
                 if (response == 'ok') {
                     alert("ჩაიწერა!");
                 }
             }
 
-            if ($('#operacia').val() == '3' || $('#operacia').val() == '4') {
+            if (operacia.val() == '3' || operacia.val() == '4') {
                 if (response == 'ok') {
                     alert("განახლებულია!");
                 }
             }
 
-            if (response == 'exist'){
+            if (response == 'exist') {
                 alert("მომხმარებლის სახელი დაკავებულია!");
-                $('#btn_f1_done').attr('disabled',false);
+                $('#btn_f1_done').attr('disabled', false);
             }
         }
     });
 }
 
+function clearUP() {
+    $(':checkbox').prop('checked', false);
+}
+
+jQuery.propHooks.checked = {
+    set: function (el, value) {
+        el.checked = value;
+        $(el).trigger('change');
+    }
+};
+
+$(':checkbox').bind('change', function () {
+    // console.log('isChacked = ' + $(this).is(':checked'));
+    if ($(this).is(':checked')) {
+        // console.log('show');
+        $(this).closest('tr').find('select').show()
+    } else {
+        // console.log('hide');
+        $(this).closest('tr').find('select').hide()
+    }
+});
+
 function ont11Click(userID) {
+    infoText.text("რედაქტირება");
+    clearUP();
 
     $('#form_1 input').attr('readonly', false);
     $('#form_1 select').attr('disabled', false);
@@ -141,6 +169,7 @@ function ont11Click(userID) {
 
     userdata.forEach(function (item) {
         if (item.ID == userID) {
+            console.log(item);
             loadBranches11(item.OrganizationID, item.OrganizationBranchID);
             var bdt = item.BirthDate.split(" ");
             $('#u_firstname').val(item.FirstName);
@@ -153,14 +182,30 @@ function ont11Click(userID) {
             $('#u_tel').val(item.Phone);
             $('#u_username').val(item.UserName);
             $('#h_username').val(item.UserName);
-            $('#sel_type').val(item.UserTypeID);
+
+            if (item.UserTypeID != null){
+                $('#ck_icloud').trigger('click');
+                $('#sel_type').val(item.UserTypeID);
+            }
+            if (item.UserTypeM2 != null){
+                $('#ck_m2').trigger('click');
+                $('#sel_m2_type').val(item.UserTypeM2);
+            }
+            if (item.UserTypeM3 != null){
+                $('#ck_m3').trigger('click');
+                $('#sel_m3_type').val(item.UserTypeM3);
+            }
+            if (item.UserTypeM4 != null){
+                $('#ck_m4').trigger('click');
+                $('#sel_m4_type').val(item.UserTypeM4);
+            }
             $('#comment').val(item.Comment);
             $('#personid').val(item.PersonID);
         }
     });
 
     $('#btn_f1_done').text('ჩაწერა');
-    $('#operacia').val('3');
+    operacia.val('3');
     $('#pass1').val('').attr('disabled', true);
     $('#pass2').val('').attr('disabled', true);
     $('#btn_passchange').attr('disabled', false);
@@ -168,15 +213,13 @@ function ont11Click(userID) {
     $('#msgdiv').hide();
 }
 
-$('#btn_passchange').on('click', function () {
-    $('#operacia').val('4');
-});
-
 $(function () {
 
-    $('ul.components').find('li').removeClass('active');
-    $('ul.components').find('li.userManLi').addClass('active');
-
+    getUserRoles('iCloud_UserType', '#sel_type');
+    getUserRoles('calc_m2_usertype', '#sel_m2_type');
+    getUserRoles('m3_usertype_accident', '#sel_m3_type');
+    getUserRoles('m4_usertype_trials', '#sel_m4_type');
+    clearUP();
 
     $('#form_1 input').attr('readonly', true);
     $('#form_1 select').attr('disabled', true);
@@ -186,17 +229,19 @@ $(function () {
 
     $('#btn_passchange').attr('disabled', true);
     $('ul.nav-pills').css({
-        'background' : '#dddddd',
-        'border-radius' : '6px',
-        'margin' : '6px'
+        'background': '#dddddd',
+        'border-radius': '6px',
+        'margin': '6px'
     })
 });
 
 
 $('#btn_newuser').on('click', function () {
+    infoText.text("დამატება");
+
     $('ul.nav li').removeClass('active');
     $('#btn_newuser').addClass('active');
-    
+
     $('#form_1 input').attr('readonly', false);
     $('#form_1 input').attr('disabled', false);
     $('#form_1 select').attr('disabled', false);
@@ -207,11 +252,16 @@ $('#btn_newuser').on('click', function () {
     $('#btn_passchange').attr('disabled', true);
 
     $('#btn_f1_done').text('ჩაწერა');
-    $('#operacia').val('1');
+    operacia.val('1');
     $('#pass1').trigger('blur');
+
+    $('#form_1').trigger('reset');
+    clearUP();
+    $('#table_f11').empty();
 });
 
 $('#btn_search').on('click', function () {
+    infoText.text("ძებნა");
     $('ul.nav li').removeClass('active');
     $('#btn_search').addClass('active');
 
@@ -232,40 +282,39 @@ $('#btn_search').on('click', function () {
     // $('#btn_passchange').addClass('disabled');
 
     $('#btn_f1_done').text('ძებნა');
-    $('#operacia').val('2');
+    operacia.val('2');
     $('#msgdiv').hide();
+    clearUP();
 });
 
 $('#btn_passchange').on('click', function () {
-    if ($('#btn_passchange').attr('disabled') != 'disabled' ){
+    if ($('#btn_passchange').attr('disabled') != 'disabled') {
+        infoText.text("რედაქტირება პაროლის ჩათვლით");
         $('ul.nav li').removeClass('active');
         $('#btn_passchange').addClass('active');
-        
+
         $('#pass1').val('').attr('disabled', false);
         $('#pass2').val('').attr('disabled', false);
-        $('#operacia').val('4');
+        operacia.val('4');
     }
-
-    // $('#form_1 input').attr('readonly', true);
-    // $('#form_1 select').attr('disabled', true);
-    // $('#form_1 button').attr('disabled', true);
-    // $('#btn_f1_reset').attr('disabled', true);
-    // $('#u_state').attr('disabled', true);
-    //
-    // $('#u_username').attr('readonly', false);
-    // $('#u_firstname').attr('readonly', false);
-    // $('#u_lastname').attr('readonly', false);
-    // $('#u_pnumber').attr('readonly', false);
-    // $('#form_1 button').attr('disabled', false);
-    // $('#btn_f1_reset').attr('disabled', false);
-
 });
 
 
 $("#btn_f1_reset").on('click', function () {
     $('#form_1').trigger('reset');
+    clearUP();
+    $('#table_f11').empty();
 });
 
+function chekModuls(){
+    var checked = false;
+    $.each($(':checkbox'), function (i, item) {
+        if ($(item).is(':checked')){
+            checked = true;
+        }
+    });
+    return checked;
+}
 
 $('#form_1').on('submit', function (event) {
     event.preventDefault();
@@ -273,13 +322,13 @@ $('#form_1').on('submit', function (event) {
     // console.log($(this).serialize());
     // console.log($('#sel_branch').val());
 
-    if ($('#operacia').val() != '2') {
+    if (operacia.val() != '2') {
 
-        if (($('#operacia').val() == '1' || $('#operacia').val() == '4') && $('#pass1').val() == '') {
+        if ((operacia.val() == '1' || operacia.val() == '4') && $('#pass1').val() == '') {
             alert("შეავსეთ პაროლის გრაფები");
             chek = false;
-        }else {
-            if (($('#operacia').val() == '1' || $('#operacia').val() == '4') && $('#pass1').val() != $('#pass2').val()) {
+        } else {
+            if ((operacia.val() == '1' || operacia.val() == '4') && $('#pass1').val() != $('#pass2').val()) {
                 alert("პაროლები არ ემთხვევა");
                 chek = false;
             }
@@ -288,7 +337,7 @@ $('#form_1').on('submit', function (event) {
         if ($('#sel_organization').val() == '0' || $('#sel_organization').val() == '') {
             alert("შეავსეთ ორგანიზაცია");
             chek = false;
-        }else {
+        } else {
             if ($('#sel_branch').val() == '0' || $('#sel_branch').val() == '') {
                 alert("შეავსეთ ფილიალი");
                 chek = false;
@@ -300,14 +349,20 @@ $('#form_1').on('submit', function (event) {
             chek = false;
         }
 
-        if ($('#u_username').val() == ''){
+        if ($('#u_username').val() == '') {
             alert("შეიყვანეთ მომხმარებლის სახელი");
             chek = false;
         }
     }
 
+    if (operacia.val() != '2' && operacia.val() != 0) {
+        if (!chekModuls()){
+            alert("მომხმარებელს რომელიმე მოდულზე უნდა ჰქონდეს წვდომა!");
+            chek = false;
+        }
+    }
 
-    if ($('#operacia').val() != '2' && chek) {
+    if (operacia.val() != '2' && chek) {
         // 2 - dzebna, tu dzebnis rejimze aravart mashin Senaxvis Rilaks vtishavt
         $('#btn_f1_done').attr('disabled', true);
     }
@@ -366,18 +421,18 @@ $(".panel-heading").on('click', function (el) {
 });
 
 
-$('#pass1').on('blur', function(){
+$('#pass1').on('blur', function () {
     var ps = $(this).val();
-    if (validatepass(ps) != 0){
+    if (validatepass(ps) != 0) {
         $('#msgdiv').show();
-        $('#btn_f1_done').attr('disabled',true);
-    }else{
+        $('#btn_f1_done').attr('disabled', true);
+    } else {
         $('#msgdiv').hide();
-        $('#btn_f1_done').attr('disabled',false);
+        $('#btn_f1_done').attr('disabled', false);
     }
- })
+})
 
- function validatepass(pass){    
+function validatepass(pass) {
     if (!pass)
         return 1;
 
@@ -396,4 +451,4 @@ $('#pass1').on('blur', function(){
         cc += (variations[check] == true) ? 0 : 1;
     }
     return cc;
- }
+}

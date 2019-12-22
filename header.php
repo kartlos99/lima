@@ -74,11 +74,11 @@ if (strpos($_SERVER['PHP_SELF'], "reports.php") && $_SESSION['usertype'] != 'iCl
             </li>
                                             <?php endif; ?>
 
-                                            <?php if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'): ?>
-            <li  class="userManLi">
-                <a href="userman.php">მომხმარებლები</a>
-            </li>
-                                            <?php endif; ?>
+<!--                                            --><?php //if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'iCloudGrH'): ?>
+<!--            <li  class="userManLi">-->
+<!--                <a href="userman.php">მომხმარებლები</a>-->
+<!--            </li>-->
+<!--                                            --><?php //endif; ?>
 
                                             <?php if ($_SESSION['usertype'] == 'iCloudGrH'): ?>
             <li class="reportsPage">

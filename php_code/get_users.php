@@ -7,14 +7,14 @@
  */
 include_once '../config.php';
 session_start();
-if (!isset($_SESSION['username'])){
+if (!isset($_SESSION['username'])) {
     die("login");
 }
 $currUserID = $_SESSION['userID'];
 $currUser = $_SESSION['username'];
 $currDate = date("Y-m-d H:i", time());
 $query = "";
-$Limit=" 
+$Limit = " 
 Limit 20
 ";
 
@@ -42,6 +42,21 @@ if ($operacia == 2) {
         $query = $query . " and pmap.UserName like ('$username%')";
     }
 
+    $myModules = [];
+    if ($_SESSION['usertype'] != null && $_SESSION['usertype'] == 'iCloudGrH'){
+      $myModules[] = "userTypeID <> 'null'";
+    }
+    if ($_SESSION['M2UT'] != null && $_SESSION['M2UT'] == 'administrator'){
+        $myModules[] = "userTypeM2 <> 'null'";
+    }
+    if ($_SESSION['M3UT'] != null && $_SESSION['M3UT'] == 'admin'){
+        $myModules[] = "userTypeM3 <> 'null'";
+    }
+    if ($_SESSION['M4UT'] != null && $_SESSION['M4UT'] == 'administrator'){
+        $myModules[] = "userTypeM4 <> 'null'";
+    }
+    $query .= " AND (" . implode(" OR ", $myModules) . ")";
+
     $sql = "
     SELECT
     p.LastName,
@@ -56,6 +71,8 @@ if ($operacia == 2) {
     pmap.`Phone`,
     di.Code AS UserType,
     pmap.UserTypeID,
+    `UserTypeM2`, `UserTypeM3`, `UserTypeM4`,
+    dim2.Code AS M2UT, dim3.Code AS M3UT, dim4.Code AS M4UT,
     pmap.ID,
     s.value as va,
     pmap.StateID,
@@ -66,6 +83,12 @@ LEFT JOIN Persons p ON
     pmap.PersonID = p.ID
 LEFT JOIN DictionariyItems di ON
     pmap.UserTypeID = di.ID
+LEFT JOIN DictionariyItems dim2 ON
+    pmap.UserTypeM2 = dim2.ID
+LEFT JOIN DictionariyItems dim3 ON
+    pmap.UserTypeM3 = dim3.ID
+LEFT JOIN DictionariyItems dim4 ON
+    pmap.UserTypeM4 = dim4.ID    
 LEFT JOIN States s ON
 	pmap.StateID = s.ID
 WHERE
@@ -93,21 +116,24 @@ if ($operacia == 1) {
     $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
     $result1 = mysqli_query($conn, $sql_chek);
     $count = mysqli_num_rows($result1);
-    if ($count > 0){
+    if ($count > 0) {
         die(json_encode('exist'));
     }
-
 
     $bday = $_POST['bday'];
     $adress = $_POST['adress'];
     $state = $_POST['state'];
     $organization = $_POST['organization'];
     $branch = $_POST['branch'];
-    $type = $_POST['type'];
     $pass = $_POST['pass'];
     $comment = $_POST['comment'];
     $tel = $_POST['tel'];
     $personID = $_POST['personid'];
+
+    $type = isset($_POST['ck1']) ? $_POST['type'] : 'null';
+    $typeM2 = isset($_POST['ck2']) ? $_POST['m2_type'] : 'null';
+    $typeM3 = isset($_POST['ck3']) ? $_POST['m3_type'] : 'null';
+    $typeM4 = isset($_POST['ck4']) ? $_POST['m4_type'] : 'null';
 
     $sql = "
     INSERT
@@ -138,7 +164,7 @@ if ($operacia == 1) {
     )
     ";
     //echo $sql;
-    if (mysqli_query($conn, $sql)){
+    if (mysqli_query($conn, $sql)) {
         $newuserid = mysqli_insert_id($conn);
 
         $sql = "
@@ -151,6 +177,9 @@ if ($operacia == 1) {
             `UserName`,
             `UserPass`,
             `UserTypeID`,
+            `UserTypeM2`,
+            `UserTypeM3`,
+            `UserTypeM4`,
             `StateID`,
             `Comment`,
             `PassDate`,
@@ -166,6 +195,9 @@ if ($operacia == 1) {
         '$username',
         '$pass',
         $type,
+        $typeM2,
+        $typeM3,
+        $typeM4,
         $state,
         '$comment',
         $digitalTime,
@@ -176,16 +208,16 @@ if ($operacia == 1) {
         ";
     }
 
-    if (mysqli_query($conn, $sql)){
+    if (mysqli_query($conn, $sql)) {
         echo json_encode('ok');
-    }else {
+    } else {
         echo mysqli_error($conn);
     }
 
     //echo $sql;
 }
 
-if ($operacia == 3 || $operacia == 4){
+if ($operacia == 3 || $operacia == 4) {
 
     if ($username != $_POST['h_username']) {
         $sql_chek = "SELECT * FROM `PersonMapping` WHERE `UserName` = '$username' ";
@@ -201,7 +233,10 @@ if ($operacia == 3 || $operacia == 4){
     $state = $_POST['state'];
     $organization = $_POST['organization'];
     $branch = $_POST['branch'];
-    $type = $_POST['type'];
+    $type = isset($_POST['ck1']) ? $_POST['type'] : 'null';
+    $typeM2 = isset($_POST['ck2']) ? $_POST['m2_type'] : 'null';
+    $typeM3 = isset($_POST['ck3']) ? $_POST['m3_type'] : 'null';
+    $typeM4 = isset($_POST['ck4']) ? $_POST['m4_type'] : 'null';
     $pass = $_POST['pass'];
     $comment = $_POST['comment'];
     $tel = $_POST['tel'];
@@ -216,6 +251,9 @@ if ($operacia == 3 || $operacia == 4){
       `Phone` = '$tel',
       `UserName` = '$username',
       `UserTypeID` = $type,
+      `UserTypeM2` = $typeM2,
+      `UserTypeM3` = $typeM3,
+      `UserTypeM4` = $typeM4,
       `StateID` = $state,
       `Comment` = '$comment',      
       `ModifyDate` = '$currDate',
@@ -225,7 +263,7 @@ if ($operacia == 3 || $operacia == 4){
       `PersonID` = $personID  
     ";
 
-    if ($operacia == 4){
+    if ($operacia == 4) {
         $sql = "
         UPDATE
           `PersonMapping`
@@ -236,6 +274,9 @@ if ($operacia == 3 || $operacia == 4){
           `UserName` = '$username',
           `UserPass` = '$pass',
           `UserTypeID` = $type,
+          `UserTypeM2` = $typeM2,
+          `UserTypeM3` = $typeM3,
+          `UserTypeM4` = $typeM4,
           `StateID` = $state,
           `Comment` = '$comment',
           `PassDate` = $digitalTime,  
@@ -247,7 +288,7 @@ if ($operacia == 3 || $operacia == 4){
         ";
     }
 
-    if (!mysqli_query($conn, $sql)){
+    if (!mysqli_query($conn, $sql)) {
         echo mysqli_error($conn);
         echo $sql;
     }
@@ -269,10 +310,10 @@ if ($operacia == 3 || $operacia == 4){
       ID = $personID  
     ";
 
-    if (!mysqli_query($conn, $sql)){
+    if (!mysqli_query($conn, $sql)) {
         echo mysqli_error($conn);
     }
     echo json_encode('ok');
 }
 
-$conn -> close();
+$conn->close();
