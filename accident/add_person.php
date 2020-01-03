@@ -19,8 +19,12 @@ $caseForm = "caseform";
 $required = "required";
 ?>
 
-<?= DrawView::titleRow("პერსონის დამატება") ?>
+<?= DrawView::titleRow("პერსონების მართვა") ?>
 
+    <p id="currOpInfo">მიმდინარე ოპერაცია: <span></span></p>
+    <button id="btnStateAdd" class="btn btn-info">დამატება</button>
+    <button id="btnStateSearch" class="btn ">ძებნა</button>
+    <p></p>
 
     <form id="person_form" action="">
         <input type="hidden" id="userID" name="userID" value="<?= $_SESSION['userID'] ?>">
@@ -55,24 +59,34 @@ $required = "required";
             <tr>
                 <td></td>
                 <td style="padding: 4px" class="toright">
-                    <button id="btnSave" class="btn"><b>დამახსოვრება</b></button>
+                    <button id="btnDone" class="btn btn-default">ჩაწერა</button>
                 </td>
             </tr>
             </tbody>
         </table>
-
+        <input id="personsFormPageN" type="hidden" name="pageN" value="1"/>
     </form>
 
+<?= DrawView::subTitle("ძებნის შედეგი") ?>
 
-    <table id="tb_comment_list" class="table-section table">
+    <table id="tb_persons" class="table-section table">
         <thead>
         <tr>
-            <!--            --><? //= headerRow(["ID", "შენიშვნა", "მომხმარებელი", "თარიღი"], 0, 1) ?>
+            <?= headerRow(["ID", "სახელი გვარი", "ორგანიზაცია", "ტიპი", "სტატუსი", ""], 0, 1) ?>
         </tr>
         </thead>
         <tbody></tbody>
     </table>
 
+    <div class="pg_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul id="my-pagination" class="pagination-sm"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <?php
 include_once 'userChangeModal.php';

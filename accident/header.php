@@ -87,7 +87,7 @@ if ($pos !== false) {
             <?php endif; ?>
             <?php if (isset($_SESSION['permissionM3']['add_person'])) : ?>
                 <li class="add_person">
-                    <a href="add_person.php">პერსონის დამატება</a>
+                    <a href="add_person.php">პერსონები</a>
                 </li>
             <?php endif; ?>
         </ul>
