@@ -82,7 +82,10 @@ $note = "შენიშვნა";
                     <?= DrawView::selector($id_simple, "ფილიალი", "filial") ?>
                 </td>
                 <td>
-                    <?= DrawView::simpleInput($id_simple, "borrower", "მსესხებელი") ?>
+                    <?= DrawView::simpleInput($id_simple, "borrower", "მსესხებლის სახელი") ?>
+                </td>
+                <td>
+                    <?= DrawView::simpleInput($id_simple, "borrower_lastname", "მსესხებლის გვარი") ?>
                 </td>
                 <td>
                     <?= DrawView::simpleInput($id_simple, "borrower_PN", "მსესხებლის პირადი N") ?>

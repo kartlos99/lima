@@ -67,6 +67,7 @@ $query .= getValuedate('AgrDate', 'agreem_date', "");
 $query .= getValueInt('AgrOrgID', 'organization');
 $query .= getValueInt('AgrOrgBranchID', 'filial');
 $query .= getValueStr('DebFirstName', 'borrower');
+$query .= getValueStr('DebLastName', 'borrower_lastname');
 $query .= getValueStr('DebPrivateNumber', 'borrower_PN');
 
 

@@ -2,7 +2,7 @@
 session_start();
 include_once '../config.php';
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username']) || $_SESSION['M4UT'] == null) {
     $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/login.php";
 //    $url = str_replace('administrator/page1.php', 'login.php', $url);
     header("Location: $url");
