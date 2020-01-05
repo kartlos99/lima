@@ -41,6 +41,7 @@ btnStateAdd.on('click', function (event) {
     // $('#personType_id').prop("selectedIndex", 0).val()
     // $('#status_id').prop("selectedIndex", 0).val();
     personForm.trigger('reset');
+    $('#filial_id').empty();
     currState = states.insert;
     btnDone.text(doneBtnText.save);
     personsTable.empty();
@@ -51,6 +52,7 @@ btnStateSearch.on('click', function (event) {
     personForm.trigger('reset');
     $('#personType_id').val(0);
     $('#status_id').val(0);
+    $('#filial_id').empty();
     // console.log(personForm.serialize());
     currState = states.search;
     btnDone.text(doneBtnText.search);
@@ -128,9 +130,10 @@ function getPersons(querys) {
 
                 var iconEdit = $('<i />').addClass("fas fa-edit fa-2x btn");
                 iconEdit.attr('onclick', "onEditClick(" + item.ID + ")");
-                var iconRemove = $('<i />').addClass("fas fa-times fa-2x btn");
-                iconRemove.attr('onclick', "onRemoveClick(" + item.ID + ")");
-                var td_btns = $('<td />').addClass("toright").append(iconEdit, iconRemove);
+                // პერსონის წაშლისგან ჯერჯერობით თავს ვიკავებ
+                // var iconRemove = $('<i />').addClass("fas fa-times fa-2x btn");
+                // iconRemove.attr('onclick', "onRemoveClick(" + item.ID + ")");
+                var td_btns = $('<td />').addClass("toright").append(iconEdit);
 
                 var trow = $('<tr></tr>').append(td_id, td_name, td_org, td_type, td_st, td_btns);
                 personsTable.append(trow);
