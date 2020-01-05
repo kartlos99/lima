@@ -65,6 +65,7 @@ $required = "required";
             </tbody>
         </table>
         <input id="personsFormPageN" type="hidden" name="pageN" value="1"/>
+        <input id="personsFormPersonID" type="hidden" name="personID" value="0"/>
     </form>
 
 <?= DrawView::subTitle("ძებნის შედეგი") ?>

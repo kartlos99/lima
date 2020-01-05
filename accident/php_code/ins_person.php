@@ -25,15 +25,29 @@ $filial = $_POST['filial'];
 $personType = $_POST['personType'];
 $status = $_POST['status'];
 
-
-$sql = "
+if ($_POST['personID'] == 0) {
+    $sql = "
     INSERT INTO `im_persons`
     (`FirstName`, `LastName`, `OrgID`, `OrgBranchID`, `TypeID`, `StatusID`, `CreateDate`, `CreateUser`) 
     VALUES 
     ('$firstName', '$lastName', '$organization', '$filial', '$personType', '$status', $currDate, $currUserID)
 ";
-
-$sql_updateCase = "";
+} else {
+$id = $_POST['personID'];
+    $sql = "
+UPDATE
+    `im_persons`
+SET
+    `FirstName` = '$firstName',
+    `LastName` = '$lastName',
+    `OrgID` = '$organization',
+    `OrgBranchID` = '$filial',
+    `TypeID` = '$personType',
+    `StatusID` = '$status'
+WHERE 
+    ID = $id
+    ";
+}
 
 $result = mysqli_query($conn, $sql);
 
@@ -41,7 +55,7 @@ if ($result) {
     $resultArray['result'] = "success";
 } else {
     $resultArray['result'] = "error";
-    $resultArray['error'] = "can't add person!";
+    $resultArray['error'] = "can't add/edit person!";
     $resultArray['sql'] = $sql;
 }
 

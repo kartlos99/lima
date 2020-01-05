@@ -4,6 +4,8 @@ var personsTable = $('#tb_persons').find('tbody');
 var pageNav = $('#my-pagination');
 var btnStateSearch = $('#btnStateSearch');
 var btnStateAdd = $('#btnStateAdd');
+var persons = {};
+var lastQuery;
 
 const states = {
     "insert": "ins",
@@ -49,7 +51,7 @@ btnStateSearch.on('click', function (event) {
     personForm.trigger('reset');
     $('#personType_id').val(0);
     $('#status_id').val(0);
-    console.log(personForm.serialize());
+    // console.log(personForm.serialize());
     currState = states.search;
     btnDone.text(doneBtnText.search);
     personsTable.empty();
@@ -59,7 +61,7 @@ btnStateSearch.on('click', function (event) {
 btnDone.on('click', function (event) {
     event.preventDefault();
     var formData = personForm.serialize();
-    console.log(formData);
+    // console.log(formData);
 
     pageNav.empty();
     pageNav.removeData("twbs-pagination");
@@ -69,6 +71,9 @@ btnDone.on('click', function (event) {
         case states.insert:
             savePerson(formData);
             break;
+        case states.edit:
+            savePerson(formData);
+            break;
         case states.search:
             getPersons(formData);
             break;
@@ -76,30 +81,36 @@ btnDone.on('click', function (event) {
 });
 
 function savePerson(data) {
-    console.log(data);
+    // chawera redaqtireba
     $.ajax({
         url: 'php_code/ins_person.php',
         method: 'post',
         data: data,
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             if (response.result == "success") {
                 $('#person_form').trigger('reset');
-                alert("saved!");
+                alert("ჩაწერილია!");
+                if (currState == states.edit){
+                    btnStateSearch.trigger('click')
+                }
             }
         }
     });
 }
 
 function getPersons(querys) {
+    lastQuery = querys;
+    console.log("lastQuery = " +lastQuery);
+
     $.ajax({
         url: 'php_code/get_person_list.php',
         method: 'post',
         data: querys,
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             personsTable.empty();
 
             var itemCount = response.count[0];
@@ -108,6 +119,7 @@ function getPersons(querys) {
 //            $('#titleForAppTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი, ლიმიტი 20");
 
             appdata.forEach(function (item) {
+                persons[item.ID.toString()] = item;
                 var td_id = $('<td />').text(item.ID).addClass('equalsimbols');
                 var td_name = $('<td />').text(item.FirstName + " " + item.LastName);
                 var td_org = $('<td />').text(item.OrganizationName);
@@ -144,12 +156,24 @@ function getPersons(querys) {
 }
 
 function onEditClick(pID) {
-    console.log("edit " + pID)
+    fillForm(persons[pID]);
+    markBtn("edit");
+    currState = states.edit;
+    btnDone.text(doneBtnText.save);
 }
 
 function onRemoveClick(pID) {
     console.log("Rem " + pID)
 }
 
-// <i class="fas fa-edit fa-2x btn"></i>
-// fas fa-times fa-2x btn
+function fillForm(personData) {
+
+    $('#personsFormPersonID').val(personData.ID);
+    $('#firstName_id').val(personData.FirstName);
+    $('#lastName_id').val(personData.LastName);
+    $('#organization_id').val(personData.OrgID);
+    loadBranches(personData.OrgID, personData.OrgBranchID, 'filial_id');
+    // $('#filial_id').val(personData.OrgBranchID);
+    $('#personType_id').val(personData.TypeID);
+    $('#status_id').val(personData.StatusID);
+}
