@@ -15,7 +15,7 @@ $sql = "
 SELECT
 	a.ID,
     `AgrNumber`,
-    `DebFirstName`,
+    concat(`DebFirstName`, ' ', `DebLastName`) AS DebFirstName,
     di.ValueText AS loanType,
     di_st.ValueText AS statusi,
     di_stage.ValueText AS stage,

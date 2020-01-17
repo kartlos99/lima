@@ -9,6 +9,8 @@ var priceAndCritWeightStatusSelector = $('#price_crit_weight_status_id');
 
 var criteriasData;
 var groupsHavingMainCrit = [];
+var waitingForResponse = false;
+var isCriteriaInEditMode = false;
 
 
 $('#typename_id').on('change', function () {
@@ -150,6 +152,7 @@ $('i.fa-sync-alt').on('click', function () {
 
                 });
 
+                waitingForResponse = false;
             }
         });
 
@@ -159,6 +162,10 @@ $('i.fa-sync-alt').on('click', function () {
 var criteriaValueEditTable = $('#tb_technic_criteria');
 
 criteriaValueEditTable.on('click', 'i.fa-check', function () {
+
+    if (waitingForResponse || !isCriteriaInEditMode)
+        return;
+
     var thisRow = $(this).closest("tr");
     var mainCritConflict = false;
 
@@ -175,6 +182,8 @@ criteriaValueEditTable.on('click', 'i.fa-check', function () {
     if (mainCritConflict) {
         alert("ამ ჯგუფში უკვე განსაზღვრულია ერთი მთავარი კრიტერიუმი!");
     } else {
+        waitingForResponse = true;
+        isCriteriaInEditMode = false;
         $.ajax({
             url: 'php_code/ins_criteria_values.php',
             method: 'post',
@@ -195,6 +204,7 @@ criteriaValueEditTable.on('click', 'i.fa-check', function () {
                 if (response.result == "success") {
                     thisRow.attr("data-recID", response.record_id);
                 } else {
+                    waitingForResponse = false;
                     console.log(response.error);
                 }
                 $('i.fa-sync-alt').trigger('click');
@@ -208,16 +218,22 @@ criteriaValueEditTable.on('click', 'i.fa-check', function () {
 });
 
 criteriaValueEditTable.on('click', 'i.fa-times', function () {
+    if (!isCriteriaInEditMode)
+        return;
+    isCriteriaInEditMode = false;
 //    var thisRow = $(this).closest("tr");
 //    disableValueInputForm(thisRow);
     $('i.fa-sync-alt').trigger('click');
 });
 
 criteriaValueEditTable.on('click', 'i.fa-edit', function () {
+    if (isCriteriaInEditMode)
+        return;
     var thisRow = $(this).closest("tr");
     thisRow.find('select').attr("readonly", false).find('option').attr('disabled', false);
     thisRow.find('input').attr("readonly", false);
     thisRow.find('input.chk-box').attr("disabled", false);
+    isCriteriaInEditMode = true;
 });
 
 function disableValueInputForm(conteinerRow) {

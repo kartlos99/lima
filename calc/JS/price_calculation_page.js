@@ -57,10 +57,12 @@ $('#btnRate').on('click', function () {
         criteriasData.forEach(function (item) {
             if (selectedCriteriaIDs.includes(item.id)) {
                 console.log('id', item.id);
+                console.log('item', item);
 
                 if ((groupsHavingMainCrit.includes(item.gr) && item.IsMain == 1) || !groupsHavingMainCrit.includes(item.gr)) {
                     if (item.impactCode == "min_out") {
-                        minOut += item.ImpactValue;
+                        minOut += parseFloat(item.ImpactValue);
+                        console.log('minOut-', minOut);
                     } else if (item.impactCode == "dont_leave") {
                         dontLeave = true;
                     } else if (item.impactCode == "negative" || item.impactCode == "positive") {

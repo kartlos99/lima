@@ -85,8 +85,8 @@ SELECT p.*, di_st.ValueText AS statusi, di_tp.ValueText AS tipi, o.OrganizationN
 ";
 
 $sql = " FROM `im_persons` p 
-LEFT JOIN DictionarIyitems di_st ON p.StatusID = di_st.ID
-LEFT JOIN DictionarIyitems di_tp ON p.TypeID = di_tp.ID
+LEFT JOIN DictionariyItems di_st ON p.StatusID = di_st.ID
+LEFT JOIN DictionariyItems di_tp ON p.TypeID = di_tp.ID
 LEFT JOIN Organizations o ON `OrgID` = o.ID
 LEFT JOIN OrganizationBranches b ON `OrgBranchID` = b.ID
     WHERE $query
