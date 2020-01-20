@@ -20,11 +20,8 @@ $limit = " Limit $offset, $records_per_page";
 
 $max = "";
 $grouping = "";
+$dublicatesFilter = "";
 
-if (!isset($_POST['duplicates'])){
-    $max = "max";
-    $grouping = "GROUP by im.categoryID, im.subcategoryID, im.AgrNumber";
-}
 
 function getValueInt($fieldName, $postKey)
 {
@@ -61,10 +58,10 @@ $query = isset($_POST['guiltyUserID']) ? "gp.StatusID = (
 		WHERE d.Code = 'im_guilty_person_map_status' AND di.`Code` = 'active'
     )" : "";
 
-if ($_SESSION['M3UT'] == 'im_owner'){
+if ($_SESSION['M3UT'] == 'im_owner') {
     $query .= " AND OrgID = " . $_SESSION['OrganizationID'];
 }
-if ($_SESSION['M3UT'] == 'performer'){
+if ($_SESSION['M3UT'] == 'performer') {
     $query .= " AND SolverID = " . $currUserID;
 }
 
@@ -93,7 +90,7 @@ $query .= getValuedate('DiscoverDate', 'discover_date_to', "<");
 $query .= getValuedate('SolveDate', 'SolveDate_from', ">");
 $query .= getValuedate('SolveDate', 'SolveDate_to', "<");
 
-if (isset($_POST['NotInStatistics'])){
+if (isset($_POST['NotInStatistics'])) {
     $query .= " AND `NotInStatistics` = 0 ";
 }
 
@@ -101,6 +98,18 @@ $query = trim($query, " AND");
 if ($query == "")
     $query = "1";
 
+if (isset($_POST['duplicates'])) {
+//    $max = "max";
+//    $grouping = "GROUP by im.categoryID, im.subcategoryID, im.AgrNumber";
+    $dublicatesFilter = " 
+     AND im.id not in (
+        SELECT id FROM `im_request`
+        WHERE $query
+		GROUP BY `AgrNumber`, `CategoryID`, `SubCategoryID`
+		HAVING COUNT(id) = 1
+        )";
+    $order = " ORDER BY  `AgrNumber`, category, subcaegory, im.ID";
+}
 
 $sql_count = "SELECT count(DISTINCT im.ID) as n ";
 
@@ -129,7 +138,7 @@ $sql = " FROM
     LEFT JOIN PersonMapping pmap ON
         pmap.ID = im.`OwnerID` 
     WHERE im.ID in (
-        SELECT $max(im.ID) FROM
+        SELECT (im.ID) FROM
         `im_request` im
      LEFT JOIN im_category cat ON
         cat.ID = im.`CategoryID`
@@ -144,7 +153,7 @@ $sql = " FROM
     LEFT JOIN im_guilty_persons gp ON
         gp.IM_RequestID = im.ID    
     WHERE $query
-   $grouping
+   $dublicatesFilter
 )  
  ";
 
