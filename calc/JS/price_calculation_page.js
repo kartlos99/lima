@@ -22,11 +22,19 @@ function compare(a, b) {
     return 0;
 }
 
+function markEmptyCriteriaRows(){
+    criteriasConteiner.find('tr[data-answ=0]').each( function (row) {
+            $(this).addClass("redMark");
+    })
+}
+
 $('#btnRate').on('click', function () {
     var emptyRows = criteriasConteiner.find('tr[data-answ=0]');
+    criteriasConteiner.find('tr').removeClass("redMark");
     estimateResultSucces = false;
 
     if (emptyRows.length > 0) {
+        markEmptyCriteriaRows();
         alert("აუცილებელია ყველა კრიტერიუმზე მნიშვნელობის დაფიქსირება!");
     } else {
         var selecterRows = criteriasConteiner.find('tr[data-answ=yes]');

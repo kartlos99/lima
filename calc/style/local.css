@@ -238,3 +238,7 @@ td.datewidth {
     padding-right: 4px;
     padding-left: 6px;
 }
+
+.redMark td {
+    border-bottom: 2px solid #ff2f31;
+}
