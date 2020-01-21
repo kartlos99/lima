@@ -60,7 +60,7 @@ if ($pos !== false) {
 
 ?>
 <input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['M3UT'] ?>" data-page="<?= $thisPage ?>"
-       data-org="<?= $_SESSION['OrganizationID'] ?>" data-userID="<?= $_SESSION['userID'] ?>"/>
+       data-org="<?= $_SESSION['OrganizationID'] ?>" data-fil="<?= $_SESSION['filiali'] ?>" data-userID="<?= $_SESSION['userID'] ?>"/>
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">

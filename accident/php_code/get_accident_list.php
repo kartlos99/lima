@@ -60,6 +60,7 @@ $query = isset($_POST['guiltyUserID']) ? "gp.StatusID = (
 
 if ($_SESSION['M3UT'] == 'im_owner') {
     $query .= " AND OrgID = " . $_SESSION['OrganizationID'];
+    $query .= " AND OrgBranchID = " . $_SESSION['filiali'];
 }
 if ($_SESSION['M3UT'] == 'performer') {
     $query .= " AND SolverID = " . $currUserID;

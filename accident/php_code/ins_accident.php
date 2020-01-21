@@ -31,7 +31,11 @@ $PriorityID = $_POST['PriorityID'];
 $StatusID = $_POST['StatusID'];
 $OwnerID = $_POST['OwnerID'];
 $OrgID = $_POST['organization'];
-$OrgBranchID = $_POST['filial'];
+if (isset($_POST['filial'])){
+    $OrgBranchID = $_POST['filial'];
+}else{
+    $OrgBranchID = $_SESSION['filiali'];
+}
 $AgrNumber = $_POST['AgrNumber'];
 $FactDate = $_POST['FactDate'];
 $FactDateTime = $_POST['FactDateTime'];

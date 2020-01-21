@@ -59,6 +59,7 @@ SELECT
     pmap.UserTypeM2,
     pmap.UserTypeM3,
     pmap.OrganizationID,
+    pmap.OrganizationBranchID AS filiali,
     pmap.ID
 FROM
     `PersonMapping` pmap
@@ -103,6 +104,7 @@ WHERE
                 $_SESSION['username_exp'] = $subName;
                 $_SESSION['userpass'] = $storPass;
                 $_SESSION['OrganizationID'] = $results['OrganizationID'];
+                $_SESSION['filiali'] = $results['filiali'];
 
                 if ($results['M2UT'] != null) {
                     $permissions = [];

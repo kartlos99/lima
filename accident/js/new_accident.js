@@ -168,6 +168,8 @@ function blockFormPart() {
         }
     });
     $('#NotInStatistics_id').attr('disabled', true);
+    $('#DiscovererID_id').prop('disabled', true).trigger("chosen:updated");
+    $('#guiltyPersonID_id').prop('disabled', true).trigger("chosen:updated");
     formIsBlocked = true
 }
 
@@ -189,6 +191,8 @@ function unBlockFormPart() {
         }
     });
     $('#NotInStatistics_id').removeAttr('disabled');
+    $('#DiscovererID_id').prop('disabled', false).trigger("chosen:updated");
+    $('#guiltyPersonID_id').prop('disabled', false).trigger("chosen:updated");
     formIsBlocked = false
 }
 
@@ -247,8 +251,9 @@ $('#btnSave').on('click', function (event) {
     event.preventDefault();
     var formIsValid = true;
     if ($('#currusertype').data('ut') == 'im_owner') {
-        unBlockTypeSelector()
-        unBlockOrgSelector()
+        unBlockTypeSelector();
+        unBlockOrgSelector();
+        unBlockFilialSelector();
     }
     if ($('#currusertype').data('ut') == 'performer') {
         unBlockFormPart()
@@ -290,7 +295,8 @@ $('#btnSave').on('click', function (event) {
 
     if ($('#currusertype').data('ut') == 'im_owner') {
         blockTypeSelector();
-        blockOrgSelector()
+        blockOrgSelector();
+        blockFilialSelector();
     }
     if ($('#currusertype').data('ut') == 'performer') {
         blockFormPart()

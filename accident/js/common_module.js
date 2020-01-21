@@ -15,6 +15,7 @@ var text_chooseModel = "აირჩიეთ მოდელი!";
 var text_PriceAndCriteriaWeightStatusAlert = "ღირებულებისა და კრიტერიუმების წონების სტატუსი არააქტიურია!";
 var text_NotFound = "ჩანაწერი ვერ მოიძებნა!";
 var orgSelector = $('#organization_id');
+var filSelector = $('#filial_id');
 var solverSelector = $('#SolverID_id');
 var waitForDropdowns = 0;
 
@@ -164,9 +165,22 @@ function blockOrgSelector(orgID = 0){
     orgSelector.attr('readonly', true);
 }
 
+function blockFilialSelector(filID = 0){
+    if (filID > 0){
+        filSelector.val(filID);
+    }
+    filSelector.find('option').attr('disabled', true);
+    filSelector.attr('readonly', true);
+}
+
 function unBlockOrgSelector(){
     orgSelector.find('option').removeAttr('disabled');
     orgSelector.removeAttr('readonly');
+}
+
+function unBlockFilialSelector(){
+    filSelector.find('option').removeAttr('disabled');
+    filSelector.removeAttr('readonly');
 }
 
 function getOrganizations(sel_ID) {
@@ -187,8 +201,10 @@ function getOrganizations(sel_ID) {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#' + sel_ID);
             });
 
-            if($('#currusertype').data('ut') == 'im_owner')
+            if($('#currusertype').data('ut') == 'im_owner'){
                 blockOrgSelector($('#currusertype').data('org'));
+                blockFilialSelector($('#currusertype').data('fil'));
+            }
 
             waitForDropdowns++;
         }
