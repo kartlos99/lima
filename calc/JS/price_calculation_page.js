@@ -11,6 +11,7 @@ var ganacxadiN;
 var selectedCriteriaIDs = [];
 var allCriteriaIDs = [];
 var groupsHavingMainCrit = [];
+var waitingForGenInfo = false;
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -22,9 +23,9 @@ function compare(a, b) {
     return 0;
 }
 
-function markEmptyCriteriaRows(){
-    criteriasConteiner.find('tr[data-answ=0]').each( function (row) {
-            $(this).addClass("redMark");
+function markEmptyCriteriaRows() {
+    criteriasConteiner.find('tr[data-answ=0]').each(function (row) {
+        $(this).addClass("redMark");
     })
 }
 
@@ -257,8 +258,13 @@ $('#corection_id').on('blur', function () {
 });
 
 $('#btnInfoGen').on('click', function () {
+    saveAndGenerateInfo()
+});
+
+function saveAndGenerateInfo() {
     console.log("all", allCriteriaIDs);
     console.log("allss", selectedCriteriaIDs);
+    var checkState = false;
     $('#finalInfo').empty();
     console.log("estimateResultSucces", estimateResultSucces);
     if (!estimateResultSucces) {
@@ -270,6 +276,7 @@ $('#btnInfoGen').on('click', function () {
     } else if (!$('#imei_id').val()) {
         alert("IMEI araa Seyvanili");
     } else {
+        checkState = true;
 // infos Senaxa
         $.ajax({
             url: 'php_code/ins_application.php',
@@ -295,11 +302,11 @@ $('#btnInfoGen').on('click', function () {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
-                if (response.result == "success") {
+                if (response.result == resultType.SUCCSES) {
 
                     if (appRecID == 0) {
                         ganacxadiN = response.ApNumber + " " + response.ApDate;
-                    }else{
+                    } else {
                         ganacxadiN = $('#localInfo1').find('span').text();
                     }
 
@@ -325,18 +332,28 @@ $('#btnInfoGen').on('click', function () {
 
                     $('#finalInfo').val(resultText);
 
-
+                    if (waitingForGenInfo) saveAllData()
                 } else {
+                    alert(message.saveERROR);
                     console.log(response.error);
                 }
+                waitingForGenInfo = false
             }
         });
     }
-
-
-});
+    if (!checkState) waitingForGenInfo = false
+}
 
 $('#btnSave').on('click', function () {
+    if (appRecID == 0) {
+        waitingForGenInfo = true;
+        saveAndGenerateInfo();
+    } else {
+        saveAllData()
+    }
+});
+
+function saveAllData() {
     $.ajax({
         url: 'php_code/ins_application.php',
         method: 'post',
@@ -364,15 +381,15 @@ $('#btnSave').on('click', function () {
         dataType: 'json',
         success: function (response) {
             console.log(response);
-            if (response.result == "success") {
-
-
+            if (response.result == resultType.SUCCSES) {
+                alert(message.saveOK)
             } else {
+                alert(message.saveERROR);
                 console.log(response.error);
             }
         }
     });
-});
+}
 
 $('#type_id').on('change', function () {
     techPosArray = [$('#type_id').val(), "0", "0"];
@@ -479,7 +496,7 @@ function getAppData(appID) {
             $('#rateResultNumberCorected').text(parseFloat(appInfo1.CorTechPrice).toFixed(2));
             priceCorectionTable.find('input[name=inc_by_manager]').attr("checked", appInfo1.ManagerAdd == 1);
             priceCorectionTable.find('input[name=dec_by_client]').attr("checked", appInfo1.ClientDec == 1);
-            if (appInfo1.ClientDec == 1 || appInfo1.ManagerAdd == 1){
+            if (appInfo1.ClientDec == 1 || appInfo1.ManagerAdd == 1) {
                 $('#corection_id').attr("readonly", false);
             }
 
@@ -531,11 +548,11 @@ function getAppData(appID) {
 
                 cloneRow.find('span').text(item.criteria);
                 cloneRow.find('input').attr("name", "name_" + item.id);
-                if (item.OpChoice == 1){
+                if (item.OpChoice == 1) {
                     cloneRow.find('input.answ1').attr("checked", true);
                     cloneRow.attr("data-answ", "yes");
                 }
-                if (item.OpChoice == 2){
+                if (item.OpChoice == 2) {
                     cloneRow.find('input.answ2').attr("checked", true);
                     cloneRow.attr("data-answ", "no");
                 }

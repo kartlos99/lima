@@ -14,6 +14,15 @@ var text_chooseModel = "აირჩიეთ მოდელი!";
 var text_PriceAndCriteriaWeightStatusAlert = "ღირებულებისა და კრიტერიუმების წონების სტატუსი არააქტიურია!";
 var text_NotFound = "ჩანაწერი ვერ მოიძებნა!";
 
+var resultType = {
+    SUCCSES: "success",
+    ERROR: "error"
+};
+
+var message = {
+    saveOK: "მონაცემები შენახვა განხორციელდა წარმატებით!",
+    saveERROR: "მონაცემების შენახვა ვერ მოხერხდა!"
+}
 
 function f_show() {
 }
