@@ -67,25 +67,33 @@ if ($pos !== false ){
         </div>
 
         <ul class="list-unstyled components">
+            <?php if (isset($_SESSION['permissionM2']['submod21'])) : ?>
             <li class="page1">
                 <a href="index.php">მთავარი</a>
             </li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['permissionM2']['submod22'])) : ?>
             <li class="price_calculation_page">
                 <a href="pricerate.php">ტექნიკის შეფასება</a>
             </li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['permissionM2']['submod23'])) : ?>
             <li class="typemanager">
                 <a href="typemanager.php">ტიპები და მახასიათებლები</a>
             </li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['permissionM2']['submod24'])) : ?>
             <li class="crit_value_manager">
                 <a href="critratemanager.php">შეფასების კრიტერიუმები</a>
             </li>
+            <?php endif; ?>
         </ul>
 
         <ul class="list-unstyled CTAs">
             <!-- <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li> -->
             <li><a href="../logout.php" class="article">გასვლა</a></li>
         </ul>
-        <div class="onbuttom">v 0.1.1</div>
+        <div class="onbuttom">v 0.1.2</div>
     </nav>
     <!--sidebar-->
 
