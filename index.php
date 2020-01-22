@@ -27,6 +27,7 @@ if ($_SESSION['usertype'] != null) {
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Lima</title>
     <style>
         img {
             padding: 8px;

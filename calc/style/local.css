@@ -239,6 +239,37 @@ td.datewidth {
     padding-left: 6px;
 }
 
-.redMark td {
-    border-bottom: 2px solid #ff2f31;
+div.kriterias-box table tr {
+    margin-bottom: 4px;
+    margin-top: 4px;
 }
+
+div.kriterias-box table td {
+    padding: 0 4px;
+}
+
+.redMark td {
+    border-bottom: 3px solid #ff2f31;
+}
+
+td.start-td {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    padding: 4px;
+    background: #ff5a58;
+}
+td.end-td {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 4px;
+    background: #ff5a58;
+}
+
+#btnStartPriceRate {
+    background-color: #FF8C19;
+}
+
+#btnRate {
+    background-color: #32cc85;
+}
+

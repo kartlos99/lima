@@ -42,8 +42,8 @@ $note = "შენიშვნა";
                     </tr>
                 </table>
 
-                <button id="btnStartPriceRate" class="btn">შეფასების დაწყება</button>
-                <button id="btnRate" class="btn">შეფასება</button>
+                <button id="btnStartPriceRate" class="btn">1. კრიტერიუმების გენერაცია</button>
+                <button id="btnRate" class="btn">2. შეფასება</button>
 
                 <?= DrawView::titleRow("შეფასების შედეგი და გასაცემი თანხა", "") ?>
 
@@ -92,7 +92,7 @@ $note = "შენიშვნა";
 
 <?= DrawView::titleRow("შეჯამებული ინფორმაცია შეფასების შესახებ") ?>
 
-    <button id="btnInfoGen" class="btn btn-info"><b>ინფორმაციის გენერირება</b></button>
+    <button id="btnInfoGen" class="btn btn-info"><b>3. ინფორმაციის გენერირება</b></button>
     <button class="btn" onclick="mycopy()">Copy</button>
 <!--    <input type="hidden" id="atext" value="ertyy7"/>-->
 <p></p>
