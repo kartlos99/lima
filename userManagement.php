@@ -22,7 +22,7 @@ if (!isset($_SESSION['username']) || !isAdmin()) {
 <!DOCTYPE html>
 <html lang="ge">
 <head>
-    <title>Lima iCloud</title>
+    <title>Lima</title>
     <!-- Bootstrap CSS -->
     <!-- Latest compiled and minified CSS -->
     <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
@@ -244,6 +244,30 @@ if (!isset($_SESSION['username']) || !isAdmin()) {
             </div>
         </div>
 
+
+        <div id="pan_2" class="panel panel-primary">
+            <div class="panel-heading">
+                <table id="table_p2_header" class="pan-header">
+                    <tr>
+                        <td class="pan-header-left">მომხმარებლის პაროლის მოქმედების ვადა</td>
+                        <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="panel-body">
+                <div class=" paraminput" >
+                    <div class="input-group">
+                        <input id="userpassduration" type="number" name="userpassduration" value="0" class="form-control" />
+                        <span class="input-group-addon" id="basic-addon2">დღე</span>
+                    </div>
+                    <div>
+                        <button id="btn_saveuserpass" class="btn btn-sm btn-default paraminput">შენახვა</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 <!--START OF Footer-->
     </div>

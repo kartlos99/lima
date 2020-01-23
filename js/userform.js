@@ -1,7 +1,7 @@
 /**
  * Created by k.diakonidze on 4/9/18.
  */
-
+var secInDay = 86400;
 var userdata;
 var infoText = $('#currOpInfo').find('span');
 var operacia = $('#operacia');
@@ -183,19 +183,19 @@ function ont11Click(userID) {
             $('#u_username').val(item.UserName);
             $('#h_username').val(item.UserName);
 
-            if (item.UserTypeID != null){
+            if (item.UserTypeID != null) {
                 $('#ck_icloud').trigger('click');
                 $('#sel_type').val(item.UserTypeID);
             }
-            if (item.UserTypeM2 != null){
+            if (item.UserTypeM2 != null) {
                 $('#ck_m2').trigger('click');
                 $('#sel_m2_type').val(item.UserTypeM2);
             }
-            if (item.UserTypeM3 != null){
+            if (item.UserTypeM3 != null) {
                 $('#ck_m3').trigger('click');
                 $('#sel_m3_type').val(item.UserTypeM3);
             }
-            if (item.UserTypeM4 != null){
+            if (item.UserTypeM4 != null) {
                 $('#ck_m4').trigger('click');
                 $('#sel_m4_type').val(item.UserTypeM4);
             }
@@ -232,7 +232,9 @@ $(function () {
         'background': '#dddddd',
         'border-radius': '6px',
         'margin': '6px'
-    })
+    });
+
+    getparamiters()
 });
 
 
@@ -306,10 +308,10 @@ $("#btn_f1_reset").on('click', function () {
     $('#table_f11').empty();
 });
 
-function chekModuls(){
+function chekModuls() {
     var checked = false;
     $.each($(':checkbox'), function (i, item) {
-        if ($(item).is(':checked')){
+        if ($(item).is(':checked')) {
             checked = true;
         }
     });
@@ -356,7 +358,7 @@ $('#form_1').on('submit', function (event) {
     }
 
     if (operacia.val() != '2' && operacia.val() != 0) {
-        if (!chekModuls()){
+        if (!chekModuls()) {
             alert("მომხმარებელს რომელიმე მოდულზე უნდა ჰქონდეს წვდომა!");
             chek = false;
         }
@@ -381,6 +383,41 @@ $('#pass1').on('keyup', function (value) {
     $('#hashpass').val(pass);
 });
 
+
+$('#btn_saveuserpass').on('click', function () {
+    var data = {
+        'val': $('#userpassduration').val() * 86400,
+        'code': 'userpassduration'
+    };
+    $.ajax({
+        url: 'php_code/io_dictionary.php',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            // console.log(response);
+            if (response.result == "ok") {
+                alert("saved");
+            }else {
+                alert(response.error)
+            }
+        }
+    });
+});
+
+function getparamiters(){
+    var data = {'io':'get'};
+    $.ajax({
+        url: 'php_code/io_dictionary.php',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+            // console.log(response);
+            $('#userpassduration').val(response.userpassduration/secInDay);
+        }
+    });
+}
 
 //-------------------------------------------------------------------------------------------------------------------
 

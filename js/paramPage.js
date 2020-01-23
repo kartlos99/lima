@@ -66,8 +66,6 @@ $('#pass2').on('keyup',function (value) {
         data: data,
         dataType: 'json',
         success: function (response) {
-            // console.log(response);
-            $('#userpassduration').val(response.userpassduration/secInDay);
             $('#applReservPeriod').val(response.reserv_period/secInDay);
             for(var cvla_i in response.cvlebi){
                 $('#inp_cvla'+cvla_i).val(response.cvlebi[cvla_i]);
@@ -75,22 +73,6 @@ $('#pass2').on('keyup',function (value) {
         }
     });
  }
-
- $('#btn_saveuserpass').on('click',function(){
-    var data = {'userpassduration':$('#userpassduration').val()*86400};
-    $.ajax({
-        url: '../php_code/ioparameters.php',
-        method: 'post',
-        data: data,
-        dataType: 'json',
-        success: function (response) {
-            // console.log(response);
-            if (response == "ok"){
-                alert ("saved");
-            }            
-        }
-    });
- })
 
  $('#btn_savereservperion').on('click',function(){
     var data = {'reserv_period':$('#applReservPeriod').val()*86400};

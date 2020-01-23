@@ -1,13 +1,3 @@
-<p>მომხმარებლის პაროლის მოქმედების ვადა</p>
-<div class=" paraminput" >
-    <div class="input-group">
-        <input id="userpassduration" type="number" name="userpassduration" value="30" class="form-control" />  
-        <span class="input-group-addon" id="basic-addon2">დღე</span>
-    </div>
-    <div>
-        <button id="btn_saveuserpass" class="btn btn-sm btn-default paraminput">შენახვა</button>
-    </div>
-</div>
 
 <p>ApplID-ის რეზერვაციის ვადა</p>
 <div class=" paraminput" >
