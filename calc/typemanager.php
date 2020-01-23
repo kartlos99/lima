@@ -8,6 +8,10 @@
 include_once 'header.php';
 include_once 'common_functions.php';
 include_once 'DrawView.php';
+if (!isset($_SESSION['permissionM2']['submod23'])) {
+    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/index.php";
+    header("Location: $url");
+}
 $new_edit = " - ახალი/რედაქტირება";
 $id_simple = "id";
 $note = "შენიშვნა";

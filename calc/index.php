@@ -8,8 +8,8 @@
 include_once 'DrawView.php';
 include_once 'common_functions.php';
 include_once 'header.php';
-if ($_SESSION['M2UT'] == "m2_operator") {
-    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/calc/typemanager.php";
+if (!isset($_SESSION['permissionM2']['submod21'])) {
+    $url = "http" . ((!empty($_SERVER['HTTPS'])) ? "s" : "") . "://" . $_SERVER['SERVER_NAME'] . $folder . "/index.php";
     header("Location: $url");
 }
 $id_simple = "id";
