@@ -57,7 +57,8 @@ if ($pos !== false ){
 }
 
 ?>
-<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['usertype'] ?>" data-page="<?= $thisPage ?>"/>
+<input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['M2UT'] ?>" data-page="<?= $thisPage ?>"
+       data-org="<?= $_SESSION['OrganizationID'] ?>" data-fil="<?= $_SESSION['filiali'] ?>"/>
 <div class="wrapper">
     <!-- Sidebar Holder -->
     <nav id="sidebar">
@@ -93,7 +94,7 @@ if ($pos !== false ){
             <!-- <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li> -->
             <li><a href="../logout.php" class="article">გასვლა</a></li>
         </ul>
-        <div class="onbuttom">v 0.1.2</div>
+        <div class="onbuttom">v 0.1.3</div>
     </nav>
     <!--sidebar-->
 

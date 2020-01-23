@@ -445,7 +445,8 @@ $(document).ready(function () {
             organizationObj.forEach(function (item) {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#organization_id_app');
             });
-
+            $('#organization_id_app').val($('#currusertype').data('org'));
+            loadBranches11($('#organization_id_app').val(), $('#currusertype').data('fil'))
         }
     });
 
@@ -568,17 +569,6 @@ function getAppData(appID) {
         }
     });
 
-    // $.ajax({
-    //     url: 'php_code/get_app_info.php',
-    //     method: 'get',
-    //     data: {
-    //         'appID': appID
-    //     },
-    //     dataType: 'json',
-    //     success: function (response) {
-    //
-    //     }
-    // });
 }
 
 $('#organization_id_app').on('change', function () {
