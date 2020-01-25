@@ -163,7 +163,10 @@ WHERE `EstimateCriteriumID` IN ($idsString)";
 
         if (mysqli_query($conn, $sql_opChoice)) {
             $resultArray['result_op'] = "half";
-            $sql_opChoice_update = "UPDATE `m2calc_applications_op_choice` SET `OpChoice` = 1 WHERE	`APPID` = $record_id AND `EstimateCriteriumID` IN ($selIDsString)";
+            $sql_opChoice_update = "
+                UPDATE `m2calc_applications_op_choice` 
+                SET `OpChoice` = 1 
+                WHERE `APPID` = $record_id AND `EstVersion` = $vers AND `EstimateCriteriumID` IN ($selIDsString)";
             if (mysqli_query($conn, $sql_opChoice_update)) {
                 $resultArray['result_op'] = "success";
             }

@@ -12,6 +12,7 @@ var selectedCriteriaIDs = [];
 var allCriteriaIDs = [];
 var groupsHavingMainCrit = [];
 var waitingForGenInfo = false;
+var lastGenInfoRequestBoby = {};
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -257,6 +258,27 @@ $('#corection_id').on('blur', function () {
     $('#rateResultNumberCorected').text(parseFloat($('#corection_id').val()).toFixed(2));
 });
 
+function collectTopPartFromData(){
+    return {
+        'TechTreeID': selectedModel,
+        'TechModelFix': $('#modelbyhand_id').val(),
+        'TechSerial': $('#serial_N_id').val(),
+        'TechIMEI': $('#imei_id').val(),
+        'note': $('#note_id').val(),
+        'maxPrice': maxPrice,
+        'SysTechPrice': priceCalculated,
+        'ManagerAdd': priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") ? 1 : 0,
+        'ClientDec': priceCorectionTable.find('input[name=dec_by_client]').is(":checked") ? 1 : 0,
+        'CorTechPrice': $('#corection_id').val(),
+        // 'OrganizationID': $('#organization_id').val(),
+        // 'BranchID': $('#filial_id_app').val(),
+        'selectedCriteriaIDs': selectedCriteriaIDs,
+        'allCriteriaIDs': allCriteriaIDs,
+        // 'record_id': appRecID,
+        'event': 'gen_info'
+    };
+}
+
 $('#btnInfoGen').on('click', function () {
     saveAndGenerateInfo()
 });
@@ -268,7 +290,7 @@ function saveAndGenerateInfo() {
     $('#finalInfo').empty();
     console.log("estimateResultSucces", estimateResultSucces);
     if (!estimateResultSucces) {
-        alert("შეფასება განხორციელდა წარუმატებლად!");
+        alert("შეფასება არ განხორციელებულა, ან დასრულდა წარუმატებლად!");
     } else if (priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") && $('#corection_id').val() - priceCalculated > 50) {
         alert("გასაცემი თანხა 50 ლარზე მეტად აღემატება გამოთვლილ მნიშვნელობას!");
     } else if (!$('#serial_N_id').val()) {
@@ -277,69 +299,67 @@ function saveAndGenerateInfo() {
         alert("IMEI araa Seyvanili");
     } else {
         checkState = true;
-// infos Senaxa
-        $.ajax({
-            url: 'php_code/ins_application.php',
-            method: 'post',
-            data: {
-                'TechTreeID': selectedModel,
-                'TechModelFix': $('#modelbyhand_id').val(),
-                'TechSerial': $('#serial_N_id').val(),
-                'TechIMEI': $('#imei_id').val(),
-                'note': $('#note_id').val(),
-                'maxPrice': maxPrice,
-                'SysTechPrice': priceCalculated,
-                'ManagerAdd': priceCorectionTable.find('input[name=inc_by_manager]').is(":checked") ? 1 : 0,
-                'ClientDec': priceCorectionTable.find('input[name=dec_by_client]').is(":checked") ? 1 : 0,
-                'CorTechPrice': $('#corection_id').val(),
-                // 'OrganizationID': $('#organization_id').val(),
-                // 'BranchID': $('#filial_id_app').val(),
-                'selectedCriteriaIDs': selectedCriteriaIDs,
-                'allCriteriaIDs': allCriteriaIDs,
-                'record_id': appRecID,
-                'event': 'gen_info'
-            },
-            dataType: 'json',
-            success: function (response) {
-                console.log(response);
-                if (response.result == resultType.SUCCSES) {
+        var genInfoRequestBoby = collectTopPartFromData();
+        var genInfoRequestBobyWithRecID = Object.assign({}, genInfoRequestBoby);
+        genInfoRequestBobyWithRecID.record_id = appRecID;
 
-                    if (appRecID == 0) {
-                        ganacxadiN = response.ApNumber + " " + response.ApDate;
+        console.log("reqData1 " + JSON.stringify(genInfoRequestBoby) );
+        console.log("reqData2 " + JSON.stringify(lastGenInfoRequestBoby));
+        console.log("reqData3 " + JSON.stringify(genInfoRequestBobyWithRecID) );
+        // console.log("reqData4Ser " + .serialize() );
+
+        if (JSON.stringify(genInfoRequestBoby) != JSON.stringify(lastGenInfoRequestBoby)){
+            // infos Senaxa
+            $.ajax({
+                url: 'php_code/ins_application.php',
+                method: 'post',
+                data: genInfoRequestBobyWithRecID,
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    if (response.result == resultType.SUCCSES) {
+                        lastGenInfoRequestBoby = genInfoRequestBoby;
+
+                        if (appRecID == 0) {
+                            ganacxadiN = response.ApNumber + " " + response.ApDate;
+                        } else {
+                            ganacxadiN = $('#localInfo1').find('span').text();
+                        }
+
+                        appRecID = response.record_id;
+
+
+                        var teqnika = $('#type_id').find('option:selected').text() + ", " + $('#brand_id').find('option:selected').text() + ", " + $('#model_id').find('option:selected').text()
+                            + " (" + $('#modelbyhand_id').val() + " IMEI: " + $('#imei_id').val() + ". SN: " + $('#serial_N_id').val() + ")";
+                        var mdgomareoba = checkedCriteriastext.trim(", ");
+                        var gacemuli = correction ? $('#corection_id').val() : priceCalculated;
+                        var correctionText = correction ? "დიახ" : "არა";
+
+                        var br = "\n";
+
+                        $('#localInfo1 span').text(ganacxadiN);
+
+                        var resultText = "განაცხადი N: " + ganacxadiN + br;
+                        resultText += "ტექნიკა: " + teqnika + br;
+                        resultText += "მდგომარეობა: " + mdgomareoba + br;
+                        resultText += "თანხა სისტემიდან: " + priceCalculated + " ₾" + br;
+                        resultText += "თანხის კორექტირება: " + correctionText + br;
+                        resultText += "გაცემული თანხა: " + gacemuli + " ₾" + br;
+
+                        $('#finalInfo').val(resultText);
+
+                        if (waitingForGenInfo) saveAllData()
                     } else {
-                        ganacxadiN = $('#localInfo1').find('span').text();
+                        alert(message.saveERROR);
+                        console.log(response.error);
                     }
-
-                    appRecID = response.record_id;
-
-
-                    var teqnika = $('#type_id').find('option:selected').text() + ", " + $('#brand_id').find('option:selected').text() + ", " + $('#model_id').find('option:selected').text()
-                        + " (" + $('#modelbyhand_id').val() + " IMEI: " + $('#imei_id').val() + ". SN: " + $('#serial_N_id').val() + ")";
-                    var mdgomareoba = checkedCriteriastext.trim(", ");
-                    var gacemuli = correction ? $('#corection_id').val() : priceCalculated;
-                    var correctionText = correction ? "დიახ" : "არა";
-
-                    var br = "\n";
-
-                    $('#localInfo1 span').text(ganacxadiN);
-
-                    var resultText = "განაცხადი N: " + ganacxadiN + br;
-                    resultText += "ტექნიკა: " + teqnika + br;
-                    resultText += "მდგომარეობა: " + mdgomareoba + br;
-                    resultText += "თანხა სისტემიდან: " + priceCalculated + " ₾" + br;
-                    resultText += "თანხის კორექტირება: " + correctionText + br;
-                    resultText += "გაცემული თანხა: " + gacemuli + " ₾" + br;
-
-                    $('#finalInfo').val(resultText);
-
-                    if (waitingForGenInfo) saveAllData()
-                } else {
-                    alert(message.saveERROR);
-                    console.log(response.error);
+                    waitingForGenInfo = false
                 }
-                waitingForGenInfo = false
-            }
-        });
+            });
+        }else {
+            alert("მიმდინარე მონაცემები უკვე შენახულია!")
+        }
+
     }
     if (!checkState) waitingForGenInfo = false
 }
@@ -566,6 +586,7 @@ function getAppData(appID) {
 
             });
 
+            lastGenInfoRequestBoby = collectTopPartFromData();
         }
     });
 
