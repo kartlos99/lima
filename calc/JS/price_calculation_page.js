@@ -628,3 +628,12 @@ function mycopy() {
     copyel.select();
     document.execCommand("copy");
 }
+
+$('#btnHist').on('click', function () {
+    if (appRecID > 0){
+        var win = window.open('estimateHistory.php?ID=' + appRecID, '_blank');
+        win.focus();
+    }else {
+        alert(message.notsaved);
+    }
+});

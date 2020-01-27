@@ -16,10 +16,11 @@ $new_edit = " - ახალი/რედაქტირება";
 $id_simple = "id";
 $note = "შენიშვნა";
 
+$btnHistory = isset($_SESSION['permissionM2']['m2history']) ? "<i id=\"btnHist\" class=\"fas fa-history btn\"></i>" : "";
 
 ?>
 
-<?= DrawView::titleRow("", "შესაფასებელი ტექნიკა:") ?>
+<?= DrawView::titleRow($btnHistory, "შესაფასებელი ტექნიკა:") ?>
 
     <table class="table" id="tbPriceRate1">
         <tbody>

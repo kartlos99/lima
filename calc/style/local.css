@@ -96,6 +96,19 @@ div.toright {
     cursor: pointer;
 }
 
+.hist-title-table {
+    width: 100%;
+    border: 2px solid transparent;
+    border-bottom-color: #618385;
+    margin: 6px 0 2px 0;
+    font-weight: bold;
+}
+
+.hist-title-table label {
+    color: #20436b;
+    font-size: 1.1em;
+}
+
 .title-table {
     width: 100%;
     border: 2px solid transparent;
@@ -273,3 +286,35 @@ td.end-td {
     background-color: #32cc85;
 }
 
+div.hist-item {
+    margin: 16px 24px;
+    padding: 12px;
+    border: #c0d0d0 solid 4px;
+    background-color: #c7ddd9;
+    border-radius: 8px;
+}
+
+p.h-item-head{
+    border-radius: 6px;
+    border: #8cc68d solid 4px;
+    padding: 4px;
+    background-color: #fff6dc;
+    font-size: 16pt;
+    font-family: "ALK Sanet", sans-serif
+}
+
+label.value-name {
+    padding: 4px 2px 0 2px;
+    border-radius: 4px;
+    font-size: 12pt;
+    font-family: "ALK Sanet", sans-serif
+}
+
+p.value-body {
+    font-size: 12pt;
+    margin-bottom: 2px;
+}
+
+.changed {
+    background-color: #d5c36a;
+}
