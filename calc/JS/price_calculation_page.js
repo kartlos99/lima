@@ -333,7 +333,9 @@ function saveAndGenerateInfo() {
                         appRecID = response.record_id;
 
 
-                        var teqnika = $('#type_id').find('option:selected').text() + ", " + $('#brand_id').find('option:selected').text() + ", " + $('#model_id').find('option:selected').text()
+                        var teqnika = $('#type_id').find('option:selected').text() + ", "
+                            + $('#brand_id').find('option:selected').text() + ", "
+                            + $('#model_id').find('option:selected').text()
                             + " (" + $('#modelbyhand_id').val() + " IMEI: " + $('#imei_id').val() + ". SN: " + $('#serial_N_id').val() + ")";
                         var mdgomareoba = checkedCriteriastext.trim(", ");
                         var gacemuli = correction ? $('#corection_id').val() : priceCalculated;
@@ -437,6 +439,8 @@ $('#type_id').on('change', function () {
     techPosArray = [$('#type_id').val(), "0", "0"];
     $('#brand_id').empty();
     $('#model_id').empty();
+    $('#brand_id').trigger('chosen:updated');
+    $('#model_id').trigger('chosen:updated');
     if (techPosArray[0] != 0) {
         loadTypesList(techPosArray[0], 'brand_id');
     }
@@ -447,6 +451,7 @@ $('#brand_id').on('change', function () {
     techPosArray[1] = $('#brand_id').val();
     techPosArray[2] = "0";
     $('#model_id').empty();
+    $('#model_id').trigger('chosen:updated');
     if (techPosArray[1] != 0) {
         loadTypesList(techPosArray[1], 'model_id');
     }
@@ -465,6 +470,9 @@ $(document).ready(function () {
     $('#type_id').attr("data-nn", 0);
     $('#brand_id').attr("data-nn", 1);
     $('#model_id').attr("data-nn", 2);
+    $('#type_id').addClass("chosen").chosen();
+    $('#brand_id').addClass("chosen").chosen();
+    $('#model_id').addClass("chosen").chosen();
 
     loadTypesList(0, 'type_id');
     $('#corection_id').attr("readonly", true);
@@ -540,7 +548,7 @@ function getAppData(appID) {
             priceCalculated = appInfo1.SysTechPrice;
             techPosArray = [appInfo1.techtype, appInfo1.brand, selectedModel];
 
-            $('#type_id').val(appInfo1.techtype);
+            $('#type_id').val(appInfo1.techtype).trigger('chosen:updated');
             loadTypesList(appInfo1.techtype, 'brand_id', appInfo1.brand);
             loadTypesList(appInfo1.brand, 'model_id', appInfo1.TechTreeID);
             $('#modelbyhand_id').val(appInfo1.TechModelFix);

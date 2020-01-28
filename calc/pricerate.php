@@ -30,9 +30,9 @@ $btnHistory = isset($_SESSION['permissionM2']['m2history']) ? "<i id=\"btnHist\"
                 <table class="table-section">
                     <tr>
                         <td>
-                            <div class="in-form"><?= DrawView::selector($id_simple, "ტიპი", "type") ?></div>
-                            <div class="in-form"><?= DrawView::selector($id_simple, "ბრენდი", "brand") ?></div>
-                            <div class="in-form"><?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?></div>
+                            <div class="in-form" style="padding-bottom: 2px"><?= DrawView::selector($id_simple, "ტიპი", "type") ?></div>
+                            <div class="in-form" style="padding-bottom: 1px"><?= DrawView::selector($id_simple, "ბრენდი", "brand") ?></div>
+                            <div class="in-form" style="padding-bottom: 2px"><?= DrawView::selector($id_simple, "მოდელი / კლასი", "model") ?></div>
                         </td>
                         <td>
                             <div class="in-form"><?= DrawView::simpleInput($id_simple, "modelbyhand", "მოდელი (ხელოვნური განსაზღვრა)") ?></div>

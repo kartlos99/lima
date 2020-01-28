@@ -147,6 +147,8 @@ $('#type_id').on('change', function () {
     techPosArray = [$('#type_id').val(), "0", "0"];
     $('#brand_id').empty();
     $('#model_id').empty();
+    $('#brand_id').trigger('chosen:updated');
+    $('#model_id').trigger('chosen:updated');
     if (techPosArray[0] != 0) {
         loadTypesList(techPosArray[0], 'brand_id');
     }
@@ -157,6 +159,7 @@ $('#brand_id').on('change', function () {
     techPosArray[1] = $('#brand_id').val();
     techPosArray[2] = "0";
     $('#model_id').empty();
+    $('#model_id').trigger('chosen:updated');
     if (techPosArray[1] != 0) {
         loadTypesList(techPosArray[1], 'model_id');
     }
@@ -172,6 +175,8 @@ $('#type_id2').on('change', function () {
     techPosArray = [$('#type_id2').val(), "0", "0"];
     $('#brand_id2').empty();
     $('#model_id2').empty();
+    $('#brand_id2').trigger('chosen:updated');
+    $('#model_id2').trigger('chosen:updated');
     if (techPosArray[0] != 0) {
         loadTypesList(techPosArray[0], 'brand_id2');
     }
@@ -182,6 +187,7 @@ $('#brand_id2').on('change', function () {
     techPosArray[1] = $('#brand_id2').val();
     techPosArray[2] = "0";
     $('#model_id2').empty();
+    $('#model_id2').trigger('chosen:updated');
     if (techPosArray[1] != 0) {
         loadTypesList(techPosArray[1], 'model_id2');
     }
@@ -241,6 +247,13 @@ $(document).ready(function () {
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_group_id2');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#criteria_status_id2, #price_criteria_status_id2');
     $('#application_status_id, #control_rate_result_id, #detail_rate_result_id, #price_status_id2, #criteria_group_id2, #criteria_status_id2, #price_criteria_status_id2').val(0);
+// .trigger('chosen:updated');
+    $('#type_id').addClass("chosen").chosen();
+    $('#brand_id').addClass("chosen").chosen();
+    $('#model_id').addClass("chosen").chosen();
+    $('#type_id2').addClass("chosen").chosen();
+    $('#brand_id2').addClass("chosen").chosen();
+    $('#model_id2').addClass("chosen").chosen();
 });
 
 

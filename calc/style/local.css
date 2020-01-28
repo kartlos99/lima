@@ -318,3 +318,13 @@ p.value-body {
 .changed {
     background-color: #d5c36a;
 }
+
+div.chosen-container {
+    width: 100% !important;
+    height: 32px !important;
+}
+
+div.chosen-container a.chosen-single {
+    height: 32px !important;
+    padding: 3px 0 0 8px !important;
+}

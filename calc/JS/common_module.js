@@ -59,8 +59,6 @@ function loadTypesList(parentID, selector, pos = 0) {
                 });
 
                 var nn = selEl.data("nn");
-                techPosArray[nn] = selEl.val();
-                console.log(techPosArray);
 
                 techDataArray[nn] = response;
                 console.log(techDataArray);
@@ -70,8 +68,10 @@ function loadTypesList(parentID, selector, pos = 0) {
                 }else{
                     selEl.trigger('change');
                 }
+                techPosArray[nn] = selEl.val();
+                console.log(techPosArray);
             }
-
+            selEl.trigger('chosen:updated');
         }
     });
 }

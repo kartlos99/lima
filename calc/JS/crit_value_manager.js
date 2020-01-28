@@ -17,6 +17,8 @@ $('#typename_id').on('change', function () {
     techPosArray = [$('#typename_id').val(), "0", "0"];
     $('#brandname_id').empty();
     $('#modelname_id').empty();
+    $('#brandname_id').trigger('chosen:updated');
+    $('#modelname_id').trigger('chosen:updated');
     if (techPosArray[0] != 0) {
         loadTypesList(techPosArray[0], 'brandname_id');
     }
@@ -27,6 +29,7 @@ $('#brandname_id').on('change', function () {
     techPosArray[1] = $('#brandname_id').val();
     techPosArray[2] = "0";
     $('#modelname_id').empty();
+    $('#modelname_id').trigger('chosen:updated');
     if (techPosArray[1] != 0) {
         loadTypesList(techPosArray[1], 'modelname_id');
     }
@@ -457,6 +460,10 @@ $(document).ready(function () {
     $('#typename_id').attr("data-nn", 0);
     $('#brandname_id').attr("data-nn", 1);
     $('#modelname_id').attr("data-nn", 2);
+    $('#typename_id').addClass("chosen").chosen();
+    $('#brandname_id').addClass("chosen").chosen();
+    $('#modelname_id').addClass("chosen").chosen();
+
 
     $('#price_crit_weight_status_id').attr("readonly", true).val(0).find('option').attr('disabled', true);
     loadTypesList(0, 'typename_id');

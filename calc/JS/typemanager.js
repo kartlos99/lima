@@ -227,6 +227,8 @@ $('#seltypename_id').on('change', function () {
     techPosArray = [$('#seltypename_id').val(), "0", "0"];
     $('#selbrandname_id').empty();
     $('#selmodelname_id').empty();
+    $('#selbrandname_id').trigger('chosen:updated');
+    $('#selmodelname_id').trigger('chosen:updated');
     if (techPosArray[0] != 0) {
         loadTypesList(techPosArray[0], 'selbrandname_id');
     }
@@ -237,6 +239,7 @@ $('#selbrandname_id').on('change', function () {
     techPosArray[1] = $('#selbrandname_id').val();
     techPosArray[2] = "0";
     $('#selmodelname_id').empty();
+    $('#selmodelname_id').trigger('chosen:updated');
     if (techPosArray[1] != 0) {
         loadTypesList(techPosArray[1], 'selmodelname_id');
     }
@@ -351,5 +354,8 @@ $(document).ready(function () {
     console.log("ready!");
     disableAllInputs();
     loadTypesList(0, 'seltypename_id');
+    $('#seltypename_id').addClass("chosen").chosen();
+    $('#selbrandname_id').addClass("chosen").chosen();
+    $('#selmodelname_id').addClass("chosen").chosen();
 });
 
