@@ -192,7 +192,7 @@ if ($event == "btn_save") {
     $note_id_control = $_POST['note_id_control'];
 
     $is_control = "";
-    if (($adjusted_amount_id_control != "" && $adjusted_amount_id_control != "0") || $control_rate_result_id_control != "0") {
+    if (isset($_POST['c_estimate'])) {
         $is_control = "
     `CEstPerson` = '$currUser',
     `CEstDate` = $currDate,
@@ -209,7 +209,7 @@ if ($event == "btn_save") {
     $note_id_market = $_POST['note_id_market'];
 
     $is_market = "";
-    if (($adjusted_amount_id_market != "" && $adjusted_amount_id_market != "0") || $detail_rate_result_id_market != 0) {
+    if (isset($_POST['f_estimate'])) {
         $is_market = "
     `FEstPerson` = '$currUser',
     `FEstDate` = $currDate,

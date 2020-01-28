@@ -13,6 +13,8 @@ var allCriteriaIDs = [];
 var groupsHavingMainCrit = [];
 var waitingForGenInfo = false;
 var lastGenInfoRequestBoby = {};
+var cEstimate = {};
+var fEstimate = {};
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -86,6 +88,7 @@ $('#btnRate').on('click', function () {
             }
         });
 
+        console.log("priceCalculated:", priceCalculated);
         if (priceCalculated < minOut) {
             priceCalculated = minOut;
         }
@@ -146,6 +149,7 @@ $('#btnStartPriceRate').on('click', function () {
                     techPriceRow = response[0];
                     var pcwStatus = techPriceRow.pcwStatus;
                     maxPrice = techPriceRow.MaxPrice;
+                    console.log("MaxPrice_gettech price", maxPrice);
 
                     if (pcwStatus != 'Active') {
                         alert(text_PriceAndCriteriaWeightStatusAlert);
@@ -374,30 +378,48 @@ $('#btnSave').on('click', function () {
 });
 
 function saveAllData() {
+
+    var dataForSend = {
+        'TechTreeID': selectedModel,
+        'record_id': appRecID,
+        'EstimateResult1': $('#finalInfo').val(),
+
+        'OrganizationID': $('#organization_id_app').val(),
+        'BranchID': $('#filial_id_app').val(),
+        'agreement_app': $('#agreement_id_app').val(),
+        'ApStatus': $('#status_id_app').val(),
+        'note_app': $('#note_id_app').val(),
+
+        'control_rate_result_id_control': $('#control_rate_result_id_control').val(),
+        'adjusted_amount_id_control': $('#adjusted_amount_id_control').val(),
+        'note_id_control': $('#note_id_control').val(),
+
+        'detail_rate_result_id_market': $('#detail_rate_result_id_market').val(),
+        'adjusted_amount_id_market': $('#adjusted_amount_id_market').val(),
+        'note_id_market': $('#note_id_market').val(),
+
+        'event': 'btn_save'
+    };
+
+    var cEstimateEdit = {};
+    cEstimateEdit.cEstStatus = $('#control_rate_result_id_control').val();
+    cEstimateEdit.cEstPrice = $('#adjusted_amount_id_control').val();
+    cEstimateEdit.cEstNote = $('#note_id_control').val();
+    if (JSON.stringify(cEstimate) != JSON.stringify(cEstimateEdit) ){
+        dataForSend.c_estimate = '1';
+    }
+    var fEstimateEdit = {};
+    fEstimateEdit.fEstStatus = $('#detail_rate_result_id_market').val();
+    fEstimateEdit.fEstPrice = $('#adjusted_amount_id_market').val();
+    fEstimateEdit.fEstNote = $('#note_id_market').val();
+    if (JSON.stringify(fEstimate) != JSON.stringify(fEstimateEdit) ){
+        dataForSend.f_estimate = '1';
+    }
+
     $.ajax({
         url: 'php_code/ins_application.php',
         method: 'post',
-        data: {
-            'TechTreeID': selectedModel,
-            'record_id': appRecID,
-            'EstimateResult1': $('#finalInfo').val(),
-
-            'OrganizationID': $('#organization_id_app').val(),
-            'BranchID': $('#filial_id_app').val(),
-            'agreement_app': $('#agreement_id_app').val(),
-            'ApStatus': $('#status_id_app').val(),
-            'note_app': $('#note_id_app').val(),
-
-            'control_rate_result_id_control': $('#control_rate_result_id_control').val(),
-            'adjusted_amount_id_control': $('#adjusted_amount_id_control').val(),
-            'note_id_control': $('#note_id_control').val(),
-
-            'detail_rate_result_id_market': $('#detail_rate_result_id_market').val(),
-            'adjusted_amount_id_market': $('#adjusted_amount_id_market').val(),
-            'note_id_market': $('#note_id_market').val(),
-
-            'event': 'btn_save'
-        },
+        data: dataForSend,
         dataType: 'json',
         success: function (response) {
             console.log(response);
@@ -482,7 +504,20 @@ $(document).ready(function () {
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#control_rate_result_id_control');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#detail_rate_result_id_market');
     $('#control_rate_result_id_control, #detail_rate_result_id_market').val(0);
+    cEstimateData();
+    fEstimateData();
 });
+
+function cEstimateData() {
+    cEstimate.cEstStatus = $('#control_rate_result_id_control').val();
+    cEstimate.cEstPrice = $('#adjusted_amount_id_control').val();
+    cEstimate.cEstNote = $('#note_id_control').val();
+}
+function fEstimateData() {
+    fEstimate.fEstStatus = $('#detail_rate_result_id_market').val();
+    fEstimate.fEstPrice = $('#adjusted_amount_id_market').val();
+    fEstimate.fEstNote = $('#note_id_market').val();
+}
 
 function getAppData(appID) {
     $.ajax({
@@ -501,6 +536,7 @@ function getAppData(appID) {
             var appInfo1 = response.app_data;
             selectedModel = appInfo1.TechTreeID;
             maxPrice = appInfo1.maxPrice;
+            console.log("MaxPrice_get app info", maxPrice);
             priceCalculated = appInfo1.SysTechPrice;
             techPosArray = [appInfo1.techtype, appInfo1.brand, selectedModel];
 
@@ -541,7 +577,8 @@ function getAppData(appID) {
 
             $('#finalInfo').val(appInfo1.EstimateResult1);
 
-
+            cEstimateData();
+            fEstimateData();
             // shenaxuli comentarebi tavisi mdgomareobit
             criteriasData = response.app_crit_data.slice();
             var grName = "";
