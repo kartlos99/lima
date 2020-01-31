@@ -12,6 +12,18 @@ var groupsHavingMainCrit = [];
 var waitingForResponse = false;
 var isCriteriaInEditMode = false;
 
+var sFreeCriteriasConteiner = $('#selectFreeCriterias');
+var sChainEditorConteiner = $('#selectCriteriaEditing');
+var sChainsConteiner = $('#selectCriteriachains');
+
+var btnCriteriaPutToChain = $('#btnCriteriaPut');
+var btnCriteriaOutFromChain = $('#btnCriteriaOut');
+var btnSaveChain = $('#btnCriteriaChainSave');
+var btnEditChain = $('#btnCriteriaChainEdit');
+
+var freeContainerData = {};
+var editingContainerData = {};
+
 
 $('#typename_id').on('change', function () {
     techPosArray = [$('#typename_id').val(), "0", "0"];
@@ -110,6 +122,7 @@ $('i.fa-sync-alt').on('click', function () {
                 criteriasData = response.slice();
                 groupsHavingMainCrit = [];
 
+                // sFreeCriteriasConteiner.empty();
                 criteriasData.forEach(function (item) {
                     if (item.IsMain == 1) {
                         groupsHavingMainCrit.push({
@@ -117,7 +130,11 @@ $('i.fa-sync-alt').on('click', function () {
                             'id': item.id
                         });
                     }
+                    freeContainerData[item.id] = item;
+                    // addCriteriaItemToFreeCont(item);
                 });
+                fillFreeCriteriaConteiner();
+                console.log("freeData: ", freeContainerData);
 
                 var grName = "";
                 $('#criteriaValueTableBody').empty();
@@ -160,6 +177,56 @@ $('i.fa-sync-alt').on('click', function () {
         });
 
     }
+});
+
+function addCriteriaItemToFreeCont(criteriaItem) {
+    title = criteriaItem.gr + " > " + criteriaItem.criteria;
+
+    $('<option />').text(title).val(criteriaItem.id).appendTo(sFreeCriteriasConteiner);
+}
+
+function fillFreeCriteriaConteiner(){
+    sFreeCriteriasConteiner.empty();
+    Object.values(freeContainerData).forEach(function (item) {
+        title = item.gr + " > " + item.criteria;
+        $('<option />').text(title).val(item.id).appendTo(sFreeCriteriasConteiner);
+    })
+}
+
+function fillEditingChainConteiner(){
+    sChainEditorConteiner.empty();
+    Object.values(editingContainerData).forEach(function (item) {
+        title = item.gr + " > " + item.criteria;
+        $('<option />').text(title).val(item.id).appendTo(sChainEditorConteiner);
+    })
+}
+
+btnCriteriaPutToChain.on('click', function () {
+    console.log(sFreeCriteriasConteiner.val());
+    var selectedIds = sFreeCriteriasConteiner.val();
+    selectedIds.forEach(function (itm) {
+        editingContainerData[itm] = freeContainerData[itm];
+        console.log(freeContainerData[itm].criteria);
+        delete freeContainerData[itm];
+    });
+
+    fillFreeCriteriaConteiner();
+    fillEditingChainConteiner();
+    console.log(editingContainerData);
+    console.log(freeContainerData);
+});
+
+btnCriteriaOutFromChain.on('click', function () {
+    var selectedIds = sChainEditorConteiner.val();
+    selectedIds.forEach(function (itm) {
+        freeContainerData[itm] = editingContainerData[itm];
+        delete editingContainerData[itm];
+    });
+
+    fillFreeCriteriaConteiner();
+    fillEditingChainConteiner();
+    console.log(editingContainerData);
+    console.log(freeContainerData);
 });
 
 var criteriaValueEditTable = $('#tb_technic_criteria');

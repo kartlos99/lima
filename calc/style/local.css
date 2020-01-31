@@ -3,6 +3,7 @@ body {
     font-family: "BPG Arial", sans-serif;
 
 }
+
 ul {
     font-family: "ALK Sanet", sans-serif;
     font-size: 14px;
@@ -36,7 +37,7 @@ div.toright {
     text-align: right;
 }
 
-#tb_teknic_price td.toright{
+#tb_teknic_price td.toright {
     text-align: right;
 }
 
@@ -157,7 +158,7 @@ div.toright {
     height: auto;
 }
 
-.equal-size td{
+.equal-size td {
     width: 25%;
 }
 
@@ -206,6 +207,7 @@ span.resNumber {
     color: #7a1d1b;
     font-weight: bold;
 }
+
 p.mytbtitle {
     margin-top: 6px;
     color: #8a6d3b;
@@ -221,18 +223,21 @@ td.datewidth {
     padding: 8px;
 }
 
-.divTable{
+.divTable {
     display: table;
     width: 100%;
     margin-bottom: -10px;
 }
+
 .divTableRow {
     display: table-row;
 }
+
 .divTableHeading {
     background-color: #EEE;
     display: table-header-group;
 }
+
 .divTableCell, .divTableHead {
     /*border: 1px solid #299999;*/
     display: table-cell;
@@ -241,7 +246,7 @@ td.datewidth {
     min-width: 200px;
 }
 
-.divTable tr td{
+.divTable tr td {
     padding: 4px 0;
     vertical-align: middle;
 }
@@ -271,6 +276,7 @@ td.start-td {
     padding: 4px;
     background: #ff5a58;
 }
+
 td.end-td {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
@@ -294,7 +300,7 @@ div.hist-item {
     border-radius: 8px;
 }
 
-p.h-item-head{
+p.h-item-head {
     border-radius: 6px;
     border: #8cc68d solid 4px;
     padding: 4px;
@@ -327,4 +333,58 @@ div.chosen-container {
 div.chosen-container a.chosen-single {
     height: 32px !important;
     padding: 3px 0 0 8px !important;
+}
+
+.pan-header {
+    width: 100%;
+}
+
+.pan-header-left {
+    width: 33%;
+    text-align: left;
+}
+
+.pan-header-right {
+    width: 67%;
+    text-align: right;
+}
+
+#panel_chain_manager select {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+}
+
+#panel_chain_manager select option {
+    padding: 2px;
+    margin-top: 3px;
+    border-radius: 3px;
+    background-color: #fef;
+    font-size: 1.1em;
+}
+
+#criteriaChainTable .head-row {
+    height: 1%;
+}
+
+#criteriaChainTable .head-row td {
+    padding: 4px;
+    font-size: 1.2em;
+}
+
+#criteriaChainTable {
+    width: 100%;
+    height: 300px;
+}
+
+#criteriaChainTable .wide-column {
+    width: 30%;
+}
+
+.narrow-column {
+    vertical-align: center;
+    horiz-align: center;
+    text-align: center;
+    padding: 4px;
+    width: min-content;
 }

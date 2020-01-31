@@ -145,3 +145,15 @@ function getCookie(cname) {
     }
     return "";
 }
+
+$(".panel-heading").on('click', function (el) {
+
+    var gilaki = $(this).find("span.glyphicon");
+    if (gilaki.hasClass('glyphicon-chevron-up')) {
+        gilaki.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        $(this).closest('.panel').find(".panel-body").slideUp();
+    } else {
+        gilaki.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        $(this).closest('.panel').find(".panel-body").slideDown();
+    }
+});

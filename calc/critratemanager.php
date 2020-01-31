@@ -135,6 +135,52 @@ function getDictionariyItems($dbConn, $dCode)
 
     </form>
 
+    <br>
+    <div id="panel_chain_manager" class="panel panel-primary">
+        <div class="panel-heading">
+            <table id="table_p2_header" class="pan-header">
+                <tr>
+                    <td class="pan-header-left">კრიტერიუმთა ბმების რედაქტირება</td>
+                    <td class="pan-header-right"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="panel-body">
+            <table id="criteriaChainTable" class="aatable">
+                <tr class="head-row">
+                    <td>თავისუფალი კრიტერიუმები</td>
+                    <td></td>
+                    <td>კრიტერიუმების ბმა</td>
+                    <td></td>
+                    <td>არსებული ბმები</td>
+                </tr>
+                <tr >
+                    <td class="wide-column">
+                        <select name="freeCriterias" id="selectFreeCriterias" multiple="multiple">
+                        </select>
+                    </td>
+                    <td class="narrow-column">
+                        <button id="btnCriteriaPut" class="btn btn-default"> >> </button><br><br>
+                        <button id="btnCriteriaOut" class="btn btn-default"> << </button>
+                    </td>
+                    <td class="wide-column">
+                        <select name="criteriaEditing" id="selectCriteriaEditing" multiple="multiple">
+                        </select>
+                    </td>
+                    <td class="narrow-column">
+                        <button id="btnCriteriaChainSave" class="btn btn-default"> Save >> </button><br><br>
+                        <button id="btnCriteriaChainEdit" class="btn btn-default"> Edit << </button>
+                    </td>
+                    <td class="wide-column">
+                        <select name="criteriachains" id="selectCriteriachains" multiple="multiple">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
 <?= DrawView::titleRow("ტექნიკის შეფასების კრიტერიუმები", "", false, false) ?>
 
@@ -154,8 +200,6 @@ function getDictionariyItems($dbConn, $dCode)
             <?= DrawView::criteriaEditRow(getDictionariyItems($conn, 'ImpactV2'), getDictionariyItems($conn, 'ImpactType'), $price_calc_item_states) ?>
         </tr>
     </table>
-
-
 
 
 <?php include_once 'footer.php'; ?>
