@@ -70,7 +70,10 @@ for ($i = 0; $i < count($arr); $i++) {
     if($indicator['ManagerAdd'] == 1 || $indicator['ClientDec'] == 1 ) $priceCorectionIndicator = 1;
     ?>
     <div class="hist-item">
-        <p class="h-item-head">დრო: <?= $item['ModifyDate'] < "1" ? $item['CreateDate'] : $item['ModifyDate'] ?></p>
+        <p class="h-item-head">
+            დრო: <?= $item['ModifyDate'] < "1" ? $item['CreateDate'] : $item['ModifyDate'] ?>  -
+            მომხმარებელი: <?= $item['ModifyDate'] < "1" ? $item['CreateUser'] : $item['ModifyUser'] ?>
+        </p>
         <table class="table-section">
             <tr>
                 <td><?= DrawView::histDataUnit("ტიპი", $item['techtype'], $indicator['techtype']) ?></td>
