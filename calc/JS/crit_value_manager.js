@@ -21,8 +21,14 @@ var btnCriteriaOutFromChain = $('#btnCriteriaOut');
 var btnSaveChain = $('#btnCriteriaChainSave');
 var btnEditChain = $('#btnCriteriaChainEdit');
 
+var allCriteriaData = {};
 var freeContainerData = {};
+var lastFreeContainerData = {};
 var editingContainerData = {};
+var chainData = {};
+
+var currChainID = 0;
+var currChainType = 0;
 
 
 $('#typename_id').on('change', function () {
@@ -86,6 +92,13 @@ $('i.fa-sync-alt').on('click', function () {
         criteriasOnTechPosArray = techPosArray.slice();
         $('table.custom-title span.red-in-title').text(criteriasOnText);
 
+        freeContainerData = {};
+        editingContainerData = {};
+        currChainID = 0;
+        currChainType = 0;
+        fillFreeCriteriaConteiner();
+        fillEditingChainConteiner();
+
         $.ajax({
             url: 'php_code/get_tech_price.php',
             method: 'get',
@@ -133,7 +146,9 @@ $('i.fa-sync-alt').on('click', function () {
                     freeContainerData[item.id] = item;
                     // addCriteriaItemToFreeCont(item);
                 });
-                fillFreeCriteriaConteiner();
+                allCriteriaData = Object.assign({}, freeContainerData);
+                getChainsOnTech(criteriasOnTechID);
+
                 console.log("freeData: ", freeContainerData);
 
                 var grName = "";
@@ -179,13 +194,49 @@ $('i.fa-sync-alt').on('click', function () {
     }
 });
 
-function addCriteriaItemToFreeCont(criteriaItem) {
-    title = criteriaItem.gr + " > " + criteriaItem.criteria;
+function getChainsOnTech(techID, updateOnlyChainConteiner = false) {
+    $.ajax({
+        url: 'php_code/get_chains.php',
+        method: 'get',
+        data: {'techID': techID},
+        dataType: 'json',
+        success: function (response) {
+            console.log("chains", response);
 
-    $('<option />').text(title).val(criteriaItem.id).appendTo(sFreeCriteriasConteiner);
+            var chains = response.chains;
+            chainData = {};
+            chains.forEach(function (chain) {
+                chainData[chain.chainID] = chain;
+                if (!updateOnlyChainConteiner) {
+                    idsArr = chain.crIDs.split(',');
+                    idsArr.forEach(function (crID) {
+                        delete freeContainerData[crID];
+                    });
+                }
+            });
+            lastFreeContainerData = Object.assign({}, freeContainerData);
+
+            fillChainContainer();
+            if (!updateOnlyChainConteiner) {
+                fillFreeCriteriaConteiner();
+            }
+        }
+    });
 }
 
-function fillFreeCriteriaConteiner(){
+function resetChainManagement() {
+    getChainsOnTech(criteriasOnTechID);
+    sChainEditorConteiner.empty();
+}
+
+function fillChainContainer() {
+    sChainsConteiner.empty();
+    Object.values(chainData).forEach(function (chain) {
+        $('<option />').text(chain.crNames).val(chain.chainID).appendTo(sChainsConteiner);
+    })
+}
+
+function fillFreeCriteriaConteiner() {
     sFreeCriteriasConteiner.empty();
     Object.values(freeContainerData).forEach(function (item) {
         title = item.gr + " > " + item.criteria;
@@ -193,13 +244,30 @@ function fillFreeCriteriaConteiner(){
     })
 }
 
-function fillEditingChainConteiner(){
+function fillEditingChainConteiner() {
     sChainEditorConteiner.empty();
     Object.values(editingContainerData).forEach(function (item) {
         title = item.gr + " > " + item.criteria;
         $('<option />').text(title).val(item.id).appendTo(sChainEditorConteiner);
     })
 }
+
+btnEditChain.on('click', function () {
+    currChainID = sChainsConteiner.val()[0];
+    console.log("chainED", chainData[currChainID]);
+    editingContainerData = {};
+    idsArr = chainData[currChainID].crIDs.split(',');
+    idsArr.forEach(function (crID) {
+        editingContainerData[crID] = allCriteriaData[crID];
+    });
+    currChainType = chainData[currChainID].chainTypeID;
+    $('#chainType_id').val(currChainType);
+
+    freeContainerData = Object.assign({}, lastFreeContainerData);
+
+    fillFreeCriteriaConteiner();
+    fillEditingChainConteiner();
+});
 
 btnCriteriaPutToChain.on('click', function () {
     console.log(sFreeCriteriasConteiner.val());
@@ -227,6 +295,44 @@ btnCriteriaOutFromChain.on('click', function () {
     fillEditingChainConteiner();
     console.log(editingContainerData);
     console.log(freeContainerData);
+});
+
+btnSaveChain.on('click', function () {
+    var itemsID = Object.keys(editingContainerData);
+    var changeType = false;
+    if (currChainType != $('#chainType_id').val()) {
+        currChainType = $('#chainType_id').val();
+        changeType = true;
+
+    }
+    currChainType = $('#chainType_id').val();
+    $.ajax({
+        url: 'php_code/chains_io.php',
+        method: 'post',
+        data: {
+            'chainID': currChainID,
+            'chainType': currChainType,
+            'criterias': itemsID,
+            'changeType': changeType
+        },
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            currChainID = 0;
+            currChainType = 0;
+            getChainsOnTech(criteriasOnTechID, true);
+            editingContainerData = {};
+            fillEditingChainConteiner();
+
+            // if (response.result == "success") {
+            //     thisRow.attr("data-recID", response.record_id);
+            // } else {
+            //     waitingForResponse = false;
+            //     console.log(response.error);
+            // }
+            // $('i.fa-sync-alt').trigger('click');
+        }
+    });
 });
 
 var criteriaValueEditTable = $('#tb_technic_criteria');

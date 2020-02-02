@@ -152,13 +152,22 @@ function getDictionariyItems($dbConn, $dCode)
                 <tr class="head-row">
                     <td>თავისუფალი კრიტერიუმები</td>
                     <td></td>
-                    <td>კრიტერიუმების ბმა</td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td class="pan-header-left">კრიტერიუმების ბმა</td>
+                                <td class="pan-header-right">
+                                    <?= DrawView::selectorClean($id_simple, "", "chainType", getDictionariyItems($conn, "m2_chain_type")) ?>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
                     <td></td>
                     <td>არსებული ბმები</td>
                 </tr>
-                <tr >
+                <tr>
                     <td class="wide-column">
-                        <select name="freeCriterias" id="selectFreeCriterias" multiple="multiple">
+                        <select name="freeCriterias" id="selectFreeCriterias" multiple="multiple" class="chain-container">
                         </select>
                     </td>
                     <td class="narrow-column">
@@ -166,7 +175,7 @@ function getDictionariyItems($dbConn, $dCode)
                         <button id="btnCriteriaOut" class="btn btn-default"> << </button>
                     </td>
                     <td class="wide-column">
-                        <select name="criteriaEditing" id="selectCriteriaEditing" multiple="multiple">
+                        <select name="criteriaEditing" id="selectCriteriaEditing" multiple="multiple" class="chain-container">
                         </select>
                     </td>
                     <td class="narrow-column">
@@ -174,7 +183,7 @@ function getDictionariyItems($dbConn, $dCode)
                         <button id="btnCriteriaChainEdit" class="btn btn-default"> Edit << </button>
                     </td>
                     <td class="wide-column">
-                        <select name="criteriachains" id="selectCriteriachains" multiple="multiple">
+                        <select name="criteriachains" id="selectCriteriachains" multiple="multiple" class="chain-container">
                         </select>
                     </td>
                 </tr>

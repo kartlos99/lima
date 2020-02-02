@@ -46,6 +46,13 @@ class DrawView
         return $all_comp;
     }
 
+    static function selectorClean($id = "", $title = "", $name = "", $options = [])
+    {
+        $id = $name . "_" . $id;
+        $all_comp = '<select id="' . $id . '" name="' . $name . '"> '. self::formingOption($options) .' </select>';
+        return $all_comp;
+    }
+
     static function simpleInput($id = "", $name, $title, $dataField = "", $type = "text")
     {
         $id = $name . "_" . $id;
