@@ -15,7 +15,7 @@ $resultArray['post'] = $_POST;
 
 $chainID = $_POST['chainID'];
 $chainType = $_POST['chainType'];
-$criterias = $_POST['criterias'];
+$criterias = isset($_POST['criterias']) ? $_POST['criterias'] : [];
 $changeType = $_POST['changeType'];
 
 if ($chainID == 0) {
@@ -24,9 +24,7 @@ if ($chainID == 0) {
     if ($result) {
         $chainID = mysqli_insert_id($conn);
     }
-}
-
-if ($chainID > 0 && $changeType){
+} elseif ($chainID > 0 && $changeType == true) {
     $updateChainSql = "UPDATE `chain_map` SET `chainTypeID` = $chainType WHERE ID = $chainID";
     $result = mysqli_query($conn, $updateChainSql);
     $resultArray['sqlchainUPD'] = $updateChainSql;

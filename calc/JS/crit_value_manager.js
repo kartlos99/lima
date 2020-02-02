@@ -299,6 +299,10 @@ btnCriteriaOutFromChain.on('click', function () {
 
 btnSaveChain.on('click', function () {
     var itemsID = Object.keys(editingContainerData);
+    if (itemsID.length < 2){
+        alert("ბმაში აუცილებელია მინიმუმ 2 კრიტერიუმი!");
+        return;
+    }
     var changeType = false;
     if (currChainType != $('#chainType_id').val()) {
         currChainType = $('#chainType_id').val();
