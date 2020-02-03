@@ -15,6 +15,7 @@ var waitingForGenInfo = false;
 var lastGenInfoRequestBoby = {};
 var cEstimate = {};
 var fEstimate = {};
+var chainTypeMap = {};
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -186,13 +187,18 @@ function getEstimateInfo() {
 
             criteriasConteiner.empty();
             allCriteriaIDs = [];
+            chainTypeMap = {};
 
             response.forEach(function (item) {
                 // console.log(item);
                 var cloneRow = trToClone.clone();
                 cloneRow.attr("data-id", item.id);
+                cloneRow.attr("data-chain", item.chainID);
                 allCriteriaIDs.push(item.id);
                 console.log('allCriteriaIDs', allCriteriaIDs);
+                if (item.chainID != 0){
+                    chainTypeMap[item.chainID] = item.chainType;
+                }
 
                 if (grName != item.gr) {
                     var td_grName = $('<td />').text(item.gr);
@@ -213,14 +219,28 @@ function getEstimateInfo() {
                 criteriasConteiner.append(cloneRow);
 
             });
-
+            console.log('chainTypeMap', chainTypeMap);
         }
     });
+}
+
+function positiveNegativeImpl(positiveCritID, chainID){
+    criteriasConteiner.find('tr[data-chain='+chainID+']').each(function (crRow) {
+        if ($(this).attr("data-id") != positiveCritID){
+            $(this).find('input.answ2').trigger('click');
+        }
+    })
 }
 
 criteriasConteiner.on('click', 'input.answ1', function () {
     var thisRow = $(this).closest("tr");
     thisRow.attr("data-answ", "yes");
+
+    thisCritChain = thisRow.attr("data-chain");
+    thisCritID = thisRow.attr("data-id");
+    if (thisCritChain != 0 && chainTypeMap[thisCritChain] == "chainTypeOnePositive" ){
+        positiveNegativeImpl(thisCritID, thisCritChain)
+    }
 });
 
 criteriasConteiner.on('click', 'input.answ2', function () {
@@ -229,19 +249,18 @@ criteriasConteiner.on('click', 'input.answ2', function () {
 });
 
 function answer1() {
-
-    console.log('a1', this);
-    var thisRow = $(this).closest("tr");
-    thisRow.attr("data-answ", "yes");
-    // console.log('el',el);
-    console.log('thisrow', thisRow);
-    thisRow.empty();
+    // console.log('a1', this);
+    // var thisRow = $(this).closest("tr");
+    // thisRow.attr("data-answ", "yes");
+    // // console.log('el',el);
+    // console.log('thisrow', thisRow);
+    // thisRow.empty();
 }
 
 function answer2(el) {
-    console.log('a2', this);
-    var thisRow = $(this).closest("tr");
-    thisRow.attr("data-answ", "no");
+    // console.log('a2', this);
+    // var thisRow = $(this).closest("tr");
+    // thisRow.attr("data-answ", "no");
 }
 
 var priceCorectionTable = $('#tbPriceCorection');

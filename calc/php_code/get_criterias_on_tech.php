@@ -30,7 +30,9 @@ if (isset($_GET['techID']) && $_GET['techID'] != '') {
 SELECT
     emap.id, egr.Name AS 'gr', ecr.Name AS 'criteria', s.Code, s.Value AS 'st', emap.`Note`, emap.`CreateDate`, emap.`CreateUser`, emap.CriteriumID,
     ecv.ID AS 'crWeightID', ecv.Impact, di1.Code AS 'impactCode', ecv.ImpactType, di2.Code AS 'impactTypeCode', ecv.ImpactValue, ecv.IsMain, 
-    ecv.RevDay, ecv.RevDate, ecv.CritValuesStatusID, ecv.CritValuesStatusID, s2.Code AS 's2code'
+    ecv.RevDay, ecv.RevDate, ecv.CritValuesStatusID, ecv.CritValuesStatusID, s2.Code AS 's2code',
+    ifnull(emap.chainID, 0) AS chainID,
+    ifnull(di_ch.Code, '') AS chainType
 FROM
     `estimate_criteriums_mapping` emap
 LEFT JOIN estimate_criteriums egr
@@ -47,6 +49,8 @@ LEFT JOIN DictionariyItems di1
 ON ecv.Impact = di1.ID
 LEFT JOIN DictionariyItems di2
 ON ecv.ImpactType = di2.ID
+LEFT JOIN chain_map chmap ON chmap.ID = emap.chainID
+LEFT JOIN DictionariyItems di_ch ON di_ch.ID = chmap.chainTypeID
 WHERE
     emap.`TechTreeID` = $techID AND emap.`ParentID` <> 0 " . $filterActive . $filterActiveValue . " 
     AND `CriteriumID` NOT IN (

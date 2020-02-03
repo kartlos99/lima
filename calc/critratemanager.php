@@ -152,16 +152,7 @@ function getDictionariyItems($dbConn, $dCode)
                 <tr class="head-row">
                     <td>თავისუფალი კრიტერიუმები</td>
                     <td></td>
-                    <td>
-                        <table>
-                            <tr>
-                                <td class="pan-header-left">კრიტერიუმების ბმა</td>
-                                <td class="pan-header-right">
-                                    <?= DrawView::selectorClean($id_simple, "", "chainType", getDictionariyItems($conn, "m2_chain_type")) ?>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
+                    <td><span>კრიტერიუმების ბმა </span> <?= DrawView::selectorClean($id_simple, "", "chainType", getDictionariyItems($conn, "m2_chain_type")) ?></td>
                     <td></td>
                     <td>არსებული ბმები</td>
                 </tr>
@@ -171,16 +162,18 @@ function getDictionariyItems($dbConn, $dCode)
                         </select>
                     </td>
                     <td class="narrow-column">
-                        <button id="btnCriteriaPut" class="btn btn-default"> >> </button><br><br>
-                        <button id="btnCriteriaOut" class="btn btn-default"> << </button>
+                        <button id="btnCriteriaPut" class="btn btn-default"> >></button>
+                        <br><br>
+                        <button id="btnCriteriaOut" class="btn btn-default"> <<</button>
                     </td>
                     <td class="wide-column">
                         <select name="criteriaEditing" id="selectCriteriaEditing" multiple="multiple" class="chain-container">
                         </select>
                     </td>
                     <td class="narrow-column">
-                        <button id="btnCriteriaChainSave" class="btn btn-default"> Save >> </button><br><br>
-                        <button id="btnCriteriaChainEdit" class="btn btn-default"> Edit << </button>
+                        <button id="btnCriteriaChainSave" class="btn btn-default"> Save >></button>
+                        <br><br>
+                        <button id="btnCriteriaChainEdit" class="btn btn-default"> Edit <<</button>
                     </td>
                     <td class="wide-column">
                         <select name="criteriachains" id="selectCriteriachains" multiple="multiple" class="chain-container">

@@ -85,15 +85,13 @@ class DrawView
 
     static function radioGroupRow($title = "", $name_attr)
     {
-        $id1 = $name_attr . "_1";
-        $id2 = $name_attr . "_2";
         $view = "
                         <tr data-id='0' data-answ='0'>
                             <td style='width: 110px'>
-                        <label><input class='answ1' type='radio' name=\"$name_attr\" value=\"1\" required onclick='answer1()'> ვეთანხმები  </label>
+                        <label><input class='answ1' type='radio' name=\"$name_attr\" value=\"1\" required > ვეთანხმები  </label>
                             </td>
                             <td style='width: 120px'>
-                        <label><input class='answ2' type='radio' name=\"$name_attr\" value=\"0\" required onclick='answer2(this)'> არ ვეთანხმები</label>
+                        <label><input class='answ2' type='radio' name=\"$name_attr\" value=\"0\" required > არ ვეთანხმები</label>
                             </td>
                             <td  style='width: auto'>
                         <span>$title</span>
