@@ -16,6 +16,7 @@ var lastGenInfoRequestBoby = {};
 var cEstimate = {};
 var fEstimate = {};
 var chainTypeMap = {};
+let maxImpactIDs = [];
 
 function compare(a, b) {
     if (a.ImpactType < b.ImpactType) {
@@ -45,7 +46,7 @@ $('#btnRate').on('click', function () {
         var selecterRows = criteriasConteiner.find('tr[data-answ=yes]');
         // console.log("posAnsw:", selecterRows);
         selectedCriteriaIDs = [];
-
+        maxImpactIDs = [];
         groupsHavingMainCrit = [];
         var minOut = 0;
         var dontLeave = false;
@@ -66,6 +67,39 @@ $('#btnRate').on('click', function () {
         });
 
         console.log('wMain:', groupsHavingMainCrit);
+        ma = [];
+        var maxImpacts = {};
+        criteriasData.forEach(function (item) {
+            if (selectedCriteriaIDs.includes(item.id) && item.chainType == "maxImpact") {
+                if (maxImpacts[item.chainID] == undefined) {
+                    maxImpacts[item.chainID] = {
+                        val: 0,
+                        critID: item.id
+                    }
+                }
+                var imp = calculateImpact(item, priceCalculated);
+                if (imp > maxImpacts[item.chainID].val) {
+                    maxImpacts[item.chainID].val = imp;
+                    maxImpacts[item.chainID].critID = item.id;
+                }
+            }
+        });
+
+        Object.values(maxImpacts).forEach(function (itm) {
+            ma.push(itm.critID)
+        });
+
+        criteriasData.forEach(function (item) {
+
+            if (item.chainType == "maxImpact") {
+                if (ma.includes(item.id.toString()) != true) {
+                    pos = selectedCriteriaIDs.indexOf(item.id);
+                    if (pos >= 0){
+                        selectedCriteriaIDs.splice(pos, 1);
+                    }
+                }
+            }
+        });
 
         criteriasData.forEach(function (item) {
             if (selectedCriteriaIDs.includes(item.id)) {
@@ -196,7 +230,7 @@ function getEstimateInfo() {
                 cloneRow.attr("data-chain", item.chainID);
                 allCriteriaIDs.push(item.id);
                 console.log('allCriteriaIDs', allCriteriaIDs);
-                if (item.chainID != 0){
+                if (item.chainID != 0) {
                     chainTypeMap[item.chainID] = item.chainType;
                 }
 
@@ -224,9 +258,9 @@ function getEstimateInfo() {
     });
 }
 
-function positiveNegativeImpl(positiveCritID, chainID){
-    criteriasConteiner.find('tr[data-chain='+chainID+']').each(function (crRow) {
-        if ($(this).attr("data-id") != positiveCritID){
+function positiveNegativeImpl(positiveCritID, chainID) {
+    criteriasConteiner.find('tr[data-chain=' + chainID + ']').each(function (crRow) {
+        if ($(this).attr("data-id") != positiveCritID) {
             $(this).find('input.answ2').trigger('click');
         }
     })
@@ -238,7 +272,7 @@ criteriasConteiner.on('click', 'input.answ1', function () {
 
     thisCritChain = thisRow.attr("data-chain");
     thisCritID = thisRow.attr("data-id");
-    if (thisCritChain != 0 && chainTypeMap[thisCritChain] == "chainTypeOnePositive" ){
+    if (thisCritChain != 0 && chainTypeMap[thisCritChain] == "chainTypeOnePositive") {
         positiveNegativeImpl(thisCritID, thisCritChain)
     }
 });
@@ -281,7 +315,7 @@ $('#corection_id').on('blur', function () {
     $('#rateResultNumberCorected').text(parseFloat($('#corection_id').val()).toFixed(2));
 });
 
-function collectTopPartFromData(){
+function collectTopPartFromData() {
     return {
         'TechTreeID': selectedModel,
         'TechModelFix': $('#modelbyhand_id').val(),
@@ -326,12 +360,12 @@ function saveAndGenerateInfo() {
         var genInfoRequestBobyWithRecID = Object.assign({}, genInfoRequestBoby);
         genInfoRequestBobyWithRecID.record_id = appRecID;
 
-        console.log("reqData1 " + JSON.stringify(genInfoRequestBoby) );
+        console.log("reqData1 " + JSON.stringify(genInfoRequestBoby));
         console.log("reqData2 " + JSON.stringify(lastGenInfoRequestBoby));
-        console.log("reqData3 " + JSON.stringify(genInfoRequestBobyWithRecID) );
+        console.log("reqData3 " + JSON.stringify(genInfoRequestBobyWithRecID));
         // console.log("reqData4Ser " + .serialize() );
 
-        if (JSON.stringify(genInfoRequestBoby) != JSON.stringify(lastGenInfoRequestBoby)){
+        if (JSON.stringify(genInfoRequestBoby) != JSON.stringify(lastGenInfoRequestBoby)) {
             // infos Senaxa
             $.ajax({
                 url: 'php_code/ins_application.php',
@@ -381,7 +415,7 @@ function saveAndGenerateInfo() {
                     waitingForGenInfo = false
                 }
             });
-        }else {
+        } else {
             alert("მიმდინარე მონაცემები უკვე შენახულია!")
         }
 
@@ -426,14 +460,14 @@ function saveAllData() {
     cEstimateEdit.cEstStatus = $('#control_rate_result_id_control').val();
     cEstimateEdit.cEstPrice = $('#adjusted_amount_id_control').val();
     cEstimateEdit.cEstNote = $('#note_id_control').val();
-    if (JSON.stringify(cEstimate) != JSON.stringify(cEstimateEdit) ){
+    if (JSON.stringify(cEstimate) != JSON.stringify(cEstimateEdit)) {
         dataForSend.c_estimate = '1';
     }
     var fEstimateEdit = {};
     fEstimateEdit.fEstStatus = $('#detail_rate_result_id_market').val();
     fEstimateEdit.fEstPrice = $('#adjusted_amount_id_market').val();
     fEstimateEdit.fEstNote = $('#note_id_market').val();
-    if (JSON.stringify(fEstimate) != JSON.stringify(fEstimateEdit) ){
+    if (JSON.stringify(fEstimate) != JSON.stringify(fEstimateEdit)) {
         dataForSend.f_estimate = '1';
     }
 
@@ -540,6 +574,7 @@ function cEstimateData() {
     cEstimate.cEstPrice = $('#adjusted_amount_id_control').val();
     cEstimate.cEstNote = $('#note_id_control').val();
 }
+
 function fEstimateData() {
     fEstimate.fEstStatus = $('#detail_rate_result_id_market').val();
     fEstimate.fEstPrice = $('#adjusted_amount_id_market').val();
@@ -694,10 +729,10 @@ function mycopy() {
 }
 
 $('#btnHist').on('click', function () {
-    if (appRecID > 0){
+    if (appRecID > 0) {
         var win = window.open('estimateHistory.php?ID=' + appRecID, '_blank');
         win.focus();
-    }else {
+    } else {
         alert(message.notsaved);
     }
 });

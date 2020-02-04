@@ -232,7 +232,7 @@ function resetChainManagement() {
 function fillChainContainer() {
     sChainsConteiner.empty();
     Object.values(chainData).forEach(function (chain) {
-        $('<option />').text(chain.crNames).val(chain.chainID).appendTo(sChainsConteiner);
+        $('<option />').text(chain.crNames.replace(/,/g, ", ")).val(chain.chainID).appendTo(sChainsConteiner);
     })
 }
 
