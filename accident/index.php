@@ -85,8 +85,9 @@ $note = "შენიშვნა";
             <tbody>
             <tr>
                 <td>
-                    <button id="btnSearchApp" class="btn"><b>ძებნა</b></button>
-                    <button id="btnClearApp" class="btn"><b>გასუფთავება</b></button>
+                    <button id="btnSearchApp" class="btn btn-default"><b>ძებნა</b></button>
+                    <button id="btnClearApp" class="btn btn-default"><b>გასუფთავება</b></button>
+                    <button id="btnListExp" class="btn btn-default">ექსპორტირება <i class="fas fa-arrow-alt-circle-down"></i></button>
                 </td>
                 <td>
                     <label for="not_in_statistic_id">

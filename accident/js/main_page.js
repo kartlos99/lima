@@ -43,8 +43,9 @@ function prepareSerch() {
     getAccidentsList(lastQuery);
 }
 
-$('#btnCaseExp').on('click', function () {
-    window.location.href = "php_code/rep_case_exp.php?" + lastQuery;
+$('#btnListExp').on('click', function (event) {
+    event.preventDefault();
+    window.location.href = "php_code/rep_list_exp.php?" + lastQuery;
 });
 
 $('#btnClearApp').on('click', function (event) {
