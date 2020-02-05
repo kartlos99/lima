@@ -173,7 +173,7 @@ $sql = " FROM
         md_us.ID = im.`UpdateUser`                
     LEFT JOIN (SELECT gp.`IM_RequestID`, GROUP_CONCAT(' ',concat(im_p.LastName, ' ', im_p.FirstName)) AS gpNames FROM `im_guilty_persons` gp
 LEFT JOIN im_persons im_p ON gp.`IM_PersonsID` = im_p.ID
-LEFT JOIN dictionariyitems di ON gp.`StatusID` = di.ID
+LEFT JOIN DictionariyItems di ON gp.`StatusID` = di.ID
 WHERE di.Code = 'active'
 GROUP BY gp.`IM_RequestID`) gps ON
 	gps.IM_RequestID = im.ID
