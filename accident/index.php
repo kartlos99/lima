@@ -20,7 +20,7 @@ $note = "შენიშვნა";
             <tbody>
             <tr>
                 <td>
-                    <?= DrawView::simpleInput($id_simple, "accident_N", "ინციდენტის N", "", "text") ?>
+                    <?= DrawView::simpleInput($id_simple, "accident_N", "ინციდენტის N", "", "number") ?>
                 </td>
                 <td>
                     <?= DrawView::selector($id_simple, "ტიპი", "TypeID", getDictionariyItems($conn, 'im_type')) ?>

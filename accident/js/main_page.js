@@ -5,6 +5,7 @@ var lastQuery, lastQuery2;
 var caseTable;
 var filterForm;
 var pageNav = $('#my-pagination');
+var searchFormState = "searchFormState";
 
 $(function () {
     caseTable = $('#tb_case_list').find('tbody');
@@ -20,6 +21,13 @@ $(function () {
     $('#DiscovererID_id').addClass("chosen").chosen();
     $('#guiltyUserID_id').addClass("chosen").chosen();
 });
+
+function pageIsReady(){
+    lastQuery = getCookie(searchFormState);
+    if (lastQuery != ''){
+        fillsSearchForm(lastQuery)
+    }
+}
 
 $('#CategoryID_id').on('change', function () {
     loadSubCategory($('#CategoryID_id').val(), 0, 'SubCategoryID_id');
@@ -39,6 +47,7 @@ $('#btnSearchApp').on('click', function (event) {
 
 function prepareSerch() {
     lastQuery = filterForm.serialize();
+    document.cookie = searchFormState + "=" + lastQuery;
     console.log('from:', lastQuery);
     getAccidentsList(lastQuery);
 }
@@ -56,6 +65,7 @@ $('#btnClearApp').on('click', function (event) {
 
     $('#DiscovererID_id').trigger('chosen:updated');
     $('#guiltyUserID_id').trigger('chosen:updated');
+    document.cookie = searchFormState + "=" ;
 });
 
 function getAccidentsList(querys) {
@@ -114,4 +124,35 @@ function onRowClick(app_id) {
     var url = window.location.pathname;
     url = url.replace('index.php', 'new_accident.php');
     window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
+}
+
+function fillsSearchForm(state){
+    var queryData = serialDataToObj(state);
+
+    $('#accident_N_id').val(queryData.accident_N);
+    $('#TypeID_id').val(queryData.TypeID);
+    $('#PriorityID_id').val(queryData.PriorityID);
+    $('#StatusID_id').val(queryData.StatusID);
+    $('#OwnerID_id').val(queryData.OwnerID);
+    $('#create_date_from_id').val(queryData.create_date_from);
+    $('#create_date_to_id').val(queryData.create_date_to);
+    $('#organization_id').val(queryData.organization);
+    loadBranches(queryData.organization, queryData.filial, 'filial_id');
+    $('#AgrNumber_id').val(queryData.AgrNumber);
+    $('#guiltyUserID_id').val(queryData.guiltyUserID).trigger('chosen:updated');
+    $('#fix_date_from_id').val(queryData.fix_date_from);
+    $('#fix_date_to_id').val(queryData.fix_date_to);
+    $('#CategoryID_id').val(queryData.CategoryID);
+    loadSubCategory(queryData.CategoryID, queryData.SubCategoryID, 'SubCategoryID_id');
+    $('#DiscovererID_id').val(queryData.DiscovererID).trigger('chosen:updated');
+    $('#discover_date_from_id').val(queryData.discover_date_from);
+    $('#discover_date_to_id').val(queryData.discover_date_to);
+    $('#not_in_statistic_id').prop("checked", queryData.NotInStatistics != undefined);
+    $('#dublicas_id').prop("checked", queryData.duplicates != undefined);
+    $('#SolverID_id').val(queryData.SolverID);
+    $('#SolveDate_from_id').val(queryData.SolveDate_from);
+    $('#SolveDate_to_id').val(queryData.SolveDate_to);
+    $('#casePageN').val(queryData.pageN);
+
+    getAccidentsList(state);
 }

@@ -143,6 +143,17 @@ function getCookie(cname) {
     return "";
 }
 
+function serialDataToObj(data){
+    var obj={};
+    var spData = data.split("&");
+    for(var key in spData)
+    {
+        //console.log(spData[key]);
+        obj[spData[key].split("=")[0]] = spData[key].split("=")[1];
+    }
+    return obj;
+}
+
 function blockSolverSelector(uID = 0){
     if (uID > 0){
         solverSelector.val(uID);
@@ -207,6 +218,7 @@ function getOrganizations(sel_ID) {
             }
 
             waitForDropdowns++;
+            if (waitForDropdowns == 2) pageIsReady();
         }
     });
 }
@@ -255,6 +267,7 @@ function getCategory(sel_ID) {
             if (waitingItem != undefined){
                 fillAccidentForm(waitingItem);
             }
+            if (waitForDropdowns == 2) pageIsReady();
         }
     });
 }
@@ -282,3 +295,5 @@ function loadSubCategory(catID, subID, sel_ID) {
         });
     }
 }
+
+function pageIsReady(){}
