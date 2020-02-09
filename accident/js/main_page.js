@@ -15,16 +15,16 @@ $(function () {
     getCategory('CategoryID_id');
     loadSubCategory(0, 0, 'SubCategoryID_id');
     $('select').val(0);
-    if($('#currusertype').data('ut') == 'performer')
+    if ($('#currusertype').data('ut') == 'performer')
         blockSolverSelector($('#currusertype').data('userid'));
 
     $('#DiscovererID_id').addClass("chosen").chosen();
     $('#guiltyUserID_id').addClass("chosen").chosen();
 });
 
-function pageIsReady(){
+function pageIsReady() {
     lastQuery = getCookie(searchFormState);
-    if (lastQuery != ''){
+    if (lastQuery != '') {
         fillsSearchForm(lastQuery)
     }
 }
@@ -65,7 +65,7 @@ $('#btnClearApp').on('click', function (event) {
 
     $('#DiscovererID_id').trigger('chosen:updated');
     $('#guiltyUserID_id').trigger('chosen:updated');
-    document.cookie = searchFormState + "=" ;
+    document.cookie = searchFormState + "=";
 });
 
 function getAccidentsList(querys) {
@@ -93,8 +93,13 @@ function getAccidentsList(querys) {
                 var td_owner = $('<td />').text(item.username);
                 var td_datefix = $('<td />').text(item.FactDate);
 
-                var trow = $('<tr></tr>').append(td_id, td_cat, td_scat, td_org, td_AgrNumber, td_st, td_owner, td_datefix);
+                var iconNewPage = $('<i />').addClass("fas fa-external-link-alt btn ").css("display", "none");
+                iconNewPage.attr('onclick', "openInNewPage(" + item.ID + ")");
+                var inp = $('<td />').append(iconNewPage).css("width", "44px");
+
+                var trow = $('<tr></tr>').append(td_id, td_cat, td_scat, td_org, td_AgrNumber, td_st, td_owner, td_datefix, inp);
                 trow.attr('ondblclick', "onRowClick(" + item.ID + ")");
+                trow.addClass('trow');
                 if (item.rem == 0) {
                     trow.addClass("reminder-tr");
                 }
@@ -118,15 +123,28 @@ function getAccidentsList(querys) {
 }
 
 function onRowClick(app_id) {
-
     document.cookie = "appID=" + app_id;
-
     var url = window.location.pathname;
     url = url.replace('index.php', 'new_accident.php');
     window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
 }
 
-function fillsSearchForm(state){
+function openInNewPage(app_id) {
+    document.cookie = "appID=" + app_id;
+    var url = window.location.pathname;
+    url = url.replace('index.php', 'new_accident.php');
+    var win = window.open(url, '_blank');
+    win.focus();
+}
+
+$(document).on("mouseenter", "tr.trow", function () {
+    $(this).find("i.fas").fadeIn(100);
+});
+$(document).on("mouseleave", "tr.trow", function () {
+    $(this).find("i.fas").fadeOut(100);
+});
+
+function fillsSearchForm(state) {
     var queryData = serialDataToObj(state);
 
     $('#accident_N_id').val(queryData.accident_N);

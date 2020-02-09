@@ -46,6 +46,10 @@ td.toright {
     text-align: right;
 }
 
+.fa-external-link-alt {
+    color: #a2a280;
+}
+
 .fa-arrow-alt-circle-left {
     color: #3c763d;
 }
