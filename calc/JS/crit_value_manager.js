@@ -299,7 +299,7 @@ btnCriteriaOutFromChain.on('click', function () {
 
 btnSaveChain.on('click', function () {
     var itemsID = Object.keys(editingContainerData);
-    if (itemsID.length < 2){
+    if (itemsID.length == 1){
         alert("ბმაში აუცილებელია მინიმუმ 2 კრიტერიუმი!");
         return;
     }
