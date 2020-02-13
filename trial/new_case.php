@@ -182,7 +182,7 @@ $namePref = "i3_";
     <table class="table-section">
         <tbody>
         <tr>
-            <td>
+            <td class="hidden">
                 <?= DrawView::selector($id_simple, "სტატუსი", "enf_status", getDictionariyItems($conn, 'exec_status'), $caseForm) ?>
             </td>
             <td>
@@ -209,7 +209,7 @@ $namePref = "i3_";
     <table class="table-section">
         <tbody>
         <tr>
-            <td>
+            <td class="hidden">
                 <?= DrawView::selector($id_simple, "სტატუსი", "baj_status", getDictionariyItems($conn, 'duty_status'), $caseForm) ?>
             </td>
             <td>
@@ -233,7 +233,7 @@ $namePref = "i3_";
     <table class="table-section">
         <tbody>
         <tr>
-            <td>
+            <td class="hidden">
                 <?= DrawView::selector($id_simple, "სტატუსი", "settle_status", getDictionariyItems($conn, 'sett_status'), $caseForm) ?>
             </td>
             <td>
