@@ -144,7 +144,7 @@ $namePref = "i1_";
 $id_simple = "i2_id";
 $namePref = "i2_";
 ?>
-    <div id="Instance1" class="panel panel-primary">
+    <div id="Instance2" class="panel panel-primary">
         <div class="panel-heading">
             <table id="table_instance1_header" class="table-section">
                 <tr>
@@ -162,7 +162,7 @@ $namePref = "i2_";
 $id_simple = "i3_id";
 $namePref = "i3_";
 ?>
-    <div id="Instance1" class="panel panel-primary">
+    <div id="Instance3" class="panel panel-primary">
         <div class="panel-heading">
             <table id="table_instance1_header" class="table-section">
                 <tr>
@@ -242,23 +242,26 @@ $namePref = "i3_";
             <td>
                 <?= DrawView::simpleInput($id_simple, "settle_time", "მორიგების თარიღი", "", "date", $caseForm) ?>
             </td>
+<!--            <td>-->
+<!--                --><?//= DrawView::selector($id_simple, "შედეგი", "settle_result", getDictionariyItems($conn, 'sett_result'), $caseForm) ?>
+<!--            </td>-->
+<!--            <td>-->
+<!--                --><?//= DrawView::selector($id_simple, "ვალუტა", "settle_currency", getDictionariyItems($conn, 'currency'), $caseForm) ?>
+<!--            </td>-->
+<!--            <td>-->
+<!--                --><?//= DrawView::simpleInput($id_simple, "settle_footer", "ძირი", "", "number", $caseForm) ?>
+<!--            </td>-->
+<!--            <td>-->
+<!--                --><?//= DrawView::simpleInput($id_simple, "settle_percent", "%", "", "number", $caseForm) ?>
+<!--            </td>-->
+<!--            <td>-->
+<!--                --><?//= DrawView::simpleInput($id_simple, "settle_puncture", "პირგასამტეხლო", "", "number", $caseForm) ?>
+<!--            </td>-->
+<!--            <td>-->
+<!--                --><?//= DrawView::simpleInput($id_simple, "settle_costs", "ხარჯები", "", "number", $caseForm) ?>
+<!--            </td>-->
             <td>
-                <?= DrawView::selector($id_simple, "შედეგი", "settle_result", getDictionariyItems($conn, 'sett_result'), $caseForm) ?>
-            </td>
-            <td>
-                <?= DrawView::selector($id_simple, "ვალუტა", "settle_currency", getDictionariyItems($conn, 'currency'), $caseForm) ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "settle_footer", "ძირი", "", "number", $caseForm) ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "settle_percent", "%", "", "number", $caseForm) ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "settle_puncture", "პირგასამტეხლო", "", "number", $caseForm) ?>
-            </td>
-            <td>
-                <?= DrawView::simpleInput($id_simple, "settle_costs", "ხარჯები", "", "number", $caseForm) ?>
+                <?= DrawView::simpleInput($id_simple, "total_amount", "თანხა ჯამურად", "", "number", $caseForm) ?>
             </td>
         </tr>
         </tbody>

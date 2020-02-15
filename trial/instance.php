@@ -14,25 +14,29 @@
 </table>
 
 <?= DrawView::subTitle("სასარჩელო მოთხოვნა") ?>
-<table class="table-section">
+<table class="table-section calculate-row">
     <tr>
         <td>
             <?= DrawView::selector($id_simple, "ვალუტა", $namePref . "currency", getDictionariyItems($conn, 'currency')) ?>
         </td>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "footer", "ძირი", "", "number") ?>
+            <?= DrawView::simpleInput($id_simple, $namePref . "footer", "ძირი", "ziri", "number") ?>
         </td>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "percent", "%", "", "number") ?>
+            <?= DrawView::simpleInput($id_simple, $namePref . "percent", "%", "proc", "number") ?>
         </td>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "puncture", "პირგასამტეხლო", "", "number") ?>
+            <?= DrawView::simpleInput($id_simple, $namePref . "puncture", "პირგასამტეხლო", "pir", "number") ?>
         </td>
         <td>
-            <?= DrawView::simpleInput($id_simple, $namePref . "costs", "ხარჯები", "", "number") ?>
+            <?= DrawView::simpleInput($id_simple, $namePref . "costs", "ხარჯები", "xarj", "number") ?>
         </td>
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "baj", "ბაჟი", "", "number") ?>
+        </td>
+        <td >
+            <label for="">თანხა ჯამურად</label>
+            <p class="request-sum"><b>0</b></p>
         </td>
     </tr>
 </table>
@@ -212,7 +216,7 @@
         <td>
             <?= DrawView::simpleInput($id_simple, $namePref . "decision_take_effect_date", "გადაწყ. ძალაში შესვლის თარიღი", "", "date") ?>
         </td>
-        <td>
+        <td style="padding-bottom: 10px; padding-left: 10px">
             გადაწყვეტილება:
         </td>
         <td>

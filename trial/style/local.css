@@ -307,3 +307,13 @@ td div textarea {
 #my-pagination li{
     display: inline-block;
 }
+
+.request-sum {
+    padding: 6px;
+    text-align: center;
+    font-family: "BPG Arial", sans-serif;
+    border-radius: 3px;
+    border: #1b6d85 solid 1px;
+    margin: 0;
+    font-weight: bold;
+}

@@ -42,15 +42,16 @@ function fillCaseForm(caseData) {
     $('#baj_result_baj_id').val(caseData.DutyResultID);
     $('#baj_amount_baj_id').val(caseData.DutyMoney);
 
-    $('#settle_status_settle_id').val(caseData.SettStatusID);
+    // $('#settle_status_settle_id').val(caseData.SettStatusID);
     $('#settle_start_time_settle_id').val(caseData.SettStartDate);
     $('#settle_time_settle_id').val(caseData.SettDate);
-    $('#settle_result_settle_id').val(caseData.SettResultID);
-    $('#settle_currency_settle_id').val(caseData.SettCurID);
-    $('#settle_footer_settle_id').val(caseData.Settbase);
-    $('#settle_percent_settle_id').val(caseData.SettPercent);
-    $('#settle_puncture_settle_id').val(caseData.SettPenalty);
-    $('#settle_costs_settle_id').val(caseData.SettCost);
+    // $('#settle_result_settle_id').val(caseData.SettResultID);
+    // $('#settle_currency_settle_id').val(caseData.SettCurID);
+    // $('#settle_footer_settle_id').val(caseData.Settbase);
+    // $('#settle_percent_settle_id').val(caseData.SettPercent);
+    // $('#settle_puncture_settle_id').val(caseData.SettPenalty);
+    // $('#settle_costs_settle_id').val(caseData.SettCost);
+    $('#total_amount_settle_id').val(caseData.Settbase); // jamur tanxas vinaxavt 'dziris' velSi axali rom ar shegveqmna edmetad
 
     $('#case_note_id').val(caseData.caseNote);
 
@@ -70,6 +71,7 @@ function fillInstanceForm(instance) {
     $('#i' + i + '_costs_i' + i + '_id').val(instance.ClaimCost);
     $('#i' + i + '_baj_i' + i + '_id').val(instance.ClaimDuty);
     $('#i' + i + '_request_add_info_i' + i + '_id').val(instance.ClaimNotice);
+    $('#Instance' + i).find('p.request-sum').text(sum4([instance.Claimbase, instance.ClaimPercent, instance.ClaimPenalty, instance.ClaimCost]));
 
     $('#i' + i + '_put_suit_i' + i + '_idSelPutSuit').val(instance.ClaimdeliveryStatus);
     $('#i' + i + '_suit_put_date_i' + i + '_id').val(instance.ClaimdeliveryDate);
@@ -215,19 +217,19 @@ function f_hide() {
     document.cookie = "appID=0";
 }
 
-$('#btnUserCh').on('click', function(){
-    if (caseObj.id > 0){
+$('#btnUserCh').on('click', function () {
+    if (caseObj.id > 0) {
         $('#dialogUserChange').modal('show');
         $('#old_owner_D1').val($('#currOwner').text());
         $('#ownerID_old').val($('#ownerID').val());
         $('#d1_caseID').val(caseObj.id);
-    }else{
+    } else {
         alert("საქმე არაა შენახული!");
     }
 
 });
 
-$('#btnDoneD1').on('click', function(){
+$('#btnDoneD1').on('click', function () {
     var sendData = $('#userChForm').serialize();
     console.log(sendData);
 
@@ -248,18 +250,18 @@ $('#btnDoneD1').on('click', function(){
     });
 });
 
-$('#btnUserHist').on('click', function(){
-    if (caseObj.id > 0){
+$('#btnUserHist').on('click', function () {
+    if (caseObj.id > 0) {
         getHistList({'caseid': caseObj.id});
         $('#histModalTiTle').text($('#caseN').text());
         $('#dialogUserHist').modal('show');
-    }else{
+    } else {
         alert("საქმე არაა შენახული!");
     }
 
 });
 
-function getHistList(querys){
+function getHistList(querys) {
     $.ajax({
         url: 'php_code/get_owner_hist.php',
         method: 'post',
@@ -283,4 +285,33 @@ function getHistList(querys){
             });
         }
     });
+}
+
+$('table.calculate-row').find('input').on('blur', function () {
+    var tb = $(this).closest('table');
+    var values = [];
+    var sumingInputs = [
+        tb.find('input[data-field=ziri]'),
+        tb.find('input[data-field=proc]'),
+        tb.find('input[data-field=pir]'),
+        tb.find('input[data-field=xarj]')
+    ];
+
+    sumingInputs.forEach(function (anInput) {
+        if (anInput.val() == '') {
+            anInput.val(0)
+        }
+        values.push(anInput.val())
+    });
+
+    tb.find('p.request-sum').text(sum4(values));
+});
+
+function sum4(values) {
+    var sum = 0;
+    values.forEach(function (data) {
+        if (data != '')
+            sum += parseFloat(data);
+    });
+    return sum.toFixed(2).toString();
 }

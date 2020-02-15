@@ -48,15 +48,17 @@ $baj_request_time = $_POST['baj_request_time'];
 $baj_take_time = $_POST['baj_take_time'];
 $baj_result = $_POST['baj_result'];
 $baj_amount = $_POST['baj_amount'];
-$settle_status = $_POST['settle_status'];
+$settle_status = '0';//$_POST['settle_status'];
 $settle_start_time = $_POST['settle_start_time'];
 $settle_time = $_POST['settle_time'];
-$settle_result = $_POST['settle_result'];
-$settle_currency = $_POST['settle_currency'];
-$settle_footer = $_POST['settle_footer'];
-$settle_percent = $_POST['settle_percent'];
-$settle_puncture = $_POST['settle_puncture'];
-$settle_costs = $_POST['settle_costs'];
+$settle_result = '0';//$_POST['settle_result'];
+$settle_currency = '0';//$_POST['settle_currency'];
+$settle_footer = '';//$_POST['settle_footer'];
+$settle_percent = '';//$_POST['settle_percent'];
+$settle_puncture = '';//$_POST['settle_puncture'];
+$settle_costs = '';// $_POST['settle_costs'];
+$settle_totalAmount = $_POST['total_amount'];
+
 
 $case_note = $_POST['case_note'];
 
@@ -428,12 +430,12 @@ VALUES(
     '$baj_take_time',
     '$baj_result',
     '$baj_amount',
-    $settle_status,
+    '$settle_status',
     '$settle_start_time',
     '$settle_result',
     '$settle_time',
     $settle_currency,
-    '$settle_footer',
+    '$settle_totalAmount',
     '$settle_percent',
     '$settle_puncture',
     '$settle_costs',
@@ -511,7 +513,7 @@ SET
     `SettResultID` = '$settle_result',
     `SettDate` = '$settle_time',
     `SettCurID` = $settle_currency,
-    `Settbase` = '$settle_footer',
+    `Settbase` = '$settle_totalAmount',
     `SettPercent` = '$settle_percent',
     `SettPenalty` = '$settle_puncture',
     `SettCost` = '$settle_costs',
@@ -552,7 +554,7 @@ WHERE
 
 }
 
-//$resultArray['sql'] = $sql;
+$resultArray['sql'] = $sql;
 
 
 echo(json_encode($resultArray));
