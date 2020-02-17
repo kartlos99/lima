@@ -554,7 +554,7 @@ WHERE
 
 }
 
-$resultArray['sql'] = $sql;
+//$resultArray['sql'] = $sql;
 
 
 echo(json_encode($resultArray));

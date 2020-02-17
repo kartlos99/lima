@@ -104,6 +104,8 @@ $query .= getValueInt('AgrOrgID', 'organization');
 $query .= getValueInt('AgrOrgBranchID', 'filial');
 $query .= getValueStr('DebFirstName', 'borrower');
 $query .= getValueStr('DebPrivateNumber', 'borrower_PN');
+$query .= getValueInt('AgrLoanType', 'loan_type');
+$query .= getValueInt('JudicialentityTypeID', 'judicial_type');
 
 
 $query = trim($query, " AND");

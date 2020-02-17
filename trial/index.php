@@ -61,6 +61,9 @@ $note = "შენიშვნა";
                 <td>
                     <?= DrawView::doubleDateInput($id_simple, "own_date", "დაწერის თარიღი (დან - მდე)", "", "date") ?>
                 </td>
+                <td>
+                    <?= DrawView::selector($id_simple, "განსჯადი უწყების ტიპი", "judicial_type", getDictionariyItems($conn, 'judicial_type')) ?>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -82,6 +85,12 @@ $note = "შენიშვნა";
                     <?= DrawView::selector($id_simple, "ფილიალი", "filial") ?>
                 </td>
                 <td>
+                    <?= DrawView::selector($id_simple, "სესხის ტიპი", "loan_type", getDictionariyItems($conn, 'loan_type')) ?>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
                     <?= DrawView::simpleInput($id_simple, "borrower", "მსესხებლის სახელი") ?>
                 </td>
                 <td>
@@ -90,11 +99,12 @@ $note = "შენიშვნა";
                 <td>
                     <?= DrawView::simpleInput($id_simple, "borrower_PN", "მსესხებლის პირადი N") ?>
                 </td>
-                <td>
-                    <label for="reminder_id">შემახსენებელი</label>
+                <td colspan="2">
+                    <label for="reminder_id">შემახსენებელი</label><br>
                     <input id="reminder_id" name="reminder" type="checkbox" data-toggle="toggle"
                            data-on="ჩართულია" data-off="გათიშულია">
                 </td>
+
             </tr>
             </tbody>
         </table>
