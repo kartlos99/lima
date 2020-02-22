@@ -19,6 +19,7 @@ $caseForm = "caseform";
 
             <td>
                 <label>საქმის რეკვიზიტები</label>
+                <button id="btnHist" class="btn"><i id="btnUserHist" class="fas fa-history btn"></i> საქმის ისტორია</button>
             </td>
             <td>
                 <div class="toright">

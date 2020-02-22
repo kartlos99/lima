@@ -315,3 +315,12 @@ function sum4(values) {
     });
     return sum.toFixed(2).toString();
 }
+
+$('#btnHist').on('click', function () {
+    if (caseObj.id > 0) {
+        var win = window.open('caseHistory.php?ID=' + caseObj.id, '_blank');
+        win.focus();
+    } else {
+        alert(message.notsaved);
+    }
+});

@@ -235,7 +235,43 @@ class DrawView
         $view = "<div class=\"subtitle\">
                     <span>$title</span>
                 </div>";
+        return $view;
+    }
 
+    static function histDataUnit($dataName, $dataValue, $mark = 0){
+        if ($dataValue == "" || $dataValue == "0000-00-00" || $dataValue == "0000-00-00 00:00:00") $dataValue = "-";
+        if (substr($dataValue, -8) ==  "00:00:00") $dataValue = substr($dataValue, 0, 10);
+        if (strpos($dataName, "თანხა") !== false) $dataValue .= " ₾";
+        $markClass = $mark == 1 ? " changed" : "";
+        $view = "<label for=\"\" class=\"value-name$markClass\"><b>$dataName</b></label>
+                <p class=\"value-body\">$dataValue</p>";
+        return $view;
+    }
+
+    static function historySubSectionRow($left_title = "", $right_title = "", $sync_btn = false, $end_btns = false)
+    {
+        $syncBtn = $sync_btn ? "<td style=\"width: 1%\"><i class=\"fas fa-sync-alt fa-2x btn\"></td>" : "";
+
+        if ($end_btns) {
+            $endContent = self::btnsEditSaveCancel();
+        } else {
+            $endContent = "<label>$right_title <span class=\"red-in-title\"></span></label>";
+        }
+        $view = "<table class=\"hist-title-table\">
+                        <tbody>
+                        <tr>
+                            $syncBtn
+                            <td>
+                                <label>$left_title</label>
+                            </td>
+                            <td>
+                                <div class=\"toright\">
+                                    $endContent
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+        </table>";
         return $view;
     }
 }

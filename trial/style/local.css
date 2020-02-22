@@ -317,3 +317,58 @@ td div textarea {
     margin: 0;
     font-weight: bold;
 }
+
+div.hist-item {
+    margin: 16px 24px;
+    padding: 12px;
+    border: #c0d0d0 solid 4px;
+    background-color: #c7ddd9;
+    border-radius: 8px;
+}
+
+p.h-item-head {
+    border-radius: 6px;
+    border: #8cc68d solid 4px;
+    padding: 4px;
+    background-color: #fff6dc;
+    font-size: 16pt;
+    font-family: "ALK Sanet", sans-serif
+}
+
+p.h-subitem-head {
+    border-radius: 4px;
+    border: #8cc68d solid 2px;
+    padding: 2px;
+    background-color: #fff6dc;
+    font-size: 10pt;
+    font-family: "ALK Sanet", sans-serif
+}
+
+label.value-name {
+    padding: 4px 2px 0 2px;
+    border-radius: 4px;
+    font-size: 12pt;
+    font-family: "ALK Sanet", sans-serif
+}
+
+p.value-body {
+    font-size: 12pt;
+    margin-bottom: 2px;
+}
+
+.changed {
+    background-color: #d5c36a;
+}
+
+.hist-title-table label {
+    text-decoration: underline;
+    color: #3c3d76;
+}
+
+.hist-inst-item {
+    margin: 8px 12px;
+    padding: 12px;
+    border: #b0c0c0 solid 4px;
+    background-color: #b7cdc9;
+    border-radius: 8px;
+}
