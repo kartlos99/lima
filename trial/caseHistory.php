@@ -29,7 +29,7 @@ from (
     SELECT 999999 AS hID, p.* FROM pcm_aplication p
 	UNION
 	SELECT ph.* FROM pcm_aplication_history ph) cs
-LEFT JOIN personmapping per_own ON cs.OwnerID = per_own.ID
+LEFT JOIN PersonMapping per_own ON cs.OwnerID = per_own.ID
 LEFT JOIN DictionariyItems di_st ON di_st.ID = cs.StatusID
 LEFT JOIN DictionariyItems di_stg ON di_stg.ID = cs.StageID
 LEFT JOIN DictionariyItems di_inst ON di_inst.ID = cs.`InstanceID`
@@ -37,7 +37,7 @@ LEFT JOIN DictionariyItems di_loantype ON di_loantype.ID = cs.`AgrLoanType`
 LEFT JOIN DictionariyItems di_ex_res ON di_ex_res.ID = cs.`ExecResultID`
 LEFT JOIN DictionariyItems di_dut_res ON di_dut_res.ID = cs.`DutyResultID`
 LEFT JOIN Organizations o on o.ID = cs.AgrOrgID
-LEFT JOIN organizationbranches b on b.ID = cs.AgrOrgBranchID
+LEFT JOIN OrganizationBranches b on b.ID = cs.AgrOrgBranchID
 
 WHERE cs.ID = $caseID
 ORDER BY hid
@@ -119,7 +119,9 @@ for ($i = 0; $i < count($arrOut); $i++) {
     if ($i > 0) {
         $preItem = $arrOut[$i - 1];
         foreach ($item as $key => $val) {
-            if ($val != $preItem[$key]) {
+            $a = $val == "0000-00-00 00:00:00" ? null : $val;
+            $b = $preItem[$key] == "0000-00-00 00:00:00" ? null : $preItem[$key];
+            if ($a != $b) {
                 $indicator[$key] = 1;
             }
         }
@@ -199,13 +201,13 @@ for ($i = 0; $i < count($arrOut); $i++) {
             }
             $instN = $instItem['TypesID'];
             $preIndex = -1;
-            foreach ($sepInstArr[$instN] as $kk => $vv){
+            foreach ($sepInstArr[$instN] as $kk => $vv) {
                 if ($vv['hID'] == $instItem['hID'])
                     break;
                 $preIndex = $kk;
             }
-            if ($preIndex >= 0){
-                foreach ($sepInstArr[$instN][$preIndex] as $pKey => $pVal){
+            if ($preIndex >= 0) {
+                foreach ($sepInstArr[$instN][$preIndex] as $pKey => $pVal) {
                     if ($pVal != $instItem[$pKey]) {
                         $indicatorSbItem[$pKey] = 1;
                     }
@@ -213,7 +215,7 @@ for ($i = 0; $i < count($arrOut); $i++) {
             }
 
             $requestedAmountSum = $instItem['Claimbase'] + $instItem['ClaimPercent'] + $instItem['ClaimPenalty'] + $instItem['ClaimCost'];
-            $requestedAmountSumIndicator = max($indicatorSbItem['Claimbase'] , $indicatorSbItem['ClaimPercent'] , $indicatorSbItem['ClaimPenalty'] , $indicatorSbItem['ClaimCost']);
+            $requestedAmountSumIndicator = max($indicatorSbItem['Claimbase'], $indicatorSbItem['ClaimPercent'], $indicatorSbItem['ClaimPenalty'], $indicatorSbItem['ClaimCost']);
 
             ?>
             <div class="hist-inst-item">
@@ -224,7 +226,8 @@ for ($i = 0; $i < count($arrOut); $i++) {
                         <td>
                             <p class="h-subitem-head">
                                 ინსტანცია: <b> <?= $instN ?>   </b>
-                                დრო: <?= $instItem['UpdateDate'] < "1" ? $instItem['CreateDate'] : $instItem['UpdateDate'] ?> -
+                                დრო: <?= $instItem['UpdateDate'] < "1" ? $instItem['CreateDate'] : $instItem['UpdateDate'] ?>
+                                -
                                 მომხმარებელი: <?= $instItem['UpdateDate'] < "1" ? $instItem['CreateUser'] : $instItem['UpdateUser'] ?>
                             </p>
                         </td>

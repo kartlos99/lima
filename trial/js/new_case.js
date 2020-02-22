@@ -188,11 +188,14 @@ $('#btnSaveCase').on('click', function () {
             if (response.result == "success") {
                 caseObj.id = response.caseID;
                 getCaseData(response.caseID);
-                alert("saved!");
-
+                alert(message.saveOK);
             } else {
-                console.log(response.error);
+                alert(response.error);
             }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(message.saveERROR);
+            console.log(thrownError);
         }
     });
 });
