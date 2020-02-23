@@ -142,11 +142,14 @@ SELECT
     cr_us.UserName AS `CreateUser`,
     IF (Date(im.`UpdateDate`) = '0000-00-00', '', im.`UpdateDate`) AS `UpdateDate`,
     ifnull(md_us.UserName, '') AS `UpdateUser`,
-    gps.gpNames
+    gps.gpNames,
+    ifnull(grc.joined_comment, '') AS grComment
 ";
 
 $sql = " FROM
         `im_request` im
+    LEFT JOIN im_grcomment grc ON
+        grc.ID = im.ID
     LEFT JOIN im_category cat ON
         cat.ID = im.`CategoryID`
     LEFT JOIN im_subcategory scat ON
@@ -257,7 +260,8 @@ $tHead = [
     "შემქმნელი მომხმარებელი",
     "რედაქტირების დრო",
     "რადაქტორი",
-    "დამრღვევი პირები"
+    "დამრღვევი პირები",
+    "კომენტარები"
 ];
 
 $output .= makeHrow($tHead);
