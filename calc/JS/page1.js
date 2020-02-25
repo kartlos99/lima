@@ -5,7 +5,7 @@ var organizationObj;
 var lastQuery, lastQuery2;
 
 $('#btnSearchApp').on('click', function () {
-    console.log('from:',$('#appFilterForm').serialize());
+    console.log('from:', $('#appFilterForm').serialize());
     lastQuery = $('#appFilterForm').serialize();
     getAppList(lastQuery);
 });
@@ -14,12 +14,12 @@ $('#btnClearApp').on('click', function () {
     $('#appFilterForm').trigger('reset');
 });
 
-$('#appFilterForm').on('submit',function (event) {
+$('#appFilterForm').on('submit', function (event) {
     event.preventDefault();
 });
 
 $('#btnSearchCrit').on('click', function () {
-    console.log('from:',$('#critListForm').serialize());
+    console.log('from:', $('#critListForm').serialize());
     lastQuery2 = $('#critListForm').serialize();
     getCritList(lastQuery2);
 });
@@ -28,13 +28,13 @@ $('#btnClearCrit').on('click', function () {
     $('#critListForm').trigger('reset');
 });
 
-$('#critListForm').on('submit',function (event) {
+$('#critListForm').on('submit', function (event) {
     event.preventDefault();
 });
 
 var critTable = $('#critListTable').find('tbody');
 
-function getCritList(querys){
+function getCritList(querys) {
     $.ajax({
         url: 'php_code/get_techPrAndCr_list.php',
         method: 'post',
@@ -74,7 +74,7 @@ function getCritList(querys){
 
 var appTable = $('#appListTable').find('tbody');
 
-function getAppList(querys){
+function getAppList(querys) {
     $.ajax({
         url: 'php_code/get_app_list.php',
         method: 'post',
@@ -240,6 +240,9 @@ $(document).ready(function () {
         }
     });
 
+    if ($('#currusertype').data('ut') == 'administrator')
+        checkExpiredCriterias();
+
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#application_status_id');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#control_rate_result_id');
     $('<option />').text('აირჩიეთ...').attr('value', '0').prependTo('#detail_rate_result_id');
@@ -256,13 +259,34 @@ $(document).ready(function () {
     $('#model_id2').addClass("chosen").chosen();
 });
 
+function checkExpiredCriterias() {
+    $.ajax({
+        url: 'php_code/check_expired_crit.php',
+        method: 'post',
+        data: {},
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.result == resultType.SUCCSES) {
+                if (response.in_trouble > 0) {
+                    $('#text').html(response.in_trouble);
+                    $('#circle').css('display', 'inline-block');
+                }
+                if (response.expired > 0) {
+                    $('#text2').html(response.expired);
+                    $('#circle2').css('display', 'inline-block');
+                }
+            }
+        }
+    });
+}
 
-function onAppClick(app_id){
+function onAppClick(app_id) {
 
     document.cookie = "appID=" + app_id;
 
     var url = window.location.pathname;
-    url = url.replace('index.php','pricerate.php');
+    url = url.replace('index.php', 'pricerate.php');
     // console.log(url);
     //alert(url);
     window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;

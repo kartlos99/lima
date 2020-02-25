@@ -441,9 +441,7 @@ criteriaValueEditTable.on('change', 'input.id_date', function () {
     var now = new Date();
     var diff = new Date(revDate - now);
     console.log(revDate);
-    console.log(revDate.getDate() - now.getDate());
-
-    thisRow.find('input.id_day').val(Math.floor(diff / 1000 / 60 / 60 / 24) + 1);
+    thisRow.find('input.id_day').val(Math.floor(20/24 + diff / 1000 / 60 / 60 / 24) );
 });
 
 
@@ -611,7 +609,7 @@ function daysTillDate(dateString) {
     var revDate = new Date(dateString);
     var now = new Date();
     var diff = new Date(revDate - now);
-    return Math.floor(diff / 1000 / 60 / 60 / 24) + 1;
+    return Math.floor(20/24 + diff / 1000 / 60 / 60 / 24);
 }
 
 $('#impact_type_id').on('change', function (el) {

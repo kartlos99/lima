@@ -31,28 +31,29 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="css/alk-sanet.min.css"/>
     <link rel="stylesheet" href="css/bpg-arial.min.css"/>
     <link rel="stylesheet" href="style/local.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 </head>
 <body onpageshow="f_show()" onpagehide="f_hide()">
 <?php
 
 $pos = strpos($_SERVER['PHP_SELF'], "typemanager.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'typemanager';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "critratemanager.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'crit_value_manager';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "pricerate.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'price_calculation_page';
 }
 
 $pos = strpos($_SERVER['PHP_SELF'], "index.php");
-if ($pos !== false ){
+if ($pos !== false) {
     $thisPage = 'page1';
 }
 
@@ -67,26 +68,33 @@ if ($pos !== false ){
             <h5><?= $_SESSION['M2UT'] ?></h5>
         </div>
 
+        <div id="circle">
+            <div id="text">0</div>
+        </div>
+        <div id="circle2">
+            <div id="text2">0</div>
+        </div>
+
         <ul class="list-unstyled components">
             <?php if (isset($_SESSION['permissionM2']['submod21'])) : ?>
-            <li class="page1">
-                <a href="index.php">მთავარი</a>
-            </li>
+                <li class="page1">
+                    <a href="index.php">მთავარი</a>
+                </li>
             <?php endif; ?>
             <?php if (isset($_SESSION['permissionM2']['submod22'])) : ?>
-            <li class="price_calculation_page">
-                <a href="pricerate.php">ტექნიკის შეფასება</a>
-            </li>
+                <li class="price_calculation_page">
+                    <a href="pricerate.php">ტექნიკის შეფასება</a>
+                </li>
             <?php endif; ?>
             <?php if (isset($_SESSION['permissionM2']['submod23'])) : ?>
-            <li class="typemanager">
-                <a href="typemanager.php">ტიპები და მახასიათებლები</a>
-            </li>
+                <li class="typemanager">
+                    <a href="typemanager.php">ტიპები და მახასიათებლები</a>
+                </li>
             <?php endif; ?>
             <?php if (isset($_SESSION['permissionM2']['submod24'])) : ?>
-            <li class="crit_value_manager">
-                <a href="critratemanager.php">შეფასების კრიტერიუმები</a>
-            </li>
+                <li class="crit_value_manager">
+                    <a href="critratemanager.php">შეფასების კრიტერიუმები</a>
+                </li>
             <?php endif; ?>
         </ul>
 
@@ -94,7 +102,7 @@ if ($pos !== false ){
             <!-- <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li> -->
             <li><a href="../logout.php" class="article">გასვლა</a></li>
         </ul>
-        <div class="onbuttom">v 0.1.8</div>
+        <div class="onbuttom">v 0.1.9</div>
     </nav>
     <!--sidebar-->
 

@@ -388,3 +388,43 @@ select.chain-container {
     padding: 4px;
     width: min-content;
 }
+
+#circle {
+    display: none;
+    /*display: inline-block;*/
+    position: relative;
+    background-color: #ffe250;
+    margin: 8px 0 -8px 8px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+}
+#text {
+    position: absolute;
+    font-size: 14px;
+    font-weight: bolder;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff3724;
+}
+
+#circle2 {
+    display: none;
+    /*display: inline-block;*/
+    position: relative;
+    background-color: #ff0909;
+    margin: 8px 0 -8px 8px;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+}
+#text2 {
+    position: absolute;
+    font-size: 14px;
+    font-weight: bolder;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fffde6;
+}
