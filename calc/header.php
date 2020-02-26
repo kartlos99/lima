@@ -57,6 +57,11 @@ if ($pos !== false) {
     $thisPage = 'page1';
 }
 
+$pos = strpos($_SERVER['PHP_SELF'], "parametrebi.php");
+if ($pos !== false) {
+    $thisPage = 'param';
+}
+
 ?>
 <input type="hidden" id="currusertype" data-ut="<?php echo $_SESSION['M2UT'] ?>" data-page="<?= $thisPage ?>"
        data-org="<?= $_SESSION['OrganizationID'] ?>" data-fil="<?= $_SESSION['filiali'] ?>"/>
@@ -109,7 +114,19 @@ if ($pos !== false) {
     <!-- Page Content Holder -->
     <div id="content">
 
-        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-            <i class="glyphicon glyphicon-menu-hamburger"></i>
-            <span></span>
-        </button>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                        <i class="glyphicon glyphicon-menu-hamburger"></i>
+                        <span></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="paramLi" class="alert-light" style="border-radius: 8px"><a href="parametrebi.php">პარამეტრები</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>

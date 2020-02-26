@@ -428,3 +428,16 @@ select.chain-container {
     transform: translate(-50%, -50%);
     color: #fffde6;
 }
+
+.paraminput {
+    width: 400px;
+    margin: 10px auto;
+}
+
+.p-title {
+    color: #20436b;
+    border: 2px solid transparent;
+    border-bottom-color: #3073ab;
+    margin: 5px 1px;
+    font-weight: bold;
+}

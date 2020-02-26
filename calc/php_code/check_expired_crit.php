@@ -47,6 +47,13 @@ WHERE
 
 $resultArray['sql'] = $sql;
 
+$period = 0;
+$sqlPeriod = "SELECT `ValueInt` FROM `DictionariyItems` WHERE `Code` = 'criteria_exp_notify_period'";
+$resP = mysqli_query($conn, $sqlPeriod);
+if ($resP) {
+    $periodArr = $resP->fetch_array(MYSQLI_ASSOC);
+    $period = $periodArr['ValueInt'];
+}
 
 $result = mysqli_query($conn, $sql);
 
@@ -58,7 +65,7 @@ foreach ($result as $row) {
 $resultArray['in_trouble'] = 0;
 $resultArray['expired'] = 0;
 foreach ($arr as $row) {
-    if ($row['df2'] <= 10) {
+    if ($row['df2'] <= $period) {
         if ($row['df2'] < 0) {
             // critMapID ამ იდ-ზე სტატუსი შეიცვალოს 'გადასახედზე'
             $resultArray['expired']++;
