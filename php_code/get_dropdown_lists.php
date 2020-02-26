@@ -74,7 +74,7 @@ if (isset($_POST['org'])){
     }
 
     // filialebi
-    $sql = "SELECT OrganizationID, o.id, BranchName FROM OrganizationBranches o LEFT JOIN States s ON o.StateID = s.ID WHERE s.Code = 'Active' ORDER BY o.SortID";
+    $sql = "SELECT OrganizationID, o.id, BranchName, s.Code FROM OrganizationBranches o LEFT JOIN States s ON o.StateID = s.ID ORDER BY o.SortID";
 
     $result = mysqli_query($conn,$sql);
 

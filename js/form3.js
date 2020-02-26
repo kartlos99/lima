@@ -845,7 +845,16 @@ function getsublists(br_id) {
                 $('<option />').text('აირჩიეთ...').attr('value', '').appendTo('#sel_branch_f31');
             }
             branches.forEach(function (item) {
-                $('<option />').text(item.BranchName).attr('value', item.id).appendTo('#sel_branch_f31');
+                let opt = $('<option />').text(item.BranchName).attr('value', item.id);
+                if (reasonEdit) {
+                    if (item.Code != 'Active')
+                        opt.attr('disabled','disabled');
+                    opt.appendTo('#sel_branch_f31');
+                } else {
+                    if (item.Code == 'Active'){
+                        opt.appendTo('#sel_branch_f31');
+                    }
+                }
             });
             if (br_id != 0) {
                 $('#sel_branch_f31').val(br_id);
