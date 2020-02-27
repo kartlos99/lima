@@ -456,13 +456,20 @@ techPriceForm.find('i.fa-check').on('click', function () {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
-                if (response.result == "success") {
+                if (response.result == resultType.SUCCSES) {
                     // workingID - Insertis dros axlad damatebuli, Update-s dros moqmedi
                     $('#techPriceRecordID').val(response.workingID);
                     existingTechPriceRecordID = response.workingID;
                     $('#price_crit_weight_status_id').find('option[data-code="Project"]').attr("selected", "selected");
+                    alert(message.saveOK);
+                } else {
+                    alert(response.error);
                 }
                 console.log("existingTechPriceRecordID", existingTechPriceRecordID);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(message.saveERROR);
+                console.log(thrownError);
             }
         });
         disablePriceForm(techPriceForm);

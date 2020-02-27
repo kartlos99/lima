@@ -88,9 +88,10 @@ VALUES(
 
     if (mysqli_query($conn, $sql_insert)) {
         $resultArray['workingID'] = mysqli_insert_id($conn);
-        $resultArray['result'] = "success";
+        $resultArray[RESULT] = SUCCESS;
     } else {
-        $resultArray['error'] = "can't ins Tech_Price!";
+        $resultArray[RESULT] = ERROR;
+        $resultArray[ERROR] = "can't ins Tech_Price! " . mysqli_error($conn);
     }
 
 } else {
@@ -140,10 +141,11 @@ WHERE
     $resultArray['sql_update'] = $sql_update;
 
     if (mysqli_query($conn, $sql_update)) {
-        $resultArray['result'] = "success";
+        $resultArray[RESULT] = SUCCESS;
         $resultArray['workingID'] = $record_id;
     } else {
-        $resultArray['error'] = "can't update Tech_Price!";
+        $resultArray[RESULT] = ERROR;
+        $resultArray[ERROR] = "can't update Tech_Price!";
     }
 
 }

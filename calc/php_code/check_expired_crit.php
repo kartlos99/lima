@@ -35,9 +35,9 @@ FROM
     estimate_criteriums_mapping ecm
 LEFT JOIN `estimate_criterium_values` ecv ON
     ecm.ID = ecv.`EstimateCriteriumID`
-LEFT JOIN states st ON
+LEFT JOIN States st ON
     st.ID = ecm.CriteriumStatusID
-LEFT JOIN states st2 ON
+LEFT JOIN States st2 ON
     st2.ID = ecv.CritValuesStatusID 
 LEFT JOIN tech_price tp ON 
     ecm.TechTreeID = tp.TechTreeID       
