@@ -17,7 +17,7 @@ var typeSelector = $('#TypeID_id');
 var formIsBlocked = false;
 
 function fillAccidentForm(aData) {
-    if ($('#currusertype').data('ut') == 'monitoring'){
+    if ($('#currusertype').data('ut') == 'monitoring' || $('#currusertype').data('ut') == 'im_owner_plus'){
         unBlockFormPart()
     }
     $('#caseN').text('case_N ' + aData.accidentN + " " + aData.CreateDate);
@@ -66,7 +66,10 @@ function fillAccidentForm(aData) {
     if ($('#currusertype').data('ut') == 'monitoring' && $('#currusertype').data('userid') != aData.CreateUser){
         blockFormPart()
     }
-    if ($('#currusertype').data('ut') == 'monitoring' ){
+    if ($('#currusertype').data('ut') == 'im_owner_plus' && $('#currusertype').data('userid') != aData.CreateUser){
+        blockFormPart()
+    }
+    if ($('#currusertype').data('ut') == 'monitoring' || $('#currusertype').data('ut') == 'im_owner_plus'){
         blockTypeSelector();
     }
 }
@@ -139,6 +142,14 @@ $(function () {
         canEdit = [];
         if (theAccidentObj.id == 0){
             blockTypeSelector('type_monitoring');
+        }else {
+            blockFormPart();
+        }
+    }
+    if ($('#currusertype').data('ut') == 'im_owner_plus'){
+        canEdit = [];
+        if (theAccidentObj.id == 0){
+            blockTypeSelector('type_standard');
         }else {
             blockFormPart();
         }
@@ -250,6 +261,9 @@ ulGuiltyPersons.on('click', 'li.guilty-item i', function (it) {
 $('#btnSave').on('click', function (event) {
     event.preventDefault();
     var formIsValid = true;
+    if ($('#currusertype').data('ut') == 'im_owner_plus') {
+        unBlockTypeSelector();
+    }
     if ($('#currusertype').data('ut') == 'im_owner') {
         unBlockTypeSelector();
         unBlockOrgSelector();
@@ -304,12 +318,15 @@ $('#btnSave').on('click', function (event) {
     if ($('#currusertype').data('ut') == 'monitoring') {
         blockTypeSelector()
     }
+    if ($('#currusertype').data('ut') == 'im_owner_plus') {
+        blockTypeSelector()
+    }
 
     if (formIsValid) {
-        saveAccidentRequest(sendData)
+        saveAccidentRequest(sendData);
         console.log("form IS valid");
     } else {
-        alert("გთხოვთ, შეავსოთ სავალდებულო რეკვიზიტები ☹")
+        alert("გთხოვთ, შეავსოთ სავალდებულო რეკვიზიტები ☹");
         console.log("form not valid");
     }
 });
