@@ -10,7 +10,11 @@ $currDate = 'CURRENT_TIMESTAMP';
 $currUser = $_SESSION['username'];
 $currUserID = $_SESSION['userID'];
 $resultArray = [];
-$limit = " limit 20";
+$pageN = $_POST['pageN'];
+
+$records_per_page = 20;
+$offset = ($pageN - 1) * $records_per_page;
+$limit = " Limit $offset, $records_per_page";
 
 $query = "";
 $query .= isset($_POST['type']) && $_POST['type'] != "" && $_POST['type'] != "0" ? " AND ttp.ID = " . $_POST['type'] : "";
@@ -67,18 +71,3 @@ $resultArray['data'] = $arr;
 $resultArray['count'] = $nn;
 
 echo(json_encode($resultArray));
-
-//ttp.ID = 46 AND tbr.ID = 47 AND tm.ID = 49
-//AND `TechModelFix` = ''
-//AND `TechSerial` = ''
-//AND `TechIMEI` = ''
-//AND `OrganizationID` = 7
-//AND `BranchID` = 3
-//AND app.`ModifyUser` LIKE '%ka'
-//AND app.`ApNumber` LIKE '%'
-//AND app.`ApDate` >= '2019-08-08'
-//AND app.`ApDate` <= '2019-09-08'
-//AND app.`AgreementNumber` LIKE '%sdf'
-//AND app.`ApStatus` = 23
-//AND `CEstStatus` = 23
-//AND `FEstStatus` = 23

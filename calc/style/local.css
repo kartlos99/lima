@@ -441,3 +441,17 @@ select.chain-container {
     margin: 5px 1px;
     font-weight: bold;
 }
+
+.pg_wrapper {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#my-pagination {
+    display: inline-block;
+    margin-bottom: 1.75em;
+}
+
+#my-pagination li {
+    display: inline-block;
+}

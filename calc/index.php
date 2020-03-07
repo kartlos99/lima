@@ -89,6 +89,7 @@ $note = "შენიშვნა";
                 </td>
             </tr>
         </table>
+        <input id="casePageN" type="hidden" name="pageN" value="1"/>
     </form>
 
     <p id="titleForAppTable" class="mytbtitle"></p>
@@ -100,6 +101,16 @@ $note = "შენიშვნა";
         </thead>
         <tbody></tbody>
     </table>
+
+    <div class="pg_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul id="my-pagination" class="pagination-sm"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <?= DrawView::titleRow("ტექნიკის ღირებულებისა და შეფასების კრიტერიუმები") ?>
 <?php $id_simple = "id2" ?>

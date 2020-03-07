@@ -3,15 +3,29 @@
  */
 var organizationObj;
 var lastQuery, lastQuery2;
+var pageNav = $('#my-pagination');
+var calcAppFormState = "calcAppFormState";
 
 $('#btnSearchApp').on('click', function () {
-    console.log('from:', $('#appFilterForm').serialize());
-    lastQuery = $('#appFilterForm').serialize();
-    getAppList(lastQuery);
+    pageNav.empty();
+    pageNav.removeData("twbs-pagination");
+    pageNav.unbind("page");
+    prepareSerch();
 });
+
+function prepareSerch() {
+    lastQuery = $('#appFilterForm').serialize();
+    document.cookie = calcAppFormState + "=" + lastQuery;
+    console.log('from:', lastQuery);
+    getAppList(lastQuery);
+}
 
 $('#btnClearApp').on('click', function () {
     $('#appFilterForm').trigger('reset');
+    $('#type_id').trigger('chosen:updated');
+    $('#brand_id').trigger('chosen:updated');
+    $('#model_id').trigger('chosen:updated');
+    document.cookie = calcAppFormState + "="
 });
 
 $('#appFilterForm').on('submit', function (event) {
@@ -85,9 +99,10 @@ function getAppList(querys) {
             appTable.empty();
 
             var itemCount = response.count[0];
+            var pageCount = Math.ceil(itemCount.n / 20);
             console.log(itemCount.n);
             var appdata = response.data;
-            $('#titleForAppTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი, ლიმიტი 20");
+            $('#titleForAppTable').text("მოიძებნა " + itemCount.n + " ჩანაწერი");
 
             appdata.forEach(function (item) {
 
@@ -108,6 +123,20 @@ function getAppList(querys) {
                 trow.attr('onclick', "onAppClick(" + item.ID + ")");
                 appTable.append(trow);
             });
+
+            if (pageCount > 0)
+                pageNav.twbsPagination({
+                    totalPages: pageCount,
+                    visiblePages: 5,
+                    first: 'პირველი',
+                    last: 'ბოლო',
+                    next: '>>',
+                    prev: '<<',
+                    onPageClick: function (event, page) {
+                        $('#casePageN').val(page);
+                        prepareSerch();
+                    }
+                });
         }
     });
 }
@@ -219,6 +248,8 @@ $(document).ready(function () {
     loadTypesList(0, 'type_id');
     loadTypesList(0, 'type_id2');
     document.cookie = "appID=0";
+    lastQuery = getCookie(calcAppFormState);
+
 
     $.ajax({
         url: '../php_code/get_dropdown_lists.php',
@@ -237,6 +268,9 @@ $(document).ready(function () {
                 $('<option />').text(item.OrganizationName).attr('value', item.id).appendTo('#organization_id');
             });
 
+            if (lastQuery != '') {
+                fillsSearchForm(lastQuery)
+            }
         }
     });
 
@@ -287,8 +321,31 @@ function onAppClick(app_id) {
 
     var url = window.location.pathname;
     url = url.replace('index.php', 'pricerate.php');
-    // console.log(url);
-    //alert(url);
     window.location.href = window.location = window.location.protocol + "//" + window.location.hostname + url;
-    // console.log(document.cookie);
+}
+
+function fillsSearchForm(state) {
+    var queryData = serialDataToObj(state);
+
+    $('#type_id').val(queryData.type).trigger('chosen:updated');
+    loadTypesList(queryData.type, 'brand_id', queryData.brand);
+    loadTypesList(queryData.brand, 'model_id', queryData.model);
+    $('#modelbyhand_id').val(queryData.modelbyhand);
+    $('#serial_N_id').val(queryData.serial_N);
+    $('#imei_id').val(queryData.imei);
+    $('#organization_id').val(queryData.organization);
+    loadBranches11(queryData.organization, queryData.filial);
+    $('#operator_id').val(queryData.operator);
+    $('#application_N_id').val(queryData.application_N);
+    $('#date_from_id').val(queryData.date_from);
+    $('#date_till_id').val(queryData.date_till);
+
+    $('#agreement_N_id').val(queryData.agreement_N);
+    $('#application_status_id').val(queryData.application_status);
+    $('#control_rate_result_id').val(queryData.control_rate_result);
+    $('#detail_rate_result_id').val(queryData.detail_rate_result);
+
+    $('#casePageN').val(queryData.pageN);
+
+    getAppList(state);
 }

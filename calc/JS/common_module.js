@@ -157,3 +157,38 @@ $(".panel-heading").on('click', function (el) {
         $(this).closest('.panel').find(".panel-body").slideDown();
     }
 });
+
+function serialDataToObj(data){
+    var obj={};
+    var spData = data.split("&");
+    for(var key in spData)
+    {
+        //console.log(spData[key]);
+        obj[spData[key].split("=")[0]] = spData[key].split("=")[1];
+    }
+    return obj;
+}
+
+function loadBranches(orgID, brID, sel_ID) {
+    var branches_el_ID = '#' + sel_ID;
+    $(branches_el_ID).empty().removeAttr('disabled');
+
+    if (orgID == "" || orgID == "0") {
+        $('<option />').text('აირჩიეთ...').attr('value', '0').appendTo(branches_el_ID);
+    } else {
+        organizationObj.forEach(function (org) {
+            if (org.id == orgID) {
+                var branches = org.branches;
+                if (branches.length != 1) {
+                    $('<option />').text('აირჩიეთ...').attr('value', '').appendTo(branches_el_ID);
+                }
+                branches.forEach(function (item) {
+                    $('<option />').text(item.BranchName).attr('value', item.id).appendTo(branches_el_ID);
+                });
+                if (brID > 0) {
+                    $('#filial_id').val(brID);
+                }
+            }
+        });
+    }
+}
