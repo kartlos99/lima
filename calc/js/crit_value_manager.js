@@ -240,7 +240,11 @@ function resetChainManagement() {
 function fillChainContainer() {
     sChainsConteiner.empty();
     Object.values(chainData).forEach(function (chain) {
-        $('<option />').text(chain.crNames.replace(/,/g, ", ")).val(chain.chainID).appendTo(sChainsConteiner);
+        var chainTypeName = $('#chainType_id').find('option[value='+ chain.chainTypeID +']');
+        var opt = $('<option />').text(chain.crNames.replace(/,/g, ", ")).val(chain.chainID);
+        var optgr = $('<optgroup />').attr("label", chainTypeName.text());
+        optgr.append(opt);
+        optgr.appendTo(sChainsConteiner);
     })
 }
 
