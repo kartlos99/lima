@@ -455,3 +455,13 @@ select.chain-container {
 #my-pagination li {
     display: inline-block;
 }
+
+.worning {
+    background: #ffd0d0;
+    border: #ff5555 3px solid;
+}
+
+.attention {
+    background: #fff8dd;
+    border: #fff862 3px solid;
+}

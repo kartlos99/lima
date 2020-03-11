@@ -169,16 +169,24 @@ $('i.fa-sync-alt').on('click', function () {
                     cloneRow.find('td.crit-name').addClass("criteria-name").attr("data-gr", item.gr).text(item.criteria);
 
                     var chackMain = item.IsMain == 1;
+                    var daysLeftBeforExipe = daysTillDate(item.RevDate);
 
                     if (item.crWeightID != null) {
                         cloneRow.find('select.id_impact').val(item.Impact);
                         cloneRow.find('select.id_type').val(item.ImpactType);
                         cloneRow.find('input.id_size').val(item.ImpactValue);
                         cloneRow.find('input.chk-box').attr("checked", chackMain);
-                        cloneRow.find('input.id_day').val(daysTillDate(item.RevDate));
+                        cloneRow.find('input.id_day').val(daysLeftBeforExipe);
                         cloneRow.find('input.id_date').val(item.RevDate);
                         cloneRow.find('select.id_status').val(item.CritValuesStatusID);
                         cloneRow.attr("data-recID", item.crWeightID);
+                    }
+
+                    if (isNaN(daysLeftBeforExipe) || daysLeftBeforExipe < notifayDaysCount) {
+                        if (daysLeftBeforExipe < 0)
+                            cloneRow.addClass("worning");
+                        else
+                            cloneRow.addClass("attention");
                     }
 
                     disableValueInputForm(cloneRow);
@@ -299,7 +307,7 @@ btnCriteriaOutFromChain.on('click', function () {
 
 btnSaveChain.on('click', function () {
     var itemsID = Object.keys(editingContainerData);
-    if (itemsID.length == 1){
+    if (itemsID.length == 1) {
         alert("ბმაში აუცილებელია მინიმუმ 2 კრიტერიუმი!");
         return;
     }
@@ -441,7 +449,7 @@ criteriaValueEditTable.on('change', 'input.id_date', function () {
     var now = new Date();
     var diff = new Date(revDate - now);
     console.log(revDate);
-    thisRow.find('input.id_day').val(Math.floor(20/24 + diff / 1000 / 60 / 60 / 24) );
+    thisRow.find('input.id_day').val(Math.floor(20 / 24 + diff / 1000 / 60 / 60 / 24));
 });
 
 
@@ -616,7 +624,7 @@ function daysTillDate(dateString) {
     var revDate = new Date(dateString);
     var now = new Date();
     var diff = new Date(revDate - now);
-    return Math.floor(20/24 + diff / 1000 / 60 / 60 / 24);
+    return Math.floor(20 / 24 + diff / 1000 / 60 / 60 / 24);
 }
 
 $('#impact_type_id').on('change', function (el) {
@@ -636,6 +644,7 @@ $('#impact_type_id').on('change', function (el) {
 });
 
 var trToClone;
+var notifayDaysCount = 0;
 
 $(document).ready(function () {
     console.log("ready!");
@@ -652,4 +661,17 @@ $(document).ready(function () {
 
     trToClone = $('table.hidden').find('tr');
     techPriceForm.find('i.fa-times').trigger('click');
+
+    $.ajax({
+        url: 'php_code/io_params.php',
+        method: 'post',
+        data: {'read': 1},
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            if (response.result == resultType.SUCCSES) {
+                notifayDaysCount = parseInt(response.data.ValueInt);
+            }
+        }
+    });
 });
