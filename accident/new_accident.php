@@ -59,7 +59,9 @@ $required = "required";
                     <?= DrawView::selector($id_simple, "კრიტიკულობა", "PriorityID", getDictionariyItems($conn, 'im_priority'), $required) ?>
                 </td>
                 <td>
-                    <?= DrawView::selector($id_simple, "სტატუსი", "StatusID", getDictionariyItems($conn, 'im_status'), $required) ?>
+                    <?= DrawView::selector($id_simple, "სტატუსი", "StatusID", getDictionariyItems($conn, 'im_status',
+                        $_SESSION['M3UT'] == 'admin' ? [] : ['incident_status_canceled']
+                    ), $required) ?>
                 </td>
                 <td>
                     <?= DrawView::selector($id_simple, "მფლობელი პირი", "OwnerID", getOwners($conn, 3)) ?>

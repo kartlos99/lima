@@ -35,7 +35,7 @@ function getStatusItems($dbConn, $sCode)
     return $list;
 }
 
-function getDictionariyItems($dbConn, $dCode)
+function getDictionariyItems($dbConn, $dCode, $exeptions = [])
 {
     $list = [];
     $sql = "SELECT di.id as vv, di.ValueText as tt, di.code
@@ -46,7 +46,8 @@ function getDictionariyItems($dbConn, $dCode)
             ORDER BY SortID";
     $result = mysqli_query($dbConn, $sql);
     foreach ($result as $row) {
-        $list[] = $row;
+        if (!in_array($row['code'], $exeptions))
+            $list[] = $row;
     }
     return $list;
 }
@@ -54,7 +55,7 @@ function getDictionariyItems($dbConn, $dCode)
 function getOwners($dbConn, $module_N)
 {
     $list = [];
-    $list[] = [ "vv" => "", "tt" => "აირჩიეთ"];
+    $list[] = ["vv" => "", "tt" => "აირჩიეთ"];
     // org. systemis administratori arid id=5 ze da siebSi ar gamogvaqvs
     $sql = "SELECT ID as vv, UserName as tt FROM `PersonMapping` WHERE ifnull(`UserTypeM" . $module_N . "`, 0) <> 0 AND OrganizationID <> 5";
 
@@ -68,7 +69,7 @@ function getOwners($dbConn, $module_N)
 function getPersons($dbConn, $personType)
 {
     $list = [];
-    $list[] = [ "vv" => "", "tt" => "აირჩიეთ", "Code" => "none"];
+    $list[] = ["vv" => "", "tt" => "აირჩიეთ", "Code" => "none"];
     $sql = "
 SELECT p.id AS vv, concat(FirstName, ' ', LastName) AS tt, ditype.Code FROM `im_persons` p
 LEFT JOIN DictionariyItems ditype
