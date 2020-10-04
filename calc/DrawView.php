@@ -88,13 +88,13 @@ class DrawView
         $view = "
                         <tr data-id='0' data-answ='0'>
                             <td style='width: 110px'>
-                        <label><input class='answ1' type='radio' name=\"$name_attr\" value=\"1\" required > ვეთანხმები  </label>
+                                <label><input class='answ1' type='radio' name=\"$name_attr\" value=\"1\" required > ვეთანხმები  </label>
                             </td>
                             <td style='width: 120px'>
-                        <label><input class='answ2' type='radio' name=\"$name_attr\" value=\"0\" required > არ ვეთანხმები</label>
+                                <label><input class='answ2' type='radio' name=\"$name_attr\" value=\"0\" required > არ ვეთანხმები</label>
                             </td>
-                            <td  style='width: auto'>
-                        <span>$title</span>
+                            <td style='width: auto'>
+                                <span>$title</span>
                             </td>
                         </tr>";
         return $view;

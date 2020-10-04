@@ -465,3 +465,7 @@ select.chain-container {
     background: #fff8dd;
     border: #fff862 3px solid;
 }
+
+.min_out {
+    background: linear-gradient(to right, #bbc 0%, #dde 100%);
+}
