@@ -94,7 +94,7 @@ $('#btnRate').on('click', function () {
             if (item.chainType == "maxImpact") {
                 if (ma.includes(item.id.toString()) != true) {
                     pos = selectedCriteriaIDs.indexOf(item.id);
-                    if (pos >= 0){
+                    if (pos >= 0) {
                         selectedCriteriaIDs.splice(pos, 1);
                     }
                 }
@@ -228,6 +228,7 @@ function getEstimateInfo() {
                 var cloneRow = trToClone.clone();
                 cloneRow.attr("data-id", item.id);
                 cloneRow.attr("data-chain", item.chainID);
+                cloneRow.addClass(item.impactCode);
                 allCriteriaIDs.push(item.id);
                 console.log('allCriteriaIDs', allCriteriaIDs);
                 if (item.chainID != 0) {
@@ -280,6 +281,13 @@ criteriasConteiner.on('click', 'input.answ1', function () {
 criteriasConteiner.on('click', 'input.answ2', function () {
     var thisRow = $(this).closest("tr");
     thisRow.attr("data-answ", "no");
+});
+
+$('#btnAllCriteriaSetNegative').on('click', function () {
+    criteriasConteiner.find('tr').each(function (row) {
+        if (!$(this).hasClass("min_out"))
+            $(this).find('input.answ2').trigger('click');
+    })
 });
 
 function answer1() {

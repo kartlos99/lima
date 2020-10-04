@@ -90,6 +90,7 @@ $btnHistory = isset($_SESSION['permissionM2']['m2history']) ? "<i id=\"btnHist\"
                         </table>
                     </div>
                 </form>
+                <button id="btnAllCriteriaSetNegative" class="btn btn-default">უარი ყველას</button>
             </td>
         </tr>
         </tbody>
